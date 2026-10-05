@@ -8,6 +8,12 @@ function sizeOf(value) {
   return sizes.length ? Math.max(...sizes) : null;
 }
 
+// A declaration nested in any @media block is a viewport override, not the page's scale.
+function inMedia(node) {
+  for (let p = node.parent; p; p = p.parent) if (p.type === 'atrule' && /^media$/i.test(p.name)) return true;
+  return false;
+}
+
 export default {
   id: 'flat-type-scale',
   severity: 'fail',
@@ -17,6 +23,7 @@ export default {
     let largest = null;
     let unmeasurable = false;
     eachDecl(ctx, /^font-size$/, (decl, unit, line) => {
+      if (inMedia(decl)) return;
       const value = resolveVars(ctx, decl.value).trim();
       // Only plain px/rem lengths and clamp() are measurable; vw, %, em, keywords and calc()
       // could be any size, so the page gets no verdict.
