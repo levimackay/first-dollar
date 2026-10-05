@@ -5,7 +5,7 @@ const WAITLIST = /waitlist|wait list|notify me|get notified|join the list|sign u
 const SOON = /coming soon|\btodo\b|\btbd\b/i;
 const MONEY = /[$£€¥]\s?\d/;
 const NEED_PRICE = /\[NEED: price\]/i;
-const NON_FIELD = new Set(['hidden', 'submit', 'button']);
+const NON_FIELD = new Set(['hidden', 'submit', 'button', 'checkbox', 'radio']);
 
 function deadHref(href) {
   if (href == null) return true;
@@ -37,12 +37,12 @@ export default {
       if (!els.length && path.basename(file.path) !== 'index.html') continue;
       const add = (line, msg) => out.push(finding('commitment-cta', file, line, msg, 'fail'));
       if (!els.length) {
-        add(1, 'no-commitment: no element carries data-commitment; mark the one button that asks for a payment, deposit, pre-order or signed letter of intent');
+        add(1, 'no-commitment: no element carries data-commitment. Mark the one button that asks for the money with data-commitment. If this index.html is not the landing page (a redirect or an error page), make the landing page the index.html instead; never add a button to a page that has no ask.');
         continue;
       }
       for (const el of els) {
         const line = elLine(file, el);
-        const text = $(el).text().replace(/\s+/g, ' ').trim();
+        const text = [$(el).text(), el.attribs.value, el.attribs['aria-label']].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
         const priced = MONEY.test(text);
         if (el.tagName === 'a' && deadHref(el.attribs.href)) {
           add(line, `dead-link: the commitment button points at "${el.attribs.href ?? ''}"; link it to the real checkout or write href="[NEED: checkout link]"`);

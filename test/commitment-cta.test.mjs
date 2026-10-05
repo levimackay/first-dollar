@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import { mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { lint } from '../src/lint/runner.mjs';
 
@@ -24,6 +26,8 @@ const MODES = {
   'waitlist.html': 'waitlist',
   'no-price.html': 'no-price',
   'coming-soon.html': 'coming-soon',
+  'email-consent.html': 'email-only',
+  'submit-value.html': 'waitlist',
 };
 
 for (const [file, mode] of Object.entries(MODES)) {
@@ -35,5 +39,19 @@ for (const [file, mode] of Object.entries(MODES)) {
       `expected a "${mode}: ..." finding in ${file}, got ${JSON.stringify(messages)}`
     );
     for (const f of hits) assert.equal(f.severity, 'fail');
+  });
+}
+
+// A form that asks for more than an email (a name, a card) is not a free signup.
+for (const [name, fields] of Object.entries({
+  'email and name': '<input type="email" name="email"><input type="text" name="name">',
+  'email and card': '<input type="email" name="email"><input type="text" name="card">',
+})) {
+  test(`${name} is not email-only`, async () => {
+    const dir = await mkdtemp(path.join(tmpdir(), 'cta-'));
+    await writeFile(path.join(dir, 'index.html'), `<!doctype html><html><body><form>${fields}<button data-commitment>Reserve for $49</button></form></body></html>`);
+    const res = await lint(dir);
+    const hits = [...res.failures, ...res.warnings].filter((f) => f.rule === 'commitment-cta');
+    assert.deepEqual(hits.map((f) => f.message), []);
   });
 }
