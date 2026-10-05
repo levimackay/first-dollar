@@ -7,3 +7,4 @@ docs/superpowers/
 .first-dollar/
 *.log
 .DS_Store
+src/lint/rules/index.mjs
