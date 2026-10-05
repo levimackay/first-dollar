@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
-const PATTERNS = [/co-authored-by/i, /generated (with|by) (claude|chatgpt|gpt|copilot|an? ai)/i, /ponytail:/i, /\u{1F916}/u];
+const PATTERNS = [/co[- ]?authored[- ]?by/i, /generated (with|by) (claude|chatgpt|gpt|copilot|an? ai)/i, /ponytail:/i, /\u{1F916}/u];
 const ALLOW = ['test/fixtures/lint/ai-attribution/', 'src/lint/rules/ai-attribution.mjs', 'scripts/check-traces.mjs'];
 const git = (...a) => execFileSync('git', a, { encoding: 'utf8', maxBuffer: 1 << 28 });
 const hits = [];
