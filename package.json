@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node scripts/gen-rule-index.mjs && node --test test/",
+    "test": "node scripts/gen-rule-index.mjs && node --test",
     "gen": "node scripts/gen-rule-index.mjs",
     "build": "npm run gen && esbuild src/lint/cli.mjs --bundle --platform=node --format=esm --target=node20 --outfile=skills/first-dollar/scripts/first-dollar-lint.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\" && esbuild src/check/cli.mjs --bundle --platform=node --format=esm --target=node20 --external:playwright-core --external:playwright --outfile=skills/first-dollar/scripts/first-dollar-check.mjs",
     "lint:self": "node skills/first-dollar/scripts/first-dollar-lint.mjs gallery"
