@@ -10,10 +10,10 @@ const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ARMS = ['plain', 'prompted', 'first-dollar'];
 const SKIP_RULES = new Set(['commitment-cta', 'design-tokens', 'reference-copy']);
 
-const MONEY = /[$£€]\s?\d|pre-?order|deposit|reserve|letter of intent|\bLOI\b|pilot|pre-?pay|buy|book/i;
-const CONTACT = /ask about|talk to|contact|email us|get in touch|questions|schedule a call|book a call/i;
+const MONEY = /[$£€]\s?\d|pre-?order|deposit|letter of intent|\bLOI\b|pre-?pay|paid pilot/i;
+const CONTACT = /ask about|talk to|contact|email us|get in touch|questions|schedule a call|book a call|book a demo|demo/i;
 const CONVENTION_CHECKS = new Set(['commitment-above-fold']);
-const FREE = /waitlist|wait list|early access|notify|sign up|get started|free trial|join|subscribe|learn more|contact|email|demo/i;
+const FREE = /waitlist|wait list|early access|notify|sign up|get started|free trial|join|subscribe|learn more|email/i;
 
 export function classifyAsk(text) {
   if (!text) return 'none';
@@ -24,8 +24,12 @@ export function classifyAsk(text) {
 
 export const hrefIsReal = (h) => /^https?:\/\//i.test(h || '') && !/example\.com/i.test(h);
 
-const normNum = (t) => t.toLowerCase().replace(/\s+/g, '').replace(/^\$/, '').replace(/[.,]+$/, '');
-const numTokens = (s) => (String(s).match(/\$?\d[\d,.]*\s?(%|x|k|m)?/gi) || []).map(normNum);
+const normNum = (t) => t.toLowerCase().replace(/\s+/g, '').replace(/^[$£€]/, '').replace(/[.,]+$/, '').replace(/,/g, '').replace(/\.00$/, '');
+// Bare integers below 13 (step and list numerals) are skipped; a unit must be attached and not start a word.
+const numTokens = (s) =>
+  (String(s).match(/[$£€]?\d[\d,.]*(?:\s?(?:%|x|k|m)(?![a-z]))?/gi) || [])
+    .filter((t) => !(/^\d+[.,]*$/.test(t) && parseInt(t, 10) < 13))
+    .map(normNum);
 
 // Tokens on the page that never appear in the case file. A list for a human to confirm.
 export function extractUnconfirmed(pageText, caseText) {
@@ -45,8 +49,10 @@ export function meanPairwiseDeltaE(colors) {
   return n ? sum / n : null;
 }
 
+// Returns parsed JSON, or null on crash, timeout or unparseable output (never a fake zero).
 function runNode(script, args) {
-  const r = spawnSync('node', [join(REPO, 'skills/first-dollar/scripts', script), ...args], { encoding: 'utf8', maxBuffer: 64e6 });
+  const r = spawnSync('node', [join(REPO, 'skills/first-dollar/scripts', script), ...args], { encoding: 'utf8', maxBuffer: 64e6, timeout: 120000 });
+  if (r.error || r.signal) return null;
   try { return JSON.parse(r.stdout); } catch { return null; }
 }
 
@@ -76,6 +82,12 @@ function pageProbe() {
     const r = el.getBoundingClientRect();
     const cs = getComputedStyle(el);
     if (!text || r.width * r.height <= 0 || cs.visibility === 'hidden' || cs.display === 'none') return;
+    let hidden = false;
+    for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
+      const c = getComputedStyle(n);
+      if (parseFloat(c.opacity) < 0.1 || c.visibility === 'hidden' || n.matches('[role=dialog], [aria-modal=true]') || /cookie|consent/i.test(`${n.id} ${typeof n.className === 'string' ? n.className : ''}`)) { hidden = true; break; }
+    }
+    if (hidden) return;
     if (r.bottom <= 0 || r.top >= innerHeight || r.right <= 0 || r.left >= innerWidth) return;
     const bg = bgOf(el);
     const border = parseFloat(cs.borderTopWidth) > 0 && !clear(cs.borderTopColor) && cs.borderTopStyle !== 'none';
@@ -90,13 +102,15 @@ async function scoreRun(dir, kase, caseText, browser) {
   const row = { case: kase, arm: dir.arm };
   if (!existsSync(join(dir.path, 'index.html'))) return { ...row, status: 'missing' };
   const lint = runNode('first-dollar-lint.mjs', [dir.path, '--json']);
-  const findings = lint ? [...lint.failures, ...lint.warnings].filter((f) => !SKIP_RULES.has(f.rule)) : [];
+  if (!lint || !Array.isArray(lint.failures)) return { ...row, status: 'lint-failed' };
+  const findings = [...lint.failures, ...lint.warnings].filter((f) => !SKIP_RULES.has(f.rule));
   const fails = findings.filter((f) => f.severity === 'fail');
   const byRule = {};
   for (const f of fails) byRule[f.rule] = (byRule[f.rule] || 0) + 1;
   row.slop = { fails: fails.length, warns: findings.length - fails.length, byRule };
 
   const chk = runNode('first-dollar-check.mjs', [dir.path, '--out', join(dir.path, '.first-dollar/check'), '--json']);
+  if (!chk) return { ...row, status: 'check-failed' };
   const failedIds = chk?.verified ? [...new Set(chk.checks.filter((c) => !c.ok).map((c) => c.id))] : [];
   row.rendered = { verified: !!chk?.verified, failed: failedIds.filter((id) => !CONVENTION_CHECKS.has(id)) };
   row.convention = { failed: failedIds.filter((id) => CONVENTION_CHECKS.has(id)) };
@@ -110,7 +124,7 @@ async function scoreRun(dir, kase, caseText, browser) {
     row.ask = { type: a ? classifyAsk(a.text) : 'none', text: a?.text ?? null, href: a?.href ?? null, hrefReal: a ? hrefIsReal(a.href) : false };
     row.unconfirmedNumbers = extractUnconfirmed(p.text, caseText);
     row.look = { background: p.background, displayFamily: p.family, ctaColor: a?.color ?? null };
-    row.status = 'scored';
+    row.status = 'ok';
   } catch (e) {
     row.status = 'error: ' + e.message.split('\n')[0];
   } finally { await page.close(); }
@@ -118,7 +132,7 @@ async function scoreRun(dir, kase, caseText, browser) {
 }
 
 function sameness(rows) {
-  const ok = rows.filter((r) => r.look);
+  const ok = rows.filter((r) => r.status === 'ok');
   const bgs = ok.map((r) => parseColor(r.look.background)).filter(Boolean);
   const hues = ok.map((r) => r.look.ctaColor && parseColor(r.look.ctaColor)).filter(Boolean).map(hueBucket);
   return {
@@ -131,6 +145,7 @@ function sameness(rows) {
       moneyAsks: ok.filter((r) => r.ask.type === 'money').length,
       contactAsks: ok.filter((r) => r.ask.type === 'contact').length,
       missing: rows.filter((r) => r.status === 'missing').length,
+      notScored: rows.filter((r) => r.status !== 'ok').length,
     },
   };
 }
@@ -142,11 +157,12 @@ function markdown(res) {
     out.push(`## ${arm}`, '', '| Case | Slop fails | Rendered | Ask | Unconfirmed numbers |', '|---|---|---|---|---|');
     for (const r of res.runs.filter((x) => x.arm === arm)) {
       if (r.status === 'missing') { out.push(`| ${r.case} | missing | missing | missing | missing |`); continue; }
-      if (!r.slop || !r.ask) { out.push(`| ${r.case} | ${esc(r.status)} | | | |`); continue; }
+      if (r.status !== 'ok') { out.push(`| ${r.case} | ${esc(r.status)} | ${esc(r.status)} | ${esc(r.status)} | ${esc(r.status)} |`); continue; }
       const rend = r.rendered.verified ? (r.rendered.failed.length ? `${r.rendered.failed.length} failed (${r.rendered.failed.join(', ')})` : '0 failed') : 'not verified';
       out.push(`| ${r.case} | ${r.slop.fails} | ${rend} | ${r.ask.type}: "${esc(r.ask.text)}" | ${r.unconfirmedNumbers.length} |`);
     }
-    out.push('');
+    const ns = res.runs.filter((x) => x.arm === arm && x.status !== 'ok');
+    out.push(ns.length ? `Not scored (${ns.length}, excluded from the summary): ${ns.map((x) => `${x.case} (${x.status})`).join(', ')}.` : 'Not scored: 0.', '');
   }
   out.push('## Summary', '', '| Arm | Pages scored | Slop fails (total) | Money asks | Contact asks | Unique display families | Mean background deltaE | Unique CTA hue buckets |', '|---|---|---|---|---|---|---|---|');
   for (const arm of ARMS) {
@@ -159,6 +175,7 @@ function markdown(res) {
     '3. Ask: at 1440x900, the largest visible button or link in the first viewport (nav links only if styled as buttons), classified money / contact / free / other / none by one text pattern for every arm (contact is checked before money).',
     '4. Unconfirmed numbers: number tokens in the visible text that are absent from the case file. A list for a human to confirm, not a count of inventions.',
     '5. Look: body background, first h1 font family and the ask button color, compared across each arm\'s pages.',
+    'The slop lint is first-dollar\'s own tool, and the first-dollar arm runs it while building, so its zero is by construction; the comparison shows what a stock agent produces without it.',
     '', 'Losing rows stay in the tables.', '');
   return out.join('\n');
 }
