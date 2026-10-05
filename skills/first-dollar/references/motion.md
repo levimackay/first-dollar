@@ -12,30 +12,29 @@ gets one **signature motion**, placed by its material (SKILL.md stage 4):
   or output: input, then process, then output. A voice memo that becomes a
   change order: the waveform plays, the order fills in line by line as the
   playhead crosses each stretch, the client's signature draws.
-- A physical product, place or service: a photo slot never moves. The
-  signature goes to a part of the page the reference animates (its headline,
-  a band, a list), or is dropped. Never animate clip art standing in for a
-  photo. Only on an illustrated reference may the drawing itself move: a
-  compost bin where scraps go in, the days pass, soil comes out.
+- A physical product, or any page with no mock region: the mechanism
+  told with `pinned-steps` or `sticky-stack` over photo slots and text, one
+  slot per step: scraps go in, the days pass, soil comes out. On a quiet
+  reference it is `split-line-reveal` on the headline instead, played once
+  and slowly. Never animate clip art standing in for a photo; a drawing moves
+  only where the reference region is a drawing.
 
 If you cannot say the three beats of the mechanism in one sentence, the page
 is not ready for motion. Build it still.
 
-Then, at most **two supporting moves**, chosen to match the energy of the
-founder's reference. Everything else on the page is still. Fade-up on every
-section is not motion design; it is the most common sign a page was generated,
-and a reader who has seen it once reads every later reveal as decoration.
+Then, at most **two supporting moves**, matched to the reference's energy.
+Everything else is still. Fade-up on every section is the most common sign a
+page was generated; after one, every later reveal reads as decoration.
 
 | Reference energy | What it looks like | Motion budget |
 |---|---|---|
-| Quiet | Small type, wide margins, no movement on the reference | The signature only, played once and slowly, with no supporting moves. Quiet is not still. |
+| Quiet | Small type, wide margins, no movement on the reference | The signature only, once, at the slow end of rule 8's three to five seconds, with no supporting moves. Quiet is not still. |
 | Moderate | Confident type, one strong image or band, little movement | The signature plus one supporting move. |
 | Loud | Display type at full width, full-bleed bands, movement on the reference | The signature plus two supporting moves. One pinned moment is allowed. |
 
-Read the energy from the reference shots and DESIGN.md, not from taste. If
-DESIGN.md says the reference has no motion, the budget is the quiet row. The
-check waits for running animations to settle before it screenshots or looks
-for hidden text, so never shorten a sequence to pass it.
+Read the energy from the reference shots and DESIGN.md, not from taste; no
+motion on the reference means the quiet row. The check waits for animations
+to settle before it judges, so never shorten a sequence to pass it.
 
 ## Rules
 
@@ -132,8 +131,8 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
 - **What:** the headline is split into its rendered lines and each rises out of
   its own mask in reading order; one rule draws under it. Re-splits on font load
   and width change. The lede and the ask never move.
-- **Fits:** one headline worth slowing down for, four to seven lines at 1440.
-  Any energy; on a quiet page with no mock it can be the signature itself.
+- **Fits:** one headline worth slowing down for, one or two lines at 1440
+  (copy.md caps it). Any energy; the signature on a quiet physical page.
 - **Never combine with:** letter or word splits anywhere; a fade on the
   headline's container; `pinned-mask-reveal` in the first screen (two mask
   tricks); any motion on the ask.
@@ -149,9 +148,9 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
   drafting order: outline, parts, dimensions, callout leaders. Each dimension
   number wipes in as its line ends, each ring draws at the end of its leader,
   and the matching note rises out of its row on the same slice of scroll.
-- **Fits:** physical products, plans, anything with real dimensions, on an
-  illustrated reference only. Moderate references. For hardware it can be the
-  signature itself.
+- **Fits:** physical products, plans, anything with real dimensions, only
+  where the reference region is a drawing. Moderate references. There it can
+  be the signature itself.
 - **Never combine with:** a second stroke-drawn device; grid or graph paper
   backgrounds (`grid-background`); a label that shows before its line.
 - **At 390:** the notes move under the drawing and the drawing's labels step up
@@ -162,17 +161,18 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
 
 ### pinned-steps
 - **What:** the section holds (CSS sticky) for about two screens while three
-  steps take turns and the illustration moves to each state. Waiting steps
+  steps take turns and the figure (a mock, a drawing, or one photo slot per
+  step) moves to each state. Waiting steps
   drop to the muted tone (4.5:1 or better), never to low opacity. On load it
   jumps straight to the state that matches the scroll, without animating.
-- **Fits:** a mechanism with three distinct states a still image cannot show.
-  Loud references.
+- **Fits:** a mechanism with three distinct states a still image cannot show;
+  the physical-product signature on moderate and loud references.
 - **Never combine with:** `sticky-stack` or `pinned-mask-reveal` next to it;
   `mechanism-sequence` on the same mechanism; scroll snapping; a counter.
-- **At 390:** the illustration sits above the list, the runway drops to 240svh
+- **At 390:** the figure sits above the list, the runway drops to 240svh
   and the steps tighten.
 - **Reduced motion:** no pin; ordinary height; every step at full ink; the
-  illustration in its final state.
+  figure in its final state.
 - **Cost:** 0.7 KB. One position read per scroll frame; transform and opacity.
 
 ### ticker-proof
@@ -194,7 +194,8 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
   (an inline `--i` numbers them), so each lands on the last like a stack. The
   covered panel eases back (scale and a shade).
 - **Fits:** an ordered set that each fills a panel: what happens after the buyer
-  pays, the stages of a service. Loud references.
+  pays, the stages of a service, a physical product's mechanism as photo slot
+  and text panels. Moderate and loud references.
 - **Never combine with:** `pinned-steps` or `pinned-mask-reveal` next to it;
   entrance animations inside the panels; a sticky header that does not clear
   the rail.
