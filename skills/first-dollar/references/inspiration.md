@@ -2,9 +2,10 @@
 
 Load at stage 3 when the founder has no reference of their own.
 
-Every URL returned HTTP 200 to `curl -s -o /dev/null -w "%{http_code}" -L <url>`
-on 2026-10-05, and each note describes the page as it looked that day. Sites
-change. Screenshot before you rely on a note.
+Every note is an observation of the live site on a date, not a description of
+the brand. Every URL returned HTTP 200 to
+`curl -s -o /dev/null -w '%{http_code}' -L 'https://example.com'` (with the
+entry's URL) on that date. Sites change. Screenshot before you rely on a note.
 
 These are other people's live sites. Take the structural move named in the
 note. Never their copy, images, illustrations, logos or brand
@@ -28,7 +29,9 @@ Playful. Each heading says which buyers tend to trust that register.
    take another entry from the same register. Tell the founder which one you
    skipped.
 
-## Editorial
+## The list, observed 2026-10-05
+
+### Editorial
 
 For buyers who read before they buy: writers, consultants, premium services.
 
@@ -48,7 +51,7 @@ For buyers who read before they buy: writers, consultants, premium services.
    purchase links, then a big portrait next to a long first-person bio. "Who are
    you?" answered in his own voice.
 
-## Technical
+### Technical
 
 For buyers who check the specs: developers, engineers, operations leads.
 
@@ -66,25 +69,28 @@ For buyers who check the specs: developers, engineers, operations leads.
     between flat color bands, and one flat price in one box near the end. No
     tiers.
 
-## Warm
+### Warm
 
 For buyers who want a person behind it: small businesses, households, makers.
 
-11. https://basecamp.com : the pitch is a letter from the founder, set on a
-    paper card, signed by hand with his face and email address under it.
+11. https://basecamp.com : a split hero. A large product UI mock (a project
+    board) fills the left half; a list of underlined links and a heavy
+    multi-line headline fill the right. Below it, the pitch is a letter from
+    the founder on a paper card, signed by hand with his face and email.
 12. https://buttondown.com : the argument is told as running body text between
     two pull quotes on yellow cards. Reads like a person talking.
 13. https://daylightcomputer.com : full-bleed photograph of the product outside
     in daylight. The order button sits bottom right with one line above it about
     stock and shipping time.
-14. https://graza.co : a headline broken across two lines and offset left and
-    right, small line drawings, then the wordmark set edge to edge as the page's
-    largest element.
+14. https://graza.co : the first screen is one full-bleed shot of the product
+    in use, the headline set on it bottom left. Further down, a headline broken
+    across two lines and offset left and right, small line drawings, then the
+    wordmark set edge to edge as the page's largest element.
 15. https://mymind.com : a manifesto in a serif, then a short list of what the
     product will never do, each line starting with a bold orange "NO". (Skip its
     glowing gradient backdrop; the lint bans it.)
 
-## Bold
+### Bold
 
 For buyers who like a strong opinion: consumer products, games, culture.
 
@@ -101,7 +107,7 @@ For buyers who like a strong opinion: consumer products, games, culture.
     principles in white on one flat color (it changes between visits). One
     color, one list, no images.
 
-## Minimal
+### Minimal
 
 For buyers who distrust marketing: privacy tools, hardware, utilities.
 
@@ -117,7 +123,7 @@ For buyers who distrust marketing: privacy tools, hardware, utilities.
     one "Preorder now" button, and one small line under it saying when shipping
     starts.
 
-## Playful
+### Playful
 
 For buyers who enjoy the brand: creative tools, communities, side projects.
 

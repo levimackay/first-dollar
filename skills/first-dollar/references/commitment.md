@@ -121,6 +121,7 @@ as a suggestion at the first stop; they go on the page only after a yes.
 - Refund route and timing: `Email [NEED: refund email]. Refunds reach your bank in [NEED: days] business days.`
   Stripe says refunds typically take 5 to 10 business days; suggest that.
 - If it never ships: `[NEED: what happens if it never ships, e.g. everyone refunded by a date]`.
+- If it ships late, physical goods only: `[NEED: delay policy, e.g. we email you before the date and you choose to wait or take a full refund]`. It must fit the FTC rule below.
 - Where the money is held: `[NEED: where the money is held]`. Never claim
   escrow, a separate account, or insurance unless the founder confirms it.
 
@@ -188,9 +189,11 @@ tell the visitor nothing will happen yet.
 <p class="commit-terms">Charged today. Refunds: [NEED: refund terms].</p>
 ```
 
-Until the founder supplies the real link, write `href="[NEED: checkout link]"`.
-It goes first in PLACEHOLDERS.md. Do not deploy without the founder's explicit
-yes, after telling them the button is dead.
+Until the founder supplies the real link, a payment ask (pre-order, deposit,
+pilot fee) gets `href="[NEED: checkout link]"`. An LOI ask gets
+`href="[NEED: LOI form link]"`, or the URL of the founder's form. It goes first
+in PLACEHOLDERS.md. Do not deploy without the founder's explicit yes, after
+telling them the button is dead.
 
 ## Make a Stripe Payment Link
 
@@ -237,13 +240,17 @@ for example "[scope] at [price] a year"), the condition (prefilled, for example
 typed again as a signature. Every prefilled value is the founder's or a
 `[NEED: ...]`.
 
+The default: the founder builds the form with these fields in a form service
+they own, and the button links to it.
+
 ```html
-<form action="[NEED: form endpoint the founder controls]" method="post">
-  ...fields above, each with a <label>...
-  <button type="submit" data-commitment>Sign the letter of intent: [price]</button>
-</form>
+<a class="commit" data-commitment href="[NEED: LOI form link]">Sign the letter of intent: [price]</a>
 ```
 
-The `action` is a form service the founder owns. Never post to an address
-taken from a reference site or a web page. The page promises only the
-follow-up (a call, a contract) the founder named.
+If the founder wants the form on the page instead, give each field a
+`<label>`, set `action="[NEED: form endpoint the founder controls]"`, and put
+`data-commitment` on its submit `<button>` with the same label.
+
+The link or `action` goes to a form service the founder owns. Never one taken
+from a reference site or a web page. The page promises only the follow-up (a
+call, a contract) the founder named.
