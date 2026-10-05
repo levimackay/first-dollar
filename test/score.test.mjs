@@ -12,6 +12,7 @@ test('classifyAsk', () => {
   assert.equal(classifyAsk('Book a demo'), 'contact');
   assert.equal(classifyAsk('Reserve the 2027 season'), 'other');
   assert.equal(classifyAsk('Reserve with a $40 deposit'), 'money');
+  assert.notEqual(classifyAsk('We demonstrate the tool'), 'contact');
   assert.equal(classifyAsk(null), 'none');
 });
 

@@ -11,7 +11,7 @@ const ARMS = ['plain', 'prompted', 'first-dollar'];
 const SKIP_RULES = new Set(['commitment-cta', 'design-tokens', 'reference-copy']);
 
 const MONEY = /[$£€]\s?\d|pre-?order|deposit|letter of intent|\bLOI\b|pre-?pay|paid pilot/i;
-const CONTACT = /ask about|talk to|contact|email us|get in touch|questions|schedule a call|book a call|book a demo|demo/i;
+const CONTACT = /ask about|talk to|contact|email us|get in touch|questions|schedule a call|book a call|book a demo|\bdemo\b/i;
 const CONVENTION_CHECKS = new Set(['commitment-above-fold']);
 const FREE = /waitlist|wait list|early access|notify|sign up|get started|free trial|join|subscribe|learn more|email/i;
 
@@ -162,7 +162,7 @@ function markdown(res) {
       out.push(`| ${r.case} | ${r.slop.fails} | ${rend} | ${r.ask.type}: "${esc(r.ask.text)}" | ${r.unconfirmedNumbers.length} |`);
     }
     const ns = res.runs.filter((x) => x.arm === arm && x.status !== 'ok');
-    out.push(ns.length ? `Not scored (${ns.length}, excluded from the summary): ${ns.map((x) => `${x.case} (${x.status})`).join(', ')}.` : 'Not scored: 0.', '');
+    out.push('', ns.length ? `Not scored (${ns.length}, excluded from the summary): ${ns.map((x) => `${x.case} (${x.status})`).join(', ')}.` : 'Not scored: 0.', '');
   }
   out.push('## Summary', '', '| Arm | Pages scored | Slop fails (total) | Money asks | Contact asks | Unique display families | Mean background deltaE | Unique CTA hue buckets |', '|---|---|---|---|---|---|---|---|');
   for (const arm of ARMS) {
