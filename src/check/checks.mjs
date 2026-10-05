@@ -80,7 +80,7 @@ export async function contrast(page) {
     const lum = ([r, g, b]) =>
       [r, g, b].map((v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0);
     const out = [];
-    // ponytail: background-image (gradients, photos) is ignored; only background-color is walked.
+    // Known limit: background-image (gradients, photos) is ignored; only background-color is walked.
     for (const el of document.querySelectorAll('h1, p, [data-commitment]')) {
       if (!el.textContent.trim() || !el.getClientRects().length) continue;
       const cs = getComputedStyle(el);

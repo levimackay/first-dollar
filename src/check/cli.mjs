@@ -10,12 +10,17 @@ const flag = (n) => args.includes(n);
 const outFlag = args.indexOf('--out');
 const target = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--out');
 
+// Anything that is not a check result (bad args, bad URL, unwritable dir, server failure) is "not verified".
+const fail = (e) => stop(`not verified: ${String(e?.message ?? e).split('\n')[0]}`, 3);
+process.on('uncaughtException', fail);
+process.on('unhandledRejection', fail);
+
 function stop(msg, code) {
   console.log(msg);
   process.exit(code);
 }
 
-if (!target) stop('usage: first-dollar-check <dir|url> [--out <dir>] [--og] [--shots-only] [--json]', 2);
+if (!target) stop('not verified: usage: first-dollar-check <dir|url> [--out <dir>] [--og] [--shots-only] [--json]', 3);
 
 const isUrl = /^https?:\/\//i.test(target);
 const shotsOnly = isUrl || flag('--shots-only');
@@ -44,7 +49,8 @@ let loaded = false;
 async function open(width, height, url) {
   const page = await browser.newPage({ viewport: { width, height } });
   C.watch(page);
-  await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+  const response = await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+  if (!response || response.status() >= 400) throw new Error(`${url} answered ${response ? response.status() : 'nothing'}`);
   await page.waitForTimeout(300);
   loaded = true;
   return page;
