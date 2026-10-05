@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lazy images</title>
+<style>
+body{margin:0;font:16px/1.5 sans-serif;color:#111;background:#fff}
+h1{font-size:32px;margin:24px 16px}
+.gap{height:1600px}
+img{display:block;width:100%;height:600px;background:#ccc;object-fit:cover}
+</style></head><body>
+<h1>Plan meals in a minute</h1>
+<div class="gap"></div>
+<img class="lazy" loading="lazy" alt="Red field" data-src="red.svg" width="1440" height="600">
+<script>
+const io = new IntersectionObserver((entries) => {
+  for (const e of entries) if (e.isIntersecting) { e.target.src = e.target.dataset.src; io.unobserve(e.target); }
+});
+document.querySelectorAll('img.lazy').forEach((i) => io.observe(i));
+</script>
+</body></html>

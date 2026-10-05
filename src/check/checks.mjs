@@ -64,6 +64,40 @@ export async function reducedMotion(page) {
   return revealed(page, 'reduced-motion');
 }
 
+// Wait for fonts and every finite running animation (infinite ones, like marquees, are ignored).
+// Polls every 100ms, gives up after 8s so a stuck page cannot hang the run.
+// Returns true when it gave up with a finite animation still running.
+export async function settle(page) {
+  return page.evaluate(async () => {
+    await document.fonts.ready;
+    const end = Date.now() + 8000;
+    const busy = () =>
+      document.getAnimations().some((a) => a.playState === 'running' && a.effect?.getComputedTiming().iterations !== Infinity);
+    while (busy() && Date.now() < end) await new Promise((r) => setTimeout(r, 100));
+    return busy();
+  });
+}
+
+// URL mode: lazy images only load when scrolled into view, so scroll the whole page first
+// (600px every 150ms, at most 20000px or 15s), return to the top, then let the network,
+// the images and the animations settle. Every wait is bounded.
+export async function primeLazy(page) {
+  await page.evaluate(async () => {
+    const end = Date.now() + 15000;
+    for (let y = 0; y < Math.min(document.documentElement.scrollHeight, 20000) && Date.now() < end; y += 600) {
+      scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    scrollTo(0, 0);
+  });
+  await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+  await page.evaluate(async () => {
+    const all = Promise.all([...document.images].map((i) => (i.complete ? 0 : i.decode().catch(() => {}))));
+    await Promise.race([all, new Promise((r) => setTimeout(r, 8000))]);
+  });
+  await settle(page);
+}
+
 async function revealed(page, id) {
   await page.evaluate(async () => {
     const h = document.documentElement.scrollHeight;
@@ -74,6 +108,7 @@ async function revealed(page, id) {
     scrollTo(0, h);
   });
   await page.waitForTimeout(600);
+  const timedOut = await settle(page);
   const bad = await page.evaluate(() => {
     const out = [];
     for (const el of document.body.querySelectorAll('*')) {
@@ -90,6 +125,7 @@ async function revealed(page, id) {
     return out.slice(0, 5);
   });
   await page.evaluate(() => scrollTo(0, 0));
+  if (bad.length && timedOut) bad.push('animations still running after 8s');
   return res(id, bad);
 }
 

@@ -1,0 +1,5 @@
+:root { --body: "Alike"; }
+@font-face { font-family: "House Display"; src: url(a.woff2); }
+h1 { font-family: "Alegreya SC", serif; }
+p { font-family: var(--body), serif; }
+.note { font-family: "House Display", sans-serif; }

@@ -1,6 +1,6 @@
 // Shared parsing + measurement helpers for the lint rules.
 import { readdir, readFile, stat } from 'node:fs/promises';
-import { existsSync, statSync } from 'node:fs';
+import { existsSync, statSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import safeParser from 'postcss-safe-parser';
@@ -36,7 +36,7 @@ function safeParse(text) {
   return safeParser(text, { from: undefined });
 }
 
-export async function buildContext(root, { referenceTexts = [], referenceHashes = [], designPath = null, parse = safeParse } = {}) {
+export async function buildContext(root, { referenceTexts = [], referenceHashes = [], designPath = null, historyPath = null, parse = safeParse } = {}) {
   const abs = path.resolve(root);
   const paths = await walk(abs);
   const files = [];
@@ -85,7 +85,24 @@ export async function buildContext(root, { referenceTexts = [], referenceHashes 
   const defaultDesign = path.join(abs, 'DESIGN.md');
   const resolvedDesign = designPath
     ?? (statSync(abs).isDirectory() && existsSync(defaultDesign) ? defaultDesign : null);
-  const ctx = { root: abs, files, referenceHashes: hashes, designPath: resolvedDesign, parseErrors };
+  // font-history: the last 10 lines of a JSONL file of earlier builds. Missing or empty means no history.
+  const history = [];
+  if (historyPath && existsSync(historyPath)) {
+    const lines = readFileSync(historyPath, 'utf8').split('\n').filter((l) => l.trim());
+    let skipped = 0;
+    for (const l of lines) {
+      try {
+        const o = JSON.parse(l);
+        if (o && typeof o === 'object') history.push(o);
+        else skipped++;
+      } catch {
+        skipped++;
+      }
+    }
+    history.splice(0, Math.max(0, history.length - 10));
+    if (skipped) parseErrors.push(finding('parse-error', historyPath, 1, `history: ${skipped} malformed line(s) skipped`, 'warn'));
+  }
+  const ctx = { root: abs, files, referenceHashes: hashes, designPath: resolvedDesign, history, parseErrors };
   ctx.customProps = collectCustomProps(ctx);
   return ctx;
 }

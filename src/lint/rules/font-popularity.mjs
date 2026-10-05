@@ -36,6 +36,24 @@ function urlFamilies(url) {
   return out;
 }
 
+// Calls cb(file, line, family) for every family the page names: font-family leads and Google Fonts URLs.
+export function eachFamily(ctx, cb) {
+  const clean = (raw) => raw.trim().replace(/^["']|["']$/g, '').trim();
+  eachDecl(ctx, /^font-family$/, (decl, unit, line) => {
+    cb(unit.file, line, clean(resolveVars(ctx, decl.value).split(',')[0] || ''));
+  });
+  for (const file of htmlFiles(ctx)) {
+    file.$('link[href]').each((_, el) => {
+      for (const fam of urlFamilies(el.attribs.href || '')) cb(file, elLine(file, el), clean(fam));
+    });
+  }
+  for (const unit of cssUnits(ctx)) {
+    unit.root.walkAtRules(/^import$/i, (rule) => {
+      for (const fam of urlFamilies(String(rule.params || ''))) cb(unit.file, unitLine(unit, rule), clean(fam));
+    });
+  }
+}
+
 export default {
   id: 'font-popularity',
   severity: 'fail',
@@ -43,27 +61,13 @@ export default {
   run(ctx) {
     const out = [];
     const seen = new Set();
-    const report = (file, line, raw) => {
-      const family = raw.trim().replace(/^["']|["']$/g, '').trim();
+    eachFamily(ctx, (file, line, family) => {
       const msg = judge(family);
       const key = `${file.path}|${family.toLowerCase()}`;
       if (!msg || seen.has(key) || LINK_BANNED.includes(family.toLowerCase())) return;
       seen.add(key);
       out.push(finding('font-popularity', file, line, msg));
-    };
-    eachDecl(ctx, /^font-family$/, (decl, unit, line) => {
-      report(unit.file, line, resolveVars(ctx, decl.value).split(',')[0] || '');
     });
-    for (const file of htmlFiles(ctx)) {
-      file.$('link[href]').each((_, el) => {
-        for (const fam of urlFamilies(el.attribs.href || '')) report(file, elLine(file, el), fam);
-      });
-    }
-    for (const unit of cssUnits(ctx)) {
-      unit.root.walkAtRules(/^import$/i, (rule) => {
-        for (const fam of urlFamilies(String(rule.params || ''))) report(unit.file, unitLine(unit, rule), fam);
-      });
-    }
     return out;
   },
 };
