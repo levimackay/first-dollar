@@ -12,4 +12,5 @@ const hits = async (name) => {
 
 test('centred hero with a single ask passes', async () => assert.deepEqual(await hits('pass-single'), []));
 test('centred hero with one button and a plain text link passes', async () => assert.deepEqual(await hits('pass-text-link'), []));
+test('a long paragraph after the headline is not a one-line subhead', async () => assert.deepEqual(await hits('pass-long-sub'), []));
 test('full template (two buttons) still fails', async () => assert.equal((await hits('fail')).length, 1));

@@ -1,6 +1,7 @@
 import { cssUnits, htmlFiles, elLine, elementChildren, selectorParts, finding } from '../context.mjs';
 
 const LABEL_MAX = 40;
+const SUB_MAX = 120;
 
 function structural(selector) {
   return selector
@@ -102,6 +103,8 @@ export default {
 
       const para = nodes.findIndex((n, i) => i > h1 && n.tagName === 'p');
       if (para < 0) continue;
+      // Static check: a one-line subhead is short, so judge by length (no layout is measured here).
+      if (file.$(nodes[para]).text().trim().length > SUB_MAX) continue;
 
       const index = new Map(nodes.map((n, i) => [n, i]));
       let buttons = false;
