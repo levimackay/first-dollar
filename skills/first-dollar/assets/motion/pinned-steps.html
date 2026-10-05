@@ -44,7 +44,6 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-demo-after { padding: 6rem clamp(1rem, 5vw, 4rem) 40vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
 
 .ph-defs { position: absolute; }
-.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
 
 /* ---- snippet: pinned-steps ---- */
 /* Every token this snippet reads, with a fallback, so it works pasted alone. */
@@ -83,19 +82,20 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-steps-list b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
 .fd-steps-list p { margin: 0.35rem 0 0; color: var(--_muted); }
 
-/* Photo slots: the labeled-slot pattern from design-rules.md. */
-.ph { position: relative; margin: 0.75rem 0 0; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
-.ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ph figcaption { position: absolute; left: 0.75rem; bottom: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--_ground); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
+/* Photo slots: the labeled-slot pattern from design-rules.md, scoped to this recipe. The page's one hatch defs block sets the gap. */
+.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
+.fd-steps .ph { position: relative; margin: 0.75rem 0 0; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
+.fd-steps .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fd-steps .ph figcaption { position: relative; display: inline-block; margin: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
 
 /* Before the script arms the section the frame is empty and hidden; each slot sits in its own step. */
 .fd-steps-frame { display: none; }
 /* Armed: the three slots stack in one frame and the active one wipes in over the last. */
 .fd-steps[data-armed] .fd-steps-frame { display: block; position: relative; aspect-ratio: 4 / 3; width: min(100%, calc(64svh * 4 / 3)); justify-self: center; }
 .fd-steps[data-armed] .fd-steps-frame .ph { position: absolute; inset: 0; margin: 0; aspect-ratio: auto; clip-path: inset(0); transition: clip-path 700ms var(--_ease); }
-.fd-steps-frame[data-state="-1"] .ph:nth-child(n+2),
-.fd-steps-frame[data-state="0"] .ph:nth-child(n+2),
-.fd-steps-frame[data-state="1"] .ph:nth-child(3) { clip-path: inset(100% 0 0 0); }
+.fd-steps .fd-steps-frame[data-state="-1"] .ph:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="0"] .ph:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="1"] .ph:nth-child(3) { clip-path: inset(100% 0 0 0); }
 /* Set while the script lands on the first state, so nothing animates on load. */
 .fd-steps[data-instant] .ph,
 .fd-steps[data-instant] .fd-steps-list li::after { transition: none !important; }
