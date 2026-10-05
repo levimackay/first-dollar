@@ -76,6 +76,26 @@ export async function settle(page) {
   });
 }
 
+// URL mode: lazy images only load when scrolled into view, so scroll the whole page first
+// (600px every 150ms, at most 20000px or 15s), return to the top, then let the network,
+// the images and the animations settle. Every wait is bounded.
+export async function primeLazy(page) {
+  await page.evaluate(async () => {
+    const end = Date.now() + 15000;
+    for (let y = 0; y < Math.min(document.documentElement.scrollHeight, 20000) && Date.now() < end; y += 600) {
+      scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    scrollTo(0, 0);
+  });
+  await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+  await page.evaluate(async () => {
+    const all = Promise.all([...document.images].map((i) => (i.complete ? 0 : i.decode().catch(() => {}))));
+    await Promise.race([all, new Promise((r) => setTimeout(r, 8000))]);
+  });
+  await settle(page);
+}
+
 async function revealed(page, id) {
   await page.evaluate(async () => {
     const h = document.documentElement.scrollHeight;

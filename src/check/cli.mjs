@@ -105,6 +105,7 @@ async function open(width, height, url, reducedMotion = 'no-preference') {
   const response = await page.goto(url, { waitUntil: 'load', timeout: 30000 });
   if (!response || response.status() >= 400) throw new Error(`${url} answered ${response ? response.status() : 'nothing'}`);
   await page.waitForTimeout(300);
+  if (url === target) await C.primeLazy(page);
   await C.settle(page);
   loaded = true;
   return page;
