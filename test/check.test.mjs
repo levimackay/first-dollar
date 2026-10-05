@@ -56,6 +56,13 @@ test('a button whose label wraps fails two-line-button at 390', (t) => {
   assert.ok(json.checks.some((c) => c.id === 'two-line-button' && c.width === 390 && !c.ok));
 });
 
+test('an unwritable --out after the browser launched still exits 3 with "not verified"', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const r = spawnSync('node', [cli, fx('good'), '--out', '/dev/null/x'], { encoding: 'utf8' });
+  assert.equal(r.status, 3);
+  assert.match(r.stdout, /not verified/);
+});
+
 test('no browser exits 3 with "not verified"', () => {
   const cache = mkdtempSync(join(tmpdir(), 'fd-cache-'));
   const { r } = run(fx('good'), { FIRST_DOLLAR_CHROME: '/nonexistent', FIRST_DOLLAR_CACHE: cache });

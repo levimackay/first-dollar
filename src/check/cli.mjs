@@ -11,7 +11,12 @@ const outFlag = args.indexOf('--out');
 const target = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--out');
 
 // Anything that is not a check result (bad args, bad URL, unwritable dir, server failure) is "not verified".
-const fail = (e) => stop(`not verified: ${String(e?.message ?? e).split('\n')[0]}`, 3);
+let browser;
+// Close the browser first (best effort, never longer than 3s) so no Chromium outlives the run.
+const fail = async (e) => {
+  await Promise.race([Promise.resolve(browser?.close()).catch(() => {}), new Promise((r) => setTimeout(r, 3000))]);
+  stop(`not verified: ${String(e?.message ?? e).split('\n')[0]}`, 3);
+};
 process.on('uncaughtException', fail);
 process.on('unhandledRejection', fail);
 
@@ -33,7 +38,6 @@ if (!isUrl && !existsSync(join(target, 'index.html'))) stop(`not verified: ${tar
 const found = resolveBrowser();
 if (!found) stop(NOT_VERIFIED_NO_BROWSER, 3);
 
-let browser;
 try {
   browser = await launch(found);
 } catch (e) {
