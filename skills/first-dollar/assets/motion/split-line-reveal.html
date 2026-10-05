@@ -9,10 +9,12 @@
   an <em> inside is flattened by the split). Keep it to four to seven lines
   at 1440 and six or fewer at 390; cut the sentence before you cut the
   stagger. Change STAGGER_MS before DURATION_MS: the stagger is the voice.
-  Wire the --fd-* tokens to DESIGN.md. Use it once per page.
+  The snippet never styles the ask: .fd-hero-ask is a hook with no rules, and
+  the page styles its own [data-commitment] button from DESIGN.md. Wire the
+  --fd-* tokens to DESIGN.md. Use it once per page.
   Reduced motion: the script does not split or arm anything. The headline is
   plain text in its final place on first paint, the rule is drawn, and every
-  word is visible. Without JavaScript the same.
+  word is visible. Without JavaScript, or if the script fails, the same.
 -->
 <!doctype html>
 <html lang="en">
@@ -27,17 +29,29 @@
   --fd-accent: #0f6e55;
   --fd-font-display: serif;
   --fd-font-text: sans-serif;
-  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
 ::selection { background: var(--fd-accent); color: var(--fd-ground); }
 :focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+/* The demo page's own button. A real page styles its ask from DESIGN.md. */
+a[data-commitment] {
+  display: inline-block; white-space: nowrap; text-decoration: none;
+  background: var(--fd-ink); color: var(--fd-ground);
+  padding: 0.95rem 1.5rem; border-radius: 2px; font-weight: 600;
+}
 
 /* ---- snippet: split-line-reveal ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-hero {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+}
 .fd-hero { padding: clamp(2.5rem, 9vh, 6rem) clamp(1rem, 5vw, 4rem) clamp(2rem, 6vh, 4rem); }
 .fd-hero h1 {
-  font-family: var(--fd-font-display);
+  font-family: var(--_display);
   font-weight: 400;
   font-size: clamp(2.75rem, 7.2vw, 6.75rem);
   line-height: 0.98;
@@ -48,16 +62,12 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 /* Each line is its own mask. The padding keeps descenders inside it. */
 .fd-split-line { display: block; overflow: clip; padding-bottom: 0.09em; margin-bottom: -0.09em; }
 .fd-split-inner { display: inline-block; }
-.fd-hero-rule { height: 1px; background: var(--fd-ink); margin: clamp(1.5rem, 3vw, 2.25rem) 0; transform-origin: left center; max-width: 46rem; }
+/* The whole sentence, once, for screen readers; the visible lines are hidden from them. */
+.fd-split-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.fd-hero-rule { height: 1px; background: var(--_ink); margin: clamp(1.5rem, 3vw, 2.25rem) 0; transform-origin: left center; max-width: 46rem; }
 .fd-hero-body { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.25rem 3rem; }
-.fd-hero-body p { margin: 0; max-width: 40ch; color: var(--fd-muted); font-size: 1.125rem; }
-.fd-ask {
-  display: inline-block; white-space: nowrap; text-decoration: none;
-  background: var(--fd-ink); color: var(--fd-ground);
-  padding: 0.95rem 1.5rem; border-radius: 2px; font-weight: 600;
-}
-.fd-ask:hover { background: var(--fd-accent); }
-.fd-ask-note { display: block; margin-top: 0.5rem; font-size: 0.875rem; color: var(--fd-muted); }
+.fd-hero-body p { margin: 0; max-width: 40ch; color: var(--_muted); font-size: 1.125rem; }
+.fd-hero-note { display: block; margin-top: 0.5rem; font-size: 0.875rem; color: var(--_muted); }
 
 .fd-hero[data-armed] .fd-split-inner { transform: translateY(105%); }
 .fd-hero[data-armed] .fd-hero-rule { transform: scaleX(0); }
@@ -72,7 +82,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 }
 /* ---- end snippet ---- */
 
-.fd-demo-after { padding: 3rem clamp(1rem, 5vw, 4rem) 20vh; color: var(--fd-muted); max-width: 60ch; }
+.fd-demo-after { padding: 3rem clamp(1rem, 5vw, 4rem) 20vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 60ch; }
 </style>
 </head>
 <body>
@@ -84,8 +94,8 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     <div class="fd-hero-body">
       <p>Demo copy. The lede and the ask sit still from the first frame; only the headline moves.</p>
       <div>
-        <a class="fd-ask" href="[NEED: checkout link]" data-commitment>Pre-order for [NEED: price]</a>
-        <span class="fd-ask-note">[NEED: refund terms in one line]</span>
+        <a class="fd-hero-ask" href="[NEED: checkout link]" data-commitment>Pre-order for [NEED: price]</a>
+        <span class="fd-hero-note">[NEED: refund terms in one line]</span>
       </div>
     </div>
   </section>
@@ -105,11 +115,13 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   var DURATION_MS = 1000;
   var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
   var text = h.textContent.trim().replace(/\s+/g, ' ');
+  var rule = hero.querySelector('.fd-hero-rule'); // optional
+  var anims = [];
+  var done = false;
   var played = false;
 
   // Lay the words out once, read which line each landed on, rebuild as line masks.
   function split() {
-    h.setAttribute('aria-label', text);
     h.textContent = '';
     var words = text.split(' ').map(function (w, i) {
       var s = document.createElement('span');
@@ -125,6 +137,10 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
       lines[lines.length - 1].push(w.textContent);
     });
     h.textContent = '';
+    var sr = document.createElement('span');
+    sr.className = 'fd-split-sr';
+    sr.textContent = text;
+    h.appendChild(sr);
     lines.forEach(function (line) {
       var mask = document.createElement('span');
       var inner = document.createElement('span');
@@ -137,28 +153,38 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     });
   }
 
+  // The final state belongs to CSS. Reached at the end, and on any error.
+  function finish() {
+    if (done) return;
+    done = true;
+    hero.removeAttribute('data-armed');
+    anims.forEach(function (a) { a.cancel(); });
+  }
+
   function play() {
     played = true;
-    var anims = [];
-    var inners = h.querySelectorAll('.fd-split-inner');
-    inners.forEach(function (el, i) {
-      anims.push(el.animate({ transform: ['translateY(105%)', 'none'] },
-        { duration: DURATION_MS, delay: i * STAGGER_MS, easing: EASE, fill: 'both' }));
-    });
-    anims.push(hero.querySelector('.fd-hero-rule').animate({ transform: ['scaleX(0)', 'none'] },
-      { duration: 900, delay: inners.length * STAGGER_MS + 150, easing: EASE, fill: 'both' }));
-    Promise.all(anims.map(function (a) { return a.finished; })).then(function () {
-      hero.removeAttribute('data-armed');
-      anims.forEach(function (a) { a.cancel(); });
-    });
+    var started = false;
+    try {
+      split();
+      var inners = h.querySelectorAll('.fd-split-inner');
+      Array.prototype.forEach.call(inners, function (el, i) {
+        anims.push(el.animate({ transform: ['translateY(105%)', 'none'] },
+          { duration: DURATION_MS, delay: i * STAGGER_MS, easing: EASE, fill: 'both' }));
+      });
+      if (rule) anims.push(rule.animate({ transform: ['scaleX(0)', 'none'] },
+        { duration: 900, delay: inners.length * STAGGER_MS + 150, easing: EASE, fill: 'both' }));
+      Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+      started = true;
+    } finally {
+      if (!started) finish();
+    }
   }
 
   hero.setAttribute('data-armed', '');
-  split();
+  try { split(); } catch (e) { finish(); throw e; }
   // Wait for the display face (at most 600ms), re-split on its metrics, then play.
   var fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
   Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 600); })]).then(function () {
-    split();
     requestAnimationFrame(play);
   });
 

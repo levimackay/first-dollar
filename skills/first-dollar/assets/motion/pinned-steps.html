@@ -3,14 +3,17 @@
   What it does: the section holds still (CSS sticky) for about two screens of
   scrolling while three steps of the mechanism take turns: the active step
   comes up to full ink and the labeled illustration beside it moves to that
-  state. The sample is a compost bin: scraps go in, the days count up, soil
-  comes out of the drawer. All three steps stay readable the whole time.
+  state. The sample is a compost bin: scraps go in, the days pass, soil comes
+  out of the drawer. Waiting steps are set in the muted tone (over 4.5:1
+  contrast), never faded, so all three stay readable the whole time. On load
+  it jumps straight to the state that matches the scroll position.
   How to adapt: keep three steps (two is a toggle, four is a slideshow).
   Rewrite the <li> copy from COPY.md and redraw the SVG; each state is a
   data-state value on the figure ("-1" empty, then 0, 1, 2) and CSS moves the
   parts between states with transform and opacity only. The figure's HTML
-  default is the final state. The day count is a sample in a labeled
-  illustration; use the founder's real figure or keep the caption.
+  default is the final state. No number counts up: the cycle length is a
+  static sample in a labeled illustration; use the founder's real figure or
+  keep the caption.
   Reduced motion: no pin, no state changes. The section is ordinary height,
   every step is at full ink, and the illustration shows its final state.
   Without JavaScript the same.
@@ -28,9 +31,6 @@
   --fd-accent: #0f6e55;
   --fd-font-display: serif;
   --fd-font-text: sans-serif;
-  --fd-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
-  --fd-rule: color-mix(in srgb, var(--fd-ink) 18%, var(--fd-ground));
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
@@ -39,50 +39,64 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
 .fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 2rem; }
 .fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; }
-.fd-demo-intro p { margin: 0; color: var(--fd-muted); max-width: 46ch; }
-.fd-demo-after { padding: 6rem clamp(1rem, 5vw, 4rem) 40vh; color: var(--fd-muted); }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 6rem clamp(1rem, 5vw, 4rem) 40vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
 
 /* ---- snippet: pinned-steps ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-steps {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+  --_ease: var(--fd-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
 /* The pin and the dimmed steps exist only once the script arms the section. */
 .fd-steps[data-armed] { height: 300svh; }
 .fd-steps[data-armed] .fd-steps-pin { position: sticky; top: 0; height: 100svh; }
 .fd-steps-pin {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: clamp(1.5rem, 4vw, 4rem); align-items: center;
   padding: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem);
 }
 .fd-steps-list { list-style: none; margin: 0; padding: 0; counter-reset: step; max-width: 30rem; }
 .fd-steps-list li {
   counter-increment: step; position: relative;
-  padding: 1.1rem 0 1.1rem 3rem; border-top: 1px solid var(--fd-rule);
-  transition: opacity 400ms var(--fd-ease-out);
+  padding: 1.1rem 0 1.1rem 3rem; border-top: 1px solid var(--_rule);
 }
-.fd-steps[data-armed] .fd-steps-list li { opacity: 0.38; }
-.fd-steps-list li::before { content: counter(step); position: absolute; left: 0; top: 1.1rem; font-variant-numeric: tabular-nums; color: var(--fd-accent); font-weight: 600; }
+/* Waiting steps drop to the muted tone, not to low opacity: they stay readable. */
+.fd-steps[data-armed] .fd-steps-list li { color: var(--_muted); }
+.fd-steps-list li::before { content: counter(step); position: absolute; left: 0; top: 1.1rem; font-variant-numeric: tabular-nums; color: var(--_accent); font-weight: 600; }
 .fd-steps-list li::after {
-  content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--fd-ink);
-  transform: scaleX(0); transform-origin: left center; transition: transform 600ms var(--fd-ease-out);
+  content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--_ink);
+  transform: scaleX(0); transform-origin: left center; transition: transform 600ms var(--_ease);
 }
-.fd-steps[data-armed] .fd-steps-list li[aria-current="step"] { opacity: 1; }
+.fd-steps[data-armed] .fd-steps-list li[aria-current="step"],
+.fd-steps[data-armed] .fd-steps-list li[aria-current="step"] p { color: var(--_ink); }
 .fd-steps-list li[aria-current="step"]::after { transform: none; }
-.fd-steps-list b { display: block; font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
-.fd-steps-list p { margin: 0.35rem 0 0; color: var(--fd-muted); }
+.fd-steps-list b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
+.fd-steps-list p { margin: 0.35rem 0 0; color: var(--_muted); }
 
 .fd-steps-fig { margin: 0; }
-.fd-steps-fig figcaption { font-size: 0.875rem; color: var(--fd-muted); }
+.fd-steps-fig figcaption { font-size: 0.875rem; color: var(--_muted); }
 .fd-steps-fig svg { display: block; width: 100%; height: auto; max-height: 64svh; }
 .fd-readout { margin: 0.25rem 0 0; font-variant-numeric: tabular-nums; font-weight: 600; }
-.fd-readout span { color: var(--fd-accent); }
+.fd-readout span { color: var(--_accent); }
+/* Set while the script lands on the first state, so nothing animates on load. */
+.fd-steps[data-instant] .fd-steps-fig *,
+.fd-steps[data-instant] .fd-steps-list li::after { transition: none; }
 
 /* Illustration parts. CSS defaults are the final state. */
-.fd-steps-fig .s { fill: none; stroke: var(--fd-ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
-.fd-steps-fig .fill { fill: var(--fd-ground); }
-.fd-steps-fig .soil { fill: color-mix(in srgb, var(--fd-ink) 72%, var(--fd-ground)); }
-.fd-steps-fig .band1 { fill: color-mix(in srgb, var(--fd-ink) 14%, var(--fd-ground)); }
-.fd-steps-fig .band2 { fill: color-mix(in srgb, var(--fd-ink) 30%, var(--fd-ground)); }
-.fd-steps-fig .band3 { fill: color-mix(in srgb, var(--fd-ink) 52%, var(--fd-ground)); }
-.fd-steps-fig .scrap { fill: color-mix(in srgb, var(--fd-accent) 70%, var(--fd-ground)); stroke: var(--fd-ink); stroke-width: 2; }
-.fd-lid, .fd-tray, .fd-band, .fd-scrap { transform-box: fill-box; transition: transform 800ms var(--fd-ease-out), opacity 500ms var(--fd-ease-out); }
+.fd-steps-fig .s { fill: none; stroke: var(--_ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.fd-steps-fig .fill { fill: var(--_ground); }
+.fd-steps-fig .soil { fill: color-mix(in srgb, var(--_ink) 72%, var(--_ground)); }
+.fd-steps-fig .band1 { fill: color-mix(in srgb, var(--_ink) 14%, var(--_ground)); }
+.fd-steps-fig .band2 { fill: color-mix(in srgb, var(--_ink) 30%, var(--_ground)); }
+.fd-steps-fig .band3 { fill: color-mix(in srgb, var(--_ink) 52%, var(--_ground)); }
+.fd-steps-fig .scrap { fill: color-mix(in srgb, var(--_accent) 70%, var(--_ground)); stroke: var(--_ink); stroke-width: 2; }
+.fd-lid, .fd-tray, .fd-band, .fd-scrap { transform-box: fill-box; transition: transform 800ms var(--_ease), opacity 500ms var(--_ease); }
 .fd-lid { transform-origin: 0% 100%; }
 .fd-band { transform-origin: 50% 100%; transition-delay: calc(var(--i) * 140ms); }
 .fd-scrap { transform-origin: 50% 50%; transition-delay: calc(var(--i) * 90ms); opacity: 0; transform: scale(0.4); }
@@ -111,7 +125,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 @media (prefers-reduced-motion: reduce) {
   .fd-steps[data-armed] { height: auto; }
   .fd-steps[data-armed] .fd-steps-pin { position: static; height: auto; }
-  .fd-steps[data-armed] .fd-steps-list li { opacity: 1; transition: none; }
+  .fd-steps[data-armed] .fd-steps-list li { color: inherit; }
   .fd-steps-list li::after { transform: none; }
 }
 /* ---- end snippet ---- */
@@ -129,12 +143,12 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     <div class="fd-steps-pin">
       <ol class="fd-steps-list">
         <li><b>Scraps go in</b><p>Demo copy. Kitchen scraps go in the top.</p></li>
-        <li><b>The days count up</b><p>Demo copy. The bin works through them while the counter runs.</p></li>
+        <li><b>The days pass</b><p>Demo copy. The bin works through them on its own.</p></li>
         <li><b>Soil comes out</b><p>Demo copy. Finished soil comes out of the drawer.</p></li>
       </ol>
       <figure class="fd-steps-fig" data-state="2">
         <figcaption>Illustration. Numbers are examples.</figcaption>
-        <svg viewBox="0 0 520 390" role="img" aria-label="A compost bin: scraps go in the top, the days count up, soil comes out of the drawer">
+        <svg viewBox="0 0 520 390" role="img" aria-label="A compost bin: scraps go in the top, the days pass, soil comes out of the drawer">
           <defs><clipPath id="fd-bin-clip"><path d="M72 112 H288 L277 368 H83 Z"/></clipPath></defs>
           <g class="fd-tray">
             <path class="soil" d="M100 334 Q128 304 160 318 Q190 300 222 316 Q246 306 262 334 Z"/>
@@ -155,7 +169,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
           <path class="fd-lid s fill" d="M62 110 H298 V94 H62 Z"/>
           <path class="s" d="M20 372 H500"/>
         </svg>
-        <p class="fd-readout">Day <span data-day data-to="21">21</span></p>
+        <p class="fd-readout">Example cycle: <span>21 days</span></p>
       </figure>
     </div>
   </section>
@@ -171,34 +185,17 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   if (!section || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var fig = section.querySelector('.fd-steps-fig');
   var steps = section.querySelectorAll('.fd-steps-list li');
-  var day = section.querySelector('[data-day]');
-  var DAYS = Number(day.getAttribute('data-to'));
+  if (!fig || steps.length < 2) return;
   var current = null;
-  section.setAttribute('data-armed', '');
-  var counting = 0;
-
-  function countDays() {
-    var t0 = performance.now();
-    var run = ++counting;
-    requestAnimationFrame(function tick(now) {
-      if (run !== counting) return; // a newer state took over
-      var p = Math.min(1, (now - t0) / 1400);
-      day.textContent = String(Math.round(DAYS * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) requestAnimationFrame(tick);
-    });
-  }
 
   function setState(i) {
     if (i === current) return;
-    var from = current;
     current = i;
     fig.setAttribute('data-state', String(i));
     steps.forEach(function (li, j) {
       if (j === i) li.setAttribute('aria-current', 'step');
       else li.removeAttribute('aria-current');
     });
-    if (i === 1 && from !== 2) countDays();
-    else { counting++; day.textContent = String(i >= 1 ? DAYS : 0); }
   }
 
   var queued = false;
@@ -213,7 +210,16 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     if (!queued) { queued = true; requestAnimationFrame(update); }
   }, { passive: true });
   addEventListener('resize', update);
+
+  // Arm and land on the scroll position's state with transitions off, so the
+  // figure never plays backwards from its final state on load.
+  section.setAttribute('data-armed', '');
+  section.setAttribute('data-instant', '');
   update();
+  void section.offsetHeight;
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { section.removeAttribute('data-instant'); });
+  });
 })();
 /* ---- end snippet ---- */
 </script>

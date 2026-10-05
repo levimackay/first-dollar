@@ -7,15 +7,16 @@
   lands, the client's signature draws. Autoplays once when 35% of the figure
   is in view.
   How to adapt: copy the <figure class="fd-mech">, its CSS and the script.
-  Keep the three beats and swap what they show (compost bin: scraps go in, the
-  days count up, soil comes out). Each [data-line] is one output row; the
-  script splits the playback into as many segments as there are rows, so add
-  or remove rows freely. Set PLAY_MS for the input beat's length. Wire the
-  --fd-* tokens to DESIGN.md. Keep the "Illustration" caption and keep
-  sample values generic.
+  Keep the three beats and swap what they show (compost bin: scraps go in,
+  the days pass, soil comes out). Each [data-line] is one output row and the
+  only required part; playback splits into one segment per row. The timer,
+  segment marks, total and signature are optional: delete any and the rest
+  still plays. Set PLAY_MS for the input beat. Wire the --fd-* tokens to
+  DESIGN.md. Keep the "Illustration" caption and generic sample values.
   Reduced motion: nothing is armed or played. The figure renders in its final
   state on first paint: memo played, every line, the total and the signature
-  visible. Without JavaScript the same final state shows.
+  visible. Without JavaScript, or if the script fails mid-run, the same final
+  state shows.
 -->
 <!doctype html>
 <html lang="en">
@@ -30,9 +31,6 @@
   --fd-accent: #0f6e55;
   --fd-font-display: serif;
   --fd-font-text: sans-serif;
-  --fd-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
-  --fd-rule: color-mix(in srgb, var(--fd-ink) 16%, var(--fd-ground));
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
@@ -42,12 +40,21 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 /* Demo page around the snippet. */
 .fd-demo-intro { padding: clamp(2rem, 6vw, 4.5rem) clamp(1rem, 4vw, 3rem) 0; max-width: 62rem; }
 .fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 0.75rem; }
-.fd-demo-intro p { margin: 0; max-width: 52ch; color: var(--fd-muted); }
-.fd-demo-after { padding: 4rem clamp(1rem, 4vw, 3rem) 30vh; color: var(--fd-muted); }
+.fd-demo-intro p { margin: 0; max-width: 52ch; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+.fd-demo-after { padding: 4rem clamp(1rem, 4vw, 3rem) 30vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
 
 /* ---- snippet: mechanism-sequence ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-mech {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
 .fd-mech { margin: 0; padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem); }
-.fd-mech figcaption { font-size: 0.8125rem; color: var(--fd-muted); margin-bottom: 1rem; }
+.fd-mech figcaption { font-size: 0.8125rem; color: var(--_muted); margin-bottom: 1rem; }
 .fd-mech-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr);
@@ -58,45 +65,45 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
 /* Input: the memo. */
 .fd-memo {
-  border: 1px solid var(--fd-rule);
+  border: 1px solid var(--_rule);
   border-radius: 20px;
   padding: 1.25rem 1.25rem 1rem;
-  background: color-mix(in srgb, var(--fd-ink) 5%, var(--fd-ground));
+  background: color-mix(in srgb, var(--_ink) 5%, var(--_ground));
 }
 .fd-memo-head { display: flex; align-items: center; gap: 0.75rem; }
 .fd-play { width: 2.25rem; height: 2.25rem; flex: none; display: block; }
-.fd-play circle { fill: var(--fd-ink); }
-.fd-play path { fill: var(--fd-ground); }
+.fd-play circle { fill: var(--_ink); }
+.fd-play path { fill: var(--_ground); }
 .fd-play .fd-pause, .fd-mech.is-playing .fd-play .fd-tri { opacity: 0; }
 .fd-mech.is-playing .fd-play .fd-pause { opacity: 1; }
 .fd-memo-title { font-weight: 600; line-height: 1.2; }
-.fd-memo-time { font-size: 0.8125rem; color: var(--fd-muted); font-variant-numeric: tabular-nums; }
+.fd-memo-time { font-size: 0.8125rem; color: var(--_muted); font-variant-numeric: tabular-nums; }
 .fd-wave { display: flex; align-items: center; gap: 3px; height: 4.5rem; margin: 1.25rem 0 0.5rem; }
-.fd-wave i { flex: 1; height: 100%; background: var(--fd-rule); border-radius: 2px; transform: scaleY(var(--h)); position: relative; }
-.fd-wave i::after { content: ""; position: absolute; inset: 0; background: var(--fd-accent); border-radius: inherit; }
+.fd-wave i { flex: 1; height: 100%; background: var(--_rule); border-radius: 2px; transform: scaleY(var(--h)); position: relative; }
+.fd-wave i::after { content: ""; position: absolute; inset: 0; background: var(--_accent); border-radius: inherit; }
 .fd-segs { display: flex; gap: 6px; }
 .fd-segs span {
-  flex: 1; border-top: 2px solid var(--fd-ink); padding-top: 0.25rem;
-  font-size: 0.8125rem; color: var(--fd-muted); transform-origin: left center;
+  flex: 1; border-top: 2px solid var(--_ink); padding-top: 0.25rem;
+  font-size: 0.8125rem; color: var(--_muted); transform-origin: left center;
 }
 
 /* Process and output: the document. */
 .fd-doc {
-  border: 1px solid var(--fd-rule);
+  border: 1px solid var(--_rule);
   padding: clamp(1.25rem, 3vw, 2rem);
-  background: var(--fd-ground);
+  background: var(--_ground);
 }
-.fd-doc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--fd-ink); padding-bottom: 0.75rem; }
-.fd-doc-head b { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.1; }
-.fd-doc-head span { font-size: 0.8125rem; color: var(--fd-muted); }
-.fd-line, .fd-total { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; gap: 0.5rem; padding: 0.7rem 0; border-bottom: 1px solid var(--fd-rule); font-variant-numeric: tabular-nums; overflow: clip; }
-.fd-line em { font-style: normal; color: var(--fd-muted); font-size: 0.8125rem; }
+.fd-doc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--_ink); padding-bottom: 0.75rem; }
+.fd-doc-head b { font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.1; }
+.fd-doc-head span { font-size: 0.8125rem; color: var(--_muted); }
+.fd-line, .fd-total { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; gap: 0.5rem; padding: 0.7rem 0; border-bottom: 1px solid var(--_rule); font-variant-numeric: tabular-nums; overflow: clip; }
+.fd-line em { font-style: normal; color: var(--_muted); font-size: 0.8125rem; }
 .fd-total { border-bottom: 0; font-weight: 600; }
 .fd-sign { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
-.fd-sign svg { width: min(15rem, 60%); height: auto; display: block; border-bottom: 1px solid var(--fd-ink); }
-.fd-sign path { fill: none; stroke: var(--fd-ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.fd-sign svg { width: min(15rem, 60%); height: auto; display: block; border-bottom: 1px solid var(--_ink); }
+.fd-sign path { fill: none; stroke: var(--_ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .fd-signed-mask { overflow: clip; }
-.fd-signed { display: block; font-size: 0.8125rem; color: var(--fd-accent); font-weight: 600; }
+.fd-signed { display: block; font-size: 0.8125rem; color: var(--_accent); font-weight: 600; }
 
 /* Armed: the start state, applied by the script only when motion is allowed.
    Words wait below a mask (a clipped transform), never at opacity 0, so they are
@@ -183,64 +190,83 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   var PLAY_MS = 2400; // the input beat: how long the memo plays
   var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
   var HIDE = 'translateY(calc(100% + 0.8rem))';
+  // Rows are required; every other part is optional and skipped when absent.
+  var lines = fig.querySelectorAll('[data-line]');
+  if (!lines.length) return;
+  var bars = fig.querySelectorAll('.fd-wave i');
+  var segs = fig.querySelectorAll('.fd-segs span');
   var timer = fig.querySelector('[data-timer]');
-  var seconds = Number(timer.getAttribute('data-seconds'));
+  var total = fig.querySelector('.fd-total');
+  var paths = fig.querySelectorAll('.fd-sign path');
+  var signed = fig.querySelector('.fd-signed');
+  var endTime = timer ? timer.textContent : '';
+  var seconds = timer ? Number(timer.getAttribute('data-seconds')) || 0 : 0;
   var fmt = function (s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  var anims = [];
+  var done = false;
 
-  fig.setAttribute('data-armed', '');
-  timer.textContent = fmt(0);
-
-  function play() {
-    var anims = [];
-    var at = function (el, frames, delay, duration, extra) {
-      var opts = { delay: delay, duration: duration, easing: EASE, fill: 'both' };
-      for (var k in extra) opts[k] = extra[k];
-      anims.push(el.animate(frames, opts));
-    };
-    // A row is written in cell by cell: each cell rises out of the row's clip.
-    var writeIn = function (row, delay) {
-      Array.prototype.forEach.call(row.children, function (cell, j) {
-        at(cell, { transform: [HIDE, 'none'] }, delay + j * 70, 650);
-      });
-    };
-    var bars = fig.querySelectorAll('.fd-wave i');
-    var lines = fig.querySelectorAll('[data-line]');
-    var segs = fig.querySelectorAll('.fd-segs span');
-    var seg = PLAY_MS / lines.length;
-
-    // Beat 1, input: the memo plays bar by bar.
-    fig.classList.add('is-playing');
-    bars.forEach(function (bar, i) {
-      at(bar, { opacity: [0, 1] }, (i / bars.length) * PLAY_MS, 160, { pseudoElement: '::after', easing: 'linear' });
-    });
-    // Beat 2, process: each stretch of the memo becomes a line as the playhead leaves it.
-    lines.forEach(function (line, i) {
-      var end = seg * (i + 1);
-      if (segs[i]) at(segs[i], { transform: ['scaleX(0)', 'scaleX(1)'] }, end - seg, seg, { easing: 'linear' });
-      writeIn(line, end - 250);
-    });
-    // Beat 3, output: the total lands, the signature draws.
-    writeIn(fig.querySelector('.fd-total'), PLAY_MS + 250);
-    fig.querySelectorAll('.fd-sign path').forEach(function (path, i) {
-      at(path, { strokeDashoffset: [1, 0] }, PLAY_MS + 600 + i * 1150, i ? 450 : 1150, { easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
-    });
-    at(fig.querySelector('.fd-signed'), { transform: [HIDE, 'none'] }, PLAY_MS + 2100, 600);
-
-    var t0 = performance.now();
-    requestAnimationFrame(function tick(now) {
-      var p = Math.min(1, (now - t0) / PLAY_MS);
-      timer.textContent = fmt(Math.round(p * seconds));
-      if (p < 1) requestAnimationFrame(tick);
-      else fig.classList.remove('is-playing');
-    });
-
-    // Hand the final state back to CSS and drop the animation objects.
-    Promise.all(anims.map(function (a) { return a.finished; })).then(function () {
-      fig.removeAttribute('data-armed');
-      anims.forEach(function (a) { a.cancel(); });
+  // The final state belongs to CSS. Reached at the end of the run, and on any error.
+  function finish() {
+    if (done) return;
+    done = true;
+    fig.removeAttribute('data-armed');
+    fig.classList.remove('is-playing');
+    if (timer) timer.textContent = endTime;
+    anims.forEach(function (a) { a.cancel(); });
+  }
+  function at(el, frames, delay, duration, extra) {
+    if (!el) return;
+    var opts = { delay: delay, duration: duration, easing: EASE, fill: 'both' };
+    for (var k in extra) opts[k] = extra[k];
+    anims.push(el.animate(frames, opts));
+  }
+  // A row is written in cell by cell: each cell rises out of the row's clip.
+  function writeIn(row, delay) {
+    if (!row) return;
+    Array.prototype.forEach.call(row.children, function (cell, j) {
+      at(cell, { transform: [HIDE, 'none'] }, delay + j * 70, 650);
     });
   }
 
+  function play() {
+    var started = false;
+    try {
+      var seg = PLAY_MS / lines.length;
+      // Beat 1, input: the memo plays bar by bar.
+      fig.classList.add('is-playing');
+      Array.prototype.forEach.call(bars, function (bar, i) {
+        at(bar, { opacity: [0, 1] }, (i / bars.length) * PLAY_MS, 160, { pseudoElement: '::after', easing: 'linear' });
+      });
+      // Beat 2, process: each stretch of the memo becomes a row as the playhead leaves it.
+      Array.prototype.forEach.call(lines, function (line, i) {
+        var end = seg * (i + 1);
+        at(segs[i], { transform: ['scaleX(0)', 'scaleX(1)'] }, end - seg, seg, { easing: 'linear' });
+        writeIn(line, end - 250);
+      });
+      // Beat 3, output: the total lands, the signature draws.
+      writeIn(total, PLAY_MS + 250);
+      Array.prototype.forEach.call(paths, function (path, i) {
+        at(path, { strokeDashoffset: [1, 0] }, PLAY_MS + 600 + i * 1150, i ? 450 : 1150, { easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
+      });
+      at(signed, { transform: [HIDE, 'none'] }, PLAY_MS + 2100, 600);
+
+      var t0 = performance.now();
+      requestAnimationFrame(function tick(now) {
+        if (done) return;
+        var p = Math.min(1, (now - t0) / PLAY_MS);
+        if (timer) timer.textContent = fmt(Math.round(p * seconds));
+        if (p < 1) requestAnimationFrame(tick);
+        else fig.classList.remove('is-playing');
+      });
+      Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+      started = true;
+    } finally {
+      if (!started) finish();
+    }
+  }
+
+  fig.setAttribute('data-armed', '');
+  if (timer) timer.textContent = fmt(0);
   new IntersectionObserver(function (entries, io) {
     if (!entries[0].isIntersecting) return;
     io.disconnect();
