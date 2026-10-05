@@ -25,6 +25,7 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 |---|---|---|---|---|
 | `banned-font-family` | fail | Inter, Geist, Space Grotesk, Roboto, Arial, Helvetica Neue, Segoe UI, system-ui, ui-sans-serif, ui-serif or -apple-system in a stack or font link | The default face says nobody chose the type | Match the reference by features (design-extraction.md section 6) and update DESIGN.md |
 | `font-popularity` | fail | A leading family that ranks in the top 200 of Google Fonts, or is on the list of faces agent-built pages default to (Georgia, Iowan Old Style, Avenir Next, Satoshi, Gloock and others) | The same few faces appear on every generated page | The reference's own face only if it is outside the top 200; otherwise a close match outside the top 200 (design-extraction.md section 6) |
+| `font-history` | fail | Only with `--history <file>` (JSONL, one build per line with `date`, `display`, `text`): a family the page uses that appears as display or text in the last 10 lines | Pages from the same builder end up sharing one look | A different face from the reference's neighbours outside the top 200 |
 | `mono-prose` | fail | A `p`, `small`, `figcaption`, `li`, `dd`, `blockquote`, or a `span` or `div` with more than 6 words, set in a monospace face (outside code, pre, kbd, samp, table) | Fine print and body copy in mono is the "technical" costume | Set prose in a text face; keep mono for code and figures. `data-mono` exempts an element and everything inside it: use it only where the reference sets that text in mono, never for fine print or labels, and log it in DESIGN.md Provenance |
 | `single-sans-family` | warn | One font stack across the whole site | One voice for headlines, body and labels | Add a display or text face that contrasts |
 | `flat-type-scale` | fail | Largest font size under 2.5 times the body size | Timid size steps read as templated | Rebuild the scale from a ratio; display at least 2.5x body |
@@ -48,7 +49,7 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 
 | Rule | Sev | Catches | Why it reads as generated | Fix |
 |---|---|---|---|---|
-| `centred-hero` | fail | A centered hero of short eyebrow, headline, one-line subhead and two buttons | The single most recognizable generated hero | Left-align or split it; one button that states the price |
+| `centred-hero` | fail | The full template only: a centered hero of short eyebrow, headline, one-line subhead and two side-by-side buttons (a hero with one action passes) | The single most recognizable generated hero | Left-align or split it; one button that states the price |
 | `three-card-row` | fail | A grid of exactly three card columns | The default feature section | Write the real number of points as a list, a table, or one large item |
 | `stat-row` | fail | A row of big numbers with short captions | The template's stand-in for proof | One real number in a sentence, with its source |
 | `uniform-section-padding` | fail | Four or more section rules whose vertical padding varies by under 15% | No pacing; every section weighs the same | Vary it on purpose: tight clusters, then a large breath |

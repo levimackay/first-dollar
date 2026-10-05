@@ -1,14 +1,16 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { realpathSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { lint } from './runner.mjs';
 
 export const USAGE = [
-  'usage: first-dollar-lint <dir> [--design <DESIGN.md>] [--reference-text <file>] [--json] [--allow-no-html]',
+  'usage: first-dollar-lint <dir> [--design <DESIGN.md>] [--reference-text <file>] [--history <file>] [--json] [--allow-no-html]',
   '',
   '  dir               directory of built HTML and CSS to lint',
   '  --design          design file to check the build against, default <dir>/DESIGN.md when present',
   '  --reference-text  a file of plain lines; copy that matches them is flagged as lifted',
+  '  --history         a JSONL file of earlier builds ({date, display, text}); turns on font-history',
   '  --json            print the result as JSON instead of one line per finding',
   '  --allow-no-html   for a tree that is not a site',
   '',
@@ -21,16 +23,17 @@ function display(file) {
 }
 
 function parseArgs(argv) {
-  const opts = { dir: null, design: null, referenceText: null, json: false, allowNoHtml: false, help: false };
+  const opts = { dir: null, history: null, design: null, referenceText: null, json: false, allowNoHtml: false, help: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '-h' || a === '--help') opts.help = true;
     else if (a === '--json') opts.json = true;
     else if (a === '--allow-no-html') opts.allowNoHtml = true;
-    else if (a === '--design' || a === '--reference-text') {
+    else if (a === '--design' || a === '--reference-text' || a === '--history') {
       const v = argv[++i];
       if (v === undefined || v.startsWith('--')) throw new Error(`${a} needs a value`);
       if (a === '--design') opts.design = v;
+      else if (a === '--history') opts.history = v;
       else opts.referenceText = v;
     }
     else if (a.startsWith('--')) throw new Error(`unknown option ${a}`);
@@ -70,7 +73,7 @@ export async function main(argv) {
     const candidate = path.join(path.resolve(dir), 'DESIGN.md');
     designPath = await stat(candidate).then((s) => (s.isFile() ? candidate : null), () => null);
   }
-  const result = await lint(dir, { designPath, referenceTexts });
+  const result = await lint(dir, { designPath, referenceTexts, historyPath: opts.history });
   if (result.htmlCount === 0 && !opts.allowNoHtml) {
     console.error(`no html files under ${dir}`);
     console.error('pass --allow-no-html only for a tree that is not a site');
@@ -87,6 +90,15 @@ export async function main(argv) {
   return result.ok ? 0 : 1;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+// Compare real paths so a symlinked install (how skills are installed) still counts as main.
+const isMain = (() => {
+  try {
+    return realpathSync(fileURLToPath(import.meta.url)) === realpathSync(process.argv[1]);
+  } catch {
+    return false;
+  }
+})();
+
+if (isMain) {
   process.exitCode = await main(process.argv.slice(2));
 }

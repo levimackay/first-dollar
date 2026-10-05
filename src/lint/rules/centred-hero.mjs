@@ -1,6 +1,7 @@
 import { cssUnits, htmlFiles, elLine, elementChildren, selectorParts, finding } from '../context.mjs';
 
 const LABEL_MAX = 40;
+const SUB_MAX = 120;
 
 function structural(selector) {
   return selector
@@ -49,11 +50,24 @@ function descendants(el) {
 export default {
   id: 'centred-hero',
   severity: 'fail',
-  describe: 'the centred eyebrow, headline, one line of subhead and two buttons hero',
+  describe: 'the full centred hero template: eyebrow, headline, one line of subhead and two side-by-side buttons',
   run(ctx) {
     const centred = collectSelectors(ctx, 'text-align', /^\s*center\s*$/i);
     const upper = collectSelectors(ctx, 'text-transform', /uppercase/i);
     const mono = collectSelectors(ctx, 'font-family', /\bmono/i);
+    const painted = /^(?!\s*(none|transparent|0|initial|inherit)\s*$)/i;
+    const filled = [
+      ...collectSelectors(ctx, 'background', painted),
+      ...collectSelectors(ctx, 'background-color', painted),
+      ...collectSelectors(ctx, 'border', painted),
+    ];
+    // A link only counts as a button when it is one: a button element, role, a btn/cta class, or a painted box.
+    const isButton = (file, n) =>
+      n.tagName === 'button' ||
+      n.attribs?.role === 'button' ||
+      /\b(btn|button|cta)/i.test(String(n.attribs?.class || '')) ||
+      /(background|border)[a-z-]*\s*:\s*(?!\s*(none|transparent|0)\s*(;|$))/i.test(String(n.attribs?.style || '')) ||
+      matches(file, n, filled);
     const out = [];
 
     for (const file of htmlFiles(ctx)) {
@@ -89,6 +103,8 @@ export default {
 
       const para = nodes.findIndex((n, i) => i > h1 && n.tagName === 'p');
       if (para < 0) continue;
+      // Static check: a one-line subhead is short, so judge by length (no layout is measured here).
+      if (file.$(nodes[para]).text().trim().length > SUB_MAX) continue;
 
       const index = new Map(nodes.map((n, i) => [n, i]));
       let buttons = false;
@@ -97,7 +113,7 @@ export default {
         for (let i = 0; i + 1 < kids.length; i++) {
           const [a, b] = [kids[i], kids[i + 1]];
           if (!/^(a|button)$/.test(a.tagName) || !/^(a|button)$/.test(b.tagName)) continue;
-          if ((index.get(a) ?? -1) > para) buttons = true;
+          if ((index.get(a) ?? -1) > para && isButton(file, a) && isButton(file, b)) buttons = true;
         }
       }
       if (!buttons) continue;
