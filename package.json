@@ -1,0 +1,19 @@
+{
+  "name": "first-dollar",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/",
+    "gen": "node scripts/gen-rule-index.mjs",
+    "build": "npm run gen && esbuild src/lint/cli.mjs --bundle --platform=node --format=esm --target=node20 --outfile=skills/first-dollar/scripts/first-dollar-lint.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\" && esbuild src/check/cli.mjs --bundle --platform=node --format=esm --target=node20 --external:playwright-core --external:playwright --outfile=skills/first-dollar/scripts/first-dollar-check.mjs",
+    "lint:self": "node skills/first-dollar/scripts/first-dollar-lint.mjs gallery"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0",
+    "esbuild": "^0.25.0",
+    "postcss": "^8.5.0",
+    "postcss-safe-parser": "^7.0.0",
+    "yaml": "^2.8.0"
+  }
+}

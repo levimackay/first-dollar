@@ -1,0 +1,9 @@
+node_modules/
+CLAUDE.md
+AGENTS.md
+.claude/
+.superpowers/
+docs/superpowers/
+.first-dollar/
+*.log
+.DS_Store
