@@ -1,0 +1,116 @@
+<!--
+  parallax-frame: a photo that drifts a little inside a frame that holds still.
+  What it does: as the frame crosses the screen, the picture inside it moves
+  slower than the page, 4% of the frame's height each way, 8% in all. The
+  frame, its caption and anything set on the photo never move. A supporting
+  move for photo-led references (editorial, food, places), scrubbed to scroll
+  with the motion library, so it runs on the compositor where the browser
+  supports scroll timelines.
+  How to adapt: put the founder's photo in .fd-par-plate as an <img> with
+  object-fit: cover and delete the hatch svg; until the photo exists the hatch
+  and its [PLACEHOLDER: ...] chip hold its place. If the page already defines a
+  hatch pattern, point the rect at it and drop this one. Keep the plate at
+  inset -4% 0 and DRIFT at 3.7: the plate is 108% of the frame, so 3.7% of it
+  is 4% of the frame. Set the frame's aspect-ratio from the reference image.
+  Never on text, never on the ask, one per page.
+  Reduced motion: nothing is linked. The photo sits centered in its frame, the
+  same as without JavaScript or when the library fails to load.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallax frame</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 60vh; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 14ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 60vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+/* ---- snippet: parallax-frame ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-par {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
+.fd-par { margin: 0; padding: 0 clamp(1rem, 5vw, 4rem); }
+/* The frame holds still and crops; only the plate inside it moves. */
+.fd-par-frame { position: relative; overflow: clip; aspect-ratio: 16 / 9; max-width: 76rem; background: color-mix(in srgb, var(--_ink) 5%, var(--_ground)); }
+.fd-par-plate { position: absolute; inset: -4% 0; }
+.fd-par-plate > img,
+.fd-par-plate > svg { display: block; width: 100%; height: 100%; object-fit: cover; }
+.fd-par-plate pattern line { stroke: var(--_rule); stroke-width: 1.5; }
+.fd-par-chip { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; width: fit-content; margin: 0; padding: 0.35rem 0.6rem; background: var(--_ground); color: var(--_ink); font-size: 0.875rem; }
+.fd-par figcaption { margin-top: 0.75rem; font-size: 0.875rem; color: var(--_muted); }
+
+@media (max-width: 760px) {
+  .fd-par-frame { aspect-ratio: 4 / 5; }
+}
+
+/* Important beats a running animation, so switching to reduced motion mid-visit stops the drift too. */
+@media (prefers-reduced-motion: reduce) {
+  .fd-par-plate { transform: none !important; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>The room, before anyone sits down.</h2>
+    <p>Demo copy. Scroll: the photo below drifts inside its frame while the frame holds still.</p>
+  </div>
+
+  <!-- snippet: parallax-frame -->
+  <figure class="fd-par" data-fd-par>
+    <div class="fd-par-frame">
+      <div class="fd-par-plate">
+        <svg aria-hidden="true">
+          <defs><pattern id="fd-par-hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="14"/></pattern></defs>
+          <rect width="100%" height="100%" fill="url(#fd-par-hatch)"/>
+        </svg>
+      </div>
+      <p class="fd-par-chip">[PLACEHOLDER: the dining room at opening time, 1440x810]</p>
+    </div>
+    <figcaption>Demo caption. Say what the photo shows and where.</figcaption>
+  </figure>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer so the frame can cross the whole screen.</p>
+</main>
+
+<script type="module">
+/* ---- snippet: parallax-frame ---- */
+// A module runs only after its import resolved: if the library fails to load, the photo stays centered.
+import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
+
+const frame = document.querySelector('[data-fd-par] .fd-par-frame');
+if (frame && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const DRIFT = 3.7; // percent of the plate's own height each way: 4% of the frame
+  const drift = animate(
+    frame.querySelector('.fd-par-plate'),
+    { transform: ['translateY(-' + DRIFT + '%)', 'translateY(' + DRIFT + '%)'] },
+    { ease: 'linear' }
+  );
+  // From the frame's top entering at the bottom of the screen to its bottom leaving at the top.
+  scroll(drift, { target: frame, offset: ['start end', 'end start'] });
+}
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

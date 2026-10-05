@@ -1,0 +1,159 @@
+<!--
+  spring-settle: the parts of a software mock arrive on springs, then one row
+  gets its mark.
+  What it does: a signature helper for software mocks. The rows of the mock
+  rise out of their masks one by one, 120ms apart, on a spring that settles
+  instead of an eased tween. Then the product's verdict lands on one row: a
+  mark that springs in with a slight overshoot, then a note under it. The
+  sample is a remittance list where one claim was paid $38 under contract.
+  Plays once, in about three and a half seconds, when half the figure is in
+  view.
+  How to adapt: keep one .fd-row-in per row; the rows are the only required
+  part. The row that carries the verdict gets data-flag, holding the
+  .fd-flag mark and an optional .fd-flag-note. Swap the sample for the
+  product's own output and keep sample values generic, with the "Illustration"
+  caption. Place the figure below the first screen: a module loads after first
+  paint, so a figure already on screen when it arrives stays in its final
+  state instead of blinking out and back.
+  Reduced motion: nothing is armed. Every row, the mark and the note show on
+  first paint. Without JavaScript, or if the library fails to load, the same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spring settle</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+/* A full screen of intro, so the figure starts below the fold and plays when scrolled to. */
+.fd-demo-intro { min-height: 100svh; padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 4rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 14ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 30vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+/* ---- snippet: spring-settle ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-settle {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
+.fd-settle { margin: 0; padding: 0 clamp(1rem, 5vw, 4rem); }
+.fd-settle figcaption { font-size: 0.8125rem; color: var(--_muted); margin-bottom: 1rem; }
+.fd-settle-doc { max-width: 44rem; border: 1px solid var(--_rule); background: var(--_ground); padding: clamp(1.25rem, 3vw, 2rem); }
+.fd-settle-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--_ink); padding-bottom: 0.75rem; }
+.fd-settle-head b { font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.1; }
+.fd-settle-head span { font-size: 0.8125rem; color: var(--_muted); }
+.fd-settle ol { list-style: none; margin: 0; padding: 0; }
+.fd-settle li { border-bottom: 1px solid var(--_rule); }
+/* Each row is its own mask; its content rises out of it, so nothing below shifts. */
+.fd-row-mask { overflow: clip; }
+.fd-row-in { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) auto; gap: 0.75rem; padding: 0.7rem 0; font-variant-numeric: tabular-nums; }
+.fd-row-in > :first-child { color: var(--_muted); }
+.fd-flag-wrap { padding: 0 0 0.8rem 7.25rem; }
+.fd-flag { display: inline-block; transform-origin: left center; border: 1px solid var(--_accent); color: var(--_accent); font-weight: 600; font-size: 0.875rem; padding: 0.15rem 0.5rem; }
+.fd-flag-note { overflow: clip; margin-top: 0.35rem; }
+.fd-flag-note span { display: block; font-size: 0.8125rem; color: var(--_muted); }
+
+/* Armed: the start state, applied by the script only once the library loaded and motion is allowed. */
+.fd-settle[data-armed] .fd-row-in,
+.fd-settle[data-armed] .fd-flag-note span { transform: translateY(calc(100% + 0.8rem)); }
+.fd-settle[data-armed] .fd-flag { opacity: 0; transform: scale(0.6); }
+
+@media (max-width: 760px) {
+  .fd-row-in { grid-template-columns: minmax(0, 1fr) auto; }
+  .fd-row-in > :first-child { grid-column: 1 / -1; font-size: 0.8125rem; }
+  .fd-flag-wrap { padding-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-settle[data-armed] .fd-row-in,
+  .fd-settle[data-armed] .fd-flag-note span,
+  .fd-settle[data-armed] .fd-flag { opacity: 1; transform: none; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>Every short payment, caught on the remittance.</h2>
+    <p>Demo copy. Scroll: the list below settles row by row, then the short-paid claim gets its mark.</p>
+  </div>
+
+  <!-- snippet: spring-settle -->
+  <figure class="fd-settle" data-fd-settle>
+    <figcaption>Illustration. Numbers are examples.</figcaption>
+    <div class="fd-settle-doc">
+      <div class="fd-settle-head"><b>Remittance</b><span>Example batch, 6 claims</span></div>
+      <ol>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2207</span><span>Office visit</span><span>$112.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2208</span><span>Office visit</span><span>$112.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2209</span><span>Lab panel</span><span>$46.00</span></div></div></li>
+        <li data-flag>
+          <div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2210</span><span>Office visit</span><span>$74.00</span></div></div>
+          <div class="fd-flag-wrap">
+            <span class="fd-flag">Paid $38 under contract</span>
+            <div class="fd-flag-note"><span>Contract rate $112.00, paid $74.00.</span></div>
+          </div>
+        </li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2211</span><span>Follow-up visit</span><span>$88.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2212</span><span>Lab panel</span><span>$46.00</span></div></div></li>
+      </ol>
+    </div>
+  </figure>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer so the page can scroll.</p>
+</main>
+
+<script type="module">
+/* ---- snippet: spring-settle ---- */
+// A module runs only after its import resolved: if the library fails to load, nothing is armed.
+import { animate, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
+
+const fig = document.querySelector('[data-fd-settle]');
+const rows = fig ? fig.querySelectorAll('.fd-row-in') : [];
+// Already on screen when the module arrived: the reader has seen it, so it stays as it is.
+if (rows.length && fig.getBoundingClientRect().top >= innerHeight && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const HIDE = 'translateY(calc(100% + 0.8rem))';
+  const flag = fig.querySelector('[data-flag] .fd-flag');
+  const note = fig.querySelector('[data-flag] .fd-flag-note span');
+  const show = () => fig.removeAttribute('data-armed');
+  fig.setAttribute('data-armed', '');
+
+  inView(fig, () => {
+    try {
+      // End keyframes are spelled out: motion reads 'none' as zero, so scale would land at 0.
+      // Rows: a spring that settles with almost no overshoot, 120ms apart.
+      const runs = [animate(rows, { transform: [HIDE, 'translateY(0)'] }, { type: 'spring', bounce: 0.15, visualDuration: 0.5, delay: stagger(0.12) })];
+      // The verdict: the mark lands with a slight overshoot once the list has settled, then its note rises.
+      if (flag) runs.push(animate(flag, { opacity: [0, 1], transform: ['scale(0.6)', 'scale(1)'] }, { type: 'spring', bounce: 0.3, visualDuration: 0.35, delay: 1.9 }));
+      if (note) runs.push(animate(note, { transform: [HIDE, 'translateY(0)'] }, { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 2.7 }));
+      // The final state belongs to CSS: reached at the end, and on any failure.
+      Promise.all(runs.map((run) => run.finished)).then(show, show);
+    } catch (error) {
+      show();
+      throw error;
+    }
+  }, { amount: 0.5 });
+}
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

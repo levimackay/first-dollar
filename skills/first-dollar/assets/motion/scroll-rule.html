@@ -1,0 +1,105 @@
+<!--
+  scroll-rule: a thin rule beside a long text draws as the reader moves through it.
+  What it does: a 2px rule runs down the left of one long section (a letter of
+  intent, the terms, the founder's note). It draws in step with scroll through
+  that section only: its drawn end sits on the middle line of the screen from
+  the moment the section's top reaches that line until its bottom does. A
+  hairline under it shows the whole length from the start. Never a page-wide
+  reading bar, never on more than one section.
+  How to adapt: wrap the section's text in .fd-rule-text and keep the track
+  beside it. Long text only: a section shorter than a screen gives the rule
+  nothing to measure. Leave half a screen of page below the section so the rule can
+  finish. To move the reading line, change both "center" offsets to the same
+  value (0.4 puts it higher).
+  Reduced motion: nothing is linked. The rule is fully drawn, the same as
+  without JavaScript or when the library fails to load.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scroll rule</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 40vh; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 14ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 60vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+/* ---- snippet: scroll-rule ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-rule {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_display: var(--fd-font-display, serif);
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
+.fd-rule { display: grid; grid-template-columns: 2px minmax(0, 38rem); gap: clamp(1.25rem, 4vw, 3rem); padding: 0 clamp(1rem, 5vw, 4rem); }
+.fd-rule-track { background: var(--_rule); }
+.fd-rule-ink { display: block; height: 100%; background: var(--_ink); transform-origin: top; }
+.fd-rule-text h2 { font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1.1; margin: 0 0 1.5rem; }
+.fd-rule-text p { margin: 0 0 1.1rem; }
+
+/* Important beats a running animation, so switching to reduced motion mid-visit shows the whole rule. */
+@media (prefers-reduced-motion: reduce) {
+  .fd-rule-ink { transform: none !important; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>Read the whole letter before you pay.</h2>
+    <p>Demo copy. Scroll: the rule beside the letter below draws as you read it.</p>
+  </div>
+
+  <!-- snippet: scroll-rule -->
+  <article class="fd-rule" data-fd-rule>
+    <div class="fd-rule-track" aria-hidden="true"><span class="fd-rule-ink"></span></div>
+    <div class="fd-rule-text">
+      <h2>A note before you sign up</h2>
+      <p>Demo copy. This is where the founder's note goes, from COPY.md, in the founder's own words. The paragraphs below only stand in for its length.</p>
+      <p>Say who the product is for, in the plain terms a buyer would use about their own week. Name the job, the place it happens and the part of it that goes wrong today.</p>
+      <p>Say what the buyer does now instead. A spreadsheet, a phone call, a folder of paper, a person they pay by the hour. That workaround is the real competitor, and the reader knows it better than you do.</p>
+      <p>Say what happens after they pay: what arrives, when it arrives, and who answers when it does not work. Dates and names beat adjectives here.</p>
+      <p>Say what the deposit buys and how it comes back if the product does not ship. A buyer who can see the way out reads the rest of the page more calmly.</p>
+      <p>Say what is not built yet. A reader who finds the gap on their own stops trusting the parts that are finished, so name it first and say when it closes.</p>
+      <p>Say how many buyers you can take at once and why that number. A small first group is a fact about your time, and saying so plainly reads better than any countdown.</p>
+      <p>Say why you are building it. One concrete moment is enough: the afternoon the problem cost you or someone you work with real money or real time.</p>
+      <p>Close with the one thing you are asking for, in one sentence, and stop. The button below the note does the rest.</p>
+    </div>
+  </article>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer. Keep about half a screen below the section so the rule can finish.</p>
+</main>
+
+<script type="module">
+/* ---- snippet: scroll-rule ---- */
+// A module runs only after its import resolved: if the library fails to load, the rule stays fully drawn.
+import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
+
+const section = document.querySelector('[data-fd-rule]');
+const ink = section && section.querySelector('.fd-rule-ink');
+if (ink && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const draw = animate(ink, { transform: ['scaleY(0)', 'scaleY(1)'] }, { ease: 'linear' });
+  // Both offsets on the same screen line keep the rule's drawn end on that line.
+  scroll(draw, { target: section, offset: ['start center', 'end center'] });
+}
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>
