@@ -6,9 +6,9 @@
   first frame. Re-splits when fonts load and when the width changes, so the
   masks always match the real line breaks.
   How to adapt: put data-fd-split on the one headline worth it (plain text;
-  an <em> inside is flattened by the split). Keep it to four to seven lines
-  at 1440 and six or fewer at 390; cut the sentence before you cut the
-  stagger. Change STAGGER_MS before DURATION_MS: the stagger is the voice.
+  an <em> inside is flattened by the split). It works from one line up; a
+  page headline is one or two lines at 1440 and six or fewer at 390; cut the
+  sentence before you cut the stagger. Change STAGGER_MS before DURATION_MS: the stagger is the voice.
   The snippet never styles the ask: .fd-hero-ask is a hook with no rules, and
   the page styles its own [data-commitment] button from DESIGN.md. Wire the
   --fd-* tokens to DESIGN.md. Use it once per page.

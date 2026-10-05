@@ -29,6 +29,9 @@ Playful. Each heading says which buyers tend to trust that register.
 5. A URL that no longer loads, or now looks nothing like its note: skip it and
    take another entry from the same register. Tell the founder which one you
    skipped.
+6. A founder's screenshot that shows only the first screen: shoot the entry
+   nearest it in the same register into `candidates/` and borrow its sequence
+   below the fold (SKILL.md stage 3). Ask nothing extra.
 
 ## The list, observed 2026-10-05
 
@@ -58,8 +61,9 @@ For buyers who check the specs: developers, engineers, operations leads.
 
 6. https://planetscale.com : no hero. The page opens with two plain
    paragraphs set entirely in a monospace face, as if it were documentation.
-   Picking it allows mono prose: mark those blocks `data-mono` and log it in
-   DESIGN.md Provenance. Fine print and labels still go in the text face.
+   Picking it allows mono for nav, labels, data and fine print (`data-mono`
+   on fine print, logged in DESIGN.md Provenance). Running paragraphs still
+   go in a text face.
    (Its customer logo grid only works because the customers are real. Skip it.)
 7. https://oxide.computer : the two old options shown side by side as ASCII
    diagrams with their costs listed under each, then the product as the way out

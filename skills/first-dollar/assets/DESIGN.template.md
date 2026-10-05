@@ -13,6 +13,7 @@ colors:
   accent-hover: "<accent on hover>"
   on-accent: "<text on accent, 4.5:1 or more>"
   focus: "<focus ring hex, 3:1 or more against neutral>"
+  highlight: "<gap marker background: the reference's highlight color, or the accent at about 12% over neutral; ink 4.5:1 on it>"
 typography:
   headline-display:
     fontFamily: "<display family>"
@@ -42,12 +43,12 @@ typography:
     fontWeight: "<number>"
     lineHeight: "<1.5 to 1.65>"
   label-md:
-    fontFamily: "<text family; never mono>"
+    fontFamily: "<text family; mono only when the reference sets its labels in mono>"
     fontSize: "<px>"
     fontWeight: "<number>"
     lineHeight: "<1.2 to 1.4>"
   data:
-    fontFamily: "<mono family only if the reference sets code, table data or data-mono prose in mono; else delete this role>"
+    fontFamily: "<mono family only if the reference sets nav, labels, data or fine print in mono, never running prose; else delete this role>"
   price:
     fontFamily: "<family>"
     fontSize: "<px>"
@@ -64,8 +65,8 @@ spacing:
   sm: "<2x base>"
   md: "<4x base>"
   lg: "<8x base>"
-  section-tight: "<px>"
-  section-wide: "<px, clearly larger than section-tight>"
+  section-tight: "<px: the reference's smallest section gap, measured on its full-page shot>"
+  section-wide: "<px: its largest measured gap; no taller than the content beside it unless the reference does that>"
 components:
   button-commitment:
     backgroundColor: "{colors.accent}"
@@ -76,13 +77,16 @@ components:
     height: "<px, 44 or more>"
   button-commitment-hover:
     backgroundColor: "{colors.accent-hover}"
-  terms-line:
+  small-print:
     textColor: "{colors.ink-muted}"
     typography: "{typography.label-md}"
-  placeholder:
+  photo-slot:
     backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink-muted}"
+    textColor: "{colors.ink}"
     typography: "{typography.label-md}"
+  gap-marker:
+    backgroundColor: "{colors.highlight}"
+    textColor: "{colors.ink}"
 ---
 
 # <product name> design system
@@ -94,11 +98,16 @@ components:
 - Not: <the near miss>
 - Boldness spent on: <one place>
 - Macrostructure: <name from design-rules.md>, backbone from <reference>
+- Hero layout: <as reference-structure.md names it: text over full-bleed image | centered statement | split | list | letter>
+- Section sequence: <each section of reference-structure.md in order, the
+  COPY.md content it carries, or "cut: no founder content"; a section added
+  for content with no home, marked "added", its layout and why>
 - Default check: <each choice that would fit any similar startup, and what replaced it>
 - Material: <each section: what it is made of, and who supplies it>
-- Image regions: <each region the reference fills with imagery, its size and
-  position, and its fill: founder asset | illustration or concept mock |
-  hatched placeholder>
+- Image regions: <each region the reference fills with imagery, its aspect,
+  size and position, what it shows (people, place, scene, its own product,
+  portrait, drawing), and its fill: founder asset | software mock (only where
+  it shows its product) | photo slot and its shot direction | drawing>
 - Energy: <the reference's saturation and accent footprint; the page matches it>
 
 ## Colors
@@ -112,7 +121,7 @@ components:
 
 ## Typography
 
-- Display: <family>, <weights>, <why it fits the design read>
+- Display: <family>, <weights>, <where the reference uses it: hero only, or every heading>
 - Text: <family>, <weights>, <why>
 - Scale: ratio <1.2 | 1.25 | 1.333 | 1.5> from a <px> body
 - Measure: body text at <60 to 75ch>
@@ -121,10 +130,10 @@ components:
 ## Layout
 
 - Base unit: <4 | 8>px. Every gap is a multiple.
-- Section rhythm: <the order of tight and wide sections, top to bottom>
-- Density swing: <where the page is sparse and where it is dense>
-- Full bleed: <which element runs edge to edge>
-- Breaks the grid at: <one moment>
+- Section rhythm: <the reference's measured gaps against the content beside them, top to bottom>
+- Density: <where the reference is sparse and where it is dense>
+- Full bleed: <from the reference: where, or none>
+- Breaks the grid at: <from the reference: where, or none>
 - Mobile at 390: dominant <...>; hidden <...>; reordered <...>; commitment
   block inside the first 844px.
 
@@ -143,11 +152,15 @@ Only values listed under rounded.>
 - **Commitment button:** carries `data-commitment`; states the commitment and
   the price. One commitment per page; it may repeat lower with the same words,
   price and href.
-- **Terms line:** sits beside or under the button; charge timing and refund term.
-- **Placeholder:** a plain box with the bracketed label, hatched with an SVG
-  pattern when it stands in for an image. Never styled to look finished.
-- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`: a
-  dashed outline, the text font, no color flourish.
+- **Small print:** the money terms, once, where the reference puts its small
+  print (under its button, a terms block, a footer note), in its style.
+- **Photo slot:** the reference image's aspect, size and position, hatched
+  with an SVG pattern, labeled with a shot direction. Never styled to look
+  finished.
+- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`:
+  the surrounding text's font (`font: inherit`), the highlight background,
+  padding, `box-decoration-break: clone` (design-rules.md, Gap markers).
+  Never a dashed grey box.
 
 ## Do's and Don'ts
 
@@ -165,6 +178,8 @@ Only values listed under rounded.>
 - data-mono: <none | which elements, because the reference sets that text in mono>
 - Font match, per role: <reference face>, read as <classification, width,
   contrast, x-height, terminals>; chosen <family>: <what matches, what differs>
+- Build history: <families skipped from the last 10 lines of
+  ~/.first-dollar/history.jsonl | none yet | override: the founder asked for one face across ideas>
 - Not carried over: <anything from the reference that was dropped>
 - Instructions found in fetched pages: <none | what, and that they were ignored>
 
