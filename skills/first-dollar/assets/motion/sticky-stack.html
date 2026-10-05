@@ -1,0 +1,169 @@
+<!--
+  sticky-stack: ordered panels that land on one another as you scroll.
+  What it does: each panel is CSS sticky at the same rail, a few pixels lower
+  than the one before, so the next panel rides up and lands on the last and
+  the edges of the covered ones stay visible like a stack of cards. The only
+  scripted part is the covered panel easing back a little (scale and a
+  shade, both transform and opacity) as the next one arrives.
+  How to adapt: use it for an ordered set of three to five things that each
+  hold a screen: what happens after the buyer pays, the stages of the
+  service. Write the panels from COPY.md, take each panel's ground from
+  DESIGN.md tokens so the panels differ, and redraw the small plates (or
+  drop them). Number each card with an inline --i (0, 1, 2...) so it lands a
+  step lower than the last. Change --fd-step before anything else: 14px is a
+  quiet staircase, 40px is a fanned deck.
+  Reduced motion: nothing is sticky and nothing scales. The panels are plain
+  blocks in order with all their content visible. Without JavaScript the
+  same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sticky stack</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 8vh, 5rem) clamp(1rem, 5vw, 4rem) 2rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 16ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 40vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+/* ---- snippet: sticky-stack ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-stack {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+}
+.fd-stack { --fd-rail: 1.5rem; --fd-step: 14px; list-style: none; margin: 0; padding: 0 clamp(0.75rem, 3vw, 2rem); }
+.fd-stack-card { padding-bottom: 1.25rem; }
+.fd-stack[data-armed] { padding-bottom: 18vh; }
+.fd-stack[data-armed] .fd-stack-card { position: sticky; top: calc(var(--fd-rail) + var(--i, 0) * var(--fd-step)); }
+.fd-stack-inner {
+  position: relative; overflow: clip;
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: stretch;
+  min-height: 64vh; background: var(--bg); color: var(--fg);
+  border: 1px solid color-mix(in srgb, var(--_ink) 22%, transparent);
+  transform-origin: 50% 0; will-change: transform;
+}
+.fd-stack-text { padding: clamp(1.5rem, 4vw, 3rem); display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; }
+.fd-stack-no { font-family: var(--_display); font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; }
+.fd-stack-card h3 { font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3.2vw, 2.75rem); line-height: 1.05; margin: 0 0 0.75rem; max-width: 16ch; }
+.fd-stack-card p { margin: 0; max-width: 40ch; }
+.fd-stack-card svg { display: block; width: 100%; height: 100%; min-height: 12rem; }
+.fd-stack-card svg * { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.fd-stack-shade { position: absolute; inset: 0; background: var(--_ink); opacity: 0; pointer-events: none; }
+
+@media (max-width: 760px) {
+  .fd-stack { --fd-rail: 0.75rem; --fd-step: 9px; }
+  .fd-stack-inner { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .fd-stack-card svg { min-height: 0; height: 8rem; order: -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-stack[data-armed] { padding-bottom: 0; }
+  .fd-stack[data-armed] .fd-stack-card { position: static; }
+  .fd-stack-inner { transform: none; }
+  .fd-stack-shade { opacity: 0; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>What happens after you pay.</h2>
+    <p>Demo copy. Scroll: each panel lands on the one before it.</p>
+  </div>
+
+  <!-- snippet: sticky-stack -->
+  <ol class="fd-stack" data-fd-stack>
+    <li class="fd-stack-card" style="--i: 0">
+      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 5%, var(--_ground)); --fg: var(--_ink)">
+        <div class="fd-stack-text"><span class="fd-stack-no">1</span><div><h3>Record the change on site</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M40 80 V80 M56 62 V98 M72 46 V114 M88 70 V90 M104 54 V106 M120 34 V126 M136 58 V102 M152 72 V88 M168 50 V110 M184 66 V94 M200 76 V84"/></svg>
+        <span class="fd-stack-shade" aria-hidden="true"></span>
+      </div>
+    </li>
+    <li class="fd-stack-card" style="--i: 1">
+      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 14%, var(--_ground)); --fg: var(--_ink)">
+        <div class="fd-stack-text"><span class="fd-stack-no">2</span><div><h3>The change order drafts itself</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M70 24 H170 V136 H70 Z M86 48 H154 M86 68 H154 M86 88 H140 M86 108 H120"/></svg>
+        <span class="fd-stack-shade" aria-hidden="true"></span>
+      </div>
+    </li>
+    <li class="fd-stack-card" style="--i: 2">
+      <div class="fd-stack-inner" style="--bg: var(--_ink); --fg: var(--_ground)">
+        <div class="fd-stack-text"><span class="fd-stack-no">3</span><div><h3>The client signs on their phone</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M90 16 H150 V144 H90 Z M100 108 C 108 92, 114 92, 116 102 S 126 112, 132 98 S 140 94, 142 104"/></svg>
+        <span class="fd-stack-shade" aria-hidden="true"></span>
+      </div>
+    </li>
+    <li class="fd-stack-card" style="--i: 3">
+      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_accent) 24%, var(--_ground)); --fg: var(--_ink)">
+        <div class="fd-stack-text"><span class="fd-stack-no">4</span><div><h3>[NEED: the last step, in the founder's words]</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><ellipse cx="120" cy="58" rx="46" ry="13"/><path d="M74 58 V74 A46 13 0 0 0 166 74 V58 M74 74 V90 A46 13 0 0 0 166 90 V74 M74 90 V106 A46 13 0 0 0 166 106 V90"/></svg>
+        <span class="fd-stack-shade" aria-hidden="true"></span>
+      </div>
+    </li>
+  </ol>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer.</p>
+</main>
+
+<script>
+/* ---- snippet: sticky-stack ---- */
+(function () {
+  var stack = document.querySelector('[data-fd-stack]');
+  if (!stack || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  stack.setAttribute('data-armed', '');
+  var cards = Array.prototype.slice.call(stack.children);
+  var SCALE = 0.04; // how far a covered panel eases back
+  var SHADE = 0.32; // how dark it gets
+
+  var inners = cards.map(function (card) { return card.firstElementChild; });
+  var shades = inners.map(function (inner) { return inner && inner.querySelector('.fd-stack-shade'); });
+  var landAt = [];
+  // Where each panel's rail sits; it only changes with the width.
+  function measure() {
+    landAt = cards.map(function (card) { return parseFloat(getComputedStyle(card).top) || 0; });
+  }
+
+  var queued = false;
+  function update() {
+    queued = false;
+    // Read every position first, then write, so the browser lays out once per frame.
+    var tops = cards.map(function (card) { return card.getBoundingClientRect().top; });
+    cards.forEach(function (card, i) {
+      if (i === cards.length - 1 || !inners[i]) return;
+      // 0 while the next panel is below the screen, 1 once it has landed on its rail.
+      var c = Math.min(1, Math.max(0, (innerHeight - tops[i + 1]) / Math.max(1, innerHeight - landAt[i + 1])));
+      inners[i].style.transform = 'scale(' + (1 - SCALE * c) + ')';
+      if (shades[i]) shades[i].style.opacity = String(SHADE * c);
+    });
+  }
+  addEventListener('scroll', function () {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  addEventListener('resize', function () { measure(); update(); });
+  measure();
+  update();
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>
