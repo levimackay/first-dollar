@@ -76,6 +76,20 @@ test('a dark photo hero on a light full page does not make the reference dark', 
   assert.equal(checks[0].ok, true, checks[0].detail);
 });
 
+test('the reference is found directly under .first-dollar/reference/', async (t) => {
+  if (!found) return t.skip('no browser');
+  const { checks } = await site('#0b0b0c', { at: '' });
+  assert.equal(checks.length, 1);
+  assert.equal(checks[0].ok, false);
+});
+
+test('a lone full-1440.png in the nested layout is enough', async (t) => {
+  if (!found) return t.skip('no browser');
+  const dark = '<div style="height:3000px;background:#0b0b0c"></div>';
+  const { checks } = await site({ shot: dark, full: dark });
+  assert.equal(checks[0].ok, false);
+});
+
 test('URL mode also writes full-1440.png, bounded to 20000px', async (t) => {
   if (!found) return t.skip('no browser');
   const { createServer } = await import('node:http');

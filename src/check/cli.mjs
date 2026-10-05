@@ -70,6 +70,7 @@ function referenceDir(dir) {
   const root = join(dir, '.first-dollar', 'reference');
   if (!existsSync(root)) return null;
   const has = (d) => ['full-1440.png', '1440.png'].some((f) => existsSync(join(d, f)));
+  if (has(root)) return root;
   return readdirSync(root).sort().map((n) => join(root, n)).find((d) => statSync(d).isDirectory() && has(d)) ?? null;
 }
 
