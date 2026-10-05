@@ -108,10 +108,17 @@ export async function twoLineButton(page) {
     const out = [];
     for (const el of document.querySelectorAll('[data-commitment], nav a')) {
       if (!el.getClientRects().length) continue;
-      const cs = getComputedStyle(el);
-      const lh = cs.lineHeight === 'normal' ? parseFloat(cs.fontSize) * 1.2 : parseFloat(cs.lineHeight);
-      const inner = el.getBoundingClientRect().height - ['paddingTop', 'paddingBottom', 'borderTopWidth', 'borderBottomWidth'].reduce((a, k) => a + parseFloat(cs[k]), 0);
-      if (inner > lh * 1.8) out.push(`"${el.textContent.trim().slice(0, 24)}" wraps`);
+      // Count the line boxes the label's text occupies; box height says nothing about wrapping.
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const rects = [...range.getClientRects()].filter((r) => r.width > 0 && r.height > 0).sort((x, y) => x.top - y.top);
+      let lines = 0;
+      let bottom = -Infinity;
+      for (const r of rects) {
+        if (r.top >= bottom - 2) lines += 1;
+        bottom = Math.max(bottom, r.bottom);
+      }
+      if (lines >= 2) out.push(`"${el.textContent.trim().slice(0, 24)}" wraps`);
     }
     return out.slice(0, 5);
   });

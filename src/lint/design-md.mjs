@@ -33,14 +33,18 @@ export async function readDesign(path) {
   if (!doc || typeof doc !== 'object') return { ok: false, reason: 'DESIGN.md front matter is empty' };
 
   const colors = new Map();
+  const unparsed = { colors: [], typography: [] };
   for (const [name, raw] of entries(doc.colors)) {
     const c = parseColor(resolveRef(raw, doc));
     if (c) colors.set(name, c);
+    else unparsed.colors.push(name);
   }
   const fonts = new Set();
-  for (const [, t] of entries(doc.typography)) {
+  for (const [name, t] of entries(doc.typography)) {
     const family = t?.fontFamily;
-    if (family) fonts.add(String(family).split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase());
+    // An unfilled template slot such as <display font> is not a font name.
+    if (family && /[<>{}]/.test(String(family))) unparsed.typography.push(name);
+    else if (family) fonts.add(String(family).split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase());
   }
   const px = (table) => {
     const out = new Set();
@@ -50,5 +54,5 @@ export async function readDesign(path) {
     }
     return out;
   };
-  return { ok: true, tokens: { colors, fonts, rounded: px(doc.rounded), spacing: px(doc.spacing) } };
+  return { ok: true, unparsed, tokens: { colors, fonts, rounded: px(doc.rounded), spacing: px(doc.spacing) } };
 }
