@@ -105,8 +105,10 @@ If the founder offers a guarantee, help aim it at the buyer's biggest fear
 
 ## Refund wording and where the money sits
 
-Every pre-product visitor asks "what happens to my money?". Answer beside the
-button. The refund policy is the founder's. If BRIEF.md has none, the page shows
+Every pre-product visitor asks "what happens to my money?". Answer it once,
+where the reference puts its small print: under its button, in a terms block,
+or in a footer note, in the reference's style. The refund policy is the
+founder's. If BRIEF.md has none, the page shows
 `Refunds: [NEED: refund terms]`. You may offer the lines below to the founder
 as a suggestion at the first stop; they go on the page only after a yes.
 `Charged today.` is the one exception: it is simply true of a Payment Link.
@@ -167,8 +169,9 @@ The element must:
 - State the commitment and the price in its own text: a currency amount, or
   `[NEED: price]` while the price is unknown.
 - Sit in the first 844px of a 390px wide screen.
-- Have one line beside or under it with the charge timing and the refund terms
-  (or their `[NEED: ...]` slots).
+- Have its money terms (charge timing and refund terms, or their
+  `[NEED: ...]` slots) once on the page, where the reference puts its small
+  print. A grey line under every button is not required.
 - Keep one verb through the whole flow: "Reserve" on the button, "Reservation"
   on the checkout, "You're reserved" in the confirmation message.
 
@@ -185,7 +188,6 @@ tell the visitor nothing will happen yet.
 
 ```html
 <a class="commit" data-commitment href="https://buy.stripe.com/...">Pre-order for $40</a>
-<p class="commit-terms">Charged today. Refunds: <span class="need">[NEED: refund terms]</span>.</p>
 ```
 
 Until the founder supplies the real link: `href="[NEED: checkout link]"` for a

@@ -8,7 +8,7 @@ at real lengths is what the layout gets built around.
 1. Read BRIEF.md: thesis, ask, price, kill number, and what is real so far.
 2. Write the spine: four sentences.
 3. Write three headlines, one per angle. Pick the one to test first.
-4. Write each section from the spine. Length follows the price (below).
+4. Write the content blocks from the spine. Length follows the price (below).
 5. Write the objection pairs.
 6. Run the self-check and the swap test on every headline, heading and button.
 7. Run the final audit. List every placeholder.
@@ -16,7 +16,9 @@ at real lengths is what the layout gets built around.
 ## The spine
 
 One sentence each, before any section exists. A slot you cannot fill becomes
-`[NEED: ...]`. Never pad it.
+`[NEED: ...]`. Never pad it. The spine is content, never a section list:
+stage 6 lays it onto the reference's own sequence (reference-structure.md),
+so a page may open with the letter, the proof or the price.
 
 - Promise: the outcome the buyer gets, in the buyer's words.
 - Mechanism: how the product produces it. The one specific thing that is new.
@@ -93,7 +95,9 @@ Patterns the lint cannot see. Judge by clusters, not single hits:
 - Fragments for drama: "Fast. Simple. Yours."
 - Openers like "Imagine a world where", "In today's fast-paced world",
   "Say goodbye to".
-- Vague section headings: "Features", "Why us", "How it works".
+- Stock section titles: "How it works", "Who is behind this", "Who we are",
+  "Before you pay", "Why us", "Features", "The problem", "FAQ" as a heading,
+  "Ready to get started?" (tells.md). Title in the founder's subject words.
 
 Self-check, mechanically:
 
@@ -109,7 +113,8 @@ admission ("We have not shipped yet.").
 ## Length follows the price
 
 - Pre-order under $100: the first screen, the objection answers, the founder,
-  the legal links. Often one screen plus a short scroll.
+  the legal links. Often one screen plus a short scroll. Stage 6 cuts any
+  reference section this content cannot fill.
 - Deposit: add how it works and when it ships.
 - Pilot or LOI: add scope, success measure, who runs it, and the pilot terms in full.
 
@@ -123,11 +128,11 @@ Defaults for any page before launch:
 
 | Objection | Answer on the page | Placement |
 |---|---|---|
-| What happens to my money? | Who charges, when, and the founder's refund terms, or `[NEED: refund terms]` | Beside the button |
-| When do I get it? | The founder's date, or `[NEED: ship date]` | Beside the button |
-| What if it never ships? | The founder's answer, or `[NEED: what happens if it never ships]` | Beside the button |
+| What happens to my money? | Who charges, when, and the founder's refund terms, or `[NEED: refund terms]` | Once, where the reference puts its small print |
+| When do I get it? | The founder's date, or `[NEED: ship date]` | With the money terms |
+| What if it never ships? | The founder's answer, or `[NEED: what happens if it never ships]` | With the money terms |
 | Why pay now? | Only a real reason the founder gave: a founding price, batch one, a pilot slot | Near the button, or nothing |
-| Who is behind this? | Founder name or `[NEED: founder name]`, real photo or `[PLACEHOLDER: founder photo]`, one line of history from BRIEF.md | After the mechanism |
+| Who is behind this? | Founder name or `[NEED: founder name]`, a photo slot with a shot direction, one line of history from BRIEF.md | Where the reference shows a person or a note, under a title in the founder's words |
 | Is it for someone like me? | Who it is for and who it is not for | Mid page |
 
 Find extra objections in competitor reviews and community threads. Never write
@@ -155,11 +160,12 @@ News, the founder's interview notes.
 - `[PLACEHOLDER: what asset, size]` for a missing asset: founder photo, product
   shot, prototype video.
 - In visible copy, each `[NEED: ...]` is wrapped
-  `<span class="need">[NEED: ...]</span>` with one plain style: a dashed
-  outline, the page's own text font, no color flourish. It reads as an
-  obvious gap, not as broken copy. A `[PLACEHOLDER: ...]` for an image sits in
-  a hatched box (design-rules.md). Never styled to look finished
-  (`placeholder-styled`), never hidden in comments.
+  `<span class="need">[NEED: ...]</span>` and styled as design-rules.md "Gap
+  markers" says: the page's own text font, a soft highlight, a real space each
+  side. It reads as an obvious gap, not as broken copy. A `[PLACEHOLDER: ...]`
+  for an image is a hatched photo slot whose label is a shot direction
+  (design-rules.md). Never styled to look finished (`placeholder-styled`),
+  never hidden in comments.
 - Never trade one invention for a vaguer one. "10,000 teams" changed to
   "hundreds of teams" is still invented.
 - List them in COPY.md. At ship, the ones still in the published pages move
@@ -187,7 +193,7 @@ Thesis: [who] will pay [$] to [outcome].
 Workaround today: ...
 ## Spine (Promise, Mechanism, Proof, Action)
 ## Headlines (angle, line, test order and why)
-## Sections (page order, final copy)
+## Blocks (final copy per spine part; stage 6 orders them on the reference's sequence)
 ## Objections (objection | answer | placement)
 ## Legal pages (what privacy.html and terms.html must say: legal entity, contact, payment processor, refund terms, data collected; each the founder's or a [NEED: ...])
 ## Customer language (phrase | source URL | date, all provisional)
