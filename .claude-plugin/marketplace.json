@@ -1,0 +1,8 @@
+{
+  "name": "first-dollar",
+  "description": "first-dollar as a Claude Code plugin",
+  "owner": { "name": "Levi Mackay", "url": "https://github.com/levimackay" },
+  "plugins": [
+    { "name": "first-dollar", "source": "./", "description": "Idea to commitment-asking landing page, with an AI-slop lint gate." }
+  ]
+}
