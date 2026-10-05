@@ -23,7 +23,9 @@ One sentence each, before any section exists. A slot you cannot fill becomes
 - Proof: why believe it now. Before launch, proof is thin and that is fine:
   the founder's relevant history, a working prototype, a video of it running,
   a design partner who agreed to be named. No proof yet: `[NEED: proof]`.
-- Action: the commitment, the price, and the refund term (see commitment.md).
+- Action: the commitment, its price, the refund terms, and what happens right
+  after the click (see commitment.md). Money terms are the founder's or a
+  `[NEED: ...]` slot.
 
 Example, for a fictional voice memo tool:
 
@@ -31,7 +33,8 @@ Example, for a fictional voice memo tool:
 - Mechanism: "Record a voice memo. It becomes a priced change order the client
   signs on their phone."
 - Proof: `[NEED: proof, e.g. prototype video or the founder's years on crews]`
-- Action: "Pre-order your first month for $40. Full refund until launch."
+- Action: "Pre-order your first month for $40. Refundable: [NEED: refund terms]."
+  (The $40 is the founder's price in this example.)
 
 ## Three headline angles
 
@@ -120,11 +123,11 @@ Defaults for any page before launch:
 
 | Objection | Answer on the page | Placement |
 |---|---|---|
-| Will this ever ship? | Ship date and the automatic refund if it slips | Beside the button |
-| What happens to my money? | Who charges, when, the refund route | Beside the button |
-| When do I get it? | A date, or `[NEED: ship date]` | Beside the button |
-| Why pay now? | A real reason only: founding price, batch one, a pilot slot | Near the button, or nothing |
-| Who are you? | Founder name, real photo or `[PLACEHOLDER: founder photo]`, one line of relevant history | After the mechanism |
+| What happens to my money? | Who charges, when, and the founder's refund terms, or `[NEED: refund terms]` | Beside the button |
+| When do I get it? | The founder's date, or `[NEED: ship date]` | Beside the button |
+| What if it never ships? | The founder's answer, or `[NEED: what happens if it never ships]` | Beside the button |
+| Why pay now? | Only a real reason the founder gave: a founding price, batch one, a pilot slot | Near the button, or nothing |
+| Who is behind this? | Founder name or `[NEED: founder name]`, real photo or `[PLACEHOLDER: founder photo]`, one line of history from BRIEF.md | After the mechanism |
 | Is it for someone like me? | Who it is for and who it is not for | Mid page |
 
 Find extra objections in competitor reviews and community threads. Never write
@@ -180,6 +183,7 @@ Workaround today: ...
 ## Headlines (angle, line, test order and why)
 ## Sections (page order, final copy)
 ## Objections (objection | answer | placement)
+## Legal pages (what privacy.html and terms.html must say: legal entity, contact, payment processor, refund terms, data collected; each the founder's or a [NEED: ...])
 ## Customer language (phrase | source URL | date, all provisional)
 ## Placeholders (marker | who supplies it | blocks deploy?)
 ## Audit (fact | source line in BRIEF.md)
