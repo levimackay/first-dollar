@@ -2,20 +2,21 @@
   pinned-steps: a short pinned section that steps the mechanism as you scroll.
   What it does: the section holds still (CSS sticky) for about two screens of
   scrolling while three steps of the mechanism take turns: the active step
-  comes up to full ink and the labeled illustration beside it moves to that
-  state. The sample is a compost bin: scraps go in, the days pass, soil comes
-  out of the drawer. Waiting steps are set in the muted tone (over 4.5:1
-  contrast), never faded, so all three stay readable the whole time. On load
-  it jumps straight to the state that matches the scroll position.
+  comes up to full ink and the photo slot for it wipes in over the last, all
+  three stacked in one frame at one aspect. The sample is a hand-poured
+  candle: wax melts, is poured, cures. Waiting steps are set in the muted
+  tone (over 4.5:1 contrast), never faded, so all three stay readable the
+  whole time. On load it jumps straight to the state that matches the scroll
+  position.
   How to adapt: keep three steps (two is a toggle, four is a slideshow).
-  Rewrite the <li> copy from COPY.md and redraw the SVG; each state is a
-  data-state value on the figure ("-1" empty, then 0, 1, 2) and CSS moves the
-  parts between states with transform and opacity only. The figure's HTML
-  default is the final state. No number counts up: the cycle length is a
-  static sample in a labeled illustration; use the founder's real figure or
-  keep the caption.
-  Reduced motion: no pin, no state changes. The section is ordinary height,
-  every step is at full ink, and the illustration shows its final state.
+  Rewrite the <li> copy from COPY.md. Each step carries its own labeled photo
+  slot (the pattern in design-rules.md); replace a slot with the founder's
+  photo when one exists, otherwise keep the labeled slot and write its
+  [PLACEHOLDER: ...] label as a shot direction for this product. Every slot
+  keeps the same aspect. The page's one hatch defs block from design-rules.md supplies #hatch; set its gap there and its ink with --fd-slot-ink. Software has no photo to take: use
+  mechanism-sequence instead. The wipe is clip-path only. No number counts up.
+  Reduced motion: no pin, no wipe. The section is ordinary height, every step
+  is at full ink, and each step sits beside its own slot in normal flow.
   Without JavaScript the same.
 -->
 <!doctype html>
@@ -41,6 +42,8 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; }
 .fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
 .fd-demo-after { padding: 6rem clamp(1rem, 5vw, 4rem) 40vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+.ph-defs { position: absolute; }
 
 /* ---- snippet: pinned-steps ---- */
 /* Every token this snippet reads, with a fallback, so it works pasted alone. */
@@ -79,44 +82,28 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-steps-list b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
 .fd-steps-list p { margin: 0.35rem 0 0; color: var(--_muted); }
 
-.fd-steps-fig { margin: 0; }
-.fd-steps-fig figcaption { font-size: 0.875rem; color: var(--_muted); }
-.fd-steps-fig svg { display: block; width: 100%; height: auto; max-height: 64svh; }
-.fd-readout { margin: 0.25rem 0 0; font-variant-numeric: tabular-nums; font-weight: 600; }
-.fd-readout span { color: var(--_accent); }
+/* Photo slots: the labeled-slot pattern from design-rules.md, scoped to this recipe. The page's one hatch defs block sets the gap. */
+.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
+.fd-steps .ph { position: relative; margin: 0.75rem 0 0; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
+.fd-steps .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fd-steps .ph figcaption { position: relative; display: inline-block; margin: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
+
+/* Before the script arms the section the frame is empty and hidden; each slot sits in its own step. */
+.fd-steps-frame { display: none; }
+/* Armed: the three slots stack in one frame and the active one wipes in over the last. */
+.fd-steps[data-armed] .fd-steps-frame { display: block; position: relative; aspect-ratio: 4 / 3; width: min(100%, calc(64svh * 4 / 3)); justify-self: center; }
+.fd-steps[data-armed] .fd-steps-frame .ph { position: absolute; inset: 0; margin: 0; aspect-ratio: auto; clip-path: inset(0); transition: clip-path 700ms var(--_ease); }
+.fd-steps .fd-steps-frame[data-state="-1"] .ph:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="0"] .ph:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="1"] .ph:nth-child(3) { clip-path: inset(100% 0 0 0); }
 /* Set while the script lands on the first state, so nothing animates on load. */
-.fd-steps[data-instant] .fd-steps-fig *,
-.fd-steps[data-instant] .fd-steps-list li::after { transition: none; }
-
-/* Illustration parts. CSS defaults are the final state. */
-.fd-steps-fig .s { fill: none; stroke: var(--_ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
-.fd-steps-fig .fill { fill: var(--_ground); }
-.fd-steps-fig .soil { fill: color-mix(in srgb, var(--_ink) 72%, var(--_ground)); }
-.fd-steps-fig .band1 { fill: color-mix(in srgb, var(--_ink) 14%, var(--_ground)); }
-.fd-steps-fig .band2 { fill: color-mix(in srgb, var(--_ink) 30%, var(--_ground)); }
-.fd-steps-fig .band3 { fill: color-mix(in srgb, var(--_ink) 52%, var(--_ground)); }
-.fd-steps-fig .scrap { fill: color-mix(in srgb, var(--_accent) 70%, var(--_ground)); stroke: var(--_ink); stroke-width: 2; }
-.fd-lid, .fd-tray, .fd-band, .fd-scrap { transform-box: fill-box; transition: transform 800ms var(--_ease), opacity 500ms var(--_ease); }
-.fd-lid { transform-origin: 0% 100%; }
-.fd-band { transform-origin: 50% 100%; transition-delay: calc(var(--i) * 140ms); }
-.fd-scrap { transform-origin: 50% 50%; transition-delay: calc(var(--i) * 90ms); opacity: 0; transform: scale(0.4); }
-.fd-tray { transform: translateX(190px); }
-
-.fd-steps-fig[data-state="-1"] .fd-lid,
-.fd-steps-fig[data-state="0"] .fd-lid { transform: rotate(-24deg); }
-.fd-steps-fig[data-state="-1"] .fd-scrap { opacity: 0; transform: translateY(-240px); }
-.fd-steps-fig[data-state="0"] .fd-scrap { opacity: 1; transform: none; }
-.fd-steps-fig[data-state="-1"] .fd-band,
-.fd-steps-fig[data-state="0"] .fd-band { transform: scaleY(0); }
-.fd-steps-fig[data-state="-1"] .fd-tray,
-.fd-steps-fig[data-state="0"] .fd-tray,
-.fd-steps-fig[data-state="1"] .fd-tray { transform: none; }
+.fd-steps[data-instant] .ph,
+.fd-steps[data-instant] .fd-steps-list li::after { transition: none !important; }
 
 @media (max-width: 760px) {
   .fd-steps[data-armed] { height: 240svh; }
   .fd-steps-pin { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 0.75rem; }
-  .fd-steps-fig { order: -1; }
-  .fd-steps-fig svg { max-height: 36svh; }
+  .fd-steps[data-armed] .fd-steps-frame { order: -1; width: min(100%, calc(36svh * 4 / 3)); }
   .fd-steps-list li { padding: 0.7rem 0 0.7rem 2.25rem; }
   .fd-steps-list li::before { top: 0.75rem; }
   .fd-steps-list p { font-size: 0.9375rem; }
@@ -127,6 +114,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   .fd-steps[data-armed] .fd-steps-pin { position: static; height: auto; }
   .fd-steps[data-armed] .fd-steps-list li { color: inherit; }
   .fd-steps-list li::after { transform: none; }
+  .fd-steps[data-armed] .fd-steps-frame .ph { transition: none; }
 }
 /* ---- end snippet ---- */
 </style>
@@ -134,43 +122,24 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 <body>
 <main>
   <div class="fd-demo-intro">
-    <h2>From scraps to soil.</h2>
+    <h2>From flakes to a finished candle.</h2>
     <p>Demo copy. Scroll: the section holds while the three steps take turns.</p>
   </div>
 
+  <!-- Demo scaffolding, not part of the snippet: the page's one hatch defs block. -->
+  <svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" /></pattern></defs></svg>
   <!-- snippet: pinned-steps -->
   <section class="fd-steps" data-fd-steps>
     <div class="fd-steps-pin">
       <ol class="fd-steps-list">
-        <li><b>Scraps go in</b><p>Demo copy. Kitchen scraps go in the top.</p></li>
-        <li><b>The days pass</b><p>Demo copy. The bin works through them on its own.</p></li>
-        <li><b>Soil comes out</b><p>Demo copy. Finished soil comes out of the drawer.</p></li>
+        <li><b>Wax is melted</b><p>Demo copy. Flakes go into the pitcher and melt slowly.</p>
+          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: wax flakes melting in a steel pitcher, overhead, daylight, 4:3]</figcaption></figure></li>
+        <li><b>It is poured</b><p>Demo copy. The wax goes into the jar in one pass.</p>
+          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: hands pouring wax into a glass jar, side view, window light, 4:3]</figcaption></figure></li>
+        <li><b>It cures</b><p>Demo copy. The jar rests until the wax sets, then the wick is trimmed.</p>
+          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: finished candle on a bench, wick being trimmed, three-quarter view, daylight, 4:3]</figcaption></figure></li>
       </ol>
-      <figure class="fd-steps-fig" data-state="2">
-        <figcaption>Illustration. Numbers are examples.</figcaption>
-        <svg viewBox="0 0 520 390" role="img" aria-label="A compost bin: scraps go in the top, the days pass, soil comes out of the drawer">
-          <defs><clipPath id="fd-bin-clip"><path d="M72 112 H288 L277 368 H83 Z"/></clipPath></defs>
-          <g class="fd-tray">
-            <path class="soil" d="M100 334 Q128 304 160 318 Q190 300 222 316 Q246 306 262 334 Z"/>
-            <path class="s fill" d="M96 334 H266 V366 H96 Z"/>
-          </g>
-          <path class="fill" d="M70 110 H290 L278 370 H82 Z"/>
-          <g clip-path="url(#fd-bin-clip)">
-            <rect class="fd-band band1" style="--i: 0" x="60" y="250" width="240" height="40"/>
-            <rect class="fd-band band2" style="--i: 1" x="60" y="290" width="240" height="40"/>
-            <rect class="fd-band band3" style="--i: 2" x="60" y="330" width="240" height="40"/>
-          </g>
-          <path class="fd-scrap scrap" style="--i: 0" d="M108 328 q22 -34 58 -14 q-26 6 -40 22 z"/>
-          <path class="fd-scrap scrap" style="--i: 1" d="M178 326 c8 -30 40 -36 50 -28 c-4 22 -26 36 -50 28 z"/>
-          <rect class="fd-scrap scrap" style="--i: 2" x="236" y="302" width="26" height="26" rx="3"/>
-          <path class="fd-scrap scrap" style="--i: 3" d="M140 294 c10 -14 30 -14 38 0 c-12 8 -26 8 -38 0 z"/>
-          <path class="fd-scrap scrap" style="--i: 4" d="M206 276 l18 -18 l14 22 z"/>
-          <path class="s" d="M70 110 H290 L278 370 H82 Z M82 330 H278"/>
-          <path class="fd-lid s fill" d="M62 110 H298 V94 H62 Z"/>
-          <path class="s" d="M20 372 H500"/>
-        </svg>
-        <p class="fd-readout">Example cycle: <span>21 days</span></p>
-      </figure>
+      <div class="fd-steps-frame" data-state="2" data-fd-frame></div>
     </div>
   </section>
   <!-- end snippet -->
@@ -183,15 +152,20 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 (function () {
   var section = document.querySelector('[data-fd-steps]');
   if (!section || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var fig = section.querySelector('.fd-steps-fig');
+  var frame = section.querySelector('[data-fd-frame]');
   var steps = section.querySelectorAll('.fd-steps-list li');
-  if (!fig || steps.length < 2) return;
+  if (!frame || steps.length < 2) return;
+  // Gather each step's slot into the frame, in step order, so they stack.
+  steps.forEach(function (li) {
+    var slot = li.querySelector('.ph');
+    if (slot) frame.appendChild(slot);
+  });
   var current = null;
 
   function setState(i) {
     if (i === current) return;
     current = i;
-    fig.setAttribute('data-state', String(i));
+    frame.setAttribute('data-state', String(i));
     steps.forEach(function (li, j) {
       if (j === i) li.setAttribute('aria-current', 'step');
       else li.removeAttribute('aria-current');
@@ -212,7 +186,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   addEventListener('resize', update);
 
   // Arm and land on the scroll position's state with transitions off, so the
-  // figure never plays backwards from its final state on load.
+  // frame never plays backwards from its final state on load.
   section.setAttribute('data-armed', '');
   section.setAttribute('data-instant', '');
   update();
