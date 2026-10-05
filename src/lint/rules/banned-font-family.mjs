@@ -1,7 +1,7 @@
 import { cssUnits, eachDecl, htmlFiles, elLine, unitLine, firstFamily, resolveVars, finding } from '../context.mjs';
 
-const BANNED = ['inter', 'geist', 'space grotesk', 'roboto', 'arial', 'system-ui', 'ui-sans-serif', 'ui-serif', '-apple-system', 'segoe ui', 'helvetica neue'];
-const LINK_BANNED = ['inter', 'geist', 'space grotesk', 'roboto'];
+export const BANNED = ['inter', 'geist', 'space grotesk', 'roboto', 'arial', 'system-ui', 'ui-sans-serif', 'ui-serif', '-apple-system', 'segoe ui', 'helvetica neue'];
+export const LINK_BANNED = ['inter', 'geist', 'space grotesk', 'roboto'];
 
 // A Google Fonts URL, however it reached the page. `family=Space+Grotesk` and the
 // older pipe separated `family=A|Space+Grotesk` both name the face.

@@ -135,3 +135,21 @@ test('serve refuses path traversal', async () => {
   }
   await srv.close();
 });
+
+function reduced(name) {
+  const { json } = run(fx(name));
+  return json.checks.filter((c) => c.id === 'reduced-motion');
+}
+
+test('a reveal that never fires under reduced motion fails reduced-motion and not hidden-after-reveal', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('reduced-fail'));
+  assert.ok(json.checks.some((c) => c.id === 'reduced-motion' && !c.ok), JSON.stringify(json.checks));
+  assert.ok(json.checks.filter((c) => c.id === 'hidden-after-reveal').every((c) => c.ok));
+});
+
+test('a reveal with a reduced-motion branch passes reduced-motion', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const mine = reduced('reduced-pass');
+  assert.ok(mine.length > 0 && mine.every((c) => c.ok), JSON.stringify(mine));
+});
