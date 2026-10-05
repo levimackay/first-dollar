@@ -161,18 +161,18 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
 
 ### pinned-steps
 - **What:** the section holds (CSS sticky) for about two screens while three
-  steps take turns and the figure (a mock, a drawing, or one photo slot per
-  step) moves to each state. Waiting steps
+  steps take turns over three photo slots stacked in one frame, one per step,
+  the active one wiping in (clip-path). Waiting steps
   drop to the muted tone (4.5:1 or better), never to low opacity. On load it
   jumps straight to the state that matches the scroll, without animating.
 - **Fits:** a mechanism with three distinct states a still image cannot show;
   the physical-product signature on moderate and loud references.
 - **Never combine with:** `sticky-stack` or `pinned-mask-reveal` next to it;
   `mechanism-sequence` on the same mechanism; scroll snapping; a counter.
-- **At 390:** the figure sits above the list, the runway drops to 240svh
+- **At 390:** the slots sit above the list, the runway drops to 240svh
   and the steps tighten.
-- **Reduced motion:** no pin; ordinary height; every step at full ink; the
-  figure in its final state.
+- **Reduced motion:** no pin; ordinary height; every step at full ink, each
+  beside its own slot in normal flow.
 - **Cost:** 0.7 KB. One position read per scroll frame; transform and opacity.
 
 ### ticker-proof
@@ -199,8 +199,8 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
 - **Never combine with:** `pinned-steps` or `pinned-mask-reveal` next to it;
   entrance animations inside the panels; a sticky header that does not clear
   the rail.
-- **At 390:** one column, plate above text, a tighter rail and step, panel
-  height set by content.
+- **At 390:** one column, photo slot above text, a tighter rail and step,
+  panel height set by content.
 - **Reduced motion:** plain blocks in order.
 - **Cost:** 0.9 KB. Sticky needs no script; rails are measured on resize and
   each frame reads every panel once, then writes.

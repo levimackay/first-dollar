@@ -7,10 +7,14 @@
   shade, both transform and opacity) as the next one arrives.
   How to adapt: use it for an ordered set of three to five things that each
   hold a screen: what happens after the buyer pays, the stages of the
-  service. Write the panels from COPY.md, take each panel's ground from
-  DESIGN.md tokens so the panels differ, and redraw the small plates (or
-  drop them). Number each card with an inline --i (0, 1, 2...) so it lands a
-  step lower than the last. Change --fd-step before anything else: 14px is a
+  service. Write the panels from COPY.md and take each panel's ground from
+  DESIGN.md tokens so the panels differ. Each plate holds a labeled photo
+  slot (the pattern in design-rules.md): replace it with the founder's photo
+  when one exists, otherwise keep the slot and write its [PLACEHOLDER: ...]
+  label as a shot direction for this product. Set the hatch with
+  --fd-slot-ink and --fd-slot-gap so two pages never share one hatch.
+  Software has no photo to take: use mechanism-sequence instead. Number each
+  card with an inline --i (0, 1, 2...) so it lands a step lower than the last. Change --fd-step before anything else: 14px is a
   quiet staircase, 40px is a fanned deck.
   Reduced motion: nothing is sticky and nothing scales. The panels are plain
   blocks in order with all their content visible. Without JavaScript the
@@ -63,14 +67,18 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-stack-no { font-family: var(--_display); font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; }
 .fd-stack-card h3 { font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3.2vw, 2.75rem); line-height: 1.05; margin: 0 0 0.75rem; max-width: 16ch; }
 .fd-stack-card p { margin: 0; max-width: 40ch; }
-.fd-stack-card svg { display: block; width: 100%; height: 100%; min-height: 12rem; }
-.fd-stack-card svg * { fill: none; stroke: currentColor; stroke-width: 1.5; }
+/* Photo slot: the labeled-slot pattern from design-rules.md, filling the plate's second column. */
+.ph-defs { position: absolute; }
+.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
+.ph { position: relative; margin: 0; min-height: 12rem; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
+.ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph figcaption { position: absolute; left: 0.75rem; bottom: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--_ground); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
 .fd-stack-shade { position: absolute; inset: 0; background: var(--_ink); opacity: 0; pointer-events: none; }
 
 @media (max-width: 760px) {
   .fd-stack { --fd-rail: 0.75rem; --fd-step: 9px; }
   .fd-stack-inner { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-  .fd-stack-card svg { min-height: 0; height: 8rem; order: -1; }
+  .ph { min-height: 0; aspect-ratio: 16 / 9; order: -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -90,32 +98,33 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   </div>
 
   <!-- snippet: sticky-stack -->
+  <svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" /></pattern></defs></svg>
   <ol class="fd-stack" data-fd-stack>
     <li class="fd-stack-card" style="--i: 0">
       <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 5%, var(--_ground)); --fg: var(--_ink)">
-        <div class="fd-stack-text"><span class="fd-stack-no">1</span><div><h3>Record the change on site</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M40 80 V80 M56 62 V98 M72 46 V114 M88 70 V90 M104 54 V106 M120 34 V126 M136 58 V102 M152 72 V88 M168 50 V110 M184 66 V94 M200 76 V84"/></svg>
+        <div class="fd-stack-text"><span class="fd-stack-no">1</span><div><h3>Your order is made</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: hands cutting the cloth to size at the bench, overhead, daylight, 4:3]</figcaption></figure>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
     <li class="fd-stack-card" style="--i: 1">
       <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 14%, var(--_ground)); --fg: var(--_ink)">
-        <div class="fd-stack-text"><span class="fd-stack-no">2</span><div><h3>The change order drafts itself</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M70 24 H170 V136 H70 Z M86 48 H154 M86 68 H154 M86 88 H140 M86 108 H120"/></svg>
+        <div class="fd-stack-text"><span class="fd-stack-no">2</span><div><h3>It is packed by hand</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the order wrapped and packed in a box, close, side light, 4:3]</figcaption></figure>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
     <li class="fd-stack-card" style="--i: 2">
       <div class="fd-stack-inner" style="--bg: var(--_ink); --fg: var(--_ground)">
-        <div class="fd-stack-text"><span class="fd-stack-no">3</span><div><h3>The client signs on their phone</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M90 16 H150 V144 H90 Z M100 108 C 108 92, 114 92, 116 102 S 126 112, 132 98 S 140 94, 142 104"/></svg>
+        <div class="fd-stack-text"><span class="fd-stack-no">3</span><div><h3>It ships with tracking</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the parcel handed over at the door, eye level, daylight, 4:3]</figcaption></figure>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
     <li class="fd-stack-card" style="--i: 3">
       <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_accent) 24%, var(--_ground)); --fg: var(--_ink)">
         <div class="fd-stack-text"><span class="fd-stack-no">4</span><div><h3>[NEED: the last step, in the founder's words]</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><ellipse cx="120" cy="58" rx="46" ry="13"/><path d="M74 58 V74 A46 13 0 0 0 166 74 V58 M74 74 V90 A46 13 0 0 0 166 90 V74 M74 90 V106 A46 13 0 0 0 166 106 V90"/></svg>
+        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the last step as the founder shoots it, 4:3]</figcaption></figure>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
