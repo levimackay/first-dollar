@@ -43,12 +43,12 @@ typography:
     fontWeight: "<number>"
     lineHeight: "<1.5 to 1.65>"
   label-md:
-    fontFamily: "<text family; never mono>"
+    fontFamily: "<text family; mono only when the reference sets its labels in mono>"
     fontSize: "<px>"
     fontWeight: "<number>"
     lineHeight: "<1.2 to 1.4>"
   data:
-    fontFamily: "<mono family only if the reference sets code, table data or data-mono prose in mono; else delete this role>"
+    fontFamily: "<mono family only if the reference sets nav, labels, data or fine print in mono, never running prose; else delete this role>"
   price:
     fontFamily: "<family>"
     fontSize: "<px>"
@@ -65,8 +65,8 @@ spacing:
   sm: "<2x base>"
   md: "<4x base>"
   lg: "<8x base>"
-  section-tight: "<px>"
-  section-wide: "<px, clearly larger than section-tight>"
+  section-tight: "<px: the reference's smallest section gap, measured on its full-page shot>"
+  section-wide: "<px: its largest measured gap; no taller than the content beside it unless the reference does that>"
 components:
   button-commitment:
     backgroundColor: "{colors.accent}"
@@ -100,12 +100,14 @@ components:
 - Macrostructure: <name from design-rules.md>, backbone from <reference>
 - Hero layout: <as reference-structure.md names it: text over full-bleed image | centered statement | split | list | letter>
 - Section sequence: <each section of reference-structure.md in order, the
-  COPY.md content it carries, or "cut: no founder content">
+  COPY.md content it carries, or "cut: no founder content"; a section added
+  for content with no home, marked "added", its layout and why>
 - Default check: <each choice that would fit any similar startup, and what replaced it>
 - Material: <each section: what it is made of, and who supplies it>
 - Image regions: <each region the reference fills with imagery, its aspect,
-  size and position, and its fill: founder asset | software mock | photo
-  slot and its shot direction | drawing (illustrated reference only)>
+  size and position, what it shows (people, place, scene, its own product,
+  portrait, drawing), and its fill: founder asset | software mock (only where
+  it shows its product) | photo slot and its shot direction | drawing>
 - Energy: <the reference's saturation and accent footprint; the page matches it>
 
 ## Colors
@@ -128,10 +130,10 @@ components:
 ## Layout
 
 - Base unit: <4 | 8>px. Every gap is a multiple.
-- Section rhythm: <the order of tight and wide sections, top to bottom>
-- Density swing: <where the page is sparse and where it is dense>
-- Full bleed: <which element runs edge to edge>
-- Breaks the grid at: <one moment>
+- Section rhythm: <the reference's measured gaps against the content beside them, top to bottom>
+- Density: <where the reference is sparse and where it is dense>
+- Full bleed: <from the reference: where, or none>
+- Breaks the grid at: <from the reference: where, or none>
 - Mobile at 390: dominant <...>; hidden <...>; reordered <...>; commitment
   block inside the first 844px.
 
@@ -156,8 +158,9 @@ Only values listed under rounded.>
   with an SVG pattern, labeled with a shot direction. Never styled to look
   finished.
 - **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`:
-  the text font, the highlight background, padding, `box-decoration-break:
-  clone` (design-rules.md, Gap markers). Never a dashed grey box.
+  the surrounding text's font (`font: inherit`), the highlight background,
+  padding, `box-decoration-break: clone` (design-rules.md, Gap markers).
+  Never a dashed grey box.
 
 ## Do's and Don'ts
 

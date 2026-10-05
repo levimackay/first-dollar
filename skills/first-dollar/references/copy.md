@@ -69,7 +69,7 @@ the subhead, every section heading and the button.
 |---|---|
 | "The smarter way to manage change orders." | "Talk through the change. Your client signs it on their phone." |
 | "Built for teams who care about quality." | "Built for crews of 2 to 10 who bill by the change." (only if the founder said so) |
-| "Features" (section heading) | "What happens after you hit record" |
+| "Features" (section heading) | What the section is about, in the founder's own words (the kind of title: never one to reuse) |
 
 ## Tells
 
@@ -132,8 +132,8 @@ Defaults for any page before launch:
 | When do I get it? | The founder's date, or `[NEED: ship date]` | With the money terms |
 | What if it never ships? | The founder's answer, or `[NEED: what happens if it never ships]` | With the money terms |
 | Why pay now? | Only a real reason the founder gave: a founding price, batch one, a pilot slot | Near the button, or nothing |
-| Who is behind this? | Founder name or `[NEED: founder name]`, a photo slot with a shot direction, one line of history from BRIEF.md | Where the reference shows a person or a note, under a title in the founder's words |
-| Is it for someone like me? | Who it is for and who it is not for | Mid page |
+| Who is behind this? | Founder name or `[NEED: founder name]`, a photo slot with a shot direction, one line of history from BRIEF.md | Where the reference puts about, people or credits; else the closest-job section (SKILL.md stage 6) |
+| Is it for someone like me? | Who it is for and who it is not for | The section whose job is closest |
 
 Find extra objections in competitor reviews and community threads. Never write
 softballs ("Is it easy to use?" "Yes!"). Every answer is a fact from the founder

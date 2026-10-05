@@ -17,19 +17,19 @@ Write these into the Overview section of DESIGN.md:
 - The default check: for each choice, ask "would this come out for any similar
   startup?". Change every yes and write what changed.
 - Material: for each section of reference-structure.md, what fills it and
-  who supplies it, in SKILL.md stage 4's order. Keep and fill every image
-  region (below); cut a text section the founder has nothing for, never pad
-  it with big type, cards, gradients or clip art.
+  who supplies it, by what the reference shows (SKILL.md stage 4). Fill
+  every image region (below); cut a text section the founder has nothing
+  for, never pad it with big type, cards, gradients or clip art.
 
 ## Type
 
 - Two families at most: one for display, one for text, both matched to the
   reference by features (design-extraction.md section 6). No default or
   popular faces [`banned-font-family`, `font-popularity`].
-- Monospace only for code and table data, and only if the reference uses
-  mono [`mono-prose`]. Where the reference sets that very text in mono, put
-  `data-mono` on the element and log it in DESIGN.md Provenance; never on
-  fine print or labels, never to quiet the rule.
+- Mono for nav, labels, data and fine print only when the reference sets
+  that very text in mono; put `data-mono` on fine print set so and log it in
+  DESIGN.md Provenance. Running prose, sentences in paragraphs, is never mono
+  [`mono-prose`].
 - Where the reference leaves a value open, take the nearest thing it shows
   and say so in DESIGN.md. Its headline to body ratio picks the scale; build
   the steps from it. Display at least 2.5 times the body [`flat-type-scale`].
@@ -76,20 +76,19 @@ Write these into the Overview section of DESIGN.md:
 ## Space
 
 - One base unit (4px or 8px). Every margin, padding and gap is a multiple.
-- Vary section padding and density on purpose, as the reference does: a
-  tight cluster, then a large breath [`uniform-section-padding`]. Write the
-  order of the swings in DESIGN.md Layout.
-- Let at least one element escape the container [`no-full-bleed`]. Not every
-  block at the same width [`same-max-width`].
-- Break the grid once, at the moment that matters most. On these pages that is
-  usually the commitment block or the proof.
+- Spacing follows the reference's measured gap-to-content rhythm, from its
+  full-page shot [`uniform-section-padding`]. No gap is taller than the
+  content beside it unless the reference does that. Record the measured gaps
+  in DESIGN.md Layout.
+- Full bleed, varied measures and a grid break come from the reference:
+  where it does them, or none [`no-full-bleed`, `same-max-width`; keep a
+  warning with a Do's and Don'ts line when the reference has none].
 - The hero copies the reference's hero layout (reference-structure.md): text
   over a full-bleed image, a centered statement, a split. Headline left with
   an object right only when the reference is split. A centered hero with one
   ask is fine; the two-button centered template fails [`centred-hero`].
 - Section order, count and layout come from reference-structure.md, never a
-  skeleton. A gap holds something, as the reference's do, or it closes. No
-  inverted closing band unless the reference has one.
+  skeleton. No inverted closing band unless the reference has one.
 - More space above a heading than below it.
 - Radius: one or two values from the reference, each with a reason. A pill
   button only when the reference has one. Never the same radius on
@@ -132,9 +131,10 @@ Never the only structure: hero, three cards, testimonials, CTA
 
 ## Filling image regions
 
-SKILL.md stage 4, Material, sets the order. Never a void, and never flat
-vector clip art where a photo belongs: a geometric bin, sprout or phone in
-flat shapes is the strongest tell on these pages.
+What the reference shows in each region decides the fill (SKILL.md stage 4,
+Material), not the product type: people, places and scenes get photo slots
+on software pages too, and a mock goes only where the reference shows its own
+product. Never a void, and never flat vector clip art where a photo belongs.
 
 Measure first. On the reference's `1440.png`, `full-1440.png` and `390.png`,
 note each image region's share of the width, its height, whether it bleeds
@@ -143,8 +143,8 @@ box: a full-bleed photo hero stays full bleed, with the headline over it
 where the reference sets it. At 390, keep it where the reference's phone
 layout keeps it, with a real height.
 
-**An HTML and CSS mock.** For software, or any product whose output is a
-screen or a document. The signature motion plays here (motion.md).
+**An HTML and CSS mock.** Where the reference shows its own product, on a
+software page. The signature motion plays here (motion.md).
 
 - The product's real interface, or the one screen that shows the outcome
   (the signed change order, the report), at real proportions, in the page's
@@ -157,39 +157,40 @@ screen or a document. The signature motion plays here (motion.md).
   [`nested-cards`]. No fake window chrome or generic phone bezel unless the
   reference shows one.
 
-**A labeled photo slot.** For a physical product, a place or a person (the
-founder, the product in use, the shop).
+**A labeled photo slot.** Where the reference shows people, a place, a scene
+or a portrait, and for a physical product's own product shot.
 
 - The reference image's exact aspect, size and position, full bleed if it
   was. Text the reference sets on its photo sits on the slot the same way.
 - The label is a shot direction the founder can hand a photographer:
-  subject, setting, light, aspect.
-  `[PLACEHOLDER: the prototype on a kitchen counter, morning window light, 3:2]`
-  On a plain chip at 4.5:1, in the text face.
+  subject, setting, light, aspect, written for this page. The kind, never to
+  copy: a product (the unit in a hand, side light, 4:5), a person (the
+  founder at work, eye level, 1:1), a place (the street front at dusk,
+  16:9). On a plain chip at 4.5:1, in the text face.
 - Hatch with one inline SVG pattern in the `line` token, defined first thing
-  in `<body>` and reused; a CSS gradient hatch draws `grid-background` and
-  `placeholder-styled`. `aspect-ratio` is the measured width over height, so
-  the slot scales at 390 instead of pushing the ask below the fold.
+  in `<body>` and reused; its spacing and stroke follow the reference's own
+  rule weight. A CSS gradient hatch draws `grid-background` and
+  `placeholder-styled`. `aspect-ratio` is the measured width over height.
 
 ```html
-<svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" /></pattern></defs></svg>
+<svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="<gap>" height="<gap>" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="<gap>" /></pattern></defs></svg>
 
 <figure class="ph">
   <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
-  <figcaption>[PLACEHOLDER: the prototype on a kitchen counter, morning window light, 3:2]</figcaption>
+  <figcaption>[PLACEHOLDER: <subject>, <setting>, <light>, <aspect>]</figcaption>
 </figure>
 ```
 
 ```css
 .ph-defs { position: absolute; }
-.ph-defs line { stroke: var(--line); stroke-width: 1; }
-.ph { position: relative; margin: 0; aspect-ratio: 3 / 2; background: var(--surface); }
+.ph-defs line { stroke: var(--line); stroke-width: <the reference's rule weight>; }
+.ph { position: relative; margin: 0; aspect-ratio: <measured w> / <measured h>; background: var(--surface); }
 .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
 .ph figcaption { position: relative; display: inline-block; background: var(--neutral); color: var(--ink); }
 ```
 
-**A drawn illustration (inline SVG).** Only when the reference itself is
-illustrated: line drawings, technical drawings, hand-inked marks.
+**A drawn illustration (inline SVG).** Only where the reference region is
+itself a drawing: line drawings, technical drawings, hand-inked marks.
 
 - Draw in the reference's manner (its line weight, its hand, its drafting
   rules), never flat geometric shapes. The product must read as itself at
@@ -206,8 +207,8 @@ illustrated: line drawings, technical drawings, hand-inked marks.
 Every visible `[NEED: ...]` sits in `<span class="need">`, styled so it reads
 as a gap someone will fill, not as a broken render:
 
-- The page's own text face, size and weight (`font: inherit`), never a grey
-  sans inside a mono or serif page.
+- The surrounding text's own font, size and weight (`font: inherit`), never
+  a grey sans inside a mono or serif page.
 - A background in the `highlight` token: the reference's own highlight color
   if it has one (a marker yellow, a selection tint), otherwise the accent at
   about 12% over the ground, as hex. Ink stays 4.5:1 on it.
@@ -225,17 +226,11 @@ as a gap someone will fill, not as a broken render:
 
 ## Counter-moves
 
-What distinctive pages do where generated ones reach for the default:
-
-- Set a section name at display size and let the edge of the page crop it.
-- Pin one orientation device (a sticky price bar, a progress rail) instead of a
-  floating pill navbar.
-- Typeset the price and terms like a document (a receipt, a terms list)
-  instead of a pricing card. Never a hairline spec table as the hero's second
-  half (tells.md).
-- Put text straight on a photo that was framed to leave room for it, with no
-  dark scrim.
-- Draw your own marks. No icon sets, no emoji, no sparkles [`icon-libraries`].
+At most one, and only where the reference shows it: a section name at display
+size cropped by the page edge, one pinned orientation device (a sticky price
+bar, a progress rail), or text straight on a photo framed to leave room for
+it. Never a hairline spec table as the hero's second half (tells.md). Draw
+your own marks: no icon sets, emoji or sparkles [`icon-libraries`].
 
 ## Mobile, designed at 390
 

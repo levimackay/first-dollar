@@ -13,9 +13,9 @@ generated page uses it. When a run finds a new one, it belongs here.
 **The trendy font set.** Any face in the Google Fonts top 200, and the faces
 generated pages lean on outside it (Gloock, Satoshi, General Sans, Clash
 Display, Clash Grotesk, Cabinet Grotesk, and the rest of the lint's trend
-list), now reads as the default however well it is set. So does
-the system UI stack, and any face from your last ten builds (the lint checks
-it with `--history`). [`banned-font-family`, `font-popularity`]
+list), now reads as the default however well it is set. So does the
+system UI stack, and any face your last ten builds of other pages used.
+[`banned-font-family`, `font-popularity`, `font-history`]
 Instead: the reference's own free face, or the closest free match by its
 features from outside the popular set and the build history
 (design-extraction.md section 6).
@@ -26,16 +26,18 @@ Instead: the display where the reference uses it, often once, in the hero.
 Section heads, nav and body take the face and weight the reference gives
 them.
 
-**Grey mono fine print.** A small grey monospace line under the button, mono
-captions, mono labels, mono eyebrows over every heading. [`mono-prose`,
-`mono-eyebrow`]
-Instead: the text face, at a size people read, in ink or muted ink at 4.5:1.
-Mono only for code and table data, and only if the reference uses mono.
+**Grey mono fine print on a reference with no mono.** A small grey
+monospace line under the button, mono captions, mono labels, mono eyebrows
+over every heading. Or the reverse: a grey sans for nav and fine print on a
+reference set all in mono. [`mono-prose`, `mono-eyebrow`]
+Instead: nav, labels, data and fine print in whatever face the reference sets
+them in, mono included (`data-mono`, logged), at a size people read and
+4.5:1. Running prose, sentences in paragraphs, is never mono.
 
-**Captions in tiny mono.** "FIG. 1" in 11px tracked capitals under a mock or
+**Captions in tiny tracked capitals.** "FIG. 1" in 11px under a mock or
 drawing.
-Instead: a plain caption in the text face ("Concept. Numbers are examples."),
-large enough to read without leaning in.
+Instead: a plain caption ("Concept. Numbers are examples.") in the face the
+reference uses for captions, large enough to read without leaning in.
 
 **Gradient text.** [`gradient-text`]
 Instead: solid ink. Emphasis comes from size or weight.
@@ -77,8 +79,8 @@ has no content for. No inverted closing band unless the reference has one.
 **Stock section titles.** "How it works", "Who is behind this", "Who we
 are", "Before you pay", "Why us", "Features", "The problem", "FAQ" as a
 heading, "Ready to get started?".
-Instead: titles in the founder's own subject words: "What happens after you
-hit record", "The sharpening van", "Where your $40 goes". Or no title, when
+Instead: name what the section is about in the founder's own words, the
+noun they would use on the phone; each page finds its own. Or no title, when
 the reference runs sections without one.
 
 **Headline left, object right, on every page.** A split hero with a card,
@@ -90,17 +92,21 @@ letter stays one column.
 
 **A hairline spec table as the hero's second half.** Thin rules, small
 labels, values pushed right, filling the space where a picture belongs.
-Instead: fill the reference's image region with an asset, an illustration or
-a hatched placeholder (SKILL.md stage 4). A spec table only where the
-reference has one, or where the buyer compares specs.
+Instead: fill the region by what the reference shows there, in SKILL.md
+stage 4's Material order: the founder's asset, a software mock where it shows
+its product, a photo slot with a shot direction for people, places and
+products in hand; a drawing only where the region is a drawing. A spec table
+only where the reference has one.
 
 **Everything inside one centered container.** Every section at one max
 width, nothing reaching the edge. [`no-full-bleed`, `same-max-width`]
-Instead: at least one band or image edge to edge, and a measure that varies.
+Instead: the reference's bleeds and measures. When it has none, keep none
+and the warnings with a Do's and Don'ts line.
 
 **Uniform section rhythm.** Every section the same padding and the same
 weight. [`uniform-section-padding`]
-Instead: the reference's rhythm. Tight clusters, then a large breath.
+Instead: the reference's measured gap-to-content rhythm. No gap taller than
+the content beside it unless the reference does that.
 
 **Pill buttons regardless of the reference.**
 Instead: the reference's button radius. A pill only when the reference has
@@ -120,8 +126,8 @@ one large item; one real number in a sentence with its source, or nothing.
 
 **An empty half screen.** The reference has a photo there; the page has air.
 Or 150 to 300px of dead space between sections.
-Instead: keep the region and fill it (SKILL.md stage 4). Close a gap that
-holds nothing; the reference's large gaps each hold one element.
+Instead: keep the region and fill it (SKILL.md stage 4). No gap taller than
+the content beside it unless the reference does that.
 
 ## Imagery
 
@@ -131,7 +137,7 @@ box, a knife over a wheel that reads as a rifle scope, shelving that should
 be bleachers, a barcode waveform.
 Instead: a labeled photo slot at the reference image's aspect, size and
 position, with a shot direction (design-rules.md, "Filling image regions").
-A drawing only when the reference itself is illustrated, in its manner.
+A drawing only where the reference region is a drawing, in its manner.
 
 **Copying the reference's unloaded grey.** Grey or tinted blocks taken from
 a full-page capture whose images did not load.
@@ -178,8 +184,9 @@ supporting moves (motion.md).
 ## The fresh-eyes critic
 
 You are the critic. You have the page at 1440, at 390 and as a full page at
-1440, the reference at 1440 and as a full page, and this catalog. You know nothing about why the
-page was made this way; a critic who knows will excuse it.
+1440, the reference at 1440 and as a full page (or the founder's screenshot),
+and this catalog. You know nothing about why the page was made this way; a
+critic who knows will excuse it.
 
 "List anything a professional designer would read as AI-made, worst first.
 Compare the two full pages section by section: order, layouts, gaps,
