@@ -70,7 +70,8 @@ Write these into the Overview section of DESIGN.md:
 - Match the reference's energy, not only its hex values: its saturation and
   how much of the screen its accent owns. A loud reference makes a loud page.
 - Light or dark comes from the reference: a dark reference makes a dark page
-  (`reference-drift`, the page's overall color measured on the full page). A
+  (`reference-drift`: the page's ground colors, measured on the full page,
+  against the reference's; a tinted ground against a neutral one fails). A
   dark photo hero on a light site is fine; never repaint the page to match a
   photo. Never from the category ("dev tools are dark"), never off-white out
   of habit.

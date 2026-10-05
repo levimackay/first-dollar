@@ -5,7 +5,7 @@ description: "<design read: page kind, buyer, a feeling with an opposite>"
 colors:
   primary: "<anchor hex: the reference's brand or button color, from --palette>"
   neutral: "<ground hex: the reference's ground exactly as --palette sampled it; white, black or saturated stays so>"
-  surface: "<second ground for one contrasting band, or delete>"
+  surface: "<second ground for one contrasting band, sampled from the reference too, or delete>"
   ink: "<body text hex, 4.5:1 or more on neutral>"
   ink-muted: "<secondary text hex, 4.5:1 or more on neutral>"
   line: "<rules and borders hex>"
@@ -47,7 +47,7 @@ typography:
     fontWeight: "<number>"
     lineHeight: "<1.2 to 1.4>"
   data:
-    fontFamily: "<mono family only if the reference sets code or table data in mono; else delete this role>"
+    fontFamily: "<mono family only if the reference sets code, table data or data-mono prose in mono; else delete this role>"
   price:
     fontFamily: "<family>"
     fontSize: "<px>"
@@ -104,11 +104,11 @@ components:
 ## Colors
 
 - **Primary (<hex>):** <role, roughly how much of the page it covers>
-- **Neutral (<hex>):** <the ground, and its tint>
+- **Neutral (<hex>):** <the ground, exactly as sampled>
 - **Ink (<hex>):** <body text>
 - **Accent (<hex>):** <the commitment, and the few other places it appears>
 - Accent footprint: <a mark, 5% or less | recurring, 5 to 15% | a flood, over 15%>
-- Light or dark: <the same as the reference's overall color; reference-drift checks it on the full page>
+- Light or dark: <the same as the reference's ground; reference-drift checks the ground colors on the full page>
 
 ## Typography
 

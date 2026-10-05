@@ -51,7 +51,8 @@ Instead: match the energy, the accent's share of the screen and its
 saturation, as well as the hex values (SKILL.md stage 6, Compare).
 
 **Glows and purple.** Colored glow shadows, blurred orbs, radial washes,
-indigo to purple. [`glow-shadow`, `gradient-budget`, `ai-palette`]
+indigo to purple. [`glow-shadow`, `gradient-budget`, `ai-palette`,
+`tailwind-defaults`]
 Instead: a flat field in the reference's palette, or nothing.
 
 **A grain or noise overlay.** Texture laid over a flat ground to look premium.

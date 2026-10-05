@@ -64,14 +64,19 @@ Then sample the colors from the pixels:
 node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --palette <page>/.first-dollar/reference/<host>/1440.png
 ```
 
-It prints the dominant colors with how much of the image each covers. The
-backbone's shots stay at that path: `reference-drift` compares the page's
-overall color, measured on the full page, against them.
+It prints the dominant colors with how much of the image each covers; each
+color is the coverage-weighted mean of a merged cluster of similar pixels.
+The backbone's shots stay at that path: `reference-drift` compares the
+page's ground colors, measured on the full page, against them (slop-rules.md).
+It reads the nested `reference/<host>/` capture, and `reference/1440.png`
+only when there is no nested one.
 
-If `--palette` exits 3 with no browser, ask the founder about the install, as
-for the check (SKILL.md, Setup). If they decline, take hex from the CSS in URL
-mode, or read the colors from the screenshot by eye. Mark each one
-"estimated" in DESIGN.md, and say `reference-drift` will not run.
+If `--palette` exits 3 with no browser, ask the founder about the install
+right then, at stage 4 (SKILL.md, Setup), and go on: take hex from the CSS in
+URL mode, or read the colors from the screenshot by eye. Mark each one
+"estimated" in DESIGN.md, and say `reference-drift` will not run. On a yes,
+install, rerun `--palette`, and log the sampled values under Changes.
+Running without stops, the answer is no.
 
 ## 3. Screenshot mode: six reads
 
@@ -90,9 +95,10 @@ Write each answer into DESIGN.md as you go.
    - Hex values: sampled, never described. Take the ground, ink and accent
      from the `--palette` output (section 2) with their coverage. The ground
      token is the sampled ground exactly, never tinted. `reference-drift`
-     fails a page whose overall color, measured on the full page, is off by
-     more than deltaE 0.12 or flips between dark and light. A dark photo hero
-     on a light site is fine: never repaint the page to match a photo.
+     passes when the page's main ground colors on the full page match the
+     reference's within deltaE 0.02. A tinted ground against a neutral
+     reference fails, and so does dark against light. A dark photo hero on a
+     light site is fine: never repaint the page to match a photo.
 2. Type roles. Display: editorial serif, condensed sans, geometric sans,
    grotesque, slab, mono, or script. Body: serif, grotesque, humanist sans, or
    mono. Labels: small caps, mono, uppercase sans, or none. Record the pairing
@@ -165,7 +171,7 @@ There is no list of good fonts here. Any fixed list becomes the new default.
      strokes differ). X-height (low, medium, tall). Terminals (flat, angled,
      rounded, ball, bracketed serifs).
 2. If the reference's own family is free to use (SIL Open Font License, or on
-   Google Fonts) and ranks below 200, use it.
+   Google Fonts) and is outside the top 200, use it.
 3. Otherwise shortlist three free Google Fonts families of the same
    classification that you believe match the five features. Shoot each one's
    specimen page (spaces in the name become `+`):

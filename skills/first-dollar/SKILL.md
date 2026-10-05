@@ -69,22 +69,20 @@ What they report:
 
 - The lint reads every HTML and `.css` file in the page folder (dot-folders
   skipped), with no browser, so shared CSS may live in one linked stylesheet.
-  Exit 0 is clean; exit 1 prints
-  `FAIL file:line [rule] message` per failure. `WARN` lines do not fail it.
-  `${CLAUDE_SKILL_DIR}/references/slop-rules.md` explains every rule id and
-  its fix.
+  Exit 0 is clean; exit 1 prints `FAIL file:line [rule] message` per failure;
+  `WARN` lines do not fail it. slop-rules.md explains every rule and its fix.
 - The check renders the page in a real browser. Exit 0: all checks passed.
   Exit 1: `FAIL <id> @<width> <detail>`. Exit 3: not verified; the first line
   says why. For a folder it writes `1440.png`, `390.png`, `full-1440.png` and
-  `full-390.png` to `<page>/.first-dollar/check/`. When a reference capture
-  exists in `<page>/.first-dollar/reference/<host>/`, it also runs
-  `reference-drift`: the page's overall color, measured on the full page,
-  against the reference's. Given a URL, it only takes screenshots. Run it
-  again at every stage, even after an exit 3.
+  `full-390.png` to `<page>/.first-dollar/check/`. With a capture in
+  `<page>/.first-dollar/reference/`, it also runs `reference-drift`: the
+  page's ground colors, measured on the full page, against the reference's
+  (slop-rules.md). Given a URL, it only takes screenshots. Run it again at
+  every stage, even after an exit 3.
 - When the check or `--palette` exits 3 with no browser, it prints an install
   command: `npm i --prefix ~/.cache/first-dollar playwright-core`. Ask the
-  founder only after a run has actually exited 3, at whichever stage that
-  happens: at the next stop, or in the final report. Never ask in advance.
+  founder only after a run has actually exited 3, in that stage (stage 4 for
+  `--palette`), at its stop, or in the final report. Never ask in advance.
   Until a yes, every rendered check is "not verified". Running without stops:
   do not install. Never write "passed" for a check that did not run.
 
@@ -207,6 +205,8 @@ section of `${CLAUDE_SKILL_DIR}/references/design-extraction.md`.
   fits the buyer; log why. Then copy the chosen one in:
   `mkdir -p <page>/.first-dollar/reference && cp -R <page>/.first-dollar/candidates/<host> <page>/.first-dollar/reference/<host>`
   `reference/` holds the backbone only, because `reference-drift` reads it.
+  With no browser there is no candidate folder: save the chosen site's HTML
+  and CSS in `reference/<host>/` instead (design-extraction.md section 2).
 
 Record the chosen URL or file in BRIEF.md under "Reference". Stages 4 to 6 use
 only that one. Refuse template marketplaces and design showcase shots;
@@ -243,10 +243,11 @@ prose records the reference, where each value came from, and the font match.
 - Colors are sampled from the reference's pixels with `--palette`, never
   described. The ground is the reference's sampled ground hex exactly, never
   tinted: a white reference makes a white page, a dark one a dark page. If
-  `--palette` exits 3, ask about the install as for the check. If declined,
-  read the colors from the screenshot by eye (or the CSS in URL mode), mark
-  each "estimated" in DESIGN.md, and say `reference-drift` will not run.
-- Fonts: the reference's own face if it is free and ranks below 200.
+  `--palette` exits 3, ask about the install now, at stage 4, and go on: read
+  the colors by eye (or from the CSS in URL mode), mark each "estimated", and
+  say `reference-drift` will not run. On a yes, install, rerun `--palette`
+  and log the sampled values under Changes. Without stops, the answer is no.
+- Fonts: the reference's own face if it is free and outside the top 200.
   Otherwise three free candidates matched by features and compared on their
   specimen shots (design-extraction.md section 6). Never a face unseen.
 - Monospace only for code and table data, and only if the reference uses it.
@@ -265,10 +266,9 @@ at the reference's size and position. Fill each with the first that exists:
 3. A hatched `[PLACEHOLDER: what photo belongs here]` box at the reference's
    image size and position.
 
-Never drop the region and leave a void: a photo hero rebuilt as type beside
-an empty half screen has left the reference's family. Never use a stock or
-generated photo posed as real. List each region and its fill in DESIGN.md
-Overview. design-rules.md, "Filling image regions", has the craft.
+Never drop a region and leave a void, and never pose a stock or generated
+photo as real. List each region and its fill in DESIGN.md Overview;
+design-rules.md, "Filling image regions", has the craft.
 
 **Changing a token later.** Only five things change DESIGN.md after this
 stage: a rendered contrast check fails, a reference color turns out to be on
@@ -292,11 +292,12 @@ Build the first screen of `<page>/index.html` only: the nav, the headline, one
 or two lines of mechanism, the ask with its price, one line on what happens
 after the click, and the first screen's image region filled as stage 4 says.
 The headline runs at most two lines at 1440 (copy.md). Add the footer with
-links to `privacy.html` and `terms.html`, and write both now as stubs (a
-heading and `<span class="need">[NEED: founder review before publishing]</span>`,
-same stylesheet) so the links resolve. Put every DESIGN.md token in a CSS custom property and use
-nothing else for color, font, radius or spacing. Lay out the 390px phone
-screen as carefully as the 1440px desktop one.
+links to `privacy.html` and `terms.html`, and write both now as stubs, so the
+links resolve: a heading and
+`<span class="need">[NEED: founder review before publishing]</span>`, same
+stylesheet. Put every DESIGN.md token in a CSS custom property and use nothing
+else for color, font, radius or spacing. Lay out the 390px phone screen as
+carefully as the 1440px desktop one.
 
 Run the fix loop. Then look at `<page>/.first-dollar/check/1440.png` and
 `390.png` yourself before the founder does.
@@ -312,8 +313,8 @@ and every open question. Ask: "Is this the direction?" Continue to stage 6
 only on a yes.
 
 - On requested changes: make them, run the lint and the check, show again.
-- If the founder dislikes the look itself, go back to stage 3 for a new
-  reference. Do not repaint from taste.
+- If the founder dislikes the look itself, move the old backbone from
+  `reference/` to `candidates/` and go back to stage 3. Never repaint from taste.
 - If the check exited 3: say the screenshots are not verified, give the path
   to index.html to open in a browser, and still wait.
 
