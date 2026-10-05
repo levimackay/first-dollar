@@ -43,7 +43,15 @@ export async function brokenMedia(page) {
   return res('broken-media', [...new Set([...imgs, ...page.__fd.failed])].slice(0, 5));
 }
 
-export async function hiddenAfterReveal(page) {
+export const hiddenAfterReveal = (page) => revealed(page, 'hidden-after-reveal');
+
+// Needs a page opened with reducedMotion: 'reduce' emulated before it loaded.
+export async function reducedMotion(page) {
+  await page.waitForTimeout(500);
+  return revealed(page, 'reduced-motion');
+}
+
+async function revealed(page, id) {
   await page.evaluate(async () => {
     const h = document.documentElement.scrollHeight;
     for (let y = 0; y <= h; y += 500) {
@@ -69,7 +77,7 @@ export async function hiddenAfterReveal(page) {
     return out.slice(0, 5);
   });
   await page.evaluate(() => scrollTo(0, 0));
-  return res('hidden-after-reveal', bad);
+  return res(id, bad);
 }
 
 export async function commitmentAboveFold(page) {

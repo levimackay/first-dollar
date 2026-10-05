@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reduced fail</title>
+<style>
+body{margin:0;font:16px/1.5 sans-serif;color:#111;background:#fff}
+h1{margin:16px}
+.gap{height:1200px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .4s,transform .4s;margin:16px}
+.reveal.in{opacity:1;transform:none}
+[data-commitment]{display:inline-block;margin:16px;padding:12px;background:#0b5;color:#000}
+</style></head><body>
+<h1>Reveal skips reduced motion</h1><a data-commitment href="#x">Join</a>
+<div class="gap"></div>
+<p class="reveal">This text only appears when motion is allowed.</p>
+<script>
+// The reveal is only wired up when motion is allowed, so nothing ever shows it otherwise.
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('in'))).observe(document.querySelector('.reveal'));
+}
+</script>
+</body></html>

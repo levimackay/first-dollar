@@ -76,8 +76,8 @@ function referenceShot(dir) {
   return null;
 }
 
-async function open(width, height, url) {
-  const page = await browser.newPage({ viewport: { width, height } });
+async function open(width, height, url, reducedMotion = 'no-preference') {
+  const page = await browser.newPage({ viewport: { width, height }, reducedMotion });
   C.watch(page);
   const response = await page.goto(url, { waitUntil: 'load', timeout: 30000 });
   if (!response || response.status() >= 400) throw new Error(`${url} answered ${response ? response.status() : 'nothing'}`);
@@ -107,6 +107,11 @@ try {
       }
       await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true });
     }
+    await page.close();
+  }
+  if (!shotsOnly) {
+    const page = await open(1440, 900, base, 'reduce');
+    results.push({ ...(await C.reducedMotion(page)), width: 1440 });
     await page.close();
   }
   if (flag('--og') && !isUrl) {
