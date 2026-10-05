@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const root = new URL('../', import.meta.url);
 const skill = new URL('skills/first-dollar/', root);
@@ -34,8 +36,8 @@ test('slop-rules.md documents every lint rule', async (t) => {
 test('references, assets and credits contain no em or en dash', async () => {
   const files = [new URL('CREDITS.md', root)];
   for (const sub of ['references/', 'assets/']) {
-    const names = await readdir(new URL(sub, skill), { recursive: true });
-    for (const name of names.filter((n) => /\.\w+$/.test(n))) files.push(new URL(sub + name, skill));
+    const entries = await readdir(new URL(sub, skill), { recursive: true, withFileTypes: true });
+    for (const e of entries.filter((d) => d.isFile())) files.push(pathToFileURL(join(e.parentPath ?? e.path, e.name)));
   }
   const hits = [];
   for (const file of files) {
