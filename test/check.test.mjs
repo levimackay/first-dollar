@@ -43,6 +43,26 @@ test('hidden fails hidden-after-reveal', (t) => {
   assert.ok(json.checks.some((c) => c.id === 'hidden-after-reveal' && !c.ok));
 });
 
+test('a one-line button with min-height does not fail two-line-button', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('tall-button'));
+  const mine = json.checks.filter((c) => c.id === 'two-line-button');
+  assert.ok(mine.length > 0 && mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
+test('a button whose label wraps fails two-line-button at 390', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('wrap-button'));
+  assert.ok(json.checks.some((c) => c.id === 'two-line-button' && c.width === 390 && !c.ok));
+});
+
+test('an unwritable --out after the browser launched still exits 3 with "not verified"', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const r = spawnSync('node', [cli, fx('good'), '--out', '/dev/null/x'], { encoding: 'utf8' });
+  assert.equal(r.status, 3);
+  assert.match(r.stdout, /not verified/);
+});
+
 test('no browser exits 3 with "not verified"', () => {
   const cache = mkdtempSync(join(tmpdir(), 'fd-cache-'));
   const { r } = run(fx('good'), { FIRST_DOLLAR_CHROME: '/nonexistent', FIRST_DOLLAR_CACHE: cache });
@@ -114,4 +134,22 @@ test('serve refuses path traversal', async () => {
     assert.ok(!r.body.includes('"name"'), p);
   }
   await srv.close();
+});
+
+function reduced(name) {
+  const { json } = run(fx(name));
+  return json.checks.filter((c) => c.id === 'reduced-motion');
+}
+
+test('a reveal that never fires under reduced motion fails reduced-motion and not hidden-after-reveal', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('reduced-fail'));
+  assert.ok(json.checks.some((c) => c.id === 'reduced-motion' && !c.ok), JSON.stringify(json.checks));
+  assert.ok(json.checks.filter((c) => c.id === 'hidden-after-reveal').every((c) => c.ok));
+});
+
+test('a reveal with a reduced-motion branch passes reduced-motion', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const mine = reduced('reduced-pass');
+  assert.ok(mine.length > 0 && mine.every((c) => c.ok), JSON.stringify(mine));
 });

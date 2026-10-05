@@ -26,6 +26,11 @@ export default {
     if (!design.ok) return [finding('design-tokens', ctx.designPath, 1, `design contract not enforced: ${design.reason}`, 'warn')];
     const { colors, fonts, rounded } = design.tokens;
     const out = [];
+    for (const [group, names] of Object.entries(design.unparsed)) {
+      if (names.length) {
+        out.push(finding('design-tokens', ctx.designPath, 1, `DESIGN.md ${group} token${names.length > 1 ? 's' : ''} not filled in or not parseable: ${names.join(', ')}; that part of the contract is not enforced`, 'warn'));
+      }
+    }
 
     eachDecl(ctx, null, (decl, unit, line) => {
       const prop = decl.prop.toLowerCase();

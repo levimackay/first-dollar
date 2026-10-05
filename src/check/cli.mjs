@@ -1,8 +1,9 @@
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { resolveBrowser, launch, NOT_VERIFIED_NO_BROWSER } from './browser.mjs';
 import { serve } from './serve.mjs';
 import * as C from './checks.mjs';
+import { palette } from './palette.mjs';
 
 const WIDTHS = [320, 390, 768, 1440, 1920];
 const args = process.argv.slice(2);
@@ -11,13 +12,32 @@ const outFlag = args.indexOf('--out');
 const target = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--out');
 
 // Anything that is not a check result (bad args, bad URL, unwritable dir, server failure) is "not verified".
-const fail = (e) => stop(`not verified: ${String(e?.message ?? e).split('\n')[0]}`, 3);
+let browser;
+// Close the browser first (best effort, never longer than 3s) so no Chromium outlives the run.
+const fail = async (e) => {
+  await Promise.race([Promise.resolve(browser?.close()).catch(() => {}), new Promise((r) => setTimeout(r, 3000))]);
+  stop(`not verified: ${String(e?.message ?? e).split('\n')[0]}`, 3);
+};
 process.on('uncaughtException', fail);
 process.on('unhandledRejection', fail);
 
 function stop(msg, code) {
   console.log(msg);
   process.exit(code);
+}
+
+const paletteAt = args.indexOf('--palette');
+if (paletteAt >= 0) {
+  const image = args[paletteAt + 1];
+  if (!image || image.startsWith('--')) stop('not verified: usage: first-dollar-check --palette <image.png> [--json]', 3);
+  if (!existsSync(image)) stop(`not verified: ${image} not found`, 3);
+  const found = resolveBrowser();
+  if (!found) stop(NOT_VERIFIED_NO_BROWSER, 3);
+  browser = await launch(found);
+  const colors = (await palette(browser, image)).map(({ hex, coverage }) => ({ hex, coverage }));
+  await browser.close();
+  if (flag('--json')) stop(JSON.stringify({ colors }, null, 2), 0);
+  stop(colors.map((c) => `${c.hex}  ${c.coverage.toFixed(1)}%`).join('\n'), 0);
 }
 
 if (!target) stop('not verified: usage: first-dollar-check <dir|url> [--out <dir>] [--og] [--shots-only] [--json]', 3);
@@ -33,7 +53,6 @@ if (!isUrl && !existsSync(join(target, 'index.html'))) stop(`not verified: ${tar
 const found = resolveBrowser();
 if (!found) stop(NOT_VERIFIED_NO_BROWSER, 3);
 
-let browser;
 try {
   browser = await launch(found);
 } catch (e) {
@@ -46,8 +65,19 @@ const base = isUrl ? target : server.url;
 const results = [];
 let loaded = false;
 
-async function open(width, height, url) {
-  const page = await browser.newPage({ viewport: { width, height } });
+// The first reference capture (<dir>/.first-dollar/reference/<name>/1440.png), or null.
+function referenceShot(dir) {
+  const root = join(dir, '.first-dollar', 'reference');
+  if (!existsSync(root)) return null;
+  for (const name of readdirSync(root).sort()) {
+    const shot = join(root, name, '1440.png');
+    if (existsSync(shot)) return shot;
+  }
+  return null;
+}
+
+async function open(width, height, url, reducedMotion = 'no-preference') {
+  const page = await browser.newPage({ viewport: { width, height }, reducedMotion });
   C.watch(page);
   const response = await page.goto(url, { waitUntil: 'load', timeout: 30000 });
   if (!response || response.status() >= 400) throw new Error(`${url} answered ${response ? response.status() : 'nothing'}`);
@@ -70,8 +100,18 @@ try {
     }
     if (w === 390 || w === 1440) {
       await page.screenshot({ path: join(out, `${w}.png`) });
+      const ref = !shotsOnly && w === 1440 ? referenceShot(target) : null;
+      if (ref) {
+        const [r, p] = [(await palette(browser, ref, 1))[0], (await palette(browser, join(out, '1440.png'), 1))[0]];
+        if (r && p) results.push({ ...C.referenceDrift(r, p), width: 1440 });
+      }
       await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true });
     }
+    await page.close();
+  }
+  if (!shotsOnly) {
+    const page = await open(1440, 900, base, 'reduce');
+    results.push({ ...(await C.reducedMotion(page)), width: 1440 });
     await page.close();
   }
   if (flag('--og') && !isUrl) {

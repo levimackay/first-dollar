@@ -1,4 +1,20 @@
 // Each check: (page, width) -> { id, ok, detail }. Call watch(page) before page.goto.
+import { deltaE, toOklch } from '../lint/color.mjs';
+
+// The page's dominant color against the reference's, both from 1440 screenshots.
+// Takes the top palette entries ({ hex, rgb }) and returns a result for width 1440.
+export function referenceDrift(ref, page) {
+  const d = deltaE(ref.rgb, page.rgb);
+  const [lr, lp] = [toOklch(ref.rgb).l, toOklch(page.rgb).l];
+  const flipped = (lr < 0.35 && lp > 0.7) || (lp < 0.35 && lr > 0.7);
+  const bad = d > 0.12 || flipped;
+  const why = flipped ? `lightness ${lr.toFixed(2)} vs ${lp.toFixed(2)}` : `deltaE ${d.toFixed(2)} > 0.12`;
+  return {
+    id: 'reference-drift',
+    ok: !bad,
+    detail: `page ${page.hex} vs reference ${ref.hex}: ${bad ? why : `deltaE ${d.toFixed(2)}`}`,
+  };
+}
 
 export function watch(page) {
   const s = (page.__fd = { errors: [], failed: [] });
@@ -27,7 +43,15 @@ export async function brokenMedia(page) {
   return res('broken-media', [...new Set([...imgs, ...page.__fd.failed])].slice(0, 5));
 }
 
-export async function hiddenAfterReveal(page) {
+export const hiddenAfterReveal = (page) => revealed(page, 'hidden-after-reveal');
+
+// Needs a page opened with reducedMotion: 'reduce' emulated before it loaded.
+export async function reducedMotion(page) {
+  await page.waitForTimeout(500);
+  return revealed(page, 'reduced-motion');
+}
+
+async function revealed(page, id) {
   await page.evaluate(async () => {
     const h = document.documentElement.scrollHeight;
     for (let y = 0; y <= h; y += 500) {
@@ -53,7 +77,7 @@ export async function hiddenAfterReveal(page) {
     return out.slice(0, 5);
   });
   await page.evaluate(() => scrollTo(0, 0));
-  return res('hidden-after-reveal', bad);
+  return res(id, bad);
 }
 
 export async function commitmentAboveFold(page) {
@@ -108,10 +132,17 @@ export async function twoLineButton(page) {
     const out = [];
     for (const el of document.querySelectorAll('[data-commitment], nav a')) {
       if (!el.getClientRects().length) continue;
-      const cs = getComputedStyle(el);
-      const lh = cs.lineHeight === 'normal' ? parseFloat(cs.fontSize) * 1.2 : parseFloat(cs.lineHeight);
-      const inner = el.getBoundingClientRect().height - ['paddingTop', 'paddingBottom', 'borderTopWidth', 'borderBottomWidth'].reduce((a, k) => a + parseFloat(cs[k]), 0);
-      if (inner > lh * 1.8) out.push(`"${el.textContent.trim().slice(0, 24)}" wraps`);
+      // Count the line boxes the label's text occupies; box height says nothing about wrapping.
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const rects = [...range.getClientRects()].filter((r) => r.width > 0 && r.height > 0).sort((x, y) => x.top - y.top);
+      let lines = 0;
+      let bottom = -Infinity;
+      for (const r of rects) {
+        if (r.top >= bottom - 2) lines += 1;
+        bottom = Math.max(bottom, r.bottom);
+      }
+      if (lines >= 2) out.push(`"${el.textContent.trim().slice(0, 24)}" wraps`);
     }
     return out.slice(0, 5);
   });

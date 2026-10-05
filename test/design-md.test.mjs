@@ -42,6 +42,18 @@ test('malformed DESIGN.md gives design-tokens exactly one warn and no fail', asy
   assert.equal(res.failures.filter((f) => f.rule === 'design-tokens').length, 0);
 });
 
+test('unfilled template slots give one warn per token group, naming the tokens', async () => {
+  const dir = path.join(here, 'fixtures', 'design-md', 'unfilled');
+  const res = await lint(dir);
+  const hits = [...res.failures, ...res.warnings].filter((f) => f.rule === 'design-tokens');
+  assert.equal(hits.length, 2, hits.map((h) => h.message).join(' | '));
+  assert.ok(hits.every((h) => h.severity === 'warn'));
+  const colors = hits.find((h) => /colors/.test(h.message));
+  assert.match(colors.message, /primary/);
+  assert.match(colors.message, /accent/);
+  assert.match(hits.find((h) => /typography/.test(h.message)).message, /display/);
+});
+
 test('a token reference resolves to the referenced color', async () => {
   const { resolveRef } = await import('../src/lint/design-md.mjs');
   assert.equal(resolveRef('{colors.primary}', { colors: { primary: '#fff' } }), '#fff');
