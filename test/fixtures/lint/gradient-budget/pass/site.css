@@ -1,0 +1,3 @@
+.sky { background: linear-gradient(180deg, #2b3a42, #0d1b1e); }
+.dusk { background: linear-gradient(90deg, #c46a3f, #7a3b1f); }
+.soft { filter: blur(12px); position: absolute; }

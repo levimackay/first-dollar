@@ -1,0 +1,7 @@
+:root {
+  --font-display: "Canela Deck";
+  --font-text: "Iowan Old Style";
+}
+.headline { font-family: var(--font-display), serif; }
+.copy { font-family: var(--font-text), Georgia, serif; }
+.note { font-family: var(--font-never-declared, "Lyon Text"), serif; }

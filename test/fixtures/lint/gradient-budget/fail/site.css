@@ -1,0 +1,5 @@
+.sky { background: linear-gradient(180deg, #2b3a42, #0d1b1e); }
+.dusk { background: linear-gradient(90deg, #c46a3f, #7a3b1f); }
+.dawn { background: linear-gradient(45deg, #f0d9b5, #d6a15c); }
+.halo { background: radial-gradient(circle at 50% 0%, #6c5ce7, transparent 70%); }
+.orb { position: absolute; filter: blur(140px); }

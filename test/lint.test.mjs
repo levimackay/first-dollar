@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdir, mkdtemp, writeFile, readFile, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
+import { execFile } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { lint, loadRules, normalizeFinding } from '../src/lint/runner.mjs';
@@ -19,7 +20,7 @@ const REFERENCE = [
 const all = (res) => [...res.failures, ...res.warnings];
 
 // A directory no rule has anything to say about.
-const CLEAN_DIR = path.join(fixtures, 'empty-shell', 'pass');
+const CLEAN_DIR = path.join(fixtures, 'legal-links', 'pass');
 
 const dirs = (await readdir(fixtures, { withFileTypes: true }))
   .filter((d) => d.isDirectory())
@@ -140,4 +141,36 @@ test('a finding whose rule id is not the module id is rejected', () => {
     line: 3,
     message: 'x',
   });
+});
+
+const cli = path.join(here, '..', 'src', 'lint', 'cli.mjs');
+const runCli = (...args) =>
+  new Promise((resolve) => execFile(process.execPath, [cli, ...args], (err, stdout, stderr) => resolve({ code: err ? err.code : 0, stdout, stderr })));
+
+test('cli exits 1 and prints a FAIL line on a failing directory, 0 on a clean one', async () => {
+  const bad = await runCli(path.join(fixtures, 'em-dash', 'fail'));
+  assert.equal(bad.code, 1);
+  assert.match(bad.stdout, /^FAIL .*\[em-dash\]/m);
+  const clean = await runCli(CLEAN_DIR);
+  assert.equal(clean.code, 0);
+  assert.match(clean.stdout, /lint: 0 failures/);
+});
+
+test('cli refuses a directory with no html unless told otherwise', async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), 'fdlint-empty-'));
+  const refused = await runCli(dir);
+  assert.equal(refused.code, 1);
+  assert.match(refused.stderr, /no html files/);
+  assert.equal((await runCli(dir, '--allow-no-html')).code, 0);
+});
+
+test('cli --reference-text flags lifted copy', async () => {
+  const dir = await siteDir({
+    'index.html': '<!doctype html><html lang="en"><body><main><p>we build storage buildings that outlast the weather and the paperwork</p></main></body></html>',
+  });
+  const ref = path.join(dir, 'ref.txt');
+  await writeFile(ref, `${REFERENCE[0]}\n`);
+  const res = await runCli(dir, '--reference-text', ref);
+  assert.equal(res.code, 1);
+  assert.match(res.stdout, /\[reference-copy\]/);
 });
