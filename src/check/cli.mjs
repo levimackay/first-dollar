@@ -4,6 +4,7 @@ import { resolveBrowser, launch, NOT_VERIFIED_NO_BROWSER } from './browser.mjs';
 import { serve } from './serve.mjs';
 import * as C from './checks.mjs';
 import { palette } from './palette.mjs';
+import { specimenHtml, loaded as specimenLoaded } from './specimen.mjs';
 
 const WIDTHS = [320, 390, 768, 1440, 1920];
 const args = process.argv.slice(2);
@@ -38,6 +39,27 @@ if (paletteAt >= 0) {
   await browser.close();
   if (flag('--json')) stop(JSON.stringify({ colors }, null, 2), 0);
   stop(colors.map((c) => `${c.hex}  ${c.coverage.toFixed(1)}%`).join('\n'), 0);
+}
+
+const specimenAt = args.indexOf('--specimen');
+if (specimenAt >= 0) {
+  const family = args[specimenAt + 1];
+  if (!family || family.startsWith('--')) stop('not verified: usage: first-dollar-check --specimen "<Family>" [--text "<sample>"] [--out <dir>]', 3);
+  const textAt = args.indexOf('--text');
+  const dir = resolve(outFlag >= 0 ? args[outFlag + 1] : join('.first-dollar', 'specimen'));
+  const found = resolveBrowser();
+  if (!found) stop(NOT_VERIFIED_NO_BROWSER, 3);
+  browser = await launch(found);
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.setContent(specimenHtml(family, textAt >= 0 ? args[textAt + 1] : undefined), { waitUntil: 'load' }).catch(() => {});
+  if (!(await specimenLoaded(page, family))) {
+    await browser.close();
+    stop('not verified: font did not load', 3);
+  }
+  mkdirSync(dir, { recursive: true });
+  await page.screenshot({ path: join(dir, 'specimen.png'), fullPage: true });
+  await browser.close();
+  stop(`specimen: ${join(dir, 'specimen.png')}`, 0);
 }
 
 if (!target) stop('not verified: usage: first-dollar-check <dir|url> [--out <dir>] [--og] [--shots-only] [--json]', 3);
