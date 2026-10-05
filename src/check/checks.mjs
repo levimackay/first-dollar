@@ -1,18 +1,31 @@
 // Each check: (page, width) -> { id, ok, detail }. Call watch(page) before page.goto.
 import { deltaE, toOklch } from '../lint/color.mjs';
 
-// The page's dominant color against the reference's, both from 1440 screenshots.
-// Takes the top palette entries ({ hex, rgb }) and returns a result for width 1440.
+// The page's overall ground against the reference's, both from full-page 1440 screenshots
+// (first screen when a reference has no full capture). Takes top palette entries ({ hex, rgb, coverage }).
+// Grounds are the top two clusters with at least 20% coverage; the closest pairing must be within 0.02,
+// so two near-equal grounds split differently still match.
+const GROUND = 0.02;
+const grounds = (list) => list.filter((c, i) => i < 2 && (i === 0 || c.coverage >= 20));
+
 export function referenceDrift(ref, page) {
-  const d = deltaE(ref.rgb, page.rgb);
-  const [lr, lp] = [toOklch(ref.rgb).l, toOklch(page.rgb).l];
+  const [rg, pg] = [grounds(ref), grounds(page)];
+  const pairs = [[pg[0], rg[0]], [pg[0], rg[1]], [pg[1], rg[0]]].filter(([p, r]) => p && r);
+  const d = Math.min(...pairs.map(([p, r]) => deltaE(r.rgb, p.rgb)));
+  const [r0, p0] = [ref[0], page[0]];
+  const [lr, lp] = [toOklch(r0.rgb).l, toOklch(p0.rgb).l];
   const flipped = (lr < 0.35 && lp > 0.7) || (lp < 0.35 && lr > 0.7);
-  const bad = d > 0.12 || flipped;
-  const why = flipped ? `lightness ${lr.toFixed(2)} vs ${lp.toFixed(2)}` : `deltaE ${d.toFixed(2)} > 0.12`;
+  const tinted = toOklch(r0.rgb).c < 0.008 && toOklch(p0.rgb).c > 0.012;
+  const bad = d > GROUND || flipped || tinted;
+  const why = flipped
+    ? `lightness ${lr.toFixed(3)} vs ${lp.toFixed(3)}`
+    : tinted
+      ? 'tinted ground against a neutral reference'
+      : `deltaE ${d.toFixed(3)} > ${GROUND}`;
   return {
     id: 'reference-drift',
     ok: !bad,
-    detail: `page ${page.hex} vs reference ${ref.hex}: ${bad ? why : `deltaE ${d.toFixed(2)}`}`,
+    detail: `page ${p0.hex} vs reference ${r0.hex}: ${bad ? why : `deltaE ${d.toFixed(3)}`}`,
   };
 }
 

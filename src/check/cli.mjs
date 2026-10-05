@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { resolveBrowser, launch, NOT_VERIFIED_NO_BROWSER } from './browser.mjs';
 import { serve } from './serve.mjs';
@@ -65,16 +65,17 @@ const base = isUrl ? target : server.url;
 const results = [];
 let loaded = false;
 
-// The first reference capture (<dir>/.first-dollar/reference/<name>/1440.png), or null.
-function referenceShot(dir) {
+// The reference capture directory: the first nested <host>/ folder (sorted) holding a capture, else reference/ itself.
+function referenceDir(dir) {
   const root = join(dir, '.first-dollar', 'reference');
   if (!existsSync(root)) return null;
-  for (const name of readdirSync(root).sort()) {
-    const shot = join(root, name, '1440.png');
-    if (existsSync(shot)) return shot;
-  }
-  return null;
+  const has = (d) => ['full-1440.png', '1440.png'].some((f) => existsSync(join(d, f)));
+  const nested = readdirSync(root).sort().map((n) => join(root, n)).find((d) => statSync(d).isDirectory() && has(d));
+  return nested ?? (has(root) ? root : null);
 }
+
+// Overall color is judged on the full page, falling back to the first screen.
+const bestShot = (d) => (existsSync(join(d, 'full-1440.png')) ? join(d, 'full-1440.png') : join(d, '1440.png'));
 
 async function open(width, height, url, reducedMotion = 'no-preference') {
   const page = await browser.newPage({ viewport: { width, height }, reducedMotion });
@@ -100,12 +101,13 @@ try {
     }
     if (w === 390 || w === 1440) {
       await page.screenshot({ path: join(out, `${w}.png`) });
-      const ref = !shotsOnly && w === 1440 ? referenceShot(target) : null;
-      if (ref) {
-        const [r, p] = [(await palette(browser, ref, 1))[0], (await palette(browser, join(out, '1440.png'), 1))[0]];
-        if (r && p) results.push({ ...C.referenceDrift(r, p), width: 1440 });
+      const height = await page.evaluate(() => document.documentElement.scrollHeight);
+      await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true, ...(height > 20000 && { clip: { x: 0, y: 0, width: w, height: 20000 } }) });
+      const refDir = !shotsOnly && w === 1440 ? referenceDir(target) : null;
+      if (refDir) {
+        const [r, p] = [await palette(browser, bestShot(refDir), 2), await palette(browser, join(out, 'full-1440.png'), 2)];
+        if (r.length && p.length) results.push({ ...C.referenceDrift(r, p), width: 1440 });
       }
-      await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true });
     }
     await page.close();
   }

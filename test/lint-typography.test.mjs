@@ -31,6 +31,8 @@ test('mono-prose names the element and the face', async () => {
   const [f] = await hits('mono-prose', 'fail');
   assert.match(f.message, /p\.terms/);
   assert.match(f.message, /IBM Plex Mono/);
+  assert.match(f.message, /running text set in monospace reads as machine-made; use the text face, or mark the element data-mono only if the reference sets this exact text in mono/);
+  assert.doesNotMatch(f.message, /short labels/);
 });
 
 test('mono-prose exempts code, pre, table cells, data-mono and short labels', async () => {

@@ -37,20 +37,26 @@ async function buckets(page, pngPath) {
 }
 
 // Greedy merge: the biggest bucket seeds a color, smaller ones within deltaE 0.03 join it.
+// A cluster reports the coverage-weighted mean of its members, not its seed.
 export function merge(list) {
   const total = list.reduce((s, b) => s + b.n, 0) || 1;
-  const sorted = list
-    .map((b) => ({ r: Math.round(b.r / b.n), g: Math.round(b.g / b.n), b: Math.round(b.b / b.n), n: b.n }))
-    .sort((x, y) => y.n - x.n);
+  const sorted = list.map((b) => ({ r: b.r / b.n, g: b.g / b.n, b: b.b / b.n, n: b.n })).sort((x, y) => y.n - x.n);
   const clusters = [];
   for (const b of sorted) {
-    const home = clusters.find((c) => deltaE(c, b) < MERGE);
-    if (home) home.n += b.n;
-    else clusters.push({ ...b });
+    const home = clusters.find((c) => deltaE(c.seed, b) < MERGE);
+    if (home) {
+      home.n += b.n;
+      home.r += b.r * b.n;
+      home.g += b.g * b.n;
+      home.b += b.b * b.n;
+    } else clusters.push({ seed: b, n: b.n, r: b.r * b.n, g: b.g * b.n, b: b.b * b.n });
   }
   return clusters
     .sort((x, y) => y.n - x.n)
-    .map((c) => ({ hex: hex(c), coverage: Math.round((c.n / total) * 1000) / 10, rgb: { r: c.r, g: c.g, b: c.b } }));
+    .map((c) => {
+      const rgb = { r: Math.round(c.r / c.n), g: Math.round(c.g / c.n), b: Math.round(c.b / c.n) };
+      return { hex: hex(rgb), coverage: Math.round((c.n / total) * 1000) / 10, rgb };
+    });
 }
 
 export async function palette(browser, pngPath, count = 6) {
