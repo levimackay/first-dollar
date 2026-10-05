@@ -42,6 +42,14 @@ test('entries from the page being linted are skipped, other pages still fire', a
   const entry = (page) => JSON.stringify({ date: '2026-09-10', idea: 'dog grooming', display: 'Familjen Grotesk', text: 'Public Sans', page });
   await writeFile(own.historyPath, entry(own.dir) + '\n');
   assert.deepEqual(hits(await lint(own.dir, { historyPath: own.historyPath })), []);
+  // A single-file target reads only that file, so the face goes inline; the check stays the same.
+  const inline = await site(null);
+  const page = path.join(inline.dir, 'index.html');
+  await writeFile(page, '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>T</title><style>h1 { font-family: "Familjen Grotesk", sans-serif; }</style></head><body><h1>Hi</h1></body></html>');
+  await writeFile(inline.historyPath, entry('/some/other/page') + '\n');
+  assert.equal(hits(await lint(page, { historyPath: inline.historyPath })).length, 1);
+  await writeFile(inline.historyPath, entry(inline.dir) + '\n');
+  assert.deepEqual(hits(await lint(page, { historyPath: inline.historyPath })), []);
   await writeFile(own.historyPath, entry(own.dir) + '\n' + entry('/some/other/page') + '\n');
   assert.equal(hits(await lint(own.dir, { historyPath: own.historyPath })).length, 1);
 });

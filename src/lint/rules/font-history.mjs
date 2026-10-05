@@ -1,5 +1,5 @@
 // With --history <file>, a face that one of your last 10 builds already used reads as a shared look.
-import { realpathSync } from 'node:fs';
+import { realpathSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { finding } from '../context.mjs';
 import { eachFamily } from './font-popularity.mjs';
@@ -20,7 +20,9 @@ export default {
     const out = [];
     const seen = new Set();
     // Entries recorded for this very page folder are its own earlier build, not a rival's.
-    const here = real(ctx.root);
+    // A single-file target (page/index.html) belongs to its folder.
+    const target = real(ctx.root);
+    const here = statSync(target, { throwIfNoEntry: false })?.isFile() ? path.dirname(target) : target;
     const recent = [...(ctx.history || [])].filter((h) => typeof h.page !== 'string' || real(h.page) !== here).reverse();
     eachFamily(ctx, (file, line, family) => {
       const key = family.toLowerCase();
