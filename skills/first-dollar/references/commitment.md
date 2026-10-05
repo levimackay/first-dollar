@@ -18,7 +18,7 @@ What a visitor can give, weakest first.
 | Opinion | "Cool idea", a like, a survey answer | No | No |
 | Time | A call, an interview, a demo | Weakly. Saying yes costs nothing | No |
 | Reputation | An intro, a public quote, a name on a list | Somewhat | No |
-| Money | Pre-order, refundable deposit, paid pilot, signed letter of intent with a price | Yes | Yes, and only this |
+| Money | Pre-order, deposit, paid pilot, signed letter of intent with a price | Yes | Yes, and only this |
 
 A free waitlist is an email address. It measures curiosity. Good copy alone can
 fill one, so it cannot tell "nice idea" from "I will pay". When the founder asks
@@ -36,7 +36,7 @@ business paying a small amount by card is still a pre-order.
 | Price of the real product | The ask | Button label shape |
 |---|---|---|
 | Under about $100, per month or one-time, bought self-serve by any buyer | Pre-order, or the first period paid up front | `Pre-order for [price]` |
-| About $100 to $1,000 | Refundable deposit: a fixed amount, credited at purchase | `Reserve with a [deposit] deposit` |
+| About $100 to $1,000 | Deposit: a fixed amount; refund and credit terms are `[NEED: deposit terms]` | `Reserve with a [deposit] deposit` |
 | Over about $1,000, or any sale that needs a call (procurement, a contract, an invoice, a team's sign-off) | Paid pilot, or a signed LOI, then a call | `Start the pilot for [fee]` or `Sign the letter of intent: [price]` |
 
 `[price]`, `[deposit]` and `[fee]` come from BRIEF.md, or stay
@@ -101,15 +101,16 @@ template with its slots and fill only what BRIEF.md holds.
 - Credit forward: `[NEED: whether the fee counts toward a contract, and how]`.
 - Cap, only if real: `[NEED: number of pilots and the reason for the limit]`.
 
-Help the founder aim the guarantee at the buyer's biggest fear (wasted staff
-time, data exposure, a failed rollout). It never stands in for proof.
+If the founder offers a guarantee, help aim it at the buyer's biggest fear
+(wasted staff time, data exposure, a failed rollout). It never replaces proof.
 
 ## Refund wording and where the money sits
 
 Every pre-product visitor asks "what happens to my money?". Answer beside the
 button. The refund policy is the founder's. If BRIEF.md has none, the page shows
-`Refundable: [NEED: refund terms]`. You may offer the lines below to the founder
+`Refunds: [NEED: refund terms]`. You may offer the lines below to the founder
 as a suggestion at the first stop; they go on the page only after a yes.
+`Charged today.` is the one exception: it is simply true of a Payment Link.
 
 - Who charges: `[NEED: legal business name] charges your card through [NEED: payment processor].`
 - When: `Charged today.` A Payment Link charges at checkout. Charging later
@@ -134,7 +135,6 @@ physical pre-order still showing `[NEED: ship date]`; if a delay comes, tell
 buyers and get their consent to wait, or cancel and refund them promptly.
 Guide: https://www.ftc.gov/business-guidance/resources/business-guide-ftcs-mail-internet-or-telephone-order-merchandise-rule
 Not legal advice; the founder checks the rules that apply to them.
-
 terms.html repeats the founder's refund terms word for word.
 
 ## Honest scarcity
@@ -185,7 +185,7 @@ tell the visitor nothing will happen yet.
 
 ```html
 <a class="commit" data-commitment href="https://buy.stripe.com/...">Pre-order for $40</a>
-<p class="commit-terms">Charged today. Refundable: [NEED: refund terms].</p>
+<p class="commit-terms">Charged today. Refunds: [NEED: refund terms].</p>
 ```
 
 Until the founder supplies the real link, write `href="[NEED: checkout link]"`.
@@ -202,7 +202,7 @@ founder these steps:
    ("Sandboxes"), or use test mode.
 2. Open Payment Links and click **+ New**.
 3. Add a product named after the commitment, for example
-   "Refundable deposit: [product]". Set a one-time price equal to the ask.
+   "Deposit: [product]". Set a one-time price equal to the ask.
 4. If there is a real cap, select "Limit the number of payments".
 5. Under **After the payment**, keep Stripe's confirmation page and replace the
    default message with the confirmation text below. There is no thanks page

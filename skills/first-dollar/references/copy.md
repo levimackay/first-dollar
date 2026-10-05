@@ -33,7 +33,7 @@ Example, for a fictional voice memo tool:
 - Mechanism: "Record a voice memo. It becomes a priced change order the client
   signs on their phone."
 - Proof: `[NEED: proof, e.g. prototype video or the founder's years on crews]`
-- Action: "Pre-order your first month for $40. Refundable: [NEED: refund terms]."
+- Action: "Pre-order your first month for $40. Refunds: [NEED: refund terms]."
   (The $40 is the founder's price in this example.)
 
 ## Three headline angles

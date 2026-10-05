@@ -121,8 +121,8 @@ Write these in DESIGN.md Provenance, and say them plainly at the next stop:
 
 ## 6. Fonts: allowed, banned, swaps
 
-Allowed: any family that is free to load and to self-host and is not banned.
-A reference font that meets both stays. This is the stage 4 gate in SKILL.md.
+Allowed: any family that is free to load and is not banned. A reference font
+that meets both stays. This is the stage 4 gate in SKILL.md.
 
 Banned, matching the `banned-font-family` lint rule: Inter, Geist, Space
 Grotesk, Roboto, Arial, system-ui, ui-sans-serif, ui-serif, -apple-system,
@@ -142,7 +142,7 @@ Google or self-hosted.
 | Mono | JetBrains Mono, IBM Plex Mono, Martian Mono, Red Hat Mono |
 | Geometric sans | Outfit, Sora, Urbanist, Lexend |
 | Condensed or poster | Barlow Condensed, Big Shoulders Display, Anton, Archivo Narrow |
-| Expressive sans | Bricolage Grotesque, Unbounded, Syne |
+| Expressive sans | Bricolage Grotesque, Unbounded, Syne, Darker Grotesque |
 
 Log every swap in DESIGN.md Provenance:
 
