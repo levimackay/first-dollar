@@ -11,10 +11,13 @@ const ARMS = ['plain', 'prompted', 'first-dollar'];
 const SKIP_RULES = new Set(['commitment-cta', 'design-tokens', 'reference-copy']);
 
 const MONEY = /[$£€]\s?\d|pre-?order|deposit|reserve|letter of intent|\bLOI\b|pilot|pre-?pay|buy|book/i;
+const CONTACT = /ask about|talk to|contact|email us|get in touch|questions|schedule a call|book a call/i;
+const CONVENTION_CHECKS = new Set(['commitment-above-fold']);
 const FREE = /waitlist|wait list|early access|notify|sign up|get started|free trial|join|subscribe|learn more|contact|email|demo/i;
 
 export function classifyAsk(text) {
   if (!text) return 'none';
+  if (CONTACT.test(text)) return 'contact';
   if (MONEY.test(text)) return 'money';
   return FREE.test(text) ? 'free' : 'other';
 }
@@ -94,7 +97,9 @@ async function scoreRun(dir, kase, caseText, browser) {
   row.slop = { fails: fails.length, warns: findings.length - fails.length, byRule };
 
   const chk = runNode('first-dollar-check.mjs', [dir.path, '--out', join(dir.path, '.first-dollar/check'), '--json']);
-  row.rendered = { verified: !!chk?.verified, failed: chk?.verified ? [...new Set(chk.checks.filter((c) => !c.ok).map((c) => c.id))] : [] };
+  const failedIds = chk?.verified ? [...new Set(chk.checks.filter((c) => !c.ok).map((c) => c.id))] : [];
+  row.rendered = { verified: !!chk?.verified, failed: failedIds.filter((id) => !CONVENTION_CHECKS.has(id)) };
+  row.convention = { failed: failedIds.filter((id) => CONVENTION_CHECKS.has(id)) };
 
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   try {
@@ -124,6 +129,7 @@ function sameness(rows) {
     totals: {
       slopFails: ok.reduce((n, r) => n + r.slop.fails, 0),
       moneyAsks: ok.filter((r) => r.ask.type === 'money').length,
+      contactAsks: ok.filter((r) => r.ask.type === 'contact').length,
       missing: rows.filter((r) => r.status === 'missing').length,
     },
   };
@@ -142,15 +148,15 @@ function markdown(res) {
     }
     out.push('');
   }
-  out.push('## Summary', '', '| Arm | Pages scored | Slop fails (total) | Money asks | Unique display families | Mean background deltaE | Unique CTA hue buckets |', '|---|---|---|---|---|---|---|');
+  out.push('## Summary', '', '| Arm | Pages scored | Slop fails (total) | Money asks | Contact asks | Unique display families | Mean background deltaE | Unique CTA hue buckets |', '|---|---|---|---|---|---|---|---|');
   for (const arm of ARMS) {
     const s = res.arms[arm];
-    out.push(`| ${arm} | ${s.pages} | ${s.totals.slopFails} | ${s.totals.moneyAsks} of ${s.pages} | ${s.uniqueDisplayFamilies} of ${s.pages} | ${s.meanBackgroundDeltaE?.toFixed(3) ?? 'n/a'} | ${s.uniqueCtaHueBuckets} |`);
+    out.push(`| ${arm} | ${s.pages} | ${s.totals.slopFails} | ${s.totals.moneyAsks} of ${s.pages} | ${s.totals.contactAsks} | ${s.uniqueDisplayFamilies} of ${s.pages} | ${s.meanBackgroundDeltaE?.toFixed(3) ?? 'n/a'} | ${s.uniqueCtaHueBuckets} |`);
   }
   out.push('', '## Method', '',
     '1. Slop: the bundled lint on each run, minus the convention rules commitment-cta, design-tokens and reference-copy.',
-    '2. Rendered: the bundled rendered checks at their own widths; every failed check id counts.',
-    '3. Ask: at 1440x900, the largest visible button or link in the first viewport (nav links only if styled as buttons), classified by one text pattern for every arm.',
+    '2. Rendered: the bundled rendered checks at their own widths; every failed check id counts except commitment-above-fold, which keys off the data-commitment convention (like the three excluded lint rules) and is recorded separately as `convention` in results.json.',
+    '3. Ask: at 1440x900, the largest visible button or link in the first viewport (nav links only if styled as buttons), classified money / contact / free / other / none by one text pattern for every arm (contact is checked before money).',
     '4. Unconfirmed numbers: number tokens in the visible text that are absent from the case file. A list for a human to confirm, not a count of inventions.',
     '5. Look: body background, first h1 font family and the ask button color, compared across each arm\'s pages.',
     '', 'Losing rows stay in the tables.', '');

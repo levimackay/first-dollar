@@ -7,6 +7,9 @@ test('classifyAsk', () => {
   assert.equal(classifyAsk('Start a 90-day pilot'), 'money');
   assert.equal(classifyAsk('Join the waitlist'), 'free');
   assert.equal(classifyAsk('Reserve your spot'), 'money');
+  assert.equal(classifyAsk('Ask about the 90-day pilot'), 'contact');
+  assert.equal(classifyAsk('Email us'), 'contact');
+  assert.equal(classifyAsk('Book a call'), 'contact');
   assert.equal(classifyAsk(null), 'none');
 });
 
