@@ -1,4 +1,20 @@
 // Each check: (page, width) -> { id, ok, detail }. Call watch(page) before page.goto.
+import { deltaE, toOklch } from '../lint/color.mjs';
+
+// The page's dominant color against the reference's, both from 1440 screenshots.
+// Takes the top palette entries ({ hex, rgb }) and returns a result for width 1440.
+export function referenceDrift(ref, page) {
+  const d = deltaE(ref.rgb, page.rgb);
+  const [lr, lp] = [toOklch(ref.rgb).l, toOklch(page.rgb).l];
+  const flipped = (lr < 0.35 && lp > 0.7) || (lp < 0.35 && lr > 0.7);
+  const bad = d > 0.12 || flipped;
+  const why = flipped ? `lightness ${lr.toFixed(2)} vs ${lp.toFixed(2)}` : `deltaE ${d.toFixed(2)} > 0.12`;
+  return {
+    id: 'reference-drift',
+    ok: !bad,
+    detail: `page ${page.hex} vs reference ${ref.hex}: ${bad ? why : `deltaE ${d.toFixed(2)}`}`,
+  };
+}
 
 export function watch(page) {
   const s = (page.__fd = { errors: [], failed: [] });

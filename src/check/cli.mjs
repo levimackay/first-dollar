@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { resolveBrowser, launch, NOT_VERIFIED_NO_BROWSER } from './browser.mjs';
 import { serve } from './serve.mjs';
@@ -65,6 +65,17 @@ const base = isUrl ? target : server.url;
 const results = [];
 let loaded = false;
 
+// The first reference capture (<dir>/.first-dollar/reference/<name>/1440.png), or null.
+function referenceShot(dir) {
+  const root = join(dir, '.first-dollar', 'reference');
+  if (!existsSync(root)) return null;
+  for (const name of readdirSync(root).sort()) {
+    const shot = join(root, name, '1440.png');
+    if (existsSync(shot)) return shot;
+  }
+  return null;
+}
+
 async function open(width, height, url) {
   const page = await browser.newPage({ viewport: { width, height } });
   C.watch(page);
@@ -89,6 +100,11 @@ try {
     }
     if (w === 390 || w === 1440) {
       await page.screenshot({ path: join(out, `${w}.png`) });
+      const ref = !shotsOnly && w === 1440 ? referenceShot(target) : null;
+      if (ref) {
+        const [r, p] = [(await palette(browser, ref, 1))[0], (await palette(browser, join(out, '1440.png'), 1))[0]];
+        if (r && p) results.push({ ...C.referenceDrift(r, p), width: 1440 });
+      }
       await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true });
     }
     await page.close();

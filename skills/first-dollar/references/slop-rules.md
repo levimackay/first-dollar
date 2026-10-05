@@ -111,3 +111,4 @@ in `<page>/.first-dollar/check/`.
 | `commitment-above-fold` | `[data-commitment]` is missing, or starts below 844px at 390 wide | Shorten the hero; move the commitment block up |
 | `contrast` | Headline, paragraph or button text under 4.5:1 (3:1 at 24px and up) | Darken the ink or lighten the ground within DESIGN.md tokens |
 | `two-line-button` | The commitment button or a nav link wraps to two lines | Shorter label, `white-space: nowrap`, or less padding |
+| `reference-drift` | A reference capture exists at `.first-dollar/reference/*/1440.png` and the page's dominant color is more than 0.12 OKLab away from the reference's, or one is dark (lightness under 0.35) and the other light (over 0.70). Skipped when there is no capture | Move the ground back to the reference's; `--palette <image.png>` prints an image's top colors |
