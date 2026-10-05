@@ -101,7 +101,7 @@ try {
     if (w === 390 || w === 1440) {
       await page.screenshot({ path: join(out, `${w}.png`) });
       const height = await page.evaluate(() => document.documentElement.scrollHeight);
-      await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true });
+      await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true, ...(height > 20000 && { clip: { x: 0, y: 0, width: w, height: 20000 } }) });
       const refDir = !shotsOnly && w === 1440 ? referenceDir(target) : null;
       if (refDir) {
         const [r, p] = [(await palette(browser, bestShot(refDir), 1))[0], (await palette(browser, join(out, 'full-1440.png'), 1))[0]];

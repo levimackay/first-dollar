@@ -76,3 +76,29 @@ test('a dark photo hero on a light full page does not make the reference dark', 
   assert.equal(checks[0].ok, true, checks[0].detail);
 });
 
+test('URL mode also writes full-1440.png, bounded to 20000px', async (t) => {
+  if (!found) return t.skip('no browser');
+  const { createServer } = await import('node:http');
+  const srv = createServer((q, s) => {
+    s.setHeader('content-type', 'text/html');
+    s.end('<body style="margin:0"><div style="height:30000px;background:#fff"></div>');
+  });
+  await new Promise((r) => srv.listen(0, '127.0.0.1', r));
+  const cwd = mkdtempSync(join(tmpdir(), 'fd-url-'));
+  const url = `http://127.0.0.1:${srv.address().port}/`;
+  // async spawn: spawnSync would block the event loop that serves the page
+  const r = await new Promise((done) => {
+    const c = spawn('node', [cli, url], { cwd });
+    let stdout = '';
+    c.stdout.on('data', (d) => (stdout += d));
+    c.on('close', (status) => done({ status, stdout }));
+  });
+  srv.close();
+  assert.ok(r.status === 0 || r.status === 1, r.stdout);
+  const dir = join(cwd, '.first-dollar', 'reference');
+  const host = new URL(url).host;
+  const full = join(dir, host, 'full-1440.png');
+  assert.ok(existsSync(full), r.stdout);
+  const buf = readFileSync(full);
+  assert.ok(buf.readUInt32BE(20) <= 20000, `height ${buf.readUInt32BE(20)}`);
+});
