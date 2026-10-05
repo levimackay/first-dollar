@@ -58,7 +58,7 @@ Read each file at its stage, not before.
   stage 3's gate makes sure it does.
 - The check: `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <page>`
 - A reference shot:
-  `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url> --out <page>/.first-dollar/reference/<host>`
+  `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs '<url>' --out <page>/.first-dollar/reference/<host>`
 - The palette, the dominant colors of an image with their coverage:
   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --palette <image.png>`
 
@@ -76,13 +76,14 @@ What they report:
 - The check renders the page in a real browser. Exit 0: all checks passed.
   Exit 1: `FAIL <id> @<width> <detail>`. Exit 3: not verified; the first line
   says why. For a folder it writes `1440.png`, `390.png`, `full-1440.png` and
-  `full-390.png` to `<page>/.first-dollar/check/`. When
-  `<page>/.first-dollar/reference/<host>/1440.png` exists, it also runs
-  `reference-drift` against it. Given a URL, it only takes screenshots. Run it
+  `full-390.png` to `<page>/.first-dollar/check/`. When a reference capture
+  exists in `<page>/.first-dollar/reference/<host>/`, it also runs
+  `reference-drift`: the page's overall color, measured on the full page,
+  against the reference's. Given a URL, it only takes screenshots. Run it
   again at every stage, even after an exit 3.
-- When exit 3 says there is no browser, it prints an install command:
-  `npm i --prefix ~/.cache/first-dollar playwright-core`. Ask the founder
-  about it only after a run has actually exited 3, at whichever stage that
+- When the check or `--palette` exits 3 with no browser, it prints an install
+  command: `npm i --prefix ~/.cache/first-dollar playwright-core`. Ask the
+  founder only after a run has actually exited 3, at whichever stage that
   happens: at the next stop, or in the final report. Never ask in advance.
   Until a yes, every rendered check is "not verified". Running without stops:
   do not install. Never write "passed" for a check that did not run.
@@ -117,11 +118,8 @@ what you would have asked, take the stated default, log it in BRIEF.md under
   outline, the page's text font, no color flourish) so it reads as a gap, not
   broken copy. A missing image, video or file is a plain or hatched
   `[PLACEHOLDER: what it should show]` box, never a gradient or a picture.
-- **What the page is made of.** The founder's real assets, a labeled
-  illustration or concept mock, and `[PLACEHOLDER: ...]` boxes (stage 4).
-  Sample values in a mock are generic, never a real person's or company's
-  name, and captioned ("Illustration. Numbers are examples."). Never a stock
-  or generated photo presented as real.
+- **What the page is made of.** Stage 4, Image regions. Sample values in a
+  mock are generic, never a real person's or company's name.
 - **The product name is a fact.** If the founder gave none, write
   `[NEED: product name]`. Do not coin one.
 - **One ask.** The page has one primary action: the commitment from BRIEF.md,
@@ -201,12 +199,14 @@ section of `${CLAUDE_SKILL_DIR}/references/design-extraction.md`.
 - **The founder gave a screenshot.** Copy it to
   `<page>/.first-dollar/reference/founder/1440.png`.
 - **Neither.** Pick three sites from inspiration.md, from three different
-  registers, that the buyer in BRIEF.md would trust. Shoot each into
-  `<page>/.first-dollar/candidates/<host>`. **Stop:** show the founder the
-  three `1440.png` shots, numbered (with no browser, the three URLs), and ask
-  for a number along with the open questions. Default when running without
-  stops: the one whose register best fits the buyer; log why. Copy the chosen
-  folder into `<page>/.first-dollar/reference/`, which holds only the backbone.
+  registers, that the buyer in BRIEF.md would trust. Shoot each one:
+  `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs '<url>' --out <page>/.first-dollar/candidates/<host>`
+  **Stop:** show the founder the three `1440.png` shots, numbered (with no
+  browser, the three URLs), and ask for a number along with the open
+  questions. Default when running without stops: the one whose register best
+  fits the buyer; log why. Then copy the chosen one in:
+  `mkdir -p <page>/.first-dollar/reference && cp -R <page>/.first-dollar/candidates/<host> <page>/.first-dollar/reference/<host>`
+  `reference/` holds the backbone only, because `reference-drift` reads it.
 
 Record the chosen URL or file in BRIEF.md under "Reference". Stages 4 to 6 use
 only that one. Refuse template marketplaces and design showcase shots;
@@ -241,10 +241,14 @@ prose records the reference, where each value came from, and the font match.
 - Take structure, not surface: macrostructure, type roles, palette
   proportions, radius, rhythm. Never its images, logo, icons or words.
 - Colors are sampled from the reference's pixels with `--palette`, never
-  described. A dark reference makes a dark page (`reference-drift`).
-- Fonts: the reference's own face if it is free and the lint passes it.
-  Otherwise the closest free match by features, outside the popular set
-  (design-extraction.md section 6). Never from memory or a shortlist.
+  described. The ground is the reference's sampled ground hex exactly, never
+  tinted: a white reference makes a white page, a dark one a dark page. If
+  `--palette` exits 3, ask about the install as for the check. If declined,
+  read the colors from the screenshot by eye (or the CSS in URL mode), mark
+  each "estimated" in DESIGN.md, and say `reference-drift` will not run.
+- Fonts: the reference's own face if it is free and ranks below 200.
+  Otherwise three free candidates matched by features and compared on their
+  specimen shots (design-extraction.md section 6). Never a face unseen.
 - Monospace only for code and table data, and only if the reference uses it.
 - Declare every value the page needs: background, text, muted text, accent,
   button, border, each font, radius and spacing step.
@@ -266,13 +270,13 @@ an empty half screen has left the reference's family. Never use a stock or
 generated photo posed as real. List each region and its fill in DESIGN.md
 Overview. design-rules.md, "Filling image regions", has the craft.
 
-**Changing a token later.** Only four things change DESIGN.md after this
+**Changing a token later.** Only five things change DESIGN.md after this
 stage: a rendered contrast check fails, a reference color turns out to be on
 the banned list, a fidelity check (`reference-drift` or stage 6's compare
-step) finds a value misread from the reference, or the founder asks. Use the
-nearest value that fixes it.
-Record each change under `## Changes` at the end of DESIGN.md with its reason,
-then update the page. Nothing else changes a token.
+step) finds a value misread from the reference, a fresh-eyes finding (stage
+6), or the founder asks. Use the nearest value that fixes it. Record each
+change under `## Changes` at the end of DESIGN.md with its reason, then
+update the page. Nothing else changes a token.
 
 **Gate.** The front matter holds all four groups. Every font is free to load,
 and none is banned or in the popular set. The first lint run in stage 5 is
@@ -289,8 +293,8 @@ or two lines of mechanism, the ask with its price, one line on what happens
 after the click, and the first screen's image region filled as stage 4 says.
 The headline runs at most two lines at 1440 (copy.md). Add the footer with
 links to `privacy.html` and `terms.html`, and write both now as stubs (a
-heading and `[NEED: founder review before publishing]`, same stylesheet) so
-the links resolve. Put every DESIGN.md token in a CSS custom property and use
+heading and `<span class="need">[NEED: founder review before publishing]</span>`,
+same stylesheet) so the links resolve. Put every DESIGN.md token in a CSS custom property and use
 nothing else for color, font, radius or spacing. Lay out the 390px phone
 screen as carefully as the 1440px desktop one.
 
@@ -313,9 +317,8 @@ only on a yes.
 - If the check exited 3: say the screenshots are not verified, give the path
   to index.html to open in a browser, and still wait.
 
-Running without stops, this stage still happens in full: build and check the
-first screen alone, look at both screenshots, log the stop in BRIEF.md, then
-continue to stage 6.
+Running without stops, still build and check the first screen alone and look
+at both screenshots; then log the stop in BRIEF.md and continue to stage 6.
 
 ## Stage 6: Build and polish
 
@@ -324,7 +327,8 @@ you have, the objection answers, the ask again near the end, and the footer.
 Every image region gets its stage 4 fill. From `references/motion.md`, choose
 one signature motion that animates the product's mechanism inside the labeled
 illustration, plus up to two supporting moves matched to the reference's
-energy, each with a reduced-motion fallback.
+energy, each with a reduced-motion fallback. No illustration or mock on the
+page: no signature motion.
 
 Fill in the `<page>/privacy.html` and `<page>/terms.html` stubs with the same
 tokens. Keep them plain. Keep `[NEED: founder review before publishing]` at
@@ -344,13 +348,19 @@ Then polish once:
    list. At a glance the page should read as the reference's family. Energy is
    a token too: if the reference is loud, the page is loud. With no page
    screenshot, compare the code to the reference and call it not verified.
-4. **Fresh eyes.** If you can spawn a subagent, give a fresh one with no build
-   context only the page's `1440.png` and `390.png`, the reference's
-   `1440.png` and `${CLAUDE_SKILL_DIR}/references/tells.md`, and ask: "List
-   anything a professional designer would read as AI-made, worst first." If
-   you cannot, re-read tells.md and write that list yourself. Add it all.
-5. **Fix.** Fix the whole list, drift and fresh-eyes findings included, in one
-   batch.
+4. **Fresh eyes.** Spawn a fresh subagent with no build context, if you can.
+   Give it only `<page>/.first-dollar/check/1440.png`, `390.png` and
+   `full-1440.png` from the same folder, the backbone's
+   `<page>/.first-dollar/reference/<host>/1440.png`, and
+   `${CLAUDE_SKILL_DIR}/references/tells.md`, with the prompt in tells.md
+   ("The fresh-eyes critic"). It writes `<page>/.first-dollar/critic.md`:
+   numbered findings, worst first, each with its region and what to do.
+   Without a subagent, open the same files and write critic.md yourself
+   (from the code, marked not verified, if there are no screenshots).
+5. **Fix.** Fix the whole list and every critic.md finding in one batch. A
+   finding that needs a token change is allowed (stage 4) and logged under
+   DESIGN.md Changes. When the reference does the same thing, keep it and
+   say why in critic.md.
 6. **Confirm.** Run the lint and the check once more.
 
 What you judge by eye gets that one batch and one confirm round, never a
@@ -421,7 +431,7 @@ PLACEHOLDERS.md, reference.txt or the reference screenshots.
 - Copy the reference's pixels, images, logo, icons or words.
 - Present a stock or generated photo as real, or drop an image region of the
   reference and leave the space empty.
-- Change a DESIGN.md token for any reason but the four in stage 4.
+- Change a DESIGN.md token for a reason stage 4 does not list.
 - Report a check as passed when it did not run.
 - Install, deploy or spend anything without the founder's yes.
 - Publish anything but the clean copy in `<page>/.first-dollar/publish/`.

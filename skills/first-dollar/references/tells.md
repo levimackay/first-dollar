@@ -41,22 +41,21 @@ Instead: the whole headline in one voice. Let size do the work.
 ## Color and ground
 
 **The default off-white or cream ground.** Warm paper behind every page,
-whatever the reference looked like. All eighteen eval pages had it, including
-the ones built from a dark reference. [`reference-drift`]
-Instead: the reference's ground, sampled with `--palette`. A dark reference
-makes a dark page.
+whatever the reference looked like. [`reference-drift`]
+Instead: the reference's ground exactly as `--palette` sampled it. A white
+reference makes a white page; a dark one, a dark page.
 
 **A quiet page from a loud reference.** Muted color and small type built from
 a reference whose accent floods the screen.
 Instead: match the energy, the accent's share of the screen and its
 saturation, as well as the hex values (SKILL.md stage 6, Compare).
 
-**Glows.** Colored glow shadows, blurred orbs, radial washes behind the hero.
-[`glow-shadow`, `gradient-budget`]
-Instead: a flat field, an offset shadow in a tinted neutral, or nothing.
+**Glows and purple.** Colored glow shadows, blurred orbs, radial washes,
+indigo to purple. [`glow-shadow`, `gradient-budget`, `ai-palette`]
+Instead: a flat field in the reference's palette, or nothing.
 
-**Indigo to purple.** [`ai-palette`, `tailwind-defaults`]
-Instead: the reference's palette.
+**A grain or noise overlay.** Texture laid over a flat ground to look premium.
+Instead: the flat ground, as sampled.
 
 ## Layout
 
@@ -84,16 +83,17 @@ Instead: the reference's rhythm. Tight clusters, then a large breath.
 Instead: the reference's button radius. A pill only when the reference has
 one.
 
-**The centered hero.** Eyebrow, headline, subhead, two buttons, all centered.
-[`centred-hero`]
-Instead: one button with the price, in the reference's hero shape.
+**A badge above the headline.** A pill with a dot: "Now taking pre-orders".
+Instead: say it in the terms line under the button, in the text face.
 
-**Three-card rows.** [`three-card-row`]
-Instead: the real number of points, as a list, a table or one large item.
+**Numbered section labels.** "01 / 02 / 03" over each section.
+Instead: section names in the text face, or none.
 
-**Stat rows, logo rows, testimonial cards.** [`stat-row`, `logo-row`,
-`testimonial-signature`]
-Instead: one real number in a sentence with its source, or nothing.
+**Template sections.** The centered hero with two buttons, three-card rows,
+stat rows, logo rows, testimonial cards. [`centred-hero`, `three-card-row`,
+`stat-row`, `logo-row`, `testimonial-signature`]
+Instead: one button with the price; the real number of points as a list or
+one large item; one real number in a sentence with its source, or nothing.
 
 **An empty half screen.** The reference has a photo there; the page has air.
 Instead: keep the region and fill it (SKILL.md stage 4).
@@ -105,17 +105,23 @@ reads as broken copy, not as a gap someone must fill.
 Instead: `<span class="need">[NEED: ...]</span>` with one plain style: a
 dashed outline, the page's text font, no color flourish.
 
-**Generated phrasing.** Em dashes, "not X but Y" reveals, stock verbs.
-[`em-dash`, `not-x-but-y`, `buzzwords`]
-Instead: copy.md, Tells.
-
 ## Ornament and motion
 
-**Emoji and sparkles.** [`icon-libraries`]
-Instead: words, or a mark you draw for this page.
+**Emoji, sparkles, a stock icon on every heading.** [`icon-libraries`]
+Instead: words, or one mark drawn for this page that means something.
 
-**A stock icon on every heading.** [`icon-libraries`]
-Instead: no icon, or one drawn mark that means something.
+**Arrows on every button and link.** "Pre-order →".
+Instead: the label alone. The price is the pull.
+
+**Fake window chrome.** Three traffic-light dots on the concept mock.
+Instead: crop the mock the way the reference crops its photo. Chrome only if
+the reference shows it.
+
+**A marquee ticker.** A strip of scrolling keywords or claims between
+sections.
+Instead: cut it. Motion goes to the mechanism (motion.md). A marquee of the
+buyer's own real words can stay when the reference has one, carrying real
+facts only (motion.md, ticker proof).
 
 **Motion everywhere.** Every section fading up on scroll, pulsing dots,
 bouncing arrows. [`pulse-dot`, `bounce-easing`]
@@ -124,12 +130,12 @@ supporting moves (motion.md).
 
 ## The fresh-eyes critic
 
-Give the critic only four files: the page's `1440.png` and `390.png`, the
-reference's `1440.png`, and this file. No BRIEF.md, no DESIGN.md, no history
-of the build. A critic who knows why each choice was made will excuse it.
+You are the critic. You have the page at 1440, at 390 and as a full page at
+1440, the reference at 1440, and this catalog. You know nothing about why the
+page was made this way; a critic who knows will excuse it.
 
-Ask, word for word: "List anything a professional designer would read as
-AI-made, worst first." Every item goes into the stage 6 list and is fixed in
-the same batch as the fidelity drift. Without a subagent, re-read this file,
-look at the same three images as if for the first time, and write the list
-yourself before fixing anything.
+"List anything a professional designer would read as AI-made, worst first."
+Write the list to `<page>/.first-dollar/critic.md`, numbered, worst first.
+One item each: the tell, its region (section, and 1440 or 390), and what to
+do, from the "Instead" lines here. Mark an item "ref" when the reference does
+the same thing. Tells not in this catalog count too.

@@ -19,11 +19,11 @@ Playful. Each heading says which buyers tend to trust that register.
 1. Pick three registers the buyer in BRIEF.md would trust, then one entry from
    each. Three different registers give the founder three different looks.
 2. Shoot each as a candidate:
-   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url> --out <page>/.first-dollar/candidates/<host>`
+   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs '<url>' --out <page>/.first-dollar/candidates/<host>`
 3. At the stop, show the founder the three `1440.png` files numbered, with each
    entry's register and note (with no browser, the three URLs). Ask for one
-   number. That page becomes the backbone: copy its folder into
-   `<page>/.first-dollar/reference/`.
+   number. That page becomes the backbone:
+   `mkdir -p <page>/.first-dollar/reference && cp -R <page>/.first-dollar/candidates/<host> <page>/.first-dollar/reference/<host>`
 4. Running without stops: take the one whose register best fits the buyer and
    log why in BRIEF.md.
 5. A URL that no longer loads, or now looks nothing like its note: skip it and
@@ -58,6 +58,8 @@ For buyers who check the specs: developers, engineers, operations leads.
 
 6. https://planetscale.com : no hero. The page opens with two plain
    paragraphs set entirely in a monospace face, as if it were documentation.
+   Picking it allows mono prose: mark those blocks `data-mono` and log it in
+   DESIGN.md Provenance. Fine print and labels still go in the text face.
    (Its customer logo grid only works because the customers are real. Skip it.)
 7. https://oxide.computer : the two old options shown side by side as ASCII
    diagrams with their costs listed under each, then the product as the way out

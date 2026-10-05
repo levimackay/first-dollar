@@ -32,17 +32,15 @@ Write these into the Overview section of DESIGN.md:
   popular faces [`banned-font-family`, `font-popularity`].
 - Monospace only for code and for data in tables, and only if the reference
   itself uses mono. Never for fine print, captions, terms lines or labels
-  [`mono-prose`].
-- Where the reference leaves the pairing open, pair for contrast: serif with
-  grotesque, or condensed display with a humanist text face. Two similar sans
-  faces are not a pair. One variable
-  family pushed across its full weight range also works, but it draws a
-  `single-sans-family` warning: answer it in DESIGN.md.
-- Use extremes: weight 300 against 800, not 400 against 600. Display at least
-  2.5 times the body size, 3 or more is better [`flat-type-scale`].
-- Build a scale from a ratio: 1.2 (dense, editorial), 1.25, 1.333, or 1.5
-  (poster). Example, 18px body at 1.333: 18, 24, 32, 43, 57, 76px. Do not
-  hand-pick sizes.
+  [`mono-prose`]. Only where the reference sets that very text in mono, put
+  `data-mono` on the element (it covers everything inside) and say so in
+  DESIGN.md Provenance. Never on fine print or labels, never to quiet the rule.
+- Where the reference leaves a value open (pairing, weights, scale ratio),
+  take the nearest thing it does show and say so in DESIGN.md. The ratio of
+  its headline size to its body size picks the scale; build the steps from
+  that ratio, never by hand. Display at least 2.5 times the body size
+  [`flat-type-scale`]. Two similar sans faces are not a pair; one family
+  across its weights draws `single-sans-family`: answer it in DESIGN.md.
 - Display gets negative tracking: about -0.02em at 48px, -0.03em to -0.04em
   above 72px, never tighter than -0.04em. Body stays at 0.
 - Line height falls as size rises: body 1.5 to 1.65, headings 1.05 to 1.2.
@@ -58,9 +56,11 @@ Write these into the Overview section of DESIGN.md:
 - Sample, never describe: the ground, ink and accent come from `--palette` on
   the reference screenshot (design-extraction.md section 2), or on the
   founder's photos when the page is built around them.
-- One anchor. Neutrals the reference does not show are derived from it in
-  OKLCH, tinted toward its hue (chroma about 0.005 to 0.02), recorded as hex.
-  Pure `#000`, `#fff` and `#808080` read as untouched.
+- One anchor. Use every color the reference shows exactly as sampled, pure
+  white or black included. Never tint a sampled ground: a white reference
+  makes a white page. Derive only the neutrals the reference does not show (a
+  border, a hover) from the anchor in OKLCH (chroma about 0.005 to 0.02), and
+  record them as hex.
 - One accent, used mainly by the commitment button. A second color only for
   error states.
 - No accent hue in the reference (ink on paper): the accent is the
@@ -70,8 +70,10 @@ Write these into the Overview section of DESIGN.md:
 - Match the reference's energy, not only its hex values: its saturation and
   how much of the screen its accent owns. A loud reference makes a loud page.
 - Light or dark comes from the reference: a dark reference makes a dark page
-  (`reference-drift`). Never from the category ("dev tools are dark"), and
-  never an off-white ground out of habit.
+  (`reference-drift`, the page's overall color measured on the full page). A
+  dark photo hero on a light site is fine; never repaint the page to match a
+  photo. Never from the category ("dev tools are dark"), never off-white out
+  of habit.
 - Banned: the indigo, violet, purple and fuchsia family, and cyan to purple
   gradients [`ai-palette`, `tailwind-defaults`]. Cream paper with a serif and a
   terracotta accent is the newer default; use it only when the reference has it.
@@ -110,13 +112,12 @@ Write these into the Overview section of DESIGN.md:
 - One signature motion that animates the product's mechanism inside the
   labeled illustration, plus up to two supporting moves matched to the
   reference's energy (motion.md). Nothing else moves.
-- Content is visible without the animation. The check script fails text still
-  hidden after scrolling (`hidden-after-reveal`).
+- Content is visible without the animation, and with reduced motion
+  (checks: `hidden-after-reveal`, `reduced-motion`).
 - Animate `transform` and `opacity` only. Never `transition: all`
   [`transition-all`].
-- 120 to 200ms for hover and press, 250 to 400ms for entrances.
-- Ease out for anything entering, for example `cubic-bezier(0.2, 0.8, 0.2, 1)`.
-  No overshoot or bounce [`bounce-easing`].
+- 120 to 200ms for hover and press, 250 to 400ms for entrances, eased out
+  with no overshoot [`bounce-easing`].
 - No zoom on image hover [`hover-zoom`], no pulsing dots [`pulse-dot`], no
   animated arrows.
 - `prefers-reduced-motion: reduce`: keep the opacity fades, drop the movement.
@@ -185,7 +186,7 @@ screen or a document.
   bleeds off the edge, the mock bleeds too. At display scale, one detail set
   large (a single row of the report) can beat the whole screen set small.
 - One surface with rows and rules inside. Cards inside a card fail
-  [`nested-cards`].
+  [`nested-cards`]. No fake window chrome unless the reference shows it.
 
 **A hatched placeholder.** When neither fits, or the region needs a real photo
 (the founder, a place, the product in use).
@@ -196,22 +197,24 @@ screen or a document.
   `placeholder-styled` warnings and spends the gradient budget.
 - The label names the photo that belongs there and its size, on a plain chip
   at 4.5:1. Text the reference sets on its photo sits on the hatch the same
-  way. Define the pattern once per page and reuse its id.
+  way. The pattern is defined once, first thing in `<body>`; each box reuses
+  it. `aspect-ratio` is the region's measured width over height, so the box
+  scales at 390 instead of pushing the ask below the fold.
 
 ```html
+<svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" /></pattern></defs></svg>
+
 <figure class="ph">
-  <svg class="ph-hatch" aria-hidden="true">
-    <defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" /></pattern></defs>
-    <rect width="100%" height="100%" fill="url(#hatch)" />
-  </svg>
+  <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
   <figcaption>[PLACEHOLDER: the product in use, 1440x900, full bleed]</figcaption>
 </figure>
 ```
 
 ```css
-.ph { position: relative; margin: 0; min-height: 900px; background: var(--surface); }
+.ph-defs { position: absolute; }
+.ph-defs line { stroke: var(--line); stroke-width: 1; }
+.ph { position: relative; margin: 0; aspect-ratio: 16 / 10; background: var(--surface); }
 .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ph-hatch line { stroke: var(--line); stroke-width: 1; }
 .ph figcaption { position: relative; display: inline-block; background: var(--neutral); color: var(--ink); }
 ```
 
@@ -228,17 +231,15 @@ What distinctive pages do where generated ones reach for the default:
 - Put text straight on a photo that was framed to leave room for it, with no
   dark scrim.
 - Draw your own marks. No icon sets, no emoji, no sparkles [`icon-libraries`].
-- Show real artifacts as evidence: the prototype, the founder's notebook, the
-  workbench, or a labeled illustration or concept mock. Otherwise a plain or
-  hatched `[PLACEHOLDER: ...]` box [`placeholder-styled`].
+- Show real artifacts as evidence (the prototype, the founder's notebook), or
+  the fills above.
 
 ## Mobile, designed at 390
 
 Write the 390 plan in DESIGN.md Layout: what stays dominant, what disappears,
 what reorders, what grows. Stacking the desktop is not a plan.
 
-- Headline, price and button inside the first 844px
-  (check: `commitment-above-fold`).
+- Headline, price and button inside the first 844px (`commitment-above-fold`).
 - Tap targets at least 44px. Inputs at 16px or larger, so phones do not zoom.
   Never lock zoom [`user-scalable`].
 - No sideways scroll from 320px up (check: `overflow`). Image columns use

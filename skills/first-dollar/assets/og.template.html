@@ -13,6 +13,8 @@
   The headline is the Promise from COPY.md, three lines at most. If it runs
   longer, use the headline-lg size instead of headline-display. The card does
   not scroll, so open og.png and check no line is cut off.
+  Background: the color that owns the reference's first screen, --neutral or
+  --primary; set html, body to it and keep the text at 4.5:1.
   Meta tags for index.html are listed in SKILL.md, stage 7.
 -->
 <html lang="en">
@@ -25,6 +27,7 @@
 <style>
   :root {
     --neutral: {{colors.neutral}};
+    --primary: {{colors.primary}};
     --ink: {{colors.ink}};
     --ink-muted: {{colors.ink-muted}};
     --line: {{colors.line}};

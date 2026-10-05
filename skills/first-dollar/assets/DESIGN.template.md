@@ -3,8 +3,8 @@ version: alpha
 name: "<product name>"
 description: "<design read: page kind, buyer, a feeling with an opposite>"
 colors:
-  primary: "<anchor hex: the color that owns the page>"
-  neutral: "<ground hex, tinted toward the anchor>"
+  primary: "<anchor hex: the reference's brand or button color, from --palette>"
+  neutral: "<ground hex: the reference's ground exactly as --palette sampled it; white, black or saturated stays so>"
   surface: "<second ground for one contrasting band, or delete>"
   ink: "<body text hex, 4.5:1 or more on neutral>"
   ink-muted: "<secondary text hex, 4.5:1 or more on neutral>"
@@ -46,6 +46,8 @@ typography:
     fontSize: "<px>"
     fontWeight: "<number>"
     lineHeight: "<1.2 to 1.4>"
+  data:
+    fontFamily: "<mono family only if the reference sets code or table data in mono; else delete this role>"
   price:
     fontFamily: "<family>"
     fontSize: "<px>"
@@ -106,7 +108,7 @@ components:
 - **Ink (<hex>):** <body text>
 - **Accent (<hex>):** <the commitment, and the few other places it appears>
 - Accent footprint: <a mark, 5% or less | recurring, 5 to 15% | a flood, over 15%>
-- Light or dark: <the same as the reference's ground; reference-drift checks it>
+- Light or dark: <the same as the reference's overall color; reference-drift checks it on the full page>
 
 ## Typography
 
@@ -158,8 +160,9 @@ Only values listed under rounded.>
 - Reference: <URL | screenshot from the founder>, read <date>, mode
   <screenshot | URL | both>
 - Route: <built-in | hallmark study | exported design system, and from which tool>
-- Confidence: colors <sampled with --palette | from CSS>; fonts <the
-  reference's own | matched by features>; rhythm <observed | unknown>
+- Confidence: colors <sampled with --palette | from CSS | estimated by eye>;
+  fonts <the reference's own | matched by features>; rhythm <observed | unknown>
+- data-mono: <none | which elements, because the reference sets that text in mono>
 - Font match, per role: <reference face>, read as <classification, width,
   contrast, x-height, terminals>; chosen <family>: <what matches, what differs>
 - Not carried over: <anything from the reference that was dropped>
@@ -168,6 +171,6 @@ Only values listed under rounded.>
 ## Changes
 
 <Every token change after stage 4: date, token, old value, new value, and the
-reason (a failed contrast check, a banned reference color, a value the stage 6
-fidelity check found misread, or the founder asked). Empty until the first
-change.>
+reason (a failed contrast check, a banned reference color, a value a fidelity
+check found misread, a fresh-eyes finding from critic.md, or the founder
+asked). Empty until the first change.>
