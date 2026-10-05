@@ -23,3 +23,18 @@ test('flat-type-scale ignores font sizes inside @media blocks', async () => {
   assert.equal(hits.length, 1, 'the 60px mobile override must not count as the largest size');
   assert.match(hits[0].message, /30px/);
 });
+
+const BAND = '.wrap { max-width: 1080px; margin-inline: auto; } .band { background: #eef2ee; padding: 48px 0; }';
+const bandBody = '<main><section class="band"><div class="wrap"><p>Copy</p></div></section></main>';
+
+test('no-full-bleed counts a full-width background band as full-bleed', async () => {
+  const dir = await siteDir({ 'index.html': page(BAND, bandBody) });
+  assert.deepEqual(hitsFor(await lint(dir), 'no-full-bleed'), []);
+});
+
+test('no-full-bleed still warns when the section has no background or has a max-width', async () => {
+  for (const css of ['.wrap { max-width: 1080px; } .band { padding: 48px 0; }', '.wrap { max-width: 1080px; } .band { background: #eee; max-width: 1080px; }']) {
+    const dir = await siteDir({ 'index.html': page(css, bandBody) });
+    assert.equal(hitsFor(await lint(dir), 'no-full-bleed').length, 1, css);
+  }
+});
