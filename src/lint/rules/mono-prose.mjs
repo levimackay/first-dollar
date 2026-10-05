@@ -60,7 +60,7 @@ export default {
         if (!stack || !isMonoStack(stack)) continue;
         const face = stack.split(',')[0].trim().replace(/^["']|["']$/g, '');
         out.push(
-          finding('mono-prose', file, elLine(file, el), `${label(el)} is running text set in monospace ("${face}"); set prose in a text face and keep mono for code, figures and short labels (add data-mono only if the reference sets its prose in mono)`),
+          finding('mono-prose', file, elLine(file, el), `${label(el)} ("${face}"): running text set in monospace reads as machine-made; use the text face, or mark the element data-mono only if the reference sets this exact text in mono`),
         );
       }
     }
