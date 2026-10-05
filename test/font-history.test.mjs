@@ -37,6 +37,12 @@ test('a missing or empty history file passes, and no flag means no rule', async 
   assert.deepEqual(hits(await lint(flagless.dir)), []);
 });
 
+test('malformed lines do not use up the 10-entry window', async () => {
+  const lines = [line('Familjen Grotesk'), ...Array.from({ length: 9 }, (_, i) => line('Fraunces', i + 1)), 'junk', '{bad'];
+  const { dir, historyPath } = await site(lines.join('\n'));
+  assert.equal(hits(await lint(dir, { historyPath })).length, 1);
+});
+
 test('malformed lines are skipped with one warning', async () => {
   const { dir, historyPath } = await site(['not json', '{bad', line('Fraunces')].join('\n'));
   const res = await lint(dir, { historyPath });

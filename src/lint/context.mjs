@@ -88,7 +88,7 @@ export async function buildContext(root, { referenceTexts = [], referenceHashes 
   // font-history: the last 10 lines of a JSONL file of earlier builds. Missing or empty means no history.
   const history = [];
   if (historyPath && existsSync(historyPath)) {
-    const lines = readFileSync(historyPath, 'utf8').split('\n').filter((l) => l.trim()).slice(-10);
+    const lines = readFileSync(historyPath, 'utf8').split('\n').filter((l) => l.trim());
     let skipped = 0;
     for (const l of lines) {
       try {
@@ -99,6 +99,7 @@ export async function buildContext(root, { referenceTexts = [], referenceHashes 
         skipped++;
       }
     }
+    history.splice(0, Math.max(0, history.length - 10));
     if (skipped) parseErrors.push(finding('parse-error', historyPath, 1, `history: ${skipped} malformed line(s) skipped`, 'warn'));
   }
   const ctx = { root: abs, files, referenceHashes: hashes, designPath: resolvedDesign, history, parseErrors };
