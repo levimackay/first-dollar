@@ -1,0 +1,146 @@
+<!--
+  ticker-proof: a slow marquee of real facts or the buyer's own words.
+  What it does: one row of short items drifts left at about 40px a second and
+  loops without a seam. It pauses on hover, on keyboard focus, off screen, and
+  from a visible Pause button (anything that moves for more than five
+  seconds needs one). Transform only.
+  How to adapt: every item is either a fact the founder supplied (with its
+  source) or a buyer's words from a real call, used with permission. Never
+  logos, never invented praise, never a number nobody gave you; an item you
+  do not have yet stays a [NEED: ...] placeholder. Five to nine items. Set
+  SPEED (px per second) lower before you set it higher. Wire the --fd-*
+  tokens to DESIGN.md.
+  Reduced motion: no copies are made and nothing moves. The items sit as a
+  plain wrapped list and the Pause button stays hidden. Without JavaScript
+  the same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ticker proof</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
+  --fd-rule: color-mix(in srgb, var(--fd-ink) 18%, var(--fd-ground));
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 3rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 16ch; }
+.fd-demo-intro p { margin: 0; color: var(--fd-muted); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 30vh; color: var(--fd-muted); }
+
+/* ---- snippet: ticker-proof ---- */
+.fd-ticker { border-top: 1px solid var(--fd-ink); border-bottom: 1px solid var(--fd-rule); padding: 1rem 0 1.25rem; }
+.fd-ticker-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0 clamp(1rem, 5vw, 4rem); }
+.fd-ticker-head p { margin: 0; font-size: 0.875rem; color: var(--fd-muted); }
+.fd-ticker-toggle {
+  font: inherit; font-size: 0.875rem; color: var(--fd-ink); background: none;
+  border: 1px solid var(--fd-rule); border-radius: 999px; padding: 0.2rem 0.85rem; cursor: pointer;
+}
+.fd-ticker-window { overflow: clip; margin-top: 0.75rem; }
+.fd-ticker-track { list-style: none; margin: 0; padding: 0 clamp(1rem, 5vw, 4rem); }
+/* Static by default: a plain list. The drift is layered on only when the script runs. */
+.fd-ticker-track li { font-family: var(--fd-font-display); font-size: clamp(1.375rem, 2.6vw, 2.25rem); line-height: 1.25; padding: 0.6rem 0; }
+.fd-ticker-track li + li { border-top: 1px solid var(--fd-rule); }
+.fd-ticker-track small { display: block; font-family: var(--fd-font-text); font-size: 0.875rem; color: var(--fd-muted); }
+
+.fd-ticker[data-running] .fd-ticker-track {
+  display: flex; width: max-content; padding: 0;
+  animation: fd-ticker-drift var(--fd-ticker-dur, 60s) linear infinite;
+}
+.fd-ticker[data-running] .fd-ticker-track li { display: flex; align-items: baseline; white-space: nowrap; padding: 0 2.5rem 0 0; border: 0; }
+.fd-ticker[data-running] .fd-ticker-track li::after { content: ""; align-self: center; width: 1.5rem; height: 1px; background: var(--fd-accent); margin-left: 2.5rem; }
+.fd-ticker[data-running] .fd-ticker-track small { margin-left: 0.75rem; }
+.fd-ticker[data-running]:hover .fd-ticker-track,
+.fd-ticker[data-running]:focus-within .fd-ticker-track,
+.fd-ticker[data-paused] .fd-ticker-track { animation-play-state: paused; }
+@keyframes fd-ticker-drift { to { transform: translateX(var(--fd-ticker-shift, -50%)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-ticker[data-running] .fd-ticker-track { animation: none; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>Heard on discovery calls.</h2>
+    <p>Demo copy. The band below drifts slowly; hover, focus or press Pause to stop it.</p>
+  </div>
+
+  <!-- snippet: ticker-proof -->
+  <section class="fd-ticker" data-fd-ticker aria-label="What buyers said">
+    <div class="fd-ticker-head">
+      <p>In buyers' own words, from discovery calls</p>
+      <button type="button" class="fd-ticker-toggle" aria-pressed="false" hidden>Pause</button>
+    </div>
+    <div class="fd-ticker-window">
+      <ul class="fd-ticker-track">
+        <li>“[NEED: a buyer's exact words]”<small>[NEED: their role]</small></li>
+        <li>[NEED: a fact the founder can show]<small>[NEED: source]</small></li>
+        <li>“[NEED: a second buyer's words]”<small>[NEED: their role]</small></li>
+        <li>[NEED: what is already built]<small>[NEED: source]</small></li>
+        <li>“[NEED: the objection, in their words]”<small>[NEED: their role]</small></li>
+      </ul>
+    </div>
+  </section>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer.</p>
+</main>
+
+<script>
+/* ---- snippet: ticker-proof ---- */
+(function () {
+  var band = document.querySelector('[data-fd-ticker]');
+  if (!band || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var SPEED = 40; // px per second
+  var track = band.querySelector('.fd-ticker-track');
+  var toggle = band.querySelector('.fd-ticker-toggle');
+  var items = Array.prototype.slice.call(track.children);
+
+  band.setAttribute('data-running', '');
+  var setWidth = track.scrollWidth;
+  // Copies, hidden from assistive tech, until one set can scroll off while the next fills the window.
+  var copies = Math.max(1, Math.ceil(band.offsetWidth / setWidth));
+  for (var c = 0; c < copies; c++) {
+    items.forEach(function (li) {
+      var copy = li.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      track.appendChild(copy);
+    });
+  }
+  track.style.setProperty('--fd-ticker-shift', -setWidth + 'px');
+  track.style.setProperty('--fd-ticker-dur', setWidth / SPEED + 's');
+
+  toggle.hidden = false;
+  toggle.addEventListener('click', function () {
+    var paused = toggle.getAttribute('aria-pressed') !== 'true';
+    toggle.setAttribute('aria-pressed', String(paused));
+    toggle.textContent = paused ? 'Play' : 'Pause';
+    band.toggleAttribute('data-paused', paused || offscreen);
+  });
+
+  // Off screen it costs nothing: pause until it is back.
+  var offscreen = false;
+  new IntersectionObserver(function (entries) {
+    offscreen = !entries[0].isIntersecting;
+    band.toggleAttribute('data-paused', offscreen || toggle.getAttribute('aria-pressed') === 'true');
+  }).observe(band);
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

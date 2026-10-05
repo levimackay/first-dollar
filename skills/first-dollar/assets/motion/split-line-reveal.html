@@ -1,0 +1,180 @@
+<!--
+  split-line-reveal: the headline arrives line by line on load.
+  What it does: splits one headline into its rendered lines (no library) and
+  lifts each line out of its own mask in reading order, then draws one rule
+  under it. The lede and the ask never move: they are on screen from the
+  first frame. Re-splits when fonts load and when the width changes, so the
+  masks always match the real line breaks.
+  How to adapt: put data-fd-split on the one headline worth it (plain text;
+  an <em> inside is flattened by the split). Keep it to four to seven lines
+  at 1440 and six or fewer at 390; cut the sentence before you cut the
+  stagger. Change STAGGER_MS before DURATION_MS: the stagger is the voice.
+  Wire the --fd-* tokens to DESIGN.md. Use it once per page.
+  Reduced motion: the script does not split or arm anything. The headline is
+  plain text in its final place on first paint, the rule is drawn, and every
+  word is visible. Without JavaScript the same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split line reveal</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+/* ---- snippet: split-line-reveal ---- */
+.fd-hero { padding: clamp(2.5rem, 9vh, 6rem) clamp(1rem, 5vw, 4rem) clamp(2rem, 6vh, 4rem); }
+.fd-hero h1 {
+  font-family: var(--fd-font-display);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 7.2vw, 6.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  max-width: 13ch;
+  margin: 0;
+}
+/* Each line is its own mask. The padding keeps descenders inside it. */
+.fd-split-line { display: block; overflow: clip; padding-bottom: 0.09em; margin-bottom: -0.09em; }
+.fd-split-inner { display: inline-block; }
+.fd-hero-rule { height: 1px; background: var(--fd-ink); margin: clamp(1.5rem, 3vw, 2.25rem) 0; transform-origin: left center; max-width: 46rem; }
+.fd-hero-body { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.25rem 3rem; }
+.fd-hero-body p { margin: 0; max-width: 40ch; color: var(--fd-muted); font-size: 1.125rem; }
+.fd-ask {
+  display: inline-block; white-space: nowrap; text-decoration: none;
+  background: var(--fd-ink); color: var(--fd-ground);
+  padding: 0.95rem 1.5rem; border-radius: 2px; font-weight: 600;
+}
+.fd-ask:hover { background: var(--fd-accent); }
+.fd-ask-note { display: block; margin-top: 0.5rem; font-size: 0.875rem; color: var(--fd-muted); }
+
+.fd-hero[data-armed] .fd-split-inner { transform: translateY(105%); }
+.fd-hero[data-armed] .fd-hero-rule { transform: scaleX(0); }
+
+@media (max-width: 760px) {
+  .fd-hero h1 { max-width: none; line-height: 1.02; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-hero[data-armed] .fd-split-inner,
+  .fd-hero[data-armed] .fd-hero-rule { transform: none; }
+}
+/* ---- end snippet ---- */
+
+.fd-demo-after { padding: 3rem clamp(1rem, 5vw, 4rem) 20vh; color: var(--fd-muted); max-width: 60ch; }
+</style>
+</head>
+<body>
+<main>
+  <!-- snippet: split-line-reveal -->
+  <section class="fd-hero" data-fd-hero>
+    <h1 data-fd-split>Say the change out loud. The client signs before you leave.</h1>
+    <div class="fd-hero-rule" aria-hidden="true"></div>
+    <div class="fd-hero-body">
+      <p>Demo copy. The lede and the ask sit still from the first frame; only the headline moves.</p>
+      <div>
+        <a class="fd-ask" href="[NEED: checkout link]" data-commitment>Pre-order for [NEED: price]</a>
+        <span class="fd-ask-note">[NEED: refund terms in one line]</span>
+      </div>
+    </div>
+  </section>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer. The rest of the page goes here.</p>
+</main>
+
+<script>
+/* ---- snippet: split-line-reveal ---- */
+(function () {
+  var hero = document.querySelector('[data-fd-hero]');
+  var h = hero && hero.querySelector('[data-fd-split]');
+  if (!h || !h.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var STAGGER_MS = 110;
+  var DURATION_MS = 1000;
+  var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  var text = h.textContent.trim().replace(/\s+/g, ' ');
+  var played = false;
+
+  // Lay the words out once, read which line each landed on, rebuild as line masks.
+  function split() {
+    h.setAttribute('aria-label', text);
+    h.textContent = '';
+    var words = text.split(' ').map(function (w, i) {
+      var s = document.createElement('span');
+      s.textContent = w;
+      if (i) h.appendChild(document.createTextNode(' '));
+      h.appendChild(s);
+      return s;
+    });
+    var lines = [];
+    var top = null;
+    words.forEach(function (w) {
+      if (w.offsetTop !== top) { lines.push([]); top = w.offsetTop; }
+      lines[lines.length - 1].push(w.textContent);
+    });
+    h.textContent = '';
+    lines.forEach(function (line) {
+      var mask = document.createElement('span');
+      var inner = document.createElement('span');
+      mask.className = 'fd-split-line';
+      mask.setAttribute('aria-hidden', 'true');
+      inner.className = 'fd-split-inner';
+      inner.textContent = line.join(' ');
+      mask.appendChild(inner);
+      h.appendChild(mask);
+    });
+  }
+
+  function play() {
+    played = true;
+    var anims = [];
+    var inners = h.querySelectorAll('.fd-split-inner');
+    inners.forEach(function (el, i) {
+      anims.push(el.animate({ transform: ['translateY(105%)', 'none'] },
+        { duration: DURATION_MS, delay: i * STAGGER_MS, easing: EASE, fill: 'both' }));
+    });
+    anims.push(hero.querySelector('.fd-hero-rule').animate({ transform: ['scaleX(0)', 'none'] },
+      { duration: 900, delay: inners.length * STAGGER_MS + 150, easing: EASE, fill: 'both' }));
+    Promise.all(anims.map(function (a) { return a.finished; })).then(function () {
+      hero.removeAttribute('data-armed');
+      anims.forEach(function (a) { a.cancel(); });
+    });
+  }
+
+  hero.setAttribute('data-armed', '');
+  split();
+  // Wait for the display face (at most 600ms), re-split on its metrics, then play.
+  var fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+  Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 600); })]).then(function () {
+    split();
+    requestAnimationFrame(play);
+  });
+
+  // Line breaks change with the width; re-split so the masks match them.
+  var lastWidth = h.offsetWidth;
+  var pending;
+  addEventListener('resize', function () {
+    clearTimeout(pending);
+    pending = setTimeout(function () {
+      if (h.offsetWidth === lastWidth || !played) return;
+      lastWidth = h.offsetWidth;
+      split();
+    }, 150);
+  });
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

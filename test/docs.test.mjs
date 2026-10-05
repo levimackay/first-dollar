@@ -34,7 +34,8 @@ test('slop-rules.md documents every lint rule', async (t) => {
 test('references, assets and credits contain no em or en dash', async () => {
   const files = [new URL('CREDITS.md', root)];
   for (const sub of ['references/', 'assets/']) {
-    for (const name of await readdir(new URL(sub, skill))) files.push(new URL(sub + name, skill));
+    const names = await readdir(new URL(sub, skill), { recursive: true });
+    for (const name of names.filter((n) => /\.\w+$/.test(n))) files.push(new URL(sub + name, skill));
   }
   const hits = [];
   for (const file of files) {

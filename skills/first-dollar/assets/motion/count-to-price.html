@@ -1,0 +1,166 @@
+<!--
+  count-to-price: the price rolls into place beside the ask.
+  What it does: when the offer block is 60% in view, each digit of the price
+  turns one full lap on its own wheel and settles back, left to right, on the
+  real price. The wheels rest on the real price before and after, so the
+  page never shows a wrong number at rest. Transform only. The ask button
+  beside it never moves and carries the same price in its label.
+  How to adapt: write the founder's price once, as text, in [data-fd-count];
+  the script builds the wheels from that text (currency signs, commas and
+  points stay still). If the price is still [NEED: price], the script leaves
+  the gap alone and nothing rolls. Keep the button label's price identical.
+  One price per page rolls, at most. Wire the --fd-* tokens to DESIGN.md.
+  Reduced motion: no wheels are built. The price is plain text in its final
+  form on first paint, beside the button. Without JavaScript the same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Count to price</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 55vh; }
+.fd-demo-intro p { margin: 0; color: var(--fd-muted); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 30vh; color: var(--fd-muted); }
+
+/* ---- snippet: count-to-price ---- */
+.fd-offer {
+  background: var(--fd-ink); color: var(--fd-ground);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: end;
+  padding: clamp(3rem, 9vh, 6rem) clamp(1rem, 5vw, 4rem);
+}
+.fd-offer h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.25rem, 4.5vw, 3.75rem); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 12ch; }
+.fd-offer-copy p { margin: 0; max-width: 38ch; color: color-mix(in srgb, var(--fd-ground) 78%, var(--fd-ink)); }
+.fd-price {
+  margin: 0; display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+  border-top: 1px solid color-mix(in srgb, var(--fd-ground) 35%, var(--fd-ink)); padding-top: 1rem;
+}
+.fd-price-face {
+  font-family: var(--fd-font-display); font-weight: 400;
+  font-size: clamp(4.5rem, 13vw, 11rem); line-height: 1; letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums lining-nums; white-space: nowrap;
+}
+.fd-price-unit { font-size: 1.125rem; color: color-mix(in srgb, var(--fd-ground) 78%, var(--fd-ink)); }
+/* One wheel per digit: a 1.1em window over a strip of 0 to 9, twice. */
+.fd-wheel { display: inline-block; height: 1.1em; overflow: clip; vertical-align: top; margin-top: -0.05em; }
+.fd-strip { display: block; line-height: 1.1; }
+.fd-strip span { display: block; }
+.fd-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.fd-ask-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.5rem; }
+.fd-ask {
+  display: inline-block; white-space: nowrap; text-decoration: none;
+  background: var(--fd-ground); color: var(--fd-ink);
+  padding: 1rem 1.6rem; border-radius: 2px; font-weight: 600;
+}
+.fd-ask:hover { background: color-mix(in srgb, var(--fd-accent) 22%, var(--fd-ground)); }
+.fd-ask:focus-visible { outline-color: var(--fd-ground); }
+.fd-terms { margin: 0; font-size: 0.875rem; color: color-mix(in srgb, var(--fd-ground) 78%, var(--fd-ink)); }
+
+@media (max-width: 760px) {
+  .fd-offer { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* If the preference changes after the wheels were built, show the plain price instead. */
+@media (prefers-reduced-motion: reduce) {
+  .fd-sr.fd-price-face { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+  .fd-price-face[aria-hidden="true"] { display: none; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <p>Demo page. Scroll to the offer: the price settles beside the ask, and the button never moves.</p>
+  </div>
+
+  <!-- snippet: count-to-price -->
+  <section class="fd-offer" data-fd-price-block>
+    <div class="fd-offer-copy">
+      <h2>Reserve one from the first batch.</h2>
+      <p>Demo copy. One line on what the money buys, and when.</p>
+    </div>
+    <div>
+      <p class="fd-price"><span class="fd-price-face" data-fd-count>$40</span><span class="fd-price-unit">deposit (demo price)</span></p>
+      <div class="fd-ask-row">
+        <a class="fd-ask" href="[NEED: checkout link]" data-commitment>Pre-order for $40</a>
+        <p class="fd-terms">[NEED: refund terms]</p>
+      </div>
+    </div>
+  </section>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer.</p>
+</main>
+
+<script>
+/* ---- snippet: count-to-price ---- */
+(function () {
+  var block = document.querySelector('[data-fd-price-block]');
+  var face = block && block.querySelector('[data-fd-count]');
+  if (!face || !face.animate || !('IntersectionObserver' in window)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var text = face.textContent.trim();
+  if (!/\d/.test(text) || /NEED/.test(text)) return; // no real price yet: leave the gap visible
+
+  // Screen readers get the price once, as text; the wheels are hidden from them.
+  var sr = document.createElement('span');
+  sr.className = 'fd-sr fd-price-face';
+  sr.textContent = text;
+  face.parentNode.insertBefore(sr, face);
+  face.setAttribute('aria-hidden', 'true');
+
+  var strips = [];
+  face.textContent = '';
+  text.split('').forEach(function (ch) {
+    if (!/\d/.test(ch)) { face.appendChild(document.createTextNode(ch)); return; }
+    var wheel = document.createElement('span');
+    var strip = document.createElement('span');
+    wheel.className = 'fd-wheel';
+    strip.className = 'fd-strip';
+    for (var n = 0; n < 20; n++) {
+      var cell = document.createElement('span');
+      cell.textContent = String(n % 10);
+      strip.appendChild(cell);
+    }
+    // Each wheel rests on its digit, and the roll is one full lap back to it.
+    strip.dataset.digit = ch;
+    strip.style.transform = 'translateY(' + (-(10 + Number(ch)) * 5) + '%)';
+    wheel.appendChild(strip);
+    face.appendChild(wheel);
+    strips.push(strip);
+  });
+
+  function roll() {
+    strips.forEach(function (strip, i) {
+      var d = Number(strip.dataset.digit);
+      strip.animate({ transform: ['translateY(' + (-d * 5) + '%)', 'translateY(' + (-(10 + d) * 5) + '%)'] },
+        { duration: 1100 + i * 260, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    });
+  }
+
+  new IntersectionObserver(function (entries, io) {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    roll();
+  }, { threshold: 0.6 }).observe(block);
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

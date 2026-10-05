@@ -1,0 +1,253 @@
+<!--
+  mechanism-sequence: the signature motion template.
+  What it does: plays the product's mechanism once, inside the page's labeled
+  illustration, as one timeline: input, then process, then output. The sample
+  is a voice memo that becomes a change order: the memo plays, each stretch of
+  the recording turns into a line item as the playhead crosses it, the total
+  lands, the client's signature draws. Autoplays once when 35% of the figure
+  is in view.
+  How to adapt: copy the <figure class="fd-mech">, its CSS and the script.
+  Keep the three beats and swap what they show (compost bin: scraps go in, the
+  days count up, soil comes out). Each [data-line] is one output row; the
+  script splits the playback into as many segments as there are rows, so add
+  or remove rows freely. Set PLAY_MS for the input beat's length. Wire the
+  --fd-* tokens to DESIGN.md. Keep the "Illustration" caption and keep
+  sample values generic.
+  Reduced motion: nothing is armed or played. The figure renders in its final
+  state on first paint: memo played, every line, the total and the signature
+  visible. Without JavaScript the same final state shows.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mechanism sequence</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+  --fd-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --fd-muted: color-mix(in srgb, var(--fd-ink) 68%, var(--fd-ground));
+  --fd-rule: color-mix(in srgb, var(--fd-ink) 16%, var(--fd-ground));
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+/* Demo page around the snippet. */
+.fd-demo-intro { padding: clamp(2rem, 6vw, 4.5rem) clamp(1rem, 4vw, 3rem) 0; max-width: 62rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 0.75rem; }
+.fd-demo-intro p { margin: 0; max-width: 52ch; color: var(--fd-muted); }
+.fd-demo-after { padding: 4rem clamp(1rem, 4vw, 3rem) 30vh; color: var(--fd-muted); }
+
+/* ---- snippet: mechanism-sequence ---- */
+.fd-mech { margin: 0; padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem); }
+.fd-mech figcaption { font-size: 0.8125rem; color: var(--fd-muted); margin-bottom: 1rem; }
+.fd-mech-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr);
+  gap: clamp(1.25rem, 3.5vw, 3rem);
+  align-items: center;
+  max-width: 70rem;
+}
+
+/* Input: the memo. */
+.fd-memo {
+  border: 1px solid var(--fd-rule);
+  border-radius: 20px;
+  padding: 1.25rem 1.25rem 1rem;
+  background: color-mix(in srgb, var(--fd-ink) 5%, var(--fd-ground));
+}
+.fd-memo-head { display: flex; align-items: center; gap: 0.75rem; }
+.fd-play { width: 2.25rem; height: 2.25rem; flex: none; display: block; }
+.fd-play circle { fill: var(--fd-ink); }
+.fd-play path { fill: var(--fd-ground); }
+.fd-play .fd-pause, .fd-mech.is-playing .fd-play .fd-tri { opacity: 0; }
+.fd-mech.is-playing .fd-play .fd-pause { opacity: 1; }
+.fd-memo-title { font-weight: 600; line-height: 1.2; }
+.fd-memo-time { font-size: 0.8125rem; color: var(--fd-muted); font-variant-numeric: tabular-nums; }
+.fd-wave { display: flex; align-items: center; gap: 3px; height: 4.5rem; margin: 1.25rem 0 0.5rem; }
+.fd-wave i { flex: 1; height: 100%; background: var(--fd-rule); border-radius: 2px; transform: scaleY(var(--h)); position: relative; }
+.fd-wave i::after { content: ""; position: absolute; inset: 0; background: var(--fd-accent); border-radius: inherit; }
+.fd-segs { display: flex; gap: 6px; }
+.fd-segs span {
+  flex: 1; border-top: 2px solid var(--fd-ink); padding-top: 0.25rem;
+  font-size: 0.8125rem; color: var(--fd-muted); transform-origin: left center;
+}
+
+/* Process and output: the document. */
+.fd-doc {
+  border: 1px solid var(--fd-rule);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--fd-ground);
+}
+.fd-doc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--fd-ink); padding-bottom: 0.75rem; }
+.fd-doc-head b { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.1; }
+.fd-doc-head span { font-size: 0.8125rem; color: var(--fd-muted); }
+.fd-line, .fd-total { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; gap: 0.5rem; padding: 0.7rem 0; border-bottom: 1px solid var(--fd-rule); font-variant-numeric: tabular-nums; overflow: clip; }
+.fd-line em { font-style: normal; color: var(--fd-muted); font-size: 0.8125rem; }
+.fd-total { border-bottom: 0; font-weight: 600; }
+.fd-sign { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
+.fd-sign svg { width: min(15rem, 60%); height: auto; display: block; border-bottom: 1px solid var(--fd-ink); }
+.fd-sign path { fill: none; stroke: var(--fd-ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.fd-signed-mask { overflow: clip; }
+.fd-signed { display: block; font-size: 0.8125rem; color: var(--fd-accent); font-weight: 600; }
+
+/* Armed: the start state, applied by the script only when motion is allowed.
+   Words wait below a mask (a clipped transform), never at opacity 0, so they are
+   laid out and selectable from the first frame. */
+.fd-mech[data-armed] .fd-wave i::after { opacity: 0; }
+.fd-mech[data-armed] [data-line] > *,
+.fd-mech[data-armed] .fd-total > *,
+.fd-mech[data-armed] .fd-signed { transform: translateY(calc(100% + 0.8rem)); }
+.fd-mech[data-armed] .fd-segs span { transform: scaleX(0); }
+.fd-mech[data-armed] .fd-sign path { stroke-dashoffset: 1; }
+
+@media (max-width: 760px) {
+  .fd-mech-grid { grid-template-columns: minmax(0, 1fr); }
+  .fd-wave { height: 3.5rem; gap: 2px; }
+  .fd-line em { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-mech[data-armed] .fd-wave i::after { opacity: 1; }
+  .fd-mech[data-armed] [data-line] > *,
+  .fd-mech[data-armed] .fd-total > *,
+  .fd-mech[data-armed] .fd-signed { transform: none; }
+  .fd-mech[data-armed] .fd-segs span { transform: none; }
+  .fd-mech[data-armed] .fd-sign path { stroke-dashoffset: 0; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>Say the change out loud. The client signs before you leave.</h2>
+    <p>Demo copy around the snippet. Replace it with COPY.md. The figure below is the part to copy.</p>
+  </div>
+
+  <!-- snippet: mechanism-sequence -->
+  <figure class="fd-mech" data-fd-mech>
+    <figcaption>Illustration. Numbers are examples.</figcaption>
+    <div class="fd-mech-grid">
+      <div class="fd-memo">
+        <div class="fd-memo-head">
+          <svg class="fd-play" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="18"/><path class="fd-tri" d="M14 11 L26 18 L14 25 Z"/><path class="fd-pause" d="M13 11 h3.5 v14 H13 Z M19.5 11 H23 v14 h-3.5 Z"/></svg>
+          <div>
+            <div class="fd-memo-title">Voice memo</div>
+            <div class="fd-memo-time"><span data-timer data-seconds="14">0:14</span> of 0:14</div>
+          </div>
+        </div>
+        <div class="fd-wave" aria-hidden="true">
+          <i style="--h:0.42"></i><i style="--h:0.87"></i><i style="--h:0.91"></i><i style="--h:0.57"></i><i style="--h:0.24"></i><i style="--h:0.49"></i><i style="--h:0.43"></i><i style="--h:0.24"></i><i style="--h:0.19"></i><i style="--h:0.34"></i><i style="--h:0.59"></i><i style="--h:0.64"></i><i style="--h:0.34"></i><i style="--h:0.54"></i>
+          <i style="--h:0.94"></i><i style="--h:0.93"></i><i style="--h:0.51"></i><i style="--h:0.41"></i><i style="--h:0.75"></i><i style="--h:0.71"></i><i style="--h:0.41"></i><i style="--h:0.21"></i><i style="--h:0.24"></i><i style="--h:0.28"></i><i style="--h:0.37"></i><i style="--h:0.20"></i><i style="--h:0.54"></i><i style="--h:0.84"></i>
+          <i style="--h:0.80"></i><i style="--h:0.36"></i><i style="--h:0.58"></i><i style="--h:0.94"></i><i style="--h:0.86"></i><i style="--h:0.44"></i><i style="--h:0.35"></i><i style="--h:0.53"></i><i style="--h:0.41"></i><i style="--h:0.22"></i><i style="--h:0.19"></i><i style="--h:0.39"></i><i style="--h:0.61"></i><i style="--h:0.57"></i>
+        </div>
+        <div class="fd-segs" aria-hidden="true"><span>1</span><span>2</span><span>3</span></div>
+      </div>
+
+      <div class="fd-doc">
+        <div class="fd-doc-head"><b>Change order</b><span>Example job</span></div>
+        <div class="fd-line" data-line><span>1</span><span>Move outlet 40 cm left <em>heard at 0:03</em></span><span>$85.00</span></div>
+        <div class="fd-line" data-line><span>2</span><span>Add a GFCI outlet by the sink <em>heard at 0:07</em></span><span>$140.00</span></div>
+        <div class="fd-line" data-line><span>3</span><span>Patch and paint the wall <em>heard at 0:12</em></span><span>$120.00</span></div>
+        <div class="fd-total"><span></span><span>Total</span><span>$345.00</span></div>
+        <div class="fd-sign">
+          <svg viewBox="0 0 240 64" role="img" aria-label="Client signature">
+            <path pathLength="1" d="M8 46 C 14 20, 22 6, 27 16 C 32 28, 18 50, 24 52 C 32 54, 40 30, 46 34 C 50 37, 46 48, 52 46 C 60 42, 64 30, 70 32 C 76 34, 70 46, 76 46 C 84 46, 90 22, 98 12 C 103 6, 106 16, 101 30 C 96 44, 96 53, 104 48 C 114 42, 120 33, 128 35 C 134 37, 130 46, 138 44 C 150 40, 160 29, 170 31 C 178 33, 175 44, 184 42 C 196 39, 210 31, 232 25"/>
+            <path pathLength="1" d="M38 58 C 90 53, 150 55, 216 49"/>
+          </svg>
+          <span class="fd-signed-mask"><span class="fd-signed">Signed on site</span></span>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer so the page can scroll.</p>
+</main>
+
+<script>
+/* ---- snippet: mechanism-sequence ---- */
+(function () {
+  var fig = document.querySelector('[data-fd-mech]');
+  if (!fig || !fig.animate || !('IntersectionObserver' in window)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var PLAY_MS = 2400; // the input beat: how long the memo plays
+  var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  var HIDE = 'translateY(calc(100% + 0.8rem))';
+  var timer = fig.querySelector('[data-timer]');
+  var seconds = Number(timer.getAttribute('data-seconds'));
+  var fmt = function (s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+  fig.setAttribute('data-armed', '');
+  timer.textContent = fmt(0);
+
+  function play() {
+    var anims = [];
+    var at = function (el, frames, delay, duration, extra) {
+      var opts = { delay: delay, duration: duration, easing: EASE, fill: 'both' };
+      for (var k in extra) opts[k] = extra[k];
+      anims.push(el.animate(frames, opts));
+    };
+    // A row is written in cell by cell: each cell rises out of the row's clip.
+    var writeIn = function (row, delay) {
+      Array.prototype.forEach.call(row.children, function (cell, j) {
+        at(cell, { transform: [HIDE, 'none'] }, delay + j * 70, 650);
+      });
+    };
+    var bars = fig.querySelectorAll('.fd-wave i');
+    var lines = fig.querySelectorAll('[data-line]');
+    var segs = fig.querySelectorAll('.fd-segs span');
+    var seg = PLAY_MS / lines.length;
+
+    // Beat 1, input: the memo plays bar by bar.
+    fig.classList.add('is-playing');
+    bars.forEach(function (bar, i) {
+      at(bar, { opacity: [0, 1] }, (i / bars.length) * PLAY_MS, 160, { pseudoElement: '::after', easing: 'linear' });
+    });
+    // Beat 2, process: each stretch of the memo becomes a line as the playhead leaves it.
+    lines.forEach(function (line, i) {
+      var end = seg * (i + 1);
+      if (segs[i]) at(segs[i], { transform: ['scaleX(0)', 'scaleX(1)'] }, end - seg, seg, { easing: 'linear' });
+      writeIn(line, end - 250);
+    });
+    // Beat 3, output: the total lands, the signature draws.
+    writeIn(fig.querySelector('.fd-total'), PLAY_MS + 250);
+    fig.querySelectorAll('.fd-sign path').forEach(function (path, i) {
+      at(path, { strokeDashoffset: [1, 0] }, PLAY_MS + 600 + i * 1150, i ? 450 : 1150, { easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
+    });
+    at(fig.querySelector('.fd-signed'), { transform: [HIDE, 'none'] }, PLAY_MS + 2100, 600);
+
+    var t0 = performance.now();
+    requestAnimationFrame(function tick(now) {
+      var p = Math.min(1, (now - t0) / PLAY_MS);
+      timer.textContent = fmt(Math.round(p * seconds));
+      if (p < 1) requestAnimationFrame(tick);
+      else fig.classList.remove('is-playing');
+    });
+
+    // Hand the final state back to CSS and drop the animation objects.
+    Promise.all(anims.map(function (a) { return a.finished; })).then(function () {
+      fig.removeAttribute('data-armed');
+      anims.forEach(function (a) { a.cancel(); });
+    });
+  }
+
+  new IntersectionObserver(function (entries, io) {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    play();
+  }, { threshold: 0.35 }).observe(fig);
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>
