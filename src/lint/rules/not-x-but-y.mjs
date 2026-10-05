@@ -1,9 +1,9 @@
 import { htmlFiles, textNodes, copyAttrs, finding } from '../context.mjs';
 
 const PATTERNS = [
-  /\bnot (just |only )?(a |an )?[\w\s-]{1,30}[,.;:]\s*(it'?s|but|it is)\b/i,
-  /\bit'?s not (about )?[\w\s-]{1,30}[,.]\s*it'?s\b/i,
-  /\bNot a [\w-]+\.\s*An? [\w-]+\./,
+  /\bnot (?:just|only|merely) (?:an? )?[\w\s-]{1,30}[,.;:]\s*(?:but|it'?s|it is)\b/i,
+  /\bit(?:'s| is) not (?:about )?[\w\s-]{1,30}[,.]\s*it(?:'s| is)\b/i,
+  /(?:^|(?<=[.!?]\s))Not an? [\w-]+\.\s*An? [\w-]+\./,
 ];
 const PLACEHOLDER = /\[(?:NEED|PLACEHOLDER):[^\]]*\]/g;
 

@@ -4,8 +4,8 @@ const WORDS = [
   'streamline', 'empower', 'seamless(?:ly)?', 'unleash', 'next-gen', 'next-generation', 'world-class',
   'revolutionize', 'cutting-edge', 'game-changer', 'game-changing', 'supercharge', 'elevate your',
   'unlock your', 'effortless(?:ly)?', 'robust', 'synergy', 'best-in-class', 'state-of-the-art', 'all-in-one',
-  // leverage as a verb: followed by an object, not "leverage is" or "leverage of"
-  'leverag(?:e|es|ed|ing)\\s+(?:(?:the|our|your|a|an|its|their|these|those)\\s+)?(?!(?:is|are|of|to|and|ratio|was|for|in)\\b)[a-z]+',
+  // leverage as a verb only: directly before a determiner, possessive, or AI/data/existing
+  'leverag(?:e|es|ed|ing)\\s+(?:the|a|an|your|our|their|its|my|this|these|those|AI|data|existing)',
 ];
 const RE = new RegExp(`(?<![\\w-])(?:${WORDS.join('|')})(?![\\w-])`, 'gi');
 const PLACEHOLDER = /\[(?:NEED|PLACEHOLDER):[^\]]*\]/g;
