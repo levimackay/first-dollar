@@ -37,6 +37,15 @@ test('a missing or empty history file passes, and no flag means no rule', async 
   assert.deepEqual(hits(await lint(flagless.dir)), []);
 });
 
+test('entries from the page being linted are skipped, other pages still fire', async () => {
+  const own = await site('');
+  const entry = (page) => JSON.stringify({ date: '2026-09-10', idea: 'dog grooming', display: 'Familjen Grotesk', text: 'Public Sans', page });
+  await writeFile(own.historyPath, entry(own.dir) + '\n');
+  assert.deepEqual(hits(await lint(own.dir, { historyPath: own.historyPath })), []);
+  await writeFile(own.historyPath, entry(own.dir) + '\n' + entry('/some/other/page') + '\n');
+  assert.equal(hits(await lint(own.dir, { historyPath: own.historyPath })).length, 1);
+});
+
 test('malformed lines do not use up the 10-entry window', async () => {
   const lines = [line('Familjen Grotesk'), ...Array.from({ length: 9 }, (_, i) => line('Fraunces', i + 1)), 'junk', '{bad'];
   const { dir, historyPath } = await site(lines.join('\n'));
