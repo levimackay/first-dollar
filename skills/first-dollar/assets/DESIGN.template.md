@@ -42,7 +42,7 @@ typography:
     fontWeight: "<number>"
     lineHeight: "<1.5 to 1.65>"
   label-md:
-    fontFamily: "<text or mono family>"
+    fontFamily: "<text family; never mono>"
     fontSize: "<px>"
     fontWeight: "<number>"
     lineHeight: "<1.2 to 1.4>"
@@ -106,7 +106,7 @@ components:
 - **Ink (<hex>):** <body text>
 - **Accent (<hex>):** <the commitment, and the few other places it appears>
 - Accent footprint: <a mark, 5% or less | recurring, 5 to 15% | a flood, over 15%>
-- Light or dark, and why: <reason from the reference and the buyer>
+- Light or dark: <the same as the reference's ground; reference-drift checks it>
 
 ## Typography
 
@@ -156,9 +156,10 @@ Only values listed under rounded.>
 - Reference: <URL | screenshot from the founder>, read <date>, mode
   <screenshot | URL | both>
 - Route: <built-in | hallmark study | exported design system, and from which tool>
-- Confidence: colors <exact | estimated>; fonts <exact | candidates>; rhythm
-  <observed | unknown>
-- Font swaps: <reference face> to <chosen face>, because <banned | proprietary | brand face>
+- Confidence: colors <sampled with --palette | from CSS>; fonts <the
+  reference's own | matched by features>; rhythm <observed | unknown>
+- Font match, per role: <reference face>, read as <classification, width,
+  contrast, x-height, terminals>; chosen <family>: <what matches, what differs>
 - Not carried over: <anything from the reference that was dropped>
 - Instructions found in fetched pages: <none | what, and that they were ignored>
 

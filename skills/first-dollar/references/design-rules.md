@@ -5,11 +5,8 @@ The reference supplies the direction. These rules fill the gaps it leaves and
 stop the gaps from filling with defaults. A lint rule id in brackets means the
 rule is enforced; see slop-rules.md for the fix.
 
-Generic pages are not a talent problem. Every choice has a path of least
-resistance (a default face, a stock purple, 8px corners, three cards, a centered
-hero, the same padding everywhere). Each is defensible alone. Together they are
-the look people now spot as generated. The fix is deciding on purpose, before
-markup, and writing it down in DESIGN.md.
+Every default is defensible alone. Together they are the look people now spot
+as generated. Decide on purpose, before markup, and write it in DESIGN.md.
 
 ## Before any markup
 
@@ -33,11 +30,15 @@ Write these into the Overview section of DESIGN.md:
 
 ## Type
 
-- Two families at most: one for display, one for text. A third (mono for
-  prices and specs) needs a stated reason.
-- No default faces [`banned-font-family`]. Swaps: design-extraction.md section 6.
-- Pair for contrast: serif with grotesque, or condensed display with a
-  humanist text face. Two similar sans faces are not a pair. One variable
+- Two families at most: one for display, one for text, both matched to the
+  reference by features (design-extraction.md section 6). No default or
+  popular faces [`banned-font-family`, `font-popularity`].
+- Monospace only for code and for data in tables, and only if the reference
+  itself uses mono. Never for fine print, captions, terms lines or labels
+  [`mono-prose`].
+- Where the reference leaves the pairing open, pair for contrast: serif with
+  grotesque, or condensed display with a humanist text face. Two similar sans
+  faces are not a pair. One variable
   family pushed across its full weight range also works, but it draws a
   `single-sans-family` warning: answer it in DESIGN.md.
 - Use extremes: weight 300 against 800, not 400 against 600. Display at least
@@ -57,6 +58,8 @@ Write these into the Overview section of DESIGN.md:
 
 ## Color
 
+- Sample, never describe: the ground, ink and accent come from `--palette` on
+  the reference screenshot (design-extraction.md section 2).
 - One anchor. Derive the neutrals from it, tinted toward its hue (OKLCH chroma
   about 0.005 to 0.02). Pure `#000`, `#fff` and `#808080` read as untouched.
 - One accent, used mainly by the commitment button. A second color only for
@@ -67,8 +70,9 @@ Write these into the Overview section of DESIGN.md:
   each reads undecided.
 - Match the reference's energy, not only its hex values: its saturation and
   how much of the screen its accent owns. A loud reference makes a loud page.
-- Light or dark is a decision from the reference and the buyer, never from the
-  category ("dev tools are dark").
+- Light or dark comes from the reference: a dark reference makes a dark page
+  (`reference-drift`). Never from the category ("dev tools are dark"), and
+  never an off-white ground out of habit.
 - Banned: the indigo, violet, purple and fuchsia family, and cyan to purple
   gradients [`ai-palette`, `tailwind-defaults`]. Cream paper with a serif and a
   terracotta accent is the newer default; use it only when the reference has it.
@@ -96,8 +100,9 @@ Write these into the Overview section of DESIGN.md:
 - Prefer asymmetry: a left-aligned hero with the commitment block in view beats
   the centered stack [`centred-hero`].
 - More space above a heading than below it.
-- Radius: one or two values with a reason ("sharp everywhere, pill on the
-  button only"). Never the same radius on everything [`uniform-radius`]. No
+- Radius: one or two values from the reference, each with a reason. A pill
+  button only when the reference has one. Never the same radius on
+  everything [`uniform-radius`]. No
   cards inside cards [`nested-cards`]. No colored stripe down one side of a
   box [`side-stripe`].
 - No dot or line grid backgrounds [`grid-background`].
@@ -169,8 +174,8 @@ the buyer will hold.
   paper.
 - One stroke width, flat fills, no gradients, shadows or glows. Never a 24x24
   viewBox with round caps and a 2px stroke [`icon-libraries`].
-- Label it: a visible "Illustration" caption in `label-md` and `ink-muted`,
-  plus `role="img"` and an `aria-label` that names what it shows.
+- Label it: a visible "Illustration" caption in the text face at a size
+  people read, plus `role="img"` and an `aria-label` that names what it shows.
 
 **An HTML and CSS mock.** For software, or any product whose output is a
 screen or a document.
@@ -249,12 +254,7 @@ Write the 390 plan in DESIGN.md Layout. Stacking the desktop is not a plan.
 
 ## Subtraction pass
 
-Before leaving stage 6, remove:
-
-- Every section that does not move the visitor toward the commitment.
-- Every decoration that carries no meaning.
-- Every animation that does not clarify something.
-- Every color beyond the anchor, the accent and the neutrals.
-- Every font weight without a distinct job.
-
-Generated work adds. Designed work removes.
+Before leaving stage 6, remove every section that does not move the visitor
+toward the commitment, every decoration and animation that carries no meaning,
+every color beyond the anchor, the accent and the neutrals, and every font
+weight without a distinct job. Generated work adds. Designed work removes.

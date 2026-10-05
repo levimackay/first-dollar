@@ -23,7 +23,9 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 
 | Rule | Sev | Catches | Why it reads as generated | Fix |
 |---|---|---|---|---|
-| `banned-font-family` | fail | Inter, Geist, Space Grotesk, Roboto, Arial, Helvetica Neue, Segoe UI, system-ui, ui-sans-serif, ui-serif or -apple-system in a stack or font link | The default face says nobody chose the type | Swap by role (design-extraction.md section 6) and update DESIGN.md |
+| `banned-font-family` | fail | Inter, Geist, Space Grotesk, Roboto, Arial, Helvetica Neue, Segoe UI, system-ui, ui-sans-serif, ui-serif or -apple-system in a stack or font link | The default face says nobody chose the type | Match the reference by features (design-extraction.md section 6) and update DESIGN.md |
+| `font-popularity` | fail | A family in the dated snapshot of the Google Fonts top 200 by popularity, or on the trend list; the message names its rank | The most used faces are what every generated page reaches for | Match the reference again, outside the popular set (design-extraction.md section 6) |
+| `mono-prose` | fail | Monospace on fine print, captions, terms lines, labels or running text | Grey mono fine print under the button is a current generated-page signature | The text face; mono only for code and table data, and only if the reference uses mono |
 | `single-sans-family` | warn | One font stack across the whole site | One voice for headlines, body and labels | Add a display or text face that contrasts |
 | `flat-type-scale` | fail | Largest font size under 2.5 times the body size | Timid size steps read as templated | Rebuild the scale from a ratio; display at least 2.5x body |
 | `long-measure` | warn | A `max-width` in `ch` over 75 | Full-width text is the untouched default | 60 to 75ch, usually `65ch` |
@@ -109,3 +111,4 @@ in `<page>/.first-dollar/check/`.
 | `commitment-above-fold` | `[data-commitment]` is missing, or starts below 844px at 390 wide | Shorten the hero; move the commitment block up |
 | `contrast` | Headline, paragraph or button text under 4.5:1 (3:1 at 24px and up) | Darken the ink or lighten the ground within DESIGN.md tokens |
 | `two-line-button` | The commitment button or a nav link wraps to two lines | Shorter label, `white-space: nowrap`, or less padding |
+| `reference-drift` | Runs when `<page>/.first-dollar/reference/<host>/1440.png` exists. The page's ground differs from the reference's by more than deltaE 0.12, or one is dark and the other light | Take the ground from the reference's `--palette` sample and log it under DESIGN.md Changes; a dark reference makes a dark page |
