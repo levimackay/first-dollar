@@ -26,3 +26,14 @@ test('font-popularity fails Georgia (trend list) and reports Google Fonts link f
 test('font-popularity leaves a low-ranked family, a custom @font-face name and generics alone', async () => {
   assert.deepEqual(await hits('font-popularity', 'pass'), []);
 });
+
+test('mono-prose names the element and the face', async () => {
+  const [f] = await hits('mono-prose', 'fail');
+  assert.match(f.message, /p\.terms/);
+  assert.match(f.message, /IBM Plex Mono/);
+});
+
+test('mono-prose exempts code, pre, table cells, data-mono and short labels', async () => {
+  assert.deepEqual(await hits('mono-prose', 'pass-exempt'), []);
+  assert.deepEqual(await hits('mono-prose', 'pass'), []);
+});

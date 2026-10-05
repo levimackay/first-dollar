@@ -93,6 +93,15 @@ export function declaredValue(ctx, el, props) {
   return found;
 }
 
+/** An inherited property's value: the nearest declaration on the element or an ancestor. */
+export function inheritedValue(ctx, el, props) {
+  for (let node = el; node && node.type === 'tag'; node = node.parent) {
+    const value = declaredValue(ctx, node, props);
+    if (value !== null) return value;
+  }
+  return null;
+}
+
 /** Declared height in px, from CSS, an inline style, or the height attribute. */
 export function declaredHeightPx(ctx, el) {
   const css = declaredValue(ctx, el, ['height', 'max-height']);
