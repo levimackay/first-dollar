@@ -10,15 +10,21 @@ generated page uses it. When a run finds a new one, it belongs here.
 
 ## Type
 
-**The trendy font set.** These faces sit on so many generated pages that they
-now read as the default, however well they are set: JetBrains Mono, IBM Plex
-Mono, Gloock, Newsreader, Anton, Bodoni Moda, Outfit, Hanken Grotesk,
-Fraunces, Instrument Serif, Space Grotesk, Satoshi, General Sans, Clash
-Display, Clash Grotesk, Cabinet Grotesk, Bricolage Grotesque, Syne,
-Unbounded. The older defaults too: Inter, Geist, Roboto, Arial, the system UI
-stack. [`banned-font-family`, `font-popularity`]
+**The trendy font set.** Any face in the Google Fonts top 200, and the faces
+generated pages lean on outside it (Gloock, Satoshi, General Sans, Clash
+Display, Clash Grotesk, Cabinet Grotesk, and the rest of the lint's trend
+list), now reads as the default however well it is set. So does
+the system UI stack, and any face from your last ten builds (the lint checks
+it with `--history`). [`banned-font-family`, `font-popularity`]
 Instead: the reference's own free face, or the closest free match by its
-features from outside the popular set (design-extraction.md section 6).
+features from outside the popular set and the build history
+(design-extraction.md section 6).
+
+**A heavy display face on every heading.** One wide or black display set at
+60 to 110px for the hero and every section head.
+Instead: the display where the reference uses it, often once, in the hero.
+Section heads, nav and body take the face and weight the reference gives
+them.
 
 **Grey mono fine print.** A small grey monospace line under the button, mono
 captions, mono labels, mono eyebrows over every heading. [`mono-prose`,
@@ -26,10 +32,10 @@ captions, mono labels, mono eyebrows over every heading. [`mono-prose`,
 Instead: the text face, at a size people read, in ink or muted ink at 4.5:1.
 Mono only for code and table data, and only if the reference uses mono.
 
-**Illustration captions in tiny mono.** "FIG. 1" in 11px tracked capitals
-under a drawing.
-Instead: a plain caption in the text face ("Illustration. Numbers are
-examples."), large enough to read without leaning in.
+**Captions in tiny mono.** "FIG. 1" in 11px tracked capitals under a mock or
+drawing.
+Instead: a plain caption in the text face ("Concept. Numbers are examples."),
+large enough to read without leaning in.
 
 **Gradient text.** [`gradient-text`]
 Instead: solid ink. Emphasis comes from size or weight.
@@ -60,11 +66,27 @@ Instead: the flat ground, as sampled.
 
 ## Layout
 
-**Headline left, card right, on every page.** A split hero with a bordered
-card or mock floating on the right has become the default skeleton, whatever
-the reference's shape.
-Instead: take the hero's shape from the reference. A full-bleed photo hero
-stays full bleed; a one-column letter stays one column.
+**One section skeleton on every page.** Hero, a two or three step "what
+happens" list, a founder block with a hatched photo, a key-value terms table,
+a dark or inverted closing band, then the legal links. Seen side by side, the
+pages are one generator.
+Instead: the reference's own sequence from reference-structure.md, section by
+section, at its layouts and heights (SKILL.md stage 6). Cut what the founder
+has no content for. No inverted closing band unless the reference has one.
+
+**Stock section titles.** "How it works", "Who is behind this", "Who we
+are", "Before you pay", "Why us", "Features", "The problem", "FAQ" as a
+heading, "Ready to get started?".
+Instead: titles in the founder's own subject words: "What happens after you
+hit record", "The sharpening van", "Where your $40 goes". Or no title, when
+the reference runs sections without one.
+
+**Headline left, object right, on every page.** A split hero with a card,
+mock or generic phone floating on the right has become the default
+skeleton, whatever the reference's shape.
+Instead: the reference's hero layout. A full-bleed photo hero stays full
+bleed with the type over it; a centered cover stays centered; a one-column
+letter stays one column.
 
 **A hairline spec table as the hero's second half.** Thin rules, small
 labels, values pushed right, filling the space where a picture belongs.
@@ -85,7 +107,7 @@ Instead: the reference's button radius. A pill only when the reference has
 one.
 
 **A badge above the headline.** A pill with a dot: "Now taking pre-orders".
-Instead: say it in the terms line under the button, in the text face.
+Instead: say it in the small print, where the reference puts it.
 
 **Numbered section labels.** "01 / 02 / 03" over each section.
 Instead: section names in the text face, or none.
@@ -97,14 +119,38 @@ Instead: one button with the price; the real number of points as a list or
 one large item; one real number in a sentence with its source, or nothing.
 
 **An empty half screen.** The reference has a photo there; the page has air.
-Instead: keep the region and fill it (SKILL.md stage 4).
+Or 150 to 300px of dead space between sections.
+Instead: keep the region and fill it (SKILL.md stage 4). Close a gap that
+holds nothing; the reference's large gaps each hold one element.
+
+## Imagery
+
+**Clip art standing in for a photo.** Flat geometric vector drawings where
+the reference has photography: a bin with three "text lines", a sprout in a
+box, a knife over a wheel that reads as a rifle scope, shelving that should
+be bleachers, a barcode waveform.
+Instead: a labeled photo slot at the reference image's aspect, size and
+position, with a shot direction (design-rules.md, "Filling image regions").
+A drawing only when the reference itself is illustrated, in its manner.
+
+**Copying the reference's unloaded grey.** Grey or tinted blocks taken from
+a full-page capture whose images did not load.
+Instead: treat those boxes as image regions and fill them.
 
 ## Copy and gaps
 
-**Raw [NEED] brackets mid-sentence.** `[NEED: price]` sitting in running text
-reads as broken copy, not as a gap someone must fill.
-Instead: `<span class="need">[NEED: ...]</span>` with one plain style: a
-dashed outline, the page's text font, no color flourish.
+**Dashed grey NEED boxes.** A 1px dashed or dotted box in a grey sans, with no
+padding, splitting into two half boxes at a line break and butting against
+the next word ("Within[NEED: days]days"). Or raw brackets with no marker at
+all. Both read as a broken render.
+Instead: the gap marker in design-rules.md: the page's own text face, a soft
+highlight in the accent or the reference's highlight color, padding,
+`box-decoration-break: clone`, a real space each side.
+
+**The same grey terms line under every button.** "Charged today. Refunds:
+[NEED]" in 13px grey under each ask, on every page.
+Instead: the money terms once, where the reference puts its small print, in
+its style (SKILL.md, Rules for every stage).
 
 ## Ornament and motion
 
@@ -132,10 +178,12 @@ supporting moves (motion.md).
 ## The fresh-eyes critic
 
 You are the critic. You have the page at 1440, at 390 and as a full page at
-1440, the reference at 1440, and this catalog. You know nothing about why the
+1440, the reference at 1440 and as a full page, and this catalog. You know nothing about why the
 page was made this way; a critic who knows will excuse it.
 
-"List anything a professional designer would read as AI-made, worst first."
+"List anything a professional designer would read as AI-made, worst first.
+Compare the two full pages section by section: order, layouts, gaps,
+imagery."
 Write the list to `<page>/.first-dollar/critic.md`, numbered, worst first.
 One item each: the tell, its region (section, and 1440 or 390), and what to
 do, from the "Instead" lines here. Mark an item "ref" when the reference does
