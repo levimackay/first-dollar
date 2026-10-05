@@ -144,6 +144,8 @@ Only values listed under rounded.>
 - **Terms line:** sits beside or under the button; charge timing and refund term.
 - **Placeholder:** a plain box with the bracketed label, hatched with an SVG
   pattern when it stands in for an image. Never styled to look finished.
+- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`: a
+  dashed outline, the text font, no color flourish.
 
 ## Do's and Don'ts
 

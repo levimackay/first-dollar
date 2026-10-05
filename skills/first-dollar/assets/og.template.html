@@ -7,7 +7,8 @@
   whose slot says so, then delete this comment.
   grep -n "{{" <page>/.first-dollar/og.html must print nothing before you render.
   Every word on the card is the founder's: product name, promise, price, terms,
-  domain. A missing one stays [NEED: ...] or its element goes. Never guess.
+  domain. A missing one stays <span class="need">[NEED: ...]</span> or its
+  element goes. Never guess.
   Render: node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <page> --og
   The headline is the Promise from COPY.md, three lines at most. If it runs
   longer, use the headline-lg size instead of headline-display. The card does
@@ -93,6 +94,10 @@
   .domain {
     grid-area: domain;
   }
+  .need {
+    outline: 2px dashed currentColor;
+    outline-offset: 4px;
+  }
 </style>
 </head>
 <body>
@@ -101,7 +106,7 @@
     <h1 class="promise">{{promise}}</h1>
     <div class="foot">
       <p class="ask">{{ask: the button label from index.html, price included}}</p>
-      <p class="terms">{{terms: the founder's refund terms from COPY.md, or [NEED: refund terms]}}</p>
+      <p class="terms">{{terms: the founder's refund terms from COPY.md, or <span class="need">[NEED: refund terms]</span>}}</p>
       <p class="domain">{{domain: the founder's domain; with none yet, delete this p}}</p>
     </div>
   </main>

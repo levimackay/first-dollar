@@ -22,13 +22,11 @@ a serif headline, one orange accent, a row of three cards and a "Get early
 access" button. Each page looks fine. Side by side they look machine-made, and
 the button collects nothing.
 
-So the look never comes from you. It comes from a reference the founder picks.
-You extract that reference into DESIGN.md. The lint then fails any color, font
-or radius on the page that DESIGN.md does not declare. You compose inside those
-tokens and never pick one from taste. A token changes only for the reasons
-in stage 4, and each change is logged. If your DESIGN.md comes out
-cream, serif and orange, check that the reference really is. Your defaults are
-not a reference.
+So the look never comes from you. It comes from a reference the founder picks,
+extracted into DESIGN.md. The lint fails any color, font or radius DESIGN.md
+does not declare, so you compose inside those tokens, never from taste. If
+DESIGN.md comes out off-white, serif and orange, check that the reference
+really is. Your defaults are not a reference.
 
 The words never come from you either. They come from the founder. Anything the
 founder has not told you becomes a visible placeholder, never a guess.
@@ -44,10 +42,10 @@ on the current folder, which may not persist between commands.
 |---|---|---|
 | 1 Brief | `references/commitment.md` | `BRIEF.md` |
 | 2 Copy | `references/copy.md` | `COPY.md` |
-| 3 Reference | `references/inspiration.md`, `references/design-extraction.md` (hygiene) | `.first-dollar/reference/`, `.first-dollar/reference.txt` |
+| 3 Reference | `references/inspiration.md`, `references/design-extraction.md` (hygiene) | `.first-dollar/candidates/`, `.first-dollar/reference/`, `.first-dollar/reference.txt` |
 | 4 Design system | `references/design-extraction.md`, `references/design-rules.md`, `assets/DESIGN.template.md` | `DESIGN.md` |
 | 5 Rough cut | `references/slop-rules.md` | `index.html` (first screen), stub `privacy.html` and `terms.html` |
-| 6 Build and polish | `references/design-rules.md` again as needed | `index.html`, `privacy.html`, `terms.html` |
+| 6 Build and polish | `references/motion.md`, `references/tells.md`, `references/design-rules.md` as needed | `index.html`, `privacy.html`, `terms.html` |
 | 7 Ship kit | `assets/og.template.html` | `.first-dollar/og.html`, `og.png`, `PLACEHOLDERS.md` |
 
 Read each file at its stage, not before.
@@ -61,6 +59,8 @@ Read each file at its stage, not before.
 - The check: `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <page>`
 - A reference shot:
   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url> --out <page>/.first-dollar/reference/<host>`
+- The palette, the dominant colors of an image with their coverage:
+  `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --palette <image.png>`
 
 Write every shell command so zsh runs it too: quote any word that starts with
 `=` or holds `[`, `*` or `?`. Never a bare `echo ======` separator.
@@ -76,8 +76,10 @@ What they report:
 - The check renders the page in a real browser. Exit 0: all checks passed.
   Exit 1: `FAIL <id> @<width> <detail>`. Exit 3: not verified; the first line
   says why. For a folder it writes `1440.png`, `390.png`, `full-1440.png` and
-  `full-390.png` to `<page>/.first-dollar/check/`. Given a URL, it only takes
-  screenshots. Run it again at every stage, even after an exit 3.
+  `full-390.png` to `<page>/.first-dollar/check/`. When
+  `<page>/.first-dollar/reference/<host>/1440.png` exists, it also runs
+  `reference-drift` against it. Given a URL, it only takes screenshots. Run it
+  again at every stage, even after an exit 3.
 - When exit 3 says there is no browser, it prints an install command:
   `npm i --prefix ~/.cache/first-dollar playwright-core`. Ask the founder
   about it only after a run has actually exited 3, at whichever stage that
@@ -110,18 +112,16 @@ what you would have asked, take the stated default, log it in BRIEF.md under
 
 - **Facts come from the founder.** A fact is anything that could be false: a
   name, number, price, date, customer, quote, logo, credential, result or cap.
-  A missing fact is written `[NEED: what is missing]`. A missing image, video
-  or file is `[PLACEHOLDER: what it should show]`. Both stay plain text on a
-  plain or hatched box, never dressed up with a gradient or a picture.
-- **What the page is made of.** Three things only. The founder's real assets
-  (photos, screenshots, logo, files they gave you). A drawn illustration
-  (inline SVG) or an HTML and CSS mock of the product or its key output (the
-  change order, the report, the screen), built from DESIGN.md tokens and
-  labeled on the page "Illustration" or "Concept". And `[PLACEHOLDER: ...]`
-  boxes. Sample values in a mock are illustration, not facts: keep them
-  generic, never a real person's or company's name, and caption them
-  ("Illustration. Numbers are examples."). Never a stock or generated photo
-  presented as real.
+  A missing fact is `[NEED: what is missing]`. In visible copy, wrap it
+  `<span class="need">[NEED: ...]</span>` with one plain style (a dashed
+  outline, the page's text font, no color flourish) so it reads as a gap, not
+  broken copy. A missing image, video or file is a plain or hatched
+  `[PLACEHOLDER: what it should show]` box, never a gradient or a picture.
+- **What the page is made of.** The founder's real assets, a labeled
+  illustration or concept mock, and `[PLACEHOLDER: ...]` boxes (stage 4).
+  Sample values in a mock are generic, never a real person's or company's
+  name, and captioned ("Illustration. Numbers are examples."). Never a stock
+  or generated photo presented as real.
 - **The product name is a fact.** If the founder gave none, write
   `[NEED: product name]`. Do not coin one.
 - **One ask.** The page has one primary action: the commitment from BRIEF.md,
@@ -198,13 +198,15 @@ Read `${CLAUDE_SKILL_DIR}/references/inspiration.md` and the reference hygiene
 section of `${CLAUDE_SKILL_DIR}/references/design-extraction.md`.
 
 - **The founder gave a URL.** Take a reference shot of it.
-- **The founder gave a screenshot.** Copy it into `<page>/.first-dollar/reference/`.
+- **The founder gave a screenshot.** Copy it to
+  `<page>/.first-dollar/reference/founder/1440.png`.
 - **Neither.** Pick three sites from inspiration.md, from three different
-  registers, that the buyer in BRIEF.md would trust. Take a reference shot of
-  each. **Stop:** show the founder the three `1440.png` shots, numbered (with
-  no browser, the three URLs), and ask for a number along with the open
-  questions. Default when running without stops: the one whose register best
-  fits the buyer; log why.
+  registers, that the buyer in BRIEF.md would trust. Shoot each into
+  `<page>/.first-dollar/candidates/<host>`. **Stop:** show the founder the
+  three `1440.png` shots, numbered (with no browser, the three URLs), and ask
+  for a number along with the open questions. Default when running without
+  stops: the one whose register best fits the buyer; log why. Copy the chosen
+  folder into `<page>/.first-dollar/reference/`, which holds only the backbone.
 
 Record the chosen URL or file in BRIEF.md under "Reference". Stages 4 to 6 use
 only that one. Refuse template marketplaces and design showcase shots;
@@ -234,13 +236,16 @@ convert a design system the founder exported from the reference.
 
 Write `<page>/DESIGN.md` in the template's format: YAML front matter with
 `colors`, `typography`, `rounded` and `spacing`, then the prose sections. The
-prose records the reference, which values were read exactly and which
-estimated, and every font swap.
+prose records the reference, where each value came from, and the font match.
 
 - Take structure, not surface: macrostructure, type roles, palette
   proportions, radius, rhythm. Never its images, logo, icons or words.
-- A reference font that is banned, not free to load, or the brand's own face
-  gets swapped as design-extraction.md says, and the swap is logged.
+- Colors are sampled from the reference's pixels with `--palette`, never
+  described. A dark reference makes a dark page (`reference-drift`).
+- Fonts: the reference's own face if it is free and the lint passes it.
+  Otherwise the closest free match by features, outside the popular set
+  (design-extraction.md section 6). Never from memory or a shortlist.
+- Monospace only for code and table data, and only if the reference uses it.
 - Declare every value the page needs: background, text, muted text, accent,
   button, border, each font, radius and spacing step.
 - No accent hue in the reference (ink on paper): the accent is its strongest
@@ -258,20 +263,21 @@ at the reference's size and position. Fill each with the first that exists:
 
 Never drop the region and leave a void: a photo hero rebuilt as type beside
 an empty half screen has left the reference's family. Never use a stock or
-generated photo posed as real. Write each region and its fill in DESIGN.md
-under Material. design-rules.md, "Filling image regions", has the craft.
+generated photo posed as real. List each region and its fill in DESIGN.md
+Overview. design-rules.md, "Filling image regions", has the craft.
 
 **Changing a token later.** Only four things change DESIGN.md after this
 stage: a rendered contrast check fails, a reference color turns out to be on
-the banned list, stage 6's fidelity check finds a value misread from the
-reference, or the founder asks. Use the nearest value that fixes it.
+the banned list, a fidelity check (`reference-drift` or stage 6's compare
+step) finds a value misread from the reference, or the founder asks. Use the
+nearest value that fixes it.
 Record each change under `## Changes` at the end of DESIGN.md with its reason,
 then update the page. Nothing else changes a token.
 
-**Gate.** The front matter holds all four groups. No font is banned, and every
-font is free to load. The first lint run in stage 5 is the mechanical check: a
-`design-tokens` warning there means DESIGN.md did not parse. Fix DESIGN.md
-before anything else.
+**Gate.** The front matter holds all four groups. Every font is free to load,
+and none is banned or in the popular set. The first lint run in stage 5 is
+the mechanical check: a `design-tokens` warning there means DESIGN.md did not
+parse. Fix DESIGN.md before anything else.
 
 ## Stage 5: Rough cut
 
@@ -315,7 +321,10 @@ continue to stage 6.
 
 Build the rest of `<page>/index.html` from COPY.md: the mechanism, the proof
 you have, the objection answers, the ask again near the end, and the footer.
-Every image region gets its stage 4 fill.
+Every image region gets its stage 4 fill. From `references/motion.md`, choose
+one signature motion that animates the product's mechanism inside the labeled
+illustration, plus up to two supporting moves matched to the reference's
+energy, each with a reduced-motion fallback.
 
 Fill in the `<page>/privacy.html` and `<page>/terms.html` stubs with the same
 tokens. Keep them plain. Keep `[NEED: founder review before publishing]` at
@@ -335,8 +344,14 @@ Then polish once:
    list. At a glance the page should read as the reference's family. Energy is
    a token too: if the reference is loud, the page is loud. With no page
    screenshot, compare the code to the reference and call it not verified.
-4. **Fix.** Fix the whole list in one batch.
-5. **Confirm.** Run the lint and the check once more.
+4. **Fresh eyes.** If you can spawn a subagent, give a fresh one with no build
+   context only the page's `1440.png` and `390.png`, the reference's
+   `1440.png` and `${CLAUDE_SKILL_DIR}/references/tells.md`, and ask: "List
+   anything a professional designer would read as AI-made, worst first." If
+   you cannot, re-read tells.md and write that list yourself. Add it all.
+5. **Fix.** Fix the whole list, drift and fresh-eyes findings included, in one
+   batch.
+6. **Confirm.** Run the lint and the check once more.
 
 What you judge by eye gets that one batch and one confirm round, never a
 third. Lint and check failures stay in the fix loop: three rounds in all for
@@ -400,17 +415,12 @@ PLACEHOLDERS.md, reference.txt or the reference screenshots.
 
 ## Never
 
-- Invent a fact: a name, number, customer, quote, logo, press mention, date,
-  cap or result the founder did not give.
-- Invent a price to pass the lint. With no price, the label says
-  `[NEED: price]`.
+- Invent a fact the founder did not give, or a price to pass the lint.
 - Make a free waitlist, a free early-access list, a "notify me" button or an
   email-only form the main ask.
 - Copy the reference's pixels, images, logo, icons or words.
-- Use any picture other than the founder's own, a labeled illustration or
-  concept mock, or a `[PLACEHOLDER: ...]` box. Never present a stock or
-  generated photo as real.
-- Drop an image region of the reference and leave the space empty.
+- Present a stock or generated photo as real, or drop an image region of the
+  reference and leave the space empty.
 - Change a DESIGN.md token for any reason but the four in stage 4.
 - Report a check as passed when it did not run.
 - Install, deploy or spend anything without the founder's yes.

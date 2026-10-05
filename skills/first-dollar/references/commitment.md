@@ -20,10 +20,9 @@ What a visitor can give, weakest first.
 | Reputation | An intro, a public quote, a name on a list | Somewhat | No |
 | Money | Pre-order, deposit, paid pilot, signed letter of intent with a price | Yes | Yes, and only this |
 
-A free waitlist is an email address. It measures curiosity. Good copy alone can
-fill one, so it cannot tell "nice idea" from "I will pay". When the founder asks
-for one, build the priced version and explain why at the first stop (SKILL.md,
-stage 1).
+A free waitlist measures curiosity, which good copy alone can fill, so it
+cannot tell "nice idea" from "I will pay". When the founder asks for one,
+build the priced version and explain why at the first stop (SKILL.md stage 1).
 
 A letter of intent (LOI) moves no money. It counts only when it names scope,
 price and start date, signed by someone who can approve the spend.
@@ -186,14 +185,13 @@ tell the visitor nothing will happen yet.
 
 ```html
 <a class="commit" data-commitment href="https://buy.stripe.com/...">Pre-order for $40</a>
-<p class="commit-terms">Charged today. Refunds: [NEED: refund terms].</p>
+<p class="commit-terms">Charged today. Refunds: <span class="need">[NEED: refund terms]</span>.</p>
 ```
 
-Until the founder supplies the real link, a payment ask (pre-order, deposit,
-pilot fee) gets `href="[NEED: checkout link]"`. An LOI ask gets
-`href="[NEED: LOI form link]"`, or the URL of the founder's form. It goes first
-in PLACEHOLDERS.md. Do not deploy without the founder's explicit yes, after
-telling them the button is dead.
+Until the founder supplies the real link: `href="[NEED: checkout link]"` for a
+payment ask, `href="[NEED: LOI form link]"` (or their form's URL) for an LOI.
+It goes first in PLACEHOLDERS.md. Never deploy a dead button without the
+founder's explicit yes.
 
 ## Make a Stripe Payment Link
 

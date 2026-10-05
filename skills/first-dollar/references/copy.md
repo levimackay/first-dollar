@@ -154,8 +154,11 @@ News, the founder's interview notes.
   founder bio, proof.
 - `[PLACEHOLDER: what asset, size]` for a missing asset: founder photo, product
   shot, prototype video.
-- They show on the page as plain bracketed text in a plain box (hatched when
-  it stands in for an image, design-rules.md). Never styled to look finished
+- In visible copy, each `[NEED: ...]` is wrapped
+  `<span class="need">[NEED: ...]</span>` with one plain style: a dashed
+  outline, the page's own text font, no color flourish. It reads as an
+  obvious gap, not as broken copy. A `[PLACEHOLDER: ...]` for an image sits in
+  a hatched box (design-rules.md). Never styled to look finished
   (`placeholder-styled`), never hidden in comments.
 - Never trade one invention for a vaguer one. "10,000 teams" changed to
   "hundreds of teams" is still invented.
