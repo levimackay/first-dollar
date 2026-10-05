@@ -48,10 +48,12 @@ From a URL:
 node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs '<url>' --out <page>/.first-dollar/reference/<host>
 ```
 
-This saves `1440.png`, `390.png` and the full-page shots in that folder. Read both. Exit code 3
-means no browser is available: say so, save the fetched HTML and CSS from
-section 4 in the same folder instead, and continue in URL mode only, with
-rhythm marked unknown.
+This saves `1440.png`, `390.png` and the full-page shots in that folder. Read
+all of them. An empty grey box in a full-page shot is usually an image that
+did not load (lazy loading): treat it as an image region, never as a grey
+panel to copy. Exit code 3 means no browser is available: say so, save the
+fetched HTML and CSS from section 4 in the same folder instead, and continue
+in URL mode only, with rhythm marked unknown.
 
 From a screenshot: copy it to
 `<page>/.first-dollar/reference/founder/1440.png` and use it as given (with
@@ -103,17 +105,21 @@ Write each answer into DESIGN.md as you go.
    grotesque, slab, mono, or script. Body: serif, grotesque, humanist sans, or
    mono. Labels: small caps, mono, uppercase sans, or none. Record the pairing
    logic, display weight, whether display is italic, and whether mono appears
-   at all (the page may use it only where the reference does). Then describe
-   each face by the five features in section 6.
+   at all (the page may use it only where the reference does). Record where
+   the display face appears (the hero only, or every heading) and at what
+   weight: a heavy face the reference spends once is spent once. Then
+   describe each face by the five features in section 6.
 3. Radius: none, small (2 to 4px), medium (6 to 12px), or pill. One radius on
    everything, or varied by element?
 4. Rhythm: is section padding equal or varied (estimate the ratios)? Density:
    generous, medium or dense. Alignment: centered, left, or an asymmetric grid.
-5. Macrostructure: name it with the list in design-rules.md. Note the hero
-   shape, the nav (inline links, one persistent device, none) and the footer.
-   List every image region (hero photo, product shot, video, gallery) with
-   its size, position and bleed. Each one is kept and filled (SKILL.md stage
-   4, Image regions).
+5. Macrostructure: name it with the list in design-rules.md. The section
+   sequence itself is reference-structure.md (SKILL.md stage 3). Note the
+   hero layout, the nav (inline links, pipes, icons, one persistent device,
+   none), where the small print sits, and the footer. List every image region
+   (hero photo, product shot, video, gallery) with its size, aspect, position
+   and bleed, and whether the reference is photographed or illustrated. Each
+   region is kept and filled (SKILL.md stage 4, Material).
 6. Motion: a still image shows none. Write "not visible". Do not guess.
 
 ## 4. URL mode: read the code
@@ -155,9 +161,9 @@ Write these in DESIGN.md Provenance, and say them plainly at the next stop:
 - From code alone, rhythm and density are unknown.
 - One page is not a whole design system. Gaps are filled from design-rules.md
   and marked as decisions, not extraction.
-- Imagery is never carried over, but its regions are. Each is filled with the
-  founder's asset, a labeled illustration or concept mock, or a hatched
-  `[PLACEHOLDER: ...]` box at the same size (SKILL.md stage 4).
+- Imagery is never carried over, but its regions are, filled in SKILL.md
+  stage 4's order: the founder's asset, a software mock, a labeled photo slot
+  at the same aspect and size, a drawing only on an illustrated reference.
 
 ## 6. Fonts: match the reference, never a shortlist
 
@@ -170,28 +176,35 @@ There is no list of good fonts here. Any fixed list becomes the new default.
      Width (condensed, normal, wide). Contrast (how much thick and thin
      strokes differ). X-height (low, medium, tall). Terminals (flat, angled,
      rounded, ball, bracketed serifs).
-2. If the reference's own family is free to use (SIL Open Font License, or on
-   Google Fonts) and is outside the top 200, use it.
-3. Otherwise shortlist three free Google Fonts families of the same
-   classification that you believe match the five features. Shoot each one's
-   specimen page (spaces in the name become `+`):
-   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs 'https://fonts.google.com/specimen/<Name>' --out <page>/.first-dollar/fonts/<Name>`
-   The family name at the top of `1440.png`, and the styles list in
-   `full-1440.png`, are set in the face. Compare each against the headline in
-   the reference's `1440.png` on the five features, and pick the closest.
-4. Never pick a face you have not looked at, and never from a fixed list or
-   a font named as an example anywhere in these files. The `font-popularity`
+2. Read the last 10 lines of `~/.first-dollar/history.jsonl`, if it exists.
+   Every `display` and `text` family there is off the table for this page.
+   The lint fails a reuse when run with `--history`. A founder who wants one
+   face across their ideas says so; log the override in Provenance and lint
+   this page without `--history`.
+3. If the reference's own family is free to use (SIL Open Font License, or on
+   Google Fonts), outside the top 200 and not in the history, use it.
+4. Otherwise shortlist three free Google Fonts families of the same
+   classification that you believe match the five features. Shoot each one
+   set in the page's own headline (Google's specimen pages render no sample
+   text headless, so never shoot those):
+   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --specimen "<Family>" --text "<the page headline>" --out "<page>/.first-dollar/fonts/<Family>"`
+   Compare each `specimen.png` against the headline in the reference's
+   `1440.png` on the five features, and pick the closest. With no browser
+   (exit 3), pick by the five features, mark the font "matched unseen" in
+   Provenance, and ask about the install (SKILL.md, Setup).
+5. Never pick a face unseen while the specimen can run, and never from a
+   fixed list or a font named as an example anywhere in these files. The `font-popularity`
    lint then confirms the pick: it fails any family in a dated snapshot of the
    Google Fonts top 200, plus a trend list, and names the rank. When it
    fails, take the next candidate or shortlist again.
-5. Log the match in DESIGN.md Provenance, with why it beat the other two:
+6. Log the match in DESIGN.md Provenance, with why it beat the other two:
    `Display: reference uses [face] (custom). Read as a high-contrast serif,
    normal width, low x-height, ball terminals. Matched to [family]: same
    classification, contrast and terminals; x-height a little taller.`
 
-Banned outright, matching the `banned-font-family` lint rule: Inter, Geist,
-Space Grotesk, Roboto, Arial, system-ui, ui-sans-serif, ui-serif,
--apple-system, Segoe UI, Helvetica Neue.
+Banned outright by the `banned-font-family` lint rule: the most used Google
+sans faces and the system stacks (Arial, Helvetica Neue, Segoe UI,
+system-ui, ui-sans-serif, ui-serif, -apple-system). The lint names the face.
 
 ## 7. Three routes, one output
 
