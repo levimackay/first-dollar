@@ -8,10 +8,35 @@ function sizeOf(value) {
   return sizes.length ? Math.max(...sizes) : null;
 }
 
-// A declaration nested in any @media block is a viewport override, not the page's scale.
-function inMedia(node) {
-  for (let p = node.parent; p; p = p.parent) if (p.type === 'atrule' && /^media$/i.test(p.name)) return true;
-  return false;
+const SCREEN = 1440;
+
+function lengthPx(v) {
+  const m = /^(-?\d*\.?\d+)(px|em|rem)$/i.exec(v.trim());
+  if (!m) return null;
+  return m[2].toLowerCase() === 'px' ? parseFloat(m[1]) : parseFloat(m[1]) * 16;
+}
+
+// One media query (no commas) holds on a 1440px screen. Anything that is not a width
+// condition or the screen/all types (print, orientation, hover, prefers-*) does not apply.
+function queryHolds(query) {
+  const q = query.trim().toLowerCase();
+  if (!q || /^not\b/.test(q)) return false;
+  return q.replace(/^only\s+/, '').split(/\s+and\s+/).every((part) => {
+    part = part.trim();
+    if (part === 'screen' || part === 'all') return true;
+    const m = /^\(\s*(min|max)-width\s*:\s*([^)]+)\)$/.exec(part);
+    if (!m) return false;
+    const px = lengthPx(m[2]);
+    return px !== null && (m[1] === 'min' ? px <= SCREEN : px >= SCREEN);
+  });
+}
+
+// A declaration counts when every @media around it holds at 1440px; top-level rules always do.
+function appliesAtDesktop(node) {
+  for (let p = node.parent; p; p = p.parent) {
+    if (p.type === 'atrule' && /^media$/i.test(p.name) && !p.params.split(',').some(queryHolds)) return false;
+  }
+  return true;
 }
 
 export default {
@@ -23,7 +48,7 @@ export default {
     let largest = null;
     let unmeasurable = false;
     eachDecl(ctx, /^font-size$/, (decl, unit, line) => {
-      if (inMedia(decl)) return;
+      if (!appliesAtDesktop(decl)) return;
       const value = resolveVars(ctx, decl.value).trim();
       // Only plain px/rem lengths and clamp() are measurable; vw, %, em, keywords and calc()
       // could be any size, so the page gets no verdict.

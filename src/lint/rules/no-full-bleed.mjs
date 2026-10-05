@@ -5,12 +5,12 @@ const CONTAINER = /(^|[\s,>+~])\.(container|wrap|wrapper|inner|content)\b|sectio
 
 const NO_BG = /^(none|transparent|inherit|initial|unset|revert)$/i;
 
-// A top-level band (direct child of body or main, or a section) that paints its own
+// A top-level band (direct child of body or main) that paints its own
 // background and sets no max-width spans the viewport even when its content is contained.
 function hasBand(ctx) {
   for (const file of htmlFiles(ctx)) {
     const tops = file.$('body, main').toArray().flatMap(elementChildren);
-    for (const el of new Set([...tops, ...file.$('section').toArray()])) {
+    for (const el of tops) {
       const decls = declarationsFor(ctx, el);
       if (decls.some((d) => d.prop === 'max-width' && !/^none$/i.test(d.value))) continue;
       if (decls.some((d) => /^background(-color|-image)?$/.test(d.prop) && d.value && !NO_BG.test(d.value.trim()))) return true;

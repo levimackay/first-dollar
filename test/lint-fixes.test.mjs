@@ -39,6 +39,35 @@ test('no-full-bleed still warns when the section has no background or has a max-
   }
 });
 
+test('no-full-bleed still warns for a background section nested inside a container', async () => {
+  const css = '.wrap { max-width: 1080px; margin-inline: auto; } .band { background: #eef2ee; }';
+  const dir = await siteDir({ 'index.html': page(css, '<main><div class="wrap"><section class="band"><p>Copy</p></section></div></main>') });
+  assert.equal(hitsFor(await lint(dir), 'no-full-bleed').length, 1);
+});
+
+const typeCase = (css) => siteDir({ 'index.html': page(css, '<h1>Hi</h1><p>Body</p>') });
+
+test('flat-type-scale reads mobile-first CSS at desktop width', async () => {
+  for (const css of [
+    'body { font-size: 16px; } h1 { font-size: 28px; } @media (min-width: 768px) { h1 { font-size: 64px; } }',
+    'body { font-size: 16px; } @media (min-width: 768px) { h1 { font-size: 64px; } }',
+    'body { font-size: 16px; } @media screen and (min-width: 48em) and (max-width: 2000px) { h1 { font-size: 64px; } }',
+  ]) {
+    assert.deepEqual(hitsFor(await lint(await typeCase(css)), 'flat-type-scale'), [], css);
+  }
+});
+
+test('flat-type-scale ignores queries that do not hold at 1440px', async () => {
+  for (const css of [
+    'body { font-size: 18px; } h1 { font-size: 30px; } @media (max-width: 480px) { h1 { font-size: 60px; } }',
+    'body { font-size: 18px; } h1 { font-size: 30px; } @media print { h1 { font-size: 60px; } }',
+    'body { font-size: 18px; } h1 { font-size: 30px; } @media (min-width: 1600px) { h1 { font-size: 60px; } }',
+    'body { font-size: 18px; } h1 { font-size: 30px; } @media (orientation: landscape) { h1 { font-size: 60px; } }',
+  ]) {
+    assert.equal(hitsFor(await lint(await typeCase(css)), 'flat-type-scale').length, 1, css);
+  }
+});
+
 test('invented-metric catches multiplier claims, not dimensions or sourced ones', async () => {
   const body = (t) => page('', `<main><p>${t}</p></main>`);
   for (const t of ['3x faster invoicing', 'Close 10\u00d7 more jobs', 'Get 2.5x the leads']) {
