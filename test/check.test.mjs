@@ -43,6 +43,19 @@ test('hidden fails hidden-after-reveal', (t) => {
   assert.ok(json.checks.some((c) => c.id === 'hidden-after-reveal' && !c.ok));
 });
 
+test('a one-line button with min-height does not fail two-line-button', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('tall-button'));
+  const mine = json.checks.filter((c) => c.id === 'two-line-button');
+  assert.ok(mine.length > 0 && mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
+test('a button whose label wraps fails two-line-button at 390', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('wrap-button'));
+  assert.ok(json.checks.some((c) => c.id === 'two-line-button' && c.width === 390 && !c.ok));
+});
+
 test('no browser exits 3 with "not verified"', () => {
   const cache = mkdtempSync(join(tmpdir(), 'fd-cache-'));
   const { r } = run(fx('good'), { FIRST_DOLLAR_CHROME: '/nonexistent', FIRST_DOLLAR_CACHE: cache });
