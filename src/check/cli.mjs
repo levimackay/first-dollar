@@ -1,0 +1,93 @@
+import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+import { resolveBrowser, launch, NOT_VERIFIED_NO_BROWSER } from './browser.mjs';
+import { serve } from './serve.mjs';
+import * as C from './checks.mjs';
+
+const WIDTHS = [320, 390, 768, 1440, 1920];
+const args = process.argv.slice(2);
+const flag = (n) => args.includes(n);
+const outFlag = args.indexOf('--out');
+const target = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--out');
+
+function stop(msg, code) {
+  console.log(msg);
+  process.exit(code);
+}
+
+if (!target) stop('usage: first-dollar-check <dir|url> [--out <dir>] [--og] [--shots-only] [--json]', 2);
+
+const isUrl = /^https?:\/\//i.test(target);
+const shotsOnly = isUrl || flag('--shots-only');
+const out = resolve(
+  outFlag >= 0 ? args[outFlag + 1] : isUrl ? join('.first-dollar', 'reference', new URL(target).host) : join(target, '.first-dollar', 'check'),
+);
+
+if (!isUrl && !existsSync(join(target, 'index.html'))) stop(`not verified: ${target}/index.html not found`, 3);
+
+const found = resolveBrowser();
+if (!found) stop(NOT_VERIFIED_NO_BROWSER, 3);
+
+let browser;
+try {
+  browser = await launch(found);
+} catch (e) {
+  stop(`not verified: browser failed to launch (${String(e.message).split('\n')[0]})`, 3);
+}
+
+mkdirSync(out, { recursive: true });
+const server = isUrl ? null : await serve(target);
+const base = isUrl ? target : server.url;
+const results = [];
+let loaded = false;
+
+async function open(width, height, url) {
+  const page = await browser.newPage({ viewport: { width, height } });
+  C.watch(page);
+  await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+  await page.waitForTimeout(300);
+  loaded = true;
+  return page;
+}
+
+try {
+  const widths = shotsOnly ? [1440, 390] : WIDTHS;
+  for (const w of widths) {
+    const page = await open(w, w === 390 ? 844 : 900, base);
+    if (!shotsOnly) {
+      const list = [C.overflow];
+      if (w === 390 || w === 1440) list.push(C.consoleCheck, C.brokenMedia, C.contrast, C.twoLineButton);
+      if (w === 390) list.push(C.commitmentAboveFold);
+      list.push(C.hiddenAfterReveal); // scrolls, so it runs last
+      const wanted = w === 390 || w === 1440 ? list : [C.overflow];
+      for (const fn of wanted) results.push({ ...(await fn(page, w)), width: w });
+    }
+    if (w === 390 || w === 1440) {
+      await page.screenshot({ path: join(out, `${w}.png`) });
+      await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true });
+    }
+    await page.close();
+  }
+  if (flag('--og') && !isUrl) {
+    const page = await open(1200, 630, base + 'og.html');
+    await page.screenshot({ path: join(out, 'og.png') });
+    await page.close();
+  }
+} catch (e) {
+  await browser.close();
+  await server?.close();
+  stop(`not verified: page failed to load (${String(e.message).split('\n')[0]})`, 3);
+}
+await browser.close();
+await server?.close();
+
+if (!loaded) stop('not verified: page never loaded', 3);
+
+const report = { verified: true, checks: results };
+writeFileSync(join(out, 'check.json'), JSON.stringify(report, null, 2));
+if (flag('--json')) console.log(JSON.stringify(report, null, 2));
+else {
+  for (const c of results) console.log(`${c.ok ? 'ok  ' : 'FAIL'} ${c.id} @${c.width}${c.detail ? ' ' + c.detail : ''}`);
+  console.log(`screenshots: ${out}`);
+}
+process.exit(results.every((c) => c.ok) ? 0 : 1);
