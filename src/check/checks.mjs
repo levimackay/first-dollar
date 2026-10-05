@@ -66,13 +66,15 @@ export async function reducedMotion(page) {
 
 // Wait for fonts and every finite running animation (infinite ones, like marquees, are ignored).
 // Polls every 100ms, gives up after 8s so a stuck page cannot hang the run.
+// Returns true when it gave up with a finite animation still running.
 export async function settle(page) {
-  await page.evaluate(async () => {
+  return page.evaluate(async () => {
     await document.fonts.ready;
     const end = Date.now() + 8000;
     const busy = () =>
       document.getAnimations().some((a) => a.playState === 'running' && a.effect?.getComputedTiming().iterations !== Infinity);
     while (busy() && Date.now() < end) await new Promise((r) => setTimeout(r, 100));
+    return busy();
   });
 }
 
@@ -106,7 +108,7 @@ async function revealed(page, id) {
     scrollTo(0, h);
   });
   await page.waitForTimeout(600);
-  await settle(page);
+  const timedOut = await settle(page);
   const bad = await page.evaluate(() => {
     const out = [];
     for (const el of document.body.querySelectorAll('*')) {
@@ -123,6 +125,7 @@ async function revealed(page, id) {
     return out.slice(0, 5);
   });
   await page.evaluate(() => scrollTo(0, 0));
+  if (bad.length && timedOut) bad.push('animations still running after 8s');
   return res(id, bad);
 }
 
