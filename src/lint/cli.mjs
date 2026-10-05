@@ -12,7 +12,7 @@ export const USAGE = [
   '  --json            print the result as JSON instead of one line per finding',
   '  --allow-no-html   for a tree that is not a site',
   '',
-  'Exits 1 on any failure, and on a directory holding no HTML at all.',
+  'Exits 0 when clean, 1 on any failure or a directory holding no HTML, 2 on a usage error.',
 ].join('\n');
 
 function display(file) {
@@ -27,8 +27,12 @@ function parseArgs(argv) {
     if (a === '-h' || a === '--help') opts.help = true;
     else if (a === '--json') opts.json = true;
     else if (a === '--allow-no-html') opts.allowNoHtml = true;
-    else if (a === '--design') opts.design = argv[++i];
-    else if (a === '--reference-text') opts.referenceText = argv[++i];
+    else if (a === '--design' || a === '--reference-text') {
+      const v = argv[++i];
+      if (v === undefined || v.startsWith('--')) throw new Error(`${a} needs a value`);
+      if (a === '--design') opts.design = v;
+      else opts.referenceText = v;
+    }
     else if (a.startsWith('--')) throw new Error(`unknown option ${a}`);
     else if (opts.dir === null) opts.dir = a;
     else throw new Error(`unexpected argument ${a}`);
@@ -43,13 +47,20 @@ export async function main(argv) {
   } catch (err) {
     console.error(err.message);
     console.error(USAGE);
-    return 1;
+    return 2;
   }
   if (opts.help) {
     console.log(USAGE);
     return 0;
   }
   const dir = opts.dir || '.';
+  for (const [what, p] of [['directory', dir], ['--design file', opts.design], ['--reference-text file', opts.referenceText]]) {
+    if (p && !(await stat(p).then(() => true, () => false))) {
+      console.error(`${what} not found: ${p}`);
+      console.error(USAGE);
+      return 2;
+    }
+  }
   let referenceTexts = [];
   if (opts.referenceText) {
     referenceTexts = (await readFile(opts.referenceText, 'utf8')).split('\n').map((l) => l.trim()).filter(Boolean);

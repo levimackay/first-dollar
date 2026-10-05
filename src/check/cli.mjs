@@ -75,7 +75,8 @@ try {
     await page.close();
   }
   if (flag('--og') && !isUrl) {
-    const page = await open(1200, 630, base + 'og.html');
+    const ogPath = existsSync(join(target, '.first-dollar', 'og.html')) ? '.first-dollar/og.html' : 'og.html';
+    const page = await open(1200, 630, base + ogPath);
     await page.screenshot({ path: join(out, 'og.png') });
     await page.close();
   }

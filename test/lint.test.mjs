@@ -174,3 +174,19 @@ test('cli --reference-text flags lifted copy', async () => {
   assert.equal(res.code, 1);
   assert.match(res.stdout, /\[reference-copy\]/);
 });
+
+test('cli exits 2 with usage on a missing option value or a path that does not exist', async () => {
+  for (const args of [
+    [CLEAN_DIR, '--design'],
+    [CLEAN_DIR, '--reference-text'],
+    [CLEAN_DIR, '--design', '--json'],
+    [CLEAN_DIR, '--design', path.join(tmpdir(), 'fdlint-nope.md')],
+    [CLEAN_DIR, '--reference-text', path.join(tmpdir(), 'fdlint-nope.txt')],
+    [path.join(tmpdir(), 'fdlint-no-such-dir')],
+    [CLEAN_DIR, '--bogus'],
+  ]) {
+    const r = await runCli(...args);
+    assert.equal(r.code, 2, args.join(' '));
+    assert.match(r.stderr, /usage: first-dollar-lint/);
+  }
+});
