@@ -3,6 +3,7 @@ import { resolve, join } from 'node:path';
 import { resolveBrowser, launch, NOT_VERIFIED_NO_BROWSER } from './browser.mjs';
 import { serve } from './serve.mjs';
 import * as C from './checks.mjs';
+import { palette } from './palette.mjs';
 
 const WIDTHS = [320, 390, 768, 1440, 1920];
 const args = process.argv.slice(2);
@@ -23,6 +24,20 @@ process.on('unhandledRejection', fail);
 function stop(msg, code) {
   console.log(msg);
   process.exit(code);
+}
+
+const paletteAt = args.indexOf('--palette');
+if (paletteAt >= 0) {
+  const image = args[paletteAt + 1];
+  if (!image || image.startsWith('--')) stop('not verified: usage: first-dollar-check --palette <image.png> [--json]', 3);
+  if (!existsSync(image)) stop(`not verified: ${image} not found`, 3);
+  const found = resolveBrowser();
+  if (!found) stop(NOT_VERIFIED_NO_BROWSER, 3);
+  browser = await launch(found);
+  const colors = (await palette(browser, image)).map(({ hex, coverage }) => ({ hex, coverage }));
+  await browser.close();
+  if (flag('--json')) stop(JSON.stringify({ colors }, null, 2), 0);
+  stop(colors.map((c) => `${c.hex}  ${c.coverage.toFixed(1)}%`).join('\n'), 0);
 }
 
 if (!target) stop('not verified: usage: first-dollar-check <dir|url> [--out <dir>] [--og] [--shots-only] [--json]', 3);
