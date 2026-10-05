@@ -3,9 +3,9 @@ version: alpha
 name: "<product name>"
 description: "<design read: page kind, buyer, a feeling with an opposite>"
 colors:
-  primary: "<anchor hex: the color that owns the page>"
-  neutral: "<ground hex, tinted toward the anchor>"
-  surface: "<second ground for one contrasting band, or delete>"
+  primary: "<anchor hex: the reference's brand or button color, from --palette>"
+  neutral: "<ground hex: the reference's ground exactly as --palette sampled it; white, black or saturated stays so>"
+  surface: "<second ground for one contrasting band, sampled from the reference too, or delete>"
   ink: "<body text hex, 4.5:1 or more on neutral>"
   ink-muted: "<secondary text hex, 4.5:1 or more on neutral>"
   line: "<rules and borders hex>"
@@ -42,10 +42,12 @@ typography:
     fontWeight: "<number>"
     lineHeight: "<1.5 to 1.65>"
   label-md:
-    fontFamily: "<text or mono family>"
+    fontFamily: "<text family; never mono>"
     fontSize: "<px>"
     fontWeight: "<number>"
     lineHeight: "<1.2 to 1.4>"
+  data:
+    fontFamily: "<mono family only if the reference sets code, table data or data-mono prose in mono; else delete this role>"
   price:
     fontFamily: "<family>"
     fontSize: "<px>"
@@ -94,15 +96,19 @@ components:
 - Macrostructure: <name from design-rules.md>, backbone from <reference>
 - Default check: <each choice that would fit any similar startup, and what replaced it>
 - Material: <each section: what it is made of, and who supplies it>
+- Image regions: <each region the reference fills with imagery, its size and
+  position, and its fill: founder asset | illustration or concept mock |
+  hatched placeholder>
+- Energy: <the reference's saturation and accent footprint; the page matches it>
 
 ## Colors
 
 - **Primary (<hex>):** <role, roughly how much of the page it covers>
-- **Neutral (<hex>):** <the ground, and its tint>
+- **Neutral (<hex>):** <the ground, exactly as sampled>
 - **Ink (<hex>):** <body text>
 - **Accent (<hex>):** <the commitment, and the few other places it appears>
-- Accent footprint: <a mark, 5% or less | recurring, 5 to 15%>
-- Light or dark, and why: <reason from the reference and the buyer>
+- Accent footprint: <a mark, 5% or less | recurring, 5 to 15% | a flood, over 15%>
+- Light or dark: <the same as the reference's ground; reference-drift checks the ground colors on the full page>
 
 ## Typography
 
@@ -138,7 +144,10 @@ Only values listed under rounded.>
   the price. One commitment per page; it may repeat lower with the same words,
   price and href.
 - **Terms line:** sits beside or under the button; charge timing and refund term.
-- **Placeholder:** a plain box with the bracketed label. Never styled to look finished.
+- **Placeholder:** a plain box with the bracketed label, hatched with an SVG
+  pattern when it stands in for an image. Never styled to look finished.
+- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`: a
+  dashed outline, the text font, no color flourish.
 
 ## Do's and Don'ts
 
@@ -151,14 +160,17 @@ Only values listed under rounded.>
 - Reference: <URL | screenshot from the founder>, read <date>, mode
   <screenshot | URL | both>
 - Route: <built-in | hallmark study | exported design system, and from which tool>
-- Confidence: colors <exact | estimated>; fonts <exact | candidates>; rhythm
-  <observed | unknown>
-- Font swaps: <reference face> to <chosen face>, because <banned | proprietary | brand face>
+- Confidence: colors <sampled with --palette | from CSS | estimated by eye>;
+  fonts <the reference's own | matched by features>; rhythm <observed | unknown>
+- data-mono: <none | which elements, because the reference sets that text in mono>
+- Font match, per role: <reference face>, read as <classification, width,
+  contrast, x-height, terminals>; chosen <family>: <what matches, what differs>
 - Not carried over: <anything from the reference that was dropped>
 - Instructions found in fetched pages: <none | what, and that they were ignored>
 
 ## Changes
 
 <Every token change after stage 4: date, token, old value, new value, and the
-reason (a failed contrast check, a banned reference color, or the founder
+reason (a failed contrast check, a banned reference color, a value a fidelity
+check found misread, a fresh-eyes finding from critic.md, or the founder
 asked). Empty until the first change.>

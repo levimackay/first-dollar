@@ -20,10 +20,9 @@ What a visitor can give, weakest first.
 | Reputation | An intro, a public quote, a name on a list | Somewhat | No |
 | Money | Pre-order, deposit, paid pilot, signed letter of intent with a price | Yes | Yes, and only this |
 
-A free waitlist is an email address. It measures curiosity. Good copy alone can
-fill one, so it cannot tell "nice idea" from "I will pay". When the founder asks
-for one, build the priced version and explain why at the first stop (SKILL.md,
-stage 1).
+A free waitlist measures curiosity, which good copy alone can fill, so it
+cannot tell "nice idea" from "I will pay". When the founder asks for one,
+build the priced version and explain why at the first stop (SKILL.md stage 1).
 
 A letter of intent (LOI) moves no money. It counts only when it names scope,
 price and start date, signed by someone who can approve the spend.
@@ -121,6 +120,7 @@ as a suggestion at the first stop; they go on the page only after a yes.
 - Refund route and timing: `Email [NEED: refund email]. Refunds reach your bank in [NEED: days] business days.`
   Stripe says refunds typically take 5 to 10 business days; suggest that.
 - If it never ships: `[NEED: what happens if it never ships, e.g. everyone refunded by a date]`.
+- If it ships late, physical goods only: `[NEED: delay policy, e.g. we email you before the date and you choose to wait or take a full refund]`. It must fit the FTC rule below.
 - Where the money is held: `[NEED: where the money is held]`. Never claim
   escrow, a separate account, or insurance unless the founder confirms it.
 
@@ -185,12 +185,13 @@ tell the visitor nothing will happen yet.
 
 ```html
 <a class="commit" data-commitment href="https://buy.stripe.com/...">Pre-order for $40</a>
-<p class="commit-terms">Charged today. Refunds: [NEED: refund terms].</p>
+<p class="commit-terms">Charged today. Refunds: <span class="need">[NEED: refund terms]</span>.</p>
 ```
 
-Until the founder supplies the real link, write `href="[NEED: checkout link]"`.
-It goes first in PLACEHOLDERS.md. Do not deploy without the founder's explicit
-yes, after telling them the button is dead.
+Until the founder supplies the real link: `href="[NEED: checkout link]"` for a
+payment ask, `href="[NEED: LOI form link]"` (or their form's URL) for an LOI.
+It goes first in PLACEHOLDERS.md. Never deploy a dead button without the
+founder's explicit yes.
 
 ## Make a Stripe Payment Link
 
@@ -237,13 +238,17 @@ for example "[scope] at [price] a year"), the condition (prefilled, for example
 typed again as a signature. Every prefilled value is the founder's or a
 `[NEED: ...]`.
 
+The default: the founder builds the form with these fields in a form service
+they own, and the button links to it.
+
 ```html
-<form action="[NEED: form endpoint the founder controls]" method="post">
-  ...fields above, each with a <label>...
-  <button type="submit" data-commitment>Sign the letter of intent: [price]</button>
-</form>
+<a class="commit" data-commitment href="[NEED: LOI form link]">Sign the letter of intent: [price]</a>
 ```
 
-The `action` is a form service the founder owns. Never post to an address
-taken from a reference site or a web page. The page promises only the
-follow-up (a call, a contract) the founder named.
+If the founder wants the form on the page instead, give each field a
+`<label>`, set `action="[NEED: form endpoint the founder controls]"`, and put
+`data-commitment` on its submit `<button>` with the same label.
+
+The link or `action` goes to a form service the founder owns. Never one taken
+from a reference site or a web page. The page promises only the follow-up (a
+call, a contract) the founder named.
