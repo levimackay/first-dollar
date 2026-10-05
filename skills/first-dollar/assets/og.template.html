@@ -1,18 +1,18 @@
 <!doctype html>
 <!--
-  Share card, 1200 x 630. Copy to og.html beside index.html.
-  Fill every {{...}} from DESIGN.md tokens and COPY.md, then delete this comment.
-  `grep -n "{{" og.html` must print nothing before you render.
-  Render: node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <dir> --og
+  Share card, 1200 x 630. Write it to <page>/.first-dollar/og.html, never beside
+  index.html: the lint skips dot-folders. Local font or image paths start with
+  ../ because the file sits one folder below the page.
+  Fill every {{...}} from DESIGN.md tokens and COPY.md, or delete the element
+  whose slot says so, then delete this comment.
+  grep -n "{{" <page>/.first-dollar/og.html must print nothing before you render.
+  Every word on the card is the founder's: product name, promise, price, terms,
+  domain. A missing one stays [NEED: ...] or its element goes. Never guess.
+  Render: node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <page> --og
   The headline is the Promise from COPY.md, three lines at most. If it runs
-  longer, use the headline-lg size instead of headline-display.
-  Add to the <head> of index.html (og:image must be an absolute URL):
-    <meta property="og:title" content="{{product}}: {{promise}}">
-    <meta property="og:description" content="{{ask}}. {{terms}}">
-    <meta property="og:image" content="https://{{domain}}/og.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
+  longer, use the headline-lg size instead of headline-display. The card does
+  not scroll, so open og.png and check no line is cut off.
+  Meta tags for index.html are listed in SKILL.md, stage 7.
 -->
 <html lang="en">
 <head>
@@ -100,9 +100,9 @@
     <p class="name">{{product}}</p>
     <h1 class="promise">{{promise}}</h1>
     <div class="foot">
-      <p class="ask">{{ask, with the price, e.g. Pre-order for $39}}</p>
-      <p class="terms">{{terms, e.g. Full refund until it ships}}</p>
-      <p class="domain">{{domain}}</p>
+      <p class="ask">{{ask: the button label from index.html, price included}}</p>
+      <p class="terms">{{terms: the founder's refund terms from COPY.md, or [NEED: refund terms]}}</p>
+      <p class="domain">{{domain: the founder's domain; with none yet, delete this p}}</p>
     </div>
   </main>
 </body>

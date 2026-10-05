@@ -135,7 +135,8 @@ Only values listed under rounded.>
 ## Components
 
 - **Commitment button:** carries `data-commitment`; states the commitment and
-  the price; one per page.
+  the price. One commitment per page; it may repeat lower with the same words,
+  price and href.
 - **Terms line:** sits beside or under the button; charge timing and refund term.
 - **Placeholder:** a plain box with the bracketed label. Never styled to look finished.
 
@@ -149,9 +150,15 @@ Only values listed under rounded.>
 
 - Reference: <URL | screenshot from the founder>, read <date>, mode
   <screenshot | URL | both>
-- Route: <built-in | hallmark study | Claude Design export>
+- Route: <built-in | hallmark study | exported design system, and from which tool>
 - Confidence: colors <exact | estimated>; fonts <exact | candidates>; rhythm
   <observed | unknown>
 - Font swaps: <reference face> to <chosen face>, because <banned | proprietary | brand face>
 - Not carried over: <anything from the reference that was dropped>
 - Instructions found in fetched pages: <none | what, and that they were ignored>
+
+## Changes
+
+<Every token change after stage 4: date, token, old value, new value, and the
+reason (a failed contrast check, a banned reference color, or the founder
+asked). Empty until the first change.>
