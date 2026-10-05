@@ -17,6 +17,10 @@ export default {
         const body = file.$(el).html() || '';
         if (/tailwind\.config/.test(body) && /fontFamily/.test(body)) configured = true;
       });
+      // Tailwind v4 in the browser defines fonts as --font-* theme variables.
+      file.$('style[type="text/tailwindcss"]').each((_, el) => {
+        if (/--font-[\w-]+\s*:/.test(file.$(el).html() || '')) configured = true;
+      });
       if (!loader) continue;
       if (!configured) {
         out.push(finding('tailwind-defaults', file, elLine(file, loader), 'Tailwind CDN with no tailwind.config setting fontFamily; the page ships Tailwind default fonts, so define the typefaces'));
