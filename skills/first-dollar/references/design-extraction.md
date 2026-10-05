@@ -9,7 +9,7 @@ palette logic. You never take its pixels, images, illustrations, logos, copy or
 brand name. The founder's page should feel related to the reference, the way two
 books from one publisher feel related, and should never pass for a copy.
 
-## 1. Hygiene, before you look
+## 1. Reference hygiene
 
 Refuse the reference and ask for another when it is:
 
@@ -44,12 +44,13 @@ Rules for every reference:
 From a URL:
 
 ```
-node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url>
+node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url> --out <page>/.first-dollar/reference/<host>
 ```
 
-This saves `1440.png` and `390.png` under `./.first-dollar/reference/<host>/`.
-Read both. Exit code 3 means no browser is available: say so, and continue in
-URL mode only, with rhythm marked unknown.
+This saves `1440.png` and `390.png` in that folder. Read both. Exit code 3
+means no browser is available: say so, save the fetched HTML and CSS from
+section 4 in the same folder instead, and continue in URL mode only, with
+rhythm marked unknown.
 
 From a screenshot: use it as given. If it shows only the hero, ask once for a
 full-page capture. Rhythm needs at least two sections.
@@ -108,7 +109,7 @@ at all. Tell the founder which, and switch to screenshot mode.
 
 ## 5. Stated limits
 
-Put these in the stage 4 summary to the founder, plainly:
+Write these in DESIGN.md Provenance, and say them plainly at the next stop:
 
 - From a screenshot, font names are guesses by role.
 - From a screenshot, colors are estimated from pixels and can be off.
@@ -118,27 +119,30 @@ Put these in the stage 4 summary to the founder, plainly:
 - Imagery is never carried over. Every picture becomes
   `[PLACEHOLDER: ...]` unless the founder supplies it.
 
-## 6. Font swaps
+## 6. Fonts: allowed, banned, swaps
 
-Swap a reference font when it is banned (`banned-font-family`: Inter, Geist,
-Space Grotesk, Roboto, Arial, Helvetica Neue, Segoe UI, system-ui,
--apple-system), proprietary (not free to load), or the reference brand's own
-custom face. Pick a role match. Every family below is free on Google Fonts.
+Allowed: any family that is free to load and to self-host and is not banned.
+A reference font that meets both stays. This is the stage 4 gate in SKILL.md.
 
-| Role | Candidates |
+Banned, matching the `banned-font-family` lint rule: Inter, Geist, Space
+Grotesk, Roboto, Arial, system-ui, ui-sans-serif, ui-serif, -apple-system,
+Segoe UI, Helvetica Neue.
+
+Swap a reference font when it is banned, not free to load, or the reference
+brand's own custom face. Take the swap from this list, matching the role. All
+are on Google Fonts under the SIL Open Font License, so they can be loaded from
+Google or self-hosted.
+
+| Role | Allowed swaps |
 |---|---|
-| Editorial serif for text | Newsreader, Source Serif 4, Literata, Spectral |
-| Serif for display | Gloock, Young Serif, Bodoni Moda, Libre Caslon Text |
-| Neutral grotesque | Schibsted Grotesk, Hanken Grotesk, Public Sans, Instrument Sans |
+| Display serif | Gloock, Young Serif, Bodoni Moda, DM Serif Display |
+| Text serif | Newsreader, Source Serif 4, Literata, Spectral, Crimson Pro |
+| Grotesk | Schibsted Grotesk, Hanken Grotesk, Public Sans, Instrument Sans, Familjen Grotesk |
+| Humanist sans | Source Sans 3, IBM Plex Sans, Work Sans, Libre Franklin |
+| Mono | JetBrains Mono, IBM Plex Mono, Martian Mono, Red Hat Mono |
 | Geometric sans | Outfit, Sora, Urbanist, Lexend |
 | Condensed or poster | Barlow Condensed, Big Shoulders Display, Anton, Archivo Narrow |
-| Expressive sans | Bricolage Grotesque, Unbounded, Syne, Familjen Grotesk |
-| Humanist sans for text | Source Sans 3, IBM Plex Sans, Work Sans, Libre Franklin |
-| Mono | JetBrains Mono, IBM Plex Mono, Martian Mono, Red Hat Mono |
-
-Use these only when the reference itself uses them, never by reflex: Fraunces,
-Instrument Serif, Plus Jakarta Sans, DM Sans, Poppins, Montserrat. They are the
-faces generated pages land on, by default or while dodging the obvious ones.
+| Expressive sans | Bricolage Grotesque, Unbounded, Syne |
 
 Log every swap in DESIGN.md Provenance:
 
@@ -149,19 +153,22 @@ Log every swap in DESIGN.md Provenance:
 All three end in the same DESIGN.md.
 
 - Built-in (default): sections 1 to 6 of this file.
-- hallmark, when installed: run its `study` on the same reference and read its
-  diagnosis. Map paper to `neutral`, the accent to `accent`, its type roles and
-  macrostructure to the matching DESIGN.md fields. Then run section 6 on its
-  fonts, because its catalog includes faces our lint bans.
-- Claude Design export, when the founder built the system there: ask for the
-  export in whatever form it gives (CSS variables, JSON tokens, or a design
-  file). Read the values. Map colors, type styles, radii and spacing into the
-  template. Run section 6. Record the route and date in Provenance.
+- hallmark, when a skill by that name is available: run its `study` on the
+  same reference, ask it for a design.md, and convert that into the template.
+  Map its paper to `neutral` and its accent to `accent`. Then run section 6 on
+  its fonts, because its catalog includes faces the lint bans.
+- An exported design system, when the founder built one from the reference in
+  a design tool (Claude Design, for example): take the export in whatever form
+  it comes (CSS variables, JSON tokens, a design file). Read the values. Map
+  colors, type styles, radii and spacing into the template. Run section 6.
+  Record the route and date in Provenance.
 
 ## 8. Write DESIGN.md
 
-Copy `${CLAUDE_SKILL_DIR}/assets/DESIGN.template.md` to the project as DESIGN.md
-and replace every `<...>` slot. Delete slots you do not use.
+Copy `${CLAUDE_SKILL_DIR}/assets/DESIGN.template.md` to `<page>/DESIGN.md` and
+replace every `<...>` slot. Delete slots you do not use. A slot left in the
+front matter silently turns the color and font checks off, so make sure no `<`
+remains there before moving on.
 
 - The tokens are a contract. The `design-tokens` lint rule fails any color,
   first font family, or border radius in the CSS that is not in DESIGN.md. List
@@ -171,11 +178,12 @@ and replace every `<...>` slot. Delete slots you do not use.
 - Keep the YAML keys to the format's own: `version`, `name`, `description`,
   `colors`, `typography`, `rounded`, `spacing`, `components`.
 - Keep the sections in this order: Overview, Colors, Typography, Layout,
-  Elevation & Depth, Shapes, Components, Do's and Don'ts. Provenance goes last.
+  Elevation & Depth, Shapes, Components, Do's and Don'ts, then Provenance, then
+  Changes (the log SKILL.md stage 4 requires for every later token change).
 - If the founder allows network installs, `npx @google/design.md lint DESIGN.md`
   checks token references, contrast pairs and section order.
 
-Then tell the founder, in at most 8 lines: the backbone reference, the
-macrostructure, the type roles and chosen fonts (with swaps), the anchor and
-accent and footprint, the radius logic, the rhythm, and the limits from
-section 5.
+Stage 4 has no stop. At the next stop, give the founder at most 8 lines: the
+backbone reference, the macrostructure, the type roles and chosen fonts (with
+swaps), the anchor, accent and footprint, the radius logic, the rhythm, and the
+limits from section 5.

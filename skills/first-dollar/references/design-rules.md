@@ -23,9 +23,10 @@ Write these into the Overview section of DESIGN.md:
 - Where boldness is spent: one place only.
 - The default check: for each choice, ask "would this come out for any similar
   startup?". Change every yes and write what changed.
-- Material: for each planned section, what it is made of (a real photo, the
-  prototype, the founder's words, the terms table) and who supplies it. Cut
-  sections nothing fills. An empty page gets filled with big type, gradients,
+- Material: for each planned section, what it is made of and who supplies it.
+  Only three kinds exist (SKILL.md): the founder's real assets, an HTML and CSS
+  mock of the product's key output labeled as a concept, and
+  `[PLACEHOLDER: ...]` boxes. Cut sections nothing fills. An empty page gets filled with big type, gradients,
   bordered cards and soft glows, and those four together are the signature.
 
 ## Type
@@ -123,7 +124,7 @@ the objection answers sit near the button, and a real person stands behind it.
 | Shape | What it is | Suits |
 |---|---|---|
 | Letter | One column at reading width in the founder's voice; price inline and again in a terms box | Services and pilots sold on trust |
-| Specimen | The product, or its photo, very large in the first screen; the offer small and exact under it | Physical goods with a real photo or render |
+| Specimen | The product very large in the first screen; the offer small and exact under it | Physical goods with a founder-supplied photo, or a render captioned as a render |
 | Spec sheet | A dense table of what you get, when, and for how much | Technical buyers who compare |
 | Split | A sticky pane with price, terms and button beside a scrolling pane of mechanism and proof | Keeping the commitment in view on long pages |
 | Stat-led | One real number dominating the first screen: the price, the ship date, the cap | Offers where one fact decides |
@@ -149,8 +150,8 @@ What distinctive pages do where generated ones reach for the default:
   dark scrim.
 - Draw your own marks. No icon sets, no emoji, no sparkles [`icon-libraries`].
 - Show real artifacts as evidence: the prototype, the founder's notebook, the
-  workbench. Or a labeled placeholder that looks like one
-  [`placeholder-styled`].
+  workbench, or a labeled concept mock. Otherwise a plain
+  `[PLACEHOLDER: ...]` box [`placeholder-styled`].
 
 ## Mobile, designed at 390
 

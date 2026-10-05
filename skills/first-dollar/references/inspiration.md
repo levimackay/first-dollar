@@ -8,22 +8,29 @@ change. Screenshot before you rely on a note.
 
 These are other people's live sites. Take the structural move named in the
 note. Never their copy, images, illustrations, logos or brand
-(design-extraction.md, section 1).
+(design-extraction.md, section 1, Reference hygiene).
 
 ## How to use this list
 
-1. Pick the register that matches the feeling in BRIEF.md.
-2. Pick 3 entries from it, or from two neighboring registers when the brief
-   sits between them.
-3. Screenshot each:
-   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url>`
-4. Show the founder the three `1440.png` files with their numbers and notes.
-   Ask for one number. That page becomes the backbone reference.
+The list has six registers: Editorial, Technical, Warm, Bold, Minimal and
+Playful. Each heading says which buyers tend to trust that register.
+
+1. Pick three registers the buyer in BRIEF.md would trust, then one entry from
+   each. Three different registers give the founder three different looks.
+2. Take a reference shot of each:
+   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <url> --out <page>/.first-dollar/reference/<host>`
+3. At the stop, show the founder the three `1440.png` files numbered, with each
+   entry's register and note (with no browser, the three URLs). Ask for one
+   number. That page becomes the backbone reference.
+4. Running without stops: take the one whose register best fits the buyer and
+   log why in BRIEF.md.
 5. A URL that no longer loads, or now looks nothing like its note: skip it and
-   take the next entry in the same register. Tell the founder which one you
+   take another entry from the same register. Tell the founder which one you
    skipped.
 
 ## Editorial
+
+For buyers who read before they buy: writers, consultants, premium services.
 
 1. https://stripe.press : the catalogue is a stack of book spines drawn as 3D
    objects, with a thin tick rail on the left as the only navigation. The
@@ -43,6 +50,8 @@ note. Never their copy, images, illustrations, logos or brand
 
 ## Technical
 
+For buyers who check the specs: developers, engineers, operations leads.
+
 6. https://planetscale.com : no hero. The page opens with two plain
    paragraphs set entirely in a monospace face, as if it were documentation.
    (Its customer logo grid only works because the customers are real. Skip it.)
@@ -58,6 +67,8 @@ note. Never their copy, images, illustrations, logos or brand
     tiers.
 
 ## Warm
+
+For buyers who want a person behind it: small businesses, households, makers.
 
 11. https://basecamp.com : the pitch is a letter from the founder, set on a
     paper card, signed by hand with his face and email address under it.
@@ -75,6 +86,8 @@ note. Never their copy, images, illustrations, logos or brand
 
 ## Bold
 
+For buyers who like a strong opinion: consumer products, games, culture.
+
 16. https://teenage.engineering : a huge condensed headline over a line
     drawing, then one product per screen on black. The nav is a row of icons,
     each with three small links under it.
@@ -85,9 +98,12 @@ note. Never their copy, images, illustrations, logos or brand
     headings ("Buy the game.", "Steal the game."), and the free option stated
     as plainly as the paid one.
 19. https://37signals.com : the whole homepage is a numbered list of short
-    principles in white on one flat green. One color, one list, no images.
+    principles in white on one flat color (it changes between visits). One
+    color, one list, no images.
 
 ## Minimal
+
+For buyers who distrust marketing: privacy tools, hardware, utilities.
 
 20. https://www.are.na : one narrow column of plain text. The business model is
     stated outright: who pays, how many members support it.
@@ -102,6 +118,8 @@ note. Never their copy, images, illustrations, logos or brand
     starts.
 
 ## Playful
+
+For buyers who enjoy the brand: creative tools, communities, side projects.
 
 24. https://posthog.com : the site is a desktop. Pages open as windows over a
     wallpaper with app icons down both sides, and the pricing line admits most
