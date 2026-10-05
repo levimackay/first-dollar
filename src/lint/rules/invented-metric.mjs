@@ -4,6 +4,8 @@ import { htmlFiles, elLine, finding } from '../context.mjs';
 // alternation on purpose: `98%` has no word character after the sign, so a
 // boundary applied to the whole group would never match a percentage.
 const CLAIM = /\b\d[\d,.]*\s*(?:%|\+|(?:percent|k|m|million|customers|clients|projects|years|stars|reviews|countries|users)\b)/i;
+// Multiplier claims: "3x faster", "10\u00d7 more". A digit run before the x keeps "4x4" and "1920x1080" out.
+const MULTIPLIER = /\b\d[\d,.]*x\b(?!\d)|\b\d[\d,.]*\s*\u00d7/i;
 const LEAD_IN = /\b(?:over|more than|nearly|trusted by)\s+\d/i;
 
 // A claim the reader can check is a short one. A number buried in a long
@@ -47,7 +49,7 @@ function ownText(el) {
 
 function claims(text) {
   const judged = String(text).replace(MEASURE, ' ');
-  return CLAIM.test(judged) || LEAD_IN.test(judged);
+  return CLAIM.test(judged) || LEAD_IN.test(judged) || MULTIPLIER.test(judged);
 }
 
 function sentences(text) {

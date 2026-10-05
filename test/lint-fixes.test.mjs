@@ -38,3 +38,15 @@ test('no-full-bleed still warns when the section has no background or has a max-
     assert.equal(hitsFor(await lint(dir), 'no-full-bleed').length, 1, css);
   }
 });
+
+test('invented-metric catches multiplier claims, not dimensions or sourced ones', async () => {
+  const body = (t) => page('', `<main><p>${t}</p></main>`);
+  for (const t of ['3x faster invoicing', 'Close 10\u00d7 more jobs', 'Get 2.5x the leads']) {
+    const dir = await siteDir({ 'index.html': body(t) });
+    assert.equal(hitsFor(await lint(dir), 'invented-metric').length, 1, t);
+  }
+  for (const t of ['A 4x4 grid of photos', 'Photos are 1920x1080', '3x faster [SOURCE: needed]']) {
+    const dir = await siteDir({ 'index.html': body(t) });
+    assert.equal(hitsFor(await lint(dir), 'invented-metric').length, 0, t);
+  }
+});
