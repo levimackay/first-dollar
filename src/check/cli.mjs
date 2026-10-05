@@ -65,13 +65,13 @@ const base = isUrl ? target : server.url;
 const results = [];
 let loaded = false;
 
-// The reference capture directory: <dir>/.first-dollar/reference itself, else its first subfolder (sorted) holding one.
+// The reference capture directory: the first nested <host>/ folder (sorted) holding a capture, else reference/ itself.
 function referenceDir(dir) {
   const root = join(dir, '.first-dollar', 'reference');
   if (!existsSync(root)) return null;
   const has = (d) => ['full-1440.png', '1440.png'].some((f) => existsSync(join(d, f)));
-  if (has(root)) return root;
-  return readdirSync(root).sort().map((n) => join(root, n)).find((d) => statSync(d).isDirectory() && has(d)) ?? null;
+  const nested = readdirSync(root).sort().map((n) => join(root, n)).find((d) => statSync(d).isDirectory() && has(d));
+  return nested ?? (has(root) ? root : null);
 }
 
 // Overall color is judged on the full page, falling back to the first screen.
@@ -105,8 +105,8 @@ try {
       await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true, ...(height > 20000 && { clip: { x: 0, y: 0, width: w, height: 20000 } }) });
       const refDir = !shotsOnly && w === 1440 ? referenceDir(target) : null;
       if (refDir) {
-        const [r, p] = [(await palette(browser, bestShot(refDir), 1))[0], (await palette(browser, join(out, 'full-1440.png'), 1))[0]];
-        if (r && p) results.push({ ...C.referenceDrift(r, p), width: 1440 });
+        const [r, p] = [await palette(browser, bestShot(refDir), 2), await palette(browser, join(out, 'full-1440.png'), 2)];
+        if (r.length && p.length) results.push({ ...C.referenceDrift(r, p), width: 1440 });
       }
     }
     await page.close();

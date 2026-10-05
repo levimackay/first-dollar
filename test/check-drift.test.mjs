@@ -11,12 +11,20 @@ const good = new URL('./fixtures/check/good', import.meta.url).pathname;
 
 // A copy of the white "good" page (optionally recolored), with an optional reference.
 // ref: a color (1440.png only, 900px) or { shot, full } of html bodies; at: reference folder under .first-dollar/reference.
-async function site(ref, { page: pageBg, at = 'example.com' } = {}) {
+async function site(ref, { page: pageBg, css, at = 'example.com', also } = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'fd-drift-'));
   cpSync(good, dir, { recursive: true });
   if (pageBg) {
     const f = join(dir, 'index.html');
     writeFileSync(f, readFileSync(f, 'utf8').replace('background:#fff}', `background:${pageBg}}`));
+  }
+  if (css) {
+    const f = join(dir, 'index.html');
+    writeFileSync(f, readFileSync(f, 'utf8').replace('</style>', `${css}</style>`));
+  }
+  if (also) {
+    mkdirSync(join(dir, '.first-dollar', 'reference'), { recursive: true });
+    await makePng(also, join(dir, '.first-dollar', 'reference', '1440.png'), { width: 1440, height: 900 });
   }
   if (ref) {
     const d = at ? join(dir, '.first-dollar', 'reference', at) : join(dir, '.first-dollar', 'reference');
@@ -115,4 +123,45 @@ test('URL mode also writes full-1440.png, bounded to 20000px', async (t) => {
   assert.ok(existsSync(full), r.stdout);
   const buf = readFileSync(full);
   assert.ok(buf.readUInt32BE(20) <= 20000, `height ${buf.readUInt32BE(20)}`);
+});
+
+test('white against #faf7f2 and #faf6ee pages fails', async (t) => {
+  if (!found) return t.skip('no browser');
+  for (const page of ['#faf7f2', '#faf6ee']) {
+    const { checks } = await site('#ffffff', { page });
+    assert.equal(checks[0].ok, false, page);
+  }
+});
+
+test('a clearly tinted page against a neutral reference says so', async (t) => {
+  if (!found) return t.skip('no browser');
+  const { checks } = await site('#ffffff', { page: '#f5efe0' });
+  assert.match(checks[0].detail, /tinted ground against a neutral reference/);
+});
+
+test('white/#f4f4f5 bands split differently on the page still pass', async (t) => {
+  if (!found) return t.skip('no browser');
+  const band = (h, c) => `<div style="height:${h}px;background:${c}"></div>`;
+  const full = band(1500, '#fff') + band(1500, '#f4f4f5');
+  const { checks } = await site({ shot: band(900, '#fff'), full }, { css: 'body{background:linear-gradient(#fff 35%,#f4f4f5 35%)}' });
+  assert.equal(checks[0].ok, true, checks[0].detail);
+});
+
+test('a white-to-#ececec gradient page against a flat white reference (documented outcome)', async (t) => {
+  if (!found) return t.skip('no browser');
+  // Fails consistently: the gradient merges into one ground whose mean (#f5f5f5) sits 0.03 from white.
+  const { checks } = await site('#ffffff', { css: 'body{background:linear-gradient(#fff,#ececec)}' });
+  assert.equal(checks[0].ok, false, checks[0].detail);
+});
+
+test('detail text shows three decimals', async (t) => {
+  if (!found) return t.skip('no browser');
+  const { checks } = await site('#ffffff', { page: '#f4f4f5' });
+  assert.match(checks[0].detail, /deltaE 0\.\d{3} > 0\.02/);
+});
+
+test('a nested capture wins over reference/1440.png when both exist', async (t) => {
+  if (!found) return t.skip('no browser');
+  const { checks } = await site('#ffffff', { also: '<div style="height:900px;background:#000"></div>' });
+  assert.equal(checks[0].ok, true, checks[0].detail);
 });
