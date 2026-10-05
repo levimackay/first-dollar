@@ -26,7 +26,7 @@ export default {
       }
       if (!/gradient\(/i.test(value)) return;
       const hues = colors.map((c) => toOklch(c)).filter((o) => o.c > 0.03).map((o) => o.h);
-      if (hues.some((h) => h >= 180 && h <= 210) && hues.some((h) => h >= 260 && h <= 310)) {
+      if (hues.some((h) => h >= 180 && h <= 240) && hues.some((h) => h >= 260 && h <= 310)) {
         out.push(finding('ai-palette', unit.file, line, `gradient in ${decl.prop} runs from cyan to violet; use one hue family or a flat colour`));
       }
     });
