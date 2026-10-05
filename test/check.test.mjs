@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { spawnSync, spawn } from 'node:child_process';
 import http from 'node:http';
 import { serve } from '../src/check/serve.mjs';
-import { mkdtempSync, readFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, readFileSync, existsSync, mkdirSync, writeFileSync, cpSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { resolveBrowser } from '../src/check/browser.mjs';
@@ -56,6 +56,18 @@ test('a missing og.html is not verified (exit 3)', (t) => {
   const r = spawnSync('node', [cli, fx('good'), '--og', '--out', out], { encoding: 'utf8' });
   assert.equal(r.status, 3);
   assert.match(r.stdout, /not verified/);
+});
+
+test('--og reads .first-dollar/og.html and writes og.png', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const site = mkdtempSync(join(tmpdir(), 'fd-og-'));
+  cpSync(fx('good'), site, { recursive: true });
+  mkdirSync(join(site, '.first-dollar'));
+  writeFileSync(join(site, '.first-dollar', 'og.html'), '<!doctype html><html lang="en"><body style="margin:0"><h1>og</h1></body></html>');
+  const out = mkdtempSync(join(tmpdir(), 'fd-check-'));
+  const r = spawnSync('node', [cli, site, '--og', '--out', out], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.ok(existsSync(join(out, 'og.png')));
 });
 
 test('a URL that answers 404 is not verified (exit 3)', async (t) => {
