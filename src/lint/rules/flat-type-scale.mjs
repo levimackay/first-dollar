@@ -15,13 +15,17 @@ export default {
   run(ctx) {
     let base = 16;
     let largest = null;
+    let unmeasurable = false;
     eachDecl(ctx, /^font-size$/, (decl, unit, line) => {
-      const px = sizeOf(resolveVars(ctx, decl.value));
-      if (px === null) return;
+      const value = resolveVars(ctx, decl.value).trim();
+      // Only plain px/rem lengths and clamp() are measurable; vw, %, em, keywords and calc()
+      // could be any size, so the page gets no verdict.
+      const px = /^-?\d*\.?\d+(px|rem)$/i.test(value) || /^clamp\(/i.test(value) ? sizeOf(value) : null;
+      if (px === null) { unmeasurable = true; return; }
       if (/^(body|html|:root)$/i.test(String(decl.parent?.selector || '').trim())) base = px;
       if (!largest || px > largest.px) largest = { px, unit, line };
     });
-    if (!largest || largest.px / base >= MIN_RATIO) return [];
+    if (unmeasurable || !largest || largest.px / base >= MIN_RATIO) return [];
     return [finding('flat-type-scale', largest.unit.file, largest.line,
       `largest type is ${largest.px}px against a ${base}px body, a ${(largest.px / base).toFixed(1)}x ratio; make the headline at least ${MIN_RATIO}x the body size`)];
   },
