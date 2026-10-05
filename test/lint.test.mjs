@@ -4,6 +4,7 @@ import { readdir, mkdtemp, writeFile, readFile, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { execFile } from 'node:child_process';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { lint, loadRules, normalizeFinding } from '../src/lint/runner.mjs';
 import { buildContext } from '../src/lint/context.mjs';
@@ -16,6 +17,12 @@ const REFERENCE = [
   'we build storage buildings that outlast the weather and the paperwork',
   'a short run',
 ];
+
+// A fixture that carries a history.jsonl runs with --history pointing at it.
+const withHistory = (dir) => {
+  const historyPath = path.join(dir, 'history.jsonl');
+  return { referenceTexts: REFERENCE, ...(existsSync(historyPath) && { historyPath }) };
+};
 
 const all = (res) => [...res.failures, ...res.warnings];
 
@@ -41,7 +48,7 @@ test('rules declare a describe string', () => {
 
 for (const id of dirs) {
   test(`${id}: pass fixture is clean`, async () => {
-    const res = await lint(path.join(fixtures, id, 'pass'), { referenceTexts: REFERENCE });
+    const res = await lint(path.join(fixtures, id, 'pass'), withHistory(path.join(fixtures, id, 'pass')));
     const hits = all(res).filter((f) => f.rule === id);
     assert.deepEqual(
       hits.map((f) => `${path.basename(f.file)}:${f.line} ${f.message}`),
@@ -51,7 +58,7 @@ for (const id of dirs) {
   });
 
   test(`${id}: fail fixture is caught`, async () => {
-    const res = await lint(path.join(fixtures, id, 'fail'), { referenceTexts: REFERENCE });
+    const res = await lint(path.join(fixtures, id, 'fail'), withHistory(path.join(fixtures, id, 'fail')));
     const hits = all(res).filter((f) => f.rule === id);
     assert.ok(hits.length >= 1, `${id} missed its own fail fixture`);
     for (const f of hits) {
@@ -63,7 +70,7 @@ for (const id of dirs) {
   });
 
   test(`${id}: fail fixture line points inside the file`, async () => {
-    const res = await lint(path.join(fixtures, id, 'fail'), { referenceTexts: REFERENCE });
+    const res = await lint(path.join(fixtures, id, 'fail'), withHistory(path.join(fixtures, id, 'fail')));
     for (const f of all(res).filter((x) => x.rule === id)) {
       // A rule that judges the run as a whole names the directory; it has no line to point at.
       if ((await stat(f.file)).isDirectory()) {
@@ -78,7 +85,7 @@ for (const id of dirs) {
 
 test('fail-severity rules report failures, warn-severity rules report warnings', async () => {
   for (const rule of loadRules()) {
-    const res = await lint(path.join(fixtures, rule.id, 'fail'), { referenceTexts: REFERENCE });
+    const res = await lint(path.join(fixtures, rule.id, 'fail'), withHistory(path.join(fixtures, rule.id, 'fail')));
     const bucket = rule.severity === 'fail' ? res.failures : res.warnings;
     assert.ok(bucket.some((f) => f.rule === rule.id), `${rule.id} landed in the wrong bucket`);
   }
