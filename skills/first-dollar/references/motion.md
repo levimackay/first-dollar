@@ -77,7 +77,7 @@ DESIGN.md says the reference has no motion, the budget is the quiet row.
 CSS transitions and keyframes, the Web Animations API (`element.animate`),
 `IntersectionObserver` to start a sequence once, and CSS scroll-driven
 animations (`animation-timeline`) for scrubbed moves, with the small scroll
-handler fallback the recipes carry. None of the seven recipes loads a library.
+handler fallback the recipes carry. The first seven recipes load no library.
 
 GSAP is allowed when a sequence truly needs it (a long scrubbed timeline with
 many labels). Load it from a pinned URL, never `latest`:
@@ -87,6 +87,12 @@ standard license allows it in any website's code, however that code was written;
 what it prohibits is using it inside a no-code visual animation builder that
 competes with Webflow. A landing page is not that. Prefer native tools when
 they do the job: no download, no license question.
+
+`motion` (MIT) is the second allowed CDN, for the last five recipes only, in a
+module script and pinned exactly, never `@latest`:
+`import { animate, scroll, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm"`.
+Its entry is 6 KB gzipped but pulls four requests, about 52 KB in all, once per
+page. Nothing hides before it loads. Motion+ effects are paid and never copied.
 
 ## Using a recipe
 
@@ -106,7 +112,7 @@ they do the job: no download, no license question.
    emulated (devtools Rendering panel, or Playwright
    `page.emulateMedia({ reducedMotion: 'reduce' })`): every word visible.
 
-Costs below are each snippet's script, gzipped, measured; none adds a request.
+Costs below are each snippet's script, gzipped, measured; the first seven add no request.
 
 ## The recipes
 
@@ -213,3 +219,38 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
 - **Reduced motion:** no pin, no shutters; the plate fully open.
 - **Cost:** 0.5 KB, nearly all of it the fallback for browsers without
   scroll-driven animations. Four transformed layers.
+
+### spring-settle (serves the signature)
+- **What:** a software mock's rows rise out of their masks on a spring, 120ms
+  apart, then one row's mark springs in and its note rises. Once, about 3.5s.
+- **Fits:** a mock whose output is a list. Its mark is the one overshoot allowed.
+- **Never combine with:** `mechanism-sequence` also playing; springs elsewhere.
+- **Reduced motion:** every row, the mark and its note on first paint.
+
+### parallax-frame (supporting)
+- **What:** a photo, or its hatched slot, drifts 8% of the frame's height inside
+  a frame that never moves, scrubbed to scroll. The one parallax allowed.
+- **Fits:** photo-led references: editorial, food, places. One per page.
+- **Never combine with:** text or the ask in the drift; layered parallax.
+- **Reduced motion:** the photo sits centered; nothing is linked.
+
+### center-stagger-grid (supporting)
+- **What:** a real grid's cells fade in and rise 8px from its center outward,
+  in rings 80ms apart, once. The rings are measured, so they hold at 390.
+- **Fits:** a grid the reference already has: spec cells, swatches, variants.
+- **Never combine with:** fade-up on any other section; a grid made to have one.
+- **Reduced motion:** every cell visible on first paint.
+
+### scroll-rule (supporting)
+- **What:** a 2px rule beside one long text draws with scroll through that
+  section only; its drawn end stays on the screen's middle line.
+- **Fits:** long-form references: a letter of intent, terms, a founder's note.
+- **Never combine with:** a page-wide reading bar; a second rule.
+- **Reduced motion:** the rule fully drawn.
+
+### ring-fill (needs the founder's real numbers)
+- **What:** one SVG ring draws once to a real fraction (pilot seats taken of
+  seats offered). The number beside it is static text and never counts.
+- **Fits:** beside the terms. No founder numbers: `[NEED: ...]`, never a ring.
+- **Never combine with:** the ask or its button; a countdown.
+- **Reduced motion:** the ring at its fraction on first paint.

@@ -14,6 +14,8 @@ Everything else is an idea only, with no text or code copied.
 - extract-design-system by arvindrk, and dembrandt (MIT): checking built code against tokens taken from a reference.
 - baseline-ui by ibelick (MIT): one accent per view, no glow as an affordance, tabular figures, balanced headings.
 - emil-design-eng by Emil Kowalski (MIT): ease-out for entrances, short durations for interface motion.
+- motion by Motion B.V. (MIT): the library the last five motion recipes load from a pinned CDN URL; the spring, stagger, scroll-linked and in-view techniques are paraphrased from its docs, with our own code.
+- bklit ui by uixmat (MIT): the idea of a ring that draws to a fraction, rewritten as one plain SVG in `ring-fill`. No code copied.
 - landing-page-conversion-audit and sales-funnel-blueprint by autonnel (Apache-2.0): the price picks the shape of the ask, the 390 by 844 first screen, the offer clarity test, honesty about small samples.
 - marketingskills by Corey Haines (MIT): banned and capped copy tells, the swap test, `[NEED: ...]` placeholders, honest scarcity, the paid pilot offer, choosing a guarantee, customer language before customers exist.
 - humanizer by blader (MIT): copy tells named as patterns that can be checked one by one.
