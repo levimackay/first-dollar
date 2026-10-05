@@ -64,7 +64,8 @@ Write each answer into DESIGN.md as you go.
      85%), or mid.
    - Paper hue: warm, cool, or neutral.
    - Accent hue band: red, orange, yellow, green, teal, blue, indigo, magenta,
-     or none (ink on paper).
+     or none (ink on paper). With none, the accent token is the reference's
+     strongest ink or its button color. Never invent a hue.
    - Accent footprint: a mark (5% of the viewport or less), recurring (5 to
      15%), or a flood (over 15%). Footprint sets how loud the page is, more
      than the hue does.
@@ -80,6 +81,9 @@ Write each answer into DESIGN.md as you go.
    generous, medium or dense. Alignment: centered, left, or an asymmetric grid.
 5. Macrostructure: name it with the list in design-rules.md. Note the hero
    shape, the nav (inline links, one persistent device, none) and the footer.
+   List every image region (hero photo, product shot, video, gallery) with
+   its size, position and bleed. Each one is kept and filled (SKILL.md stage
+   4, Image regions).
 6. Motion: a still image shows none. Write "not visible". Do not guess.
 
 ## 4. URL mode: read the code
@@ -105,7 +109,9 @@ other pages.
 
 Junk check: the HTML is an empty app shell (a `#root`, `#app` or `#__next` div
 and under about 200 characters of text), a login wall, under 1KB, or has no CSS
-at all. Tell the founder which, and switch to screenshot mode.
+at all. Tell the founder which, and switch to screenshot mode for layout. A
+JavaScript shell often still links its stylesheets: reading those for exact
+fonts and colors is allowed, and Provenance says the values came from CSS.
 
 ## 5. Stated limits
 
@@ -116,8 +122,9 @@ Write these in DESIGN.md Provenance, and say them plainly at the next stop:
 - From code alone, rhythm and density are unknown.
 - One page is not a whole design system. Gaps are filled from design-rules.md
   and marked as decisions, not extraction.
-- Imagery is never carried over. Every picture becomes
-  `[PLACEHOLDER: ...]` unless the founder supplies it.
+- Imagery is never carried over, but its regions are. Each is filled with the
+  founder's asset, a labeled illustration or concept mock, or a hatched
+  `[PLACEHOLDER: ...]` box at the same size (SKILL.md stage 4).
 
 ## 6. Fonts: allowed, banned, swaps
 

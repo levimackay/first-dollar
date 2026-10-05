@@ -24,10 +24,12 @@ Write these into the Overview section of DESIGN.md:
 - The default check: for each choice, ask "would this come out for any similar
   startup?". Change every yes and write what changed.
 - Material: for each planned section, what it is made of and who supplies it.
-  Only three kinds exist (SKILL.md): the founder's real assets, an HTML and CSS
-  mock of the product's key output labeled as a concept, and
-  `[PLACEHOLDER: ...]` boxes. Cut sections nothing fills. An empty page gets filled with big type, gradients,
-  bordered cards and soft glows, and those four together are the signature.
+  Only three kinds exist (SKILL.md): the founder's real assets, a labeled
+  illustration or concept mock, and `[PLACEHOLDER: ...]` boxes. Every image
+  region of the reference is kept and filled (Filling image regions, below).
+  Cut a text section nothing fills, never an image region. An empty page gets
+  filled with big type, gradients, bordered cards and soft glows, and those
+  four together are the signature.
 
 ## Type
 
@@ -59,8 +61,12 @@ Write these into the Overview section of DESIGN.md:
   about 0.005 to 0.02). Pure `#000`, `#fff` and `#808080` read as untouched.
 - One accent, used mainly by the commitment button. A second color only for
   error states.
+- No accent hue in the reference (ink on paper): the accent is the
+  reference's strongest ink or its button color. Never invent a hue.
 - Commit to a dominant: one color owns most of the surface. Five colors at 20%
   each reads undecided.
+- Match the reference's energy, not only its hex values: its saturation and
+  how much of the screen its accent owns. A loud reference makes a loud page.
 - Light or dark is a decision from the reference and the buyer, never from the
   category ("dev tools are dark").
 - Banned: the indigo, violet, purple and fuchsia family, and cyan to purple
@@ -136,6 +142,81 @@ the objection answers sit near the button, and a real person stands behind it.
 Never the only structure: hero, three cards, testimonials, CTA
 [`three-card-row`, `stat-row`, `logo-row`]. No bento grid by reflex.
 
+## Filling image regions
+
+SKILL.md stage 4 sets the order: the founder's asset, then a drawn
+illustration or a concept mock, then a hatched placeholder. Never a void.
+
+Measure first. On the reference's `1440.png` and `390.png`, note each image
+region's box: its share of the width, its height against the first screen,
+whether it bleeds off an edge, and where text sits on or beside it. The fill
+takes the same box. A full-bleed photo hero stays full bleed. At 390, keep it
+where the reference's phone layout keeps it, with a real height.
+
+**A drawn illustration (inline SVG).** For a physical product, or any object
+the buyer will hold.
+
+- Draw the product, not a mood: its silhouette in profile or three-quarter
+  view, from a few rects, ellipses and paths. Under about 40 shapes; detail
+  that does not read at 390 is noise.
+- Draw it big. The object fills 60 to 80% of the region. A small drawing
+  centered in a large empty box is still a void.
+- Color only from DESIGN.md tokens, set by class in the stylesheet
+  (`.illo .body { fill: var(--primary); }`), never hex in attributes. Three
+  tones give depth without gradients: a fill, a darker side, a line.
+- Match the reference's energy. A photo hero that floods the screen with color
+  gets a drawing on a flood of the anchor or accent, not a thin outline on
+  paper.
+- One stroke width, flat fills, no gradients, shadows or glows. Never a 24x24
+  viewBox with round caps and a 2px stroke [`icon-libraries`].
+- Label it: a visible "Illustration" caption in `label-md` and `ink-muted`,
+  plus `role="img"` and an `aria-label` that names what it shows.
+
+**An HTML and CSS mock.** For software, or any product whose output is a
+screen or a document.
+
+- Build the one screen that shows the outcome (the signed change order, the
+  report) at real proportions, in the page's fonts and tokens.
+- Sample values are generic and plausible, never a real person or company.
+  Caption it: "Concept. Numbers are examples."
+- Crop and place it the way the reference treats its photo. If the photo
+  bleeds off the edge, the mock bleeds too. At display scale, one detail set
+  large (a single row of the report) can beat the whole screen set small.
+- One surface with rows and rules inside. Cards inside a card fail
+  [`nested-cards`].
+
+**A hatched placeholder.** When neither fits, or the region needs a real photo
+(the founder, a place, the product in use).
+
+- Same box as the reference image, full bleed if it was.
+- Hatch with an inline SVG pattern, not a CSS gradient. A
+  `repeating-linear-gradient` hatch draws `grid-background` and
+  `placeholder-styled` warnings and spends the gradient budget.
+- The label names the photo that belongs there and its size, on a plain chip
+  at 4.5:1. Text the reference sets on its photo sits on the hatch the same
+  way. Define the pattern once per page and reuse its id.
+
+```html
+<figure class="ph">
+  <svg class="ph-hatch" aria-hidden="true">
+    <defs>
+      <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="12" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hatch)" />
+  </svg>
+  <figcaption>[PLACEHOLDER: the product in use, 1440x900, full bleed]</figcaption>
+</figure>
+```
+
+```css
+.ph { position: relative; margin: 0; min-height: 900px; background: var(--surface); }
+.ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph-hatch line { stroke: var(--line); stroke-width: 1; }
+.ph figcaption { position: relative; display: inline-block; background: var(--neutral); color: var(--ink); }
+```
+
 ## Counter-moves
 
 What distinctive pages do where generated ones reach for the default:
@@ -150,8 +231,8 @@ What distinctive pages do where generated ones reach for the default:
   dark scrim.
 - Draw your own marks. No icon sets, no emoji, no sparkles [`icon-libraries`].
 - Show real artifacts as evidence: the prototype, the founder's notebook, the
-  workbench, or a labeled concept mock. Otherwise a plain
-  `[PLACEHOLDER: ...]` box [`placeholder-styled`].
+  workbench, or a labeled illustration or concept mock. Otherwise a plain or
+  hatched `[PLACEHOLDER: ...]` box [`placeholder-styled`].
 
 ## Mobile, designed at 390
 

@@ -154,13 +154,16 @@ News, the founder's interview notes.
   founder bio, proof.
 - `[PLACEHOLDER: what asset, size]` for a missing asset: founder photo, product
   shot, prototype video.
-- They show on the page as plain bracketed text in a plain box. Never styled to
-  look finished (`placeholder-styled`), never hidden in comments.
+- They show on the page as plain bracketed text in a plain box (hatched when
+  it stands in for an image, design-rules.md). Never styled to look finished
+  (`placeholder-styled`), never hidden in comments.
 - Never trade one invention for a vaguer one. "10,000 teams" changed to
   "hundreds of teams" is still invented.
-- List them in COPY.md. At ship they move to PLACEHOLDERS.md with the marker,
-  file:line, who supplies it, and whether it blocks deploy. Anything inside the
-  commitment block blocks deploy.
+- List them in COPY.md. At ship, the ones still in the published pages move
+  to PLACEHOLDERS.md with the marker, file:line, who supplies it, and whether
+  it blocks deploy. These block deploy: the checkout or LOI link, the price,
+  the refund terms, the legal entity, and for physical goods the ship date and
+  the delay policy (SKILL.md stage 7).
 
 ## Final audit
 

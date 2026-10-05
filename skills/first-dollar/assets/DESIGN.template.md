@@ -94,6 +94,10 @@ components:
 - Macrostructure: <name from design-rules.md>, backbone from <reference>
 - Default check: <each choice that would fit any similar startup, and what replaced it>
 - Material: <each section: what it is made of, and who supplies it>
+- Image regions: <each region the reference fills with imagery, its size and
+  position, and its fill: founder asset | illustration or concept mock |
+  hatched placeholder>
+- Energy: <the reference's saturation and accent footprint; the page matches it>
 
 ## Colors
 
@@ -101,7 +105,7 @@ components:
 - **Neutral (<hex>):** <the ground, and its tint>
 - **Ink (<hex>):** <body text>
 - **Accent (<hex>):** <the commitment, and the few other places it appears>
-- Accent footprint: <a mark, 5% or less | recurring, 5 to 15%>
+- Accent footprint: <a mark, 5% or less | recurring, 5 to 15% | a flood, over 15%>
 - Light or dark, and why: <reason from the reference and the buyer>
 
 ## Typography
@@ -138,7 +142,8 @@ Only values listed under rounded.>
   the price. One commitment per page; it may repeat lower with the same words,
   price and href.
 - **Terms line:** sits beside or under the button; charge timing and refund term.
-- **Placeholder:** a plain box with the bracketed label. Never styled to look finished.
+- **Placeholder:** a plain box with the bracketed label, hatched with an SVG
+  pattern when it stands in for an image. Never styled to look finished.
 
 ## Do's and Don'ts
 
@@ -160,5 +165,6 @@ Only values listed under rounded.>
 ## Changes
 
 <Every token change after stage 4: date, token, old value, new value, and the
-reason (a failed contrast check, a banned reference color, or the founder
-asked). Empty until the first change.>
+reason (a failed contrast check, a banned reference color, a value the stage 6
+fidelity check found misread, or the founder asked). Empty until the first
+change.>

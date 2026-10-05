@@ -76,7 +76,7 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 | `invented-metric` | fail | A number claim (%, +, k, customers, users, years, reviews) or "over / more than / nearly / trusted by" a number, with no `[NEED:`, `[SOURCE` or `[PLACEHOLDER` marker and no `data-source` attribute. Prices and measurements are exempt | A page before launch cannot have these numbers | The founder's real figure with its source, or `[NEED: metric]`, or cut. Put `data-source` only on a figure the founder supplied with its source, never to quiet the rule |
 | `testimonial-signature` | fail | In a testimonial, review or quote block: a first name and initial, five stars, or a praise opener ("Amazing", "Highly recommend") | The shape of an invented customer | No testimonials before customers exist; `[NEED: quote, with permission]` |
 | `logo-row` | fail | "Trusted by", "as seen in", "our clients", "partners" or "featured in" above four or more small marks | Borrowed logos standing in for evidence | Cut it; name a design partner only with written permission |
-| `placeholder-styled` | warn | A `[PLACEHOLDER: ...]` sitting on a gradient or background image | A convincing fake hides the gap; a visible gap gets filled | A plain box with the bracketed label |
+| `placeholder-styled` | warn | A `[PLACEHOLDER: ...]` sitting on a gradient or background image | A convincing fake hides the gap; a visible gap gets filled | A plain box with the bracketed label; for an image, hatch it with an inline SVG pattern (design-rules.md, Filling image regions) |
 | `reference-copy` | fail | Any run of 8 words that matches the reference site's text | Lifted copy, and someone else's | Write from COPY.md in your own words |
 
 ## Page and honesty
@@ -104,7 +104,7 @@ in `<page>/.first-dollar/check/`.
 |---|---|---|
 | `overflow` | The page scrolls sideways at 320, 390, 768, 1440 or 1920 | Find the wide element; `minmax(0, 1fr)`, `max-width: 100%`, `overflow-x: clip` |
 | `console` | A console error or uncaught exception during load | Fix the script, or remove it |
-| `broken-media` | An image fails to load, or an image or font request fails | Fix the path, or use a `[PLACEHOLDER: ...]` box |
+| `broken-media` | An image fails to load, or an image or font request fails | Fix the path, or use a hatched `[PLACEHOLDER: ...]` box at the same size |
 | `hidden-after-reveal` | Text is still invisible after scrolling to the bottom | Make content visible by default; the animation only adds |
 | `commitment-above-fold` | `[data-commitment]` is missing, or starts below 844px at 390 wide | Shorten the hero; move the commitment block up |
 | `contrast` | Headline, paragraph or button text under 4.5:1 (3:1 at 24px and up) | Darken the ink or lighten the ground within DESIGN.md tokens |
