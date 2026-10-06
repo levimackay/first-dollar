@@ -11,12 +11,12 @@ export default {
       // page uses. Counting it makes every self hosted font look like a second voice.
       const parent = decl.parent;
       if (parent?.type === 'atrule' && parent.name.toLowerCase() === 'font-face') return;
-      const key = normalizeStack(decl.value);
-      if (!key || /^(inherit|initial|unset|revert)$/.test(key)) return;
-      if (!stacks.has(key)) stacks.set(key, { unit, line });
+      const stack = normalizeStack(decl.value);
+      if (!stack || /^(inherit|initial|unset|revert)$/.test(stack)) return;
+      if (!stacks.has(stack)) stacks.set(stack, { unit, line });
     });
     if (stacks.size !== 1) return [];
-    const [key, at] = [...stacks.entries()][0];
-    return [finding('single-sans-family', at.unit.file, at.line, `"${key}" is the only stack on the site; give display, body and metadata distinct voices`)];
+    const [stack, at] = [...stacks.entries()][0];
+    return [finding('single-sans-family', at.unit.file, at.line, `"${stack}" is the only stack on the site; give display, body and metadata distinct voices`)];
   },
 };
