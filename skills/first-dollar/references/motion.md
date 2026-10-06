@@ -120,7 +120,7 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 ### mechanism-sequence (the signature template)
 - **What:** one timeline in three beats inside the labeled mock. Input
   plays, each part of it becomes a row of output as it finishes, the output
-  lands (total, signature). Autoplays once when 35% of the figure is in view.
+  lands (total, signature). Autoplays once when the figure's top rises past the lower quarter of the screen.
   Only the rows are required; drop the timer, total or signature freely.
 - **Fits:** any page with a mock of the product's output; on a quiet page it
   plays alone, slowly. Build this first; every other move defers to it.

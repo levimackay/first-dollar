@@ -4,11 +4,11 @@
   illustration, as one timeline: input, then process, then output. The sample
   is a voice memo that becomes a change order: the memo plays, each stretch of
   the recording turns into a line item as the playhead crosses it, the total
-  lands, the client's signature draws. Autoplays once when 35% of the figure
-  is in view.
+  lands, the client's signature draws. Autoplays once when the figure's top
+  rises past the lower quarter of the screen, however tall the figure is.
   How to adapt: copy the <figure class="fd-mech">, its CSS and the script.
-  Keep the three beats and swap what they show (compost bin: scraps go in,
-  the days pass, soil comes out). Each [data-line] is one output row and the
+  Keep the three beats and swap what they show (a pan: seasoned, heated,
+  the first egg slides off). Each [data-line] is one output row and the
   only required part; playback splits into one segment per row. The timer,
   segment marks, total and signature are optional: delete any and the rest
   still plays. Set PLAY_MS for the input beat. Wire the --fd-* tokens to
@@ -271,7 +271,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     if (!entries[0].isIntersecting) return;
     io.disconnect();
     play();
-  }, { threshold: 0.35 }).observe(fig);
+  }, { threshold: 0, rootMargin: '0px 0px -25% 0px' }).observe(fig);
 })();
 /* ---- end snippet ---- */
 </script>
