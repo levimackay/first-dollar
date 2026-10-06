@@ -12,6 +12,9 @@ const real = (p) => {
   }
 };
 
+// Display and Text cuts from one named superfamily repeat the same visual identity.
+const stem = (name) => String(name || '').toLowerCase().replace(/\s+(?:display|text)$/i, '');
+
 export default {
   id: 'font-history',
   severity: 'fail',
@@ -27,11 +30,13 @@ export default {
     eachFamily(ctx, (file, line, family) => {
       const key = family.toLowerCase();
       if (!key || seen.has(key)) return;
-      const hit = recent.find((h) => [h.display, h.text].some((f) => typeof f === 'string' && f.toLowerCase() === key));
+      const hit = recent.find((h) => [h.display, h.text].some((f) => typeof f === 'string' && stem(f) === stem(key)));
       if (!hit) return;
       seen.add(key);
+      const matched = [hit.display, hit.text].find((f) => typeof f === 'string' && stem(f) === stem(key));
+      const relation = matched.toLowerCase() === key ? '' : ` (same superfamily as "${matched}")`;
       out.push(
-        finding('font-history', file, line, `"${family}" was used by your build of ${hit.idea ?? hit.name ?? 'an earlier idea'} on ${hit.date ?? 'an earlier date'}; pick a different face so your pages do not share a look`),
+        finding('font-history', file, line, `"${family}"${relation} was used by your build of ${hit.idea ?? hit.name ?? 'an earlier idea'} on ${hit.date ?? 'an earlier date'}; pick a different face so your pages do not share a look`),
       );
     });
     return out;

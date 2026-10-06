@@ -101,3 +101,15 @@ export function deltaE(x, y) {
   const q = toOklab(y);
   return Math.hypot(p.L - q.L, p.a - q.a, p.b - q.b);
 }
+
+// OKLab distance after both colors are set to the same lightness and chroma.
+// This compares hue without a pale tint escaping a saturated color of that hue.
+export function hueDeltaE(x, y) {
+  const p = toOklab(x);
+  const q = toOklab(y);
+  const pc = Math.hypot(p.a, p.b);
+  const qc = Math.hypot(q.a, q.b);
+  if (pc < 0.03 || qc < 0.03) return null;
+  const C = 0.1;
+  return Math.hypot(C * (p.a / pc - q.a / qc), C * (p.b / pc - q.b / qc));
+}

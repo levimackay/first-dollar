@@ -36,8 +36,13 @@ them in, mono included (`data-mono`, logged), at a size people read and
 
 **Captions in tiny tracked capitals.** "FIG. 1" in 11px under a mock or
 drawing.
-Instead: a plain caption ("Concept. Numbers are examples.") in the face the
-reference uses for captions, large enough to read without leaning in.
+Instead: a caption about what the product shows, in the reference's caption
+face, large enough to read. No caption explaining that it is a concept.
+
+**A page narrating its own making.** "Concept", "Illustration", "Numbers are
+examples", "Not to scale", or a caption that tells the reader which section
+they are seeing. [`self-describing-caption`]
+Instead: delete it. Put at most one necessary honesty line in the footer.
 
 **Gradient text.** [`gradient-text`]
 Instead: solid ink. Emphasis comes from size or weight.
@@ -73,8 +78,8 @@ happens" list, a founder block with a hatched photo, a key-value terms table,
 a dark or inverted closing band, then the legal links. Seen side by side, the
 pages are one generator.
 Instead: the reference's own sequence from reference-structure.md, section by
-section, at its layouts and heights (SKILL.md stage 6). Cut what the founder
-has no content for. No inverted closing band unless the reference has one.
+section, each recording `adapts: <reference section>` in DESIGN.md Layout.
+Cut what the founder has no content for. No invented closing band.
 
 **Stock section titles.** "How it works", "Who is behind this", "Who we
 are", "Before you pay", "Why us", "Features", "The problem", "FAQ" as a
@@ -86,17 +91,15 @@ the reference runs sections without one.
 **Headline left, object right, on every page.** A split hero with a card,
 mock or generic phone floating on the right has become the default
 skeleton, whatever the reference's shape.
-Instead: the reference's hero layout. A full-bleed photo hero stays full
-bleed with the type over it; a centered cover stays centered; a one-column
-letter stays one column.
+Instead: the reference's hero composition. Where its photo is missing, use
+its color field, product artifact, type at scale, masthead or cell grid. A
+centered cover stays centered; a one-column letter stays one column.
 
 **A hairline spec table as the hero's second half.** Thin rules, small
 labels, values pushed right, filling the space where a picture belongs.
-Instead: fill the region by what the reference shows there, in SKILL.md
-stage 4's Material order: the founder's asset, a software mock where it shows
-its product, a photo slot with a shot direction for people, places and
-products in hand; a drawing only where the region is a drawing. A spec table
-only where the reference has one.
+Instead: use the reference's own non-photo device when no real asset exists:
+its color field, product artifact, type, masthead or cell grid. A spec table
+belongs where the reference has one.
 
 **Everything inside one centered container.** Every section at one max
 width, nothing reaching the edge. [`no-full-bleed`, `same-max-width`]
@@ -126,8 +129,8 @@ one large item; one real number in a sentence with its source, or nothing.
 
 **An empty half screen.** The reference has a photo there; the page has air.
 Or 150 to 300px of dead space between sections.
-Instead: keep the region and fill it (SKILL.md stage 4). No gap taller than
-the content beside it unless the reference does that.
+Instead: replace the photo's job with the reference's non-photo device. No
+gap taller than the content beside it unless the reference does that.
 
 ## Imagery
 
@@ -135,13 +138,19 @@ the content beside it unless the reference does that.
 the reference has photography: a bin with three "text lines", a sprout in a
 box, a hand tool that reads as something else, a structure drawn as a box
 with braces, a barcode waveform.
-Instead: a labeled photo slot at the reference image's aspect, size and
-position, with a shot direction (design-rules.md, "Filling image regions").
-A drawing only where the reference region is a drawing, in its manner.
+Instead: a real founder asset or the reference's non-photo device. Use at
+most two inline photo slots, never in the hero or full bleed
+[`photo-slot-budget`, `photo-slot-placement`]. Draw only where the reference itself draws.
 
 **Copying the reference's unloaded grey.** Grey or tinted blocks taken from
 a full-page capture whose images did not load.
 Instead: treat those boxes as image regions and fill them.
+
+**Hatch as the page's leading visual.** A placeholder fills the hero or a
+full-bleed band, or three or more slots make most of the page a wireframe.
+[`photo-slot-budget`]
+Instead: use the reference's color field, artifact, type, masthead or cell
+grid as the leading visual. Keep at most two inline slots for real shots.
 
 ## Copy and gaps
 
@@ -150,13 +159,17 @@ padding, splitting into two half boxes at a line break and butting against
 the next word ("Within[NEED: days]days"). Or raw brackets with no marker at
 all. Both read as a broken render.
 Instead: the gap marker in design-rules.md: the page's own text face, a soft
-highlight in the accent or the reference's highlight color, padding,
-`box-decoration-break: clone`, a real space each side.
+highlight whose hue differs from all DESIGN.md accents [`need-marker-hue`],
+or an underline; keep a real space each side.
 
 **The same grey terms line under every button.** "Charged today. Refunds:
 [NEED]" in 13px grey under each ask, on every page.
 Instead: the money terms once, where the reference puts its small print, in
 its style (SKILL.md, Rules for every stage).
+
+**A label/value table for every offer.** The same price, timing and refund
+rows appear regardless of the reference.
+Instead: put the terms once in the reference's small-print form.
 
 ## Ornament and motion
 

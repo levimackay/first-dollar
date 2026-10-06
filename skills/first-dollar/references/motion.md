@@ -9,15 +9,13 @@ Motion on a landing page has one job: show the product working. So every page
 gets one **signature motion**, placed by its material (SKILL.md stage 4):
 
 - Software: it plays the mechanism inside the mock of the product's interface
-  or output: input, then process, then output. A voice memo that becomes a
-  change order: the waveform plays, the order fills in line by line as the
-  playhead crosses each stretch, the client's signature draws.
-- A physical product, or any page with no mock region: the mechanism
-  told with `pinned-steps` or `sticky-stack` over photo slots and text, one
-  slot per step: scraps go in, the days pass, soil comes out. On a quiet
-  reference it is `split-line-reveal` on the headline instead, played once
-  and slowly. Never animate clip art standing in for a photo; a drawing moves
-  only where the reference region is a drawing.
+  or output: input, process, then output. Keep the output inside a cropped
+  mock at every width, including 390.
+- A physical product or page with no mock region: tell the mechanism through
+  the reference's non-photo device, such as type, a cell grid or the product's
+  own artifact. `pinned-steps` and `sticky-stack` may use at most two inline
+  photo slots total, never as the hero or a full-bleed panel. On a quiet
+  reference, use `split-line-reveal` on the headline once and slowly.
 
 If you cannot say the three beats of the mechanism in one sentence, the page
 is not ready for motion. Build it still.
@@ -106,9 +104,9 @@ pinned exactly, never `@latest`. Its 6 KB entry pulls four requests, about
    them once on its own root, with a fallback, and derives its muted tone,
    hairline and easing from them unless the page sets `--fd-muted`,
    `--fd-rule` or `--fd-ease-out`.
-4. Replace the demo copy with COPY.md. Sample values in a mock stay
-   generic and keep the visible caption ("Concept. Numbers are
-   examples."). A real fact the founder has not given stays `[NEED: ...]`.
+4. Replace the demo copy with COPY.md. Sample values in a mock stay generic.
+   No self-describing caption; one honesty line at most in the footer. A real
+   fact the founder has not given stays `[NEED: ...]`.
 5. Run the lint and the check. Then load the page with reduced motion
    emulated (devtools Rendering panel, or Playwright
    `page.emulateMedia({ reducedMotion: 'reduce' })`): every word visible.
@@ -137,8 +135,8 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 - **What:** the headline is split into its rendered lines and each rises out of
   its own mask in reading order; one rule draws under it. Re-splits on font load
   and width change. The lede and the ask never move.
-- **Fits:** one headline worth slowing down for, one or two lines at 1440
-  (copy.md caps it). Any energy; the signature on a quiet physical page.
+- **Fits:** one headline worth slowing down for, ideally one or two lines at
+  1440. Preserve a longer reference headline's rhythm when needed.
 - **Never combine with:** letter or word splits anywhere; a fade on the
   headline's container; `pinned-mask-reveal` in the first screen (two mask
   tricks); any motion on the ask.
@@ -167,8 +165,8 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 
 ### pinned-steps
 - **What:** the section holds (CSS sticky) for about two screens while three
-  steps take turns over three photo slots stacked in one frame, one per step,
-  the active one wiping in (clip-path). Waiting steps
+  states take turns in one frame, using the reference's non-photo device or
+  real founder assets. Waiting steps
   drop to the muted tone (4.5:1 or better), never to low opacity. On load it
   jumps straight to the state that matches the scroll, without animating.
 - **Fits:** a mechanism with three distinct states a still image cannot show;
@@ -200,12 +198,12 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
   (an inline `--i` numbers them), so each lands on the last like a stack. The
   covered panel eases back (scale and a shade).
 - **Fits:** an ordered set that each fills a panel: what happens after the buyer
-  pays, the stages of a service, a physical product's mechanism as photo slot
-  and text panels. Moderate and loud references.
+  pays, the stages of a service, a product's mechanism through an artifact
+  and text. Moderate and loud references.
 - **Never combine with:** `pinned-steps` or `pinned-mask-reveal` next to it;
   entrance animations inside the panels; a sticky header that does not clear
   the rail.
-- **At 390:** one column, photo slot above text, a tighter rail and step,
+- **At 390:** one column, artifact above text, a tighter rail and step,
   panel height set by content.
 - **Reduced motion:** plain blocks in order.
 - **Cost:** 0.9 KB. Sticky needs no script; rails are measured on resize and

@@ -12,6 +12,16 @@ const trend = new Set(data.trend.map((n) => n.toLowerCase()));
 const total = Object.keys(data.families).length;
 const NOTE = "use the reference's own face or a close match outside the top 200";
 
+export function rankFamily(raw) {
+  const name = String(raw || '').trim().replace(/^["']|["']$/g, '');
+  const key = name.toLowerCase();
+  if (BANNED.includes(key)) return `"${name}" is banned by first-dollar (snapshot ${data.snapshot}); choose another family`;
+  const rank = ranks.get(key);
+  if (trend.has(key)) return `"${name}" is a trend face blocked by first-dollar${rank === undefined ? '' : ` (#${rank} of ${total} Google Fonts)`} (snapshot ${data.snapshot}); choose another family`;
+  if (rank !== undefined) return `"${name}" is #${rank} of ${total} Google Fonts by popularity, ${rank <= TOP ? 'top 200' : 'outside the top 200'} (snapshot ${data.snapshot})`;
+  return `"${name}" is not in the Google Fonts snapshot ${data.snapshot}; verify its source and license`;
+}
+
 // Returns the message when the family should not lead a page, else null.
 function judge(name) {
   const key = name.toLowerCase();

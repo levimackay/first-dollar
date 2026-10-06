@@ -66,3 +66,11 @@ test('malformed lines are skipped with one warning', async () => {
   assert.equal(res.warnings.filter((w) => w.rule === 'parse-error' && /history/.test(w.message)).length, 1);
   assert.deepEqual(hits(res), []);
 });
+
+test('Wix Madefor Display and Wix Madefor Text share a history stem', async () => {
+  const { dir, historyPath } = await site(line('Wix Madefor Display') + '\n');
+  await writeFile(path.join(dir, 's.css'), 'h1 { font-family: "Wix Madefor Text", sans-serif; }');
+  const [f] = hits(await lint(dir, { historyPath }));
+  assert.match(f.message, /Wix Madefor Text/);
+  assert.match(f.message, /Wix Madefor Display/);
+});

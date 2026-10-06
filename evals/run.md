@@ -1,6 +1,6 @@
 # Eval protocol
 
-Five fictional ideas in `cases/`. Each is built three times by a fresh agent with no memory of the others.
+Six fictional ideas in `cases/`. Each is built three times by a fresh agent with no memory of the others.
 
 | Arm | What the agent is given |
 |---|---|

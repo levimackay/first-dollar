@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reference reveal</title>
+<style>
+body{margin:0;background:#fff;color:#111;font:18px sans-serif}
+h1{margin:20px}
+.gap{height:1100px}
+.reveal{height:500px;background:#000;color:#fff;opacity:0}
+.reveal.in{opacity:1}
+</style></head><body>
+<h1>Reference scroll reveal</h1>
+<div class="gap"></div>
+<section class="reveal"><h2>The work appears after scrolling</h2></section>
+<script>
+const target = document.querySelector('.reveal');
+new IntersectionObserver((entries, observer) => {
+  if (!entries.some((entry) => entry.isIntersecting)) return;
+  observer.disconnect();
+  setTimeout(() => target.classList.add('in'), 1600);
+}).observe(target);
+</script>
+</body></html>

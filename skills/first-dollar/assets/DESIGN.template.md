@@ -129,6 +129,7 @@ components:
 
 ## Layout
 
+- Section map (repeat for every built section): `<built section> | adapts: <exact name in reference-structure.md> | <its job and layout here>`.
 - Base unit: <4 | 8>px. Every gap is a multiple.
 - Section rhythm: <the reference's measured gaps against the content beside them, top to bottom>
 - Density: <where the reference is sparse and where it is dense>

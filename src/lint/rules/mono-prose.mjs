@@ -28,12 +28,12 @@ function exempt(el) {
 }
 
 function ownText(el) {
-  return (el.children || []).filter((c) => c.type === 'text').map((c) => c.data).join(' ');
+  return (el.children || []).filter((c) => c.type === 'text').map((c) => c.data.replace(/\[NEED:[^\]]*\]/gi, '')).join(' ');
 }
 
 function fullText(el) {
   const visit = (node) =>
-    (node.children || []).map((c) => (c.type === 'text' ? c.data : c.type === 'tag' && !['script', 'style'].includes(c.tagName) ? visit(c) : '')).join(' ');
+    (node.children || []).map((c) => (c.type === 'text' ? c.data.replace(/\[NEED:[^\]]*\]/gi, '') : c.type === 'tag' && !['script', 'style'].includes(c.tagName) ? visit(c) : '')).join(' ');
   return visit(el);
 }
 

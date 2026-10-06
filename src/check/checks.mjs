@@ -56,6 +56,67 @@ export async function brokenMedia(page) {
   return res('broken-media', [...new Set([...imgs, ...page.__fd.failed])].slice(0, 5));
 }
 
+// The label can be hidden while its hatched figure remains visible. Measure the slot,
+// not the label, and keep coordinates relative to the top-of-page viewport.
+function collectPhotoSlots() {
+  const slots = [];
+  const seen = new Set();
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for (let node; (node = walker.nextNode()); ) {
+    const match = /\[PLACEHOLDER:[^\]]+\]/i.exec(node.textContent);
+    if (!match) continue;
+    const label = node.parentElement;
+    if (label.closest('script, style, noscript, template')) continue;
+    const slot = label.closest('figure, [data-photo-slot], .photo-slot, .ph') || label;
+    if (seen.has(slot)) continue;
+    seen.add(slot);
+    const bounds = slot.getBoundingClientRect();
+    const box = { left: bounds.left, right: bounds.right, top: bounds.top, bottom: bounds.bottom };
+    let opacity = 1;
+    let visible = true;
+    for (let a = slot; a; a = a.parentElement) {
+      const style = getComputedStyle(a);
+      opacity *= Number(style.opacity);
+      if (style.display === 'none' || style.visibility !== 'visible') visible = false;
+      if (a === slot) continue;
+      const clip = a.getBoundingClientRect();
+      if (['hidden', 'clip', 'scroll', 'auto'].includes(style.overflowX)) {
+        box.left = Math.max(box.left, clip.left);
+        box.right = Math.min(box.right, clip.right);
+      }
+      if (['hidden', 'clip', 'scroll', 'auto'].includes(style.overflowY)) {
+        box.top = Math.max(box.top, clip.top);
+        box.bottom = Math.min(box.bottom, clip.bottom);
+      }
+    }
+    if (!visible || opacity < 0.1 || box.right - box.left <= 1 || box.bottom - box.top <= 1) continue;
+    slots.push({ label: match[0].slice(0, 80), ...box, width: box.right - box.left, height: box.bottom - box.top,
+      viewportWidth: innerWidth, viewportHeight: innerHeight });
+  }
+  return slots;
+}
+
+export async function photoSlotAboveFold(page) {
+  const slots = await page.evaluate(collectPhotoSlots);
+  const bad = slots
+    .filter((s) => s.bottom > 0 && s.top < s.viewportHeight && s.right > 0 && s.left < s.viewportWidth)
+    .slice(0, 5)
+    .map((s) => `visible photo slot "${s.label}" in first viewport`);
+  return res('photo-slot-above-fold', bad);
+}
+
+export async function photoSlotPlacement(page) {
+  const slots = await page.evaluate(collectPhotoSlots);
+  const bad = [];
+  for (const s of slots) {
+    const fullBleed = s.left <= 8 && s.right >= s.viewportWidth - 8;
+    const nearFullWidth = s.viewportWidth >= 1024 && s.width >= s.viewportWidth * 0.9;
+    if (fullBleed || nearFullWidth) bad.push(`"${s.label}" is ${fullBleed ? 'full bleed' : 'nearly full width'} (${Math.round(s.width)}px of ${s.viewportWidth}px)`);
+    if (s.height > s.viewportHeight / 3 + 1) bad.push(`"${s.label}" is ${Math.round(s.height)}px tall, over one third of the ${s.viewportHeight}px viewport`);
+  }
+  return res('photo-slot-placement', bad.slice(0, 5));
+}
+
 export const hiddenAfterReveal = (page) => revealed(page, 'hidden-after-reveal');
 
 // Needs a page opened with reducedMotion: 'reduce' emulated before it loaded.
@@ -78,9 +139,9 @@ export async function settle(page) {
   });
 }
 
-// URL mode: lazy images only load when scrolled into view, so scroll the whole page first
-// (600px every 150ms, at most 20000px or 15s), return to the top, then let the network,
-// the images and the animations settle. Every wait is bounded.
+// URL mode: lazy images and reveals only load when scrolled into view, so scroll the whole
+// page first (600px every 150ms, at most 20000px or 15s). Hold at the bottom for delayed
+// observer callbacks, then return to the top and let images and animations settle.
 export async function primeLazy(page) {
   await page.evaluate(async () => {
     const end = Date.now() + 15000;
@@ -88,6 +149,7 @@ export async function primeLazy(page) {
       scrollTo(0, y);
       await new Promise((r) => setTimeout(r, 150));
     }
+    await new Promise((r) => setTimeout(r, 1500));
     scrollTo(0, 0);
   });
   await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
@@ -128,7 +190,7 @@ async function revealed(page, id) {
         if (r.bottom <= b.top + 1 || r.top >= b.bottom - 1) { masked = true; break; }
       }
       if (opacity < 0.1 || cs.visibility === 'hidden' || masked) {
-        out.push(`${el.tagName.toLowerCase()} "${el.textContent.trim().slice(0, 30)}"`);
+        out.push(`${el.tagName.toLowerCase()} "${el.textContent.trim().slice(0, 30)}"${masked ? ' clipped by an ancestor' : ''}`);
       }
     }
     return out.slice(0, 5);

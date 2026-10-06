@@ -63,6 +63,8 @@ Read each file at its stage, not before.
   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --palette <image.png>`
 - A font specimen, the face set in the page's own headline:
   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --specimen "<Family>" --text "<the page headline>" --out "<page>/.first-dollar/fonts/<Family>"`
+- A font rank before a specimen:
+  `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-lint.mjs --rank "<Family>"`
 
 Write every shell command so zsh runs it too: quote any word that starts with
 `=` or holds `[`, `*` or `?`. Never a bare `echo ======` separator.
@@ -124,8 +126,10 @@ what you would have asked, take the stated default, log it in BRIEF.md under
   made up to pass the lint). It carries `data-commitment` and may repeat lower
   with the same words. Nothing else carries the attribute or competes with it.
 - **Money terms appear once,** where the reference puts its small print:
-  under its button, in a terms block, or in a footer note. A grey terms line
-  under every button is not required and is a tell.
+  under its button, in a note, or in another form the reference uses. Never
+  default to a label/value table or repeat a grey line under every button.
+- **Honesty appears once at most,** in the footer. No self-describing mock,
+  illustration or section captions (tells.md).
 - **No link yet.** The ask's `href` is `[NEED: checkout link]`, or
   `[NEED: LOI form link]` or the founder's form URL, listed first in
   PLACEHOLDERS.md. Never `#`, `mailto:` or an email-only form (commitment.md).
@@ -216,7 +220,8 @@ Then write two files in `<page>/.first-dollar/`:
   order) top to bottom and list every section in order, each with its job
   (what it shows or argues), its layout (full-bleed image with text over it,
   centered statement, two columns, list, grid, letter, form...), what each
-  image region shows, and its rough share of the page height. The hero comes
+  image region shows, and its rough share of the page height. Name each section
+  so the build can record `adapts: <reference section>`. The hero comes
   first, its layout named exactly. An empty grey box is usually an image that
   did not load: list it as an image region, never as a grey panel.
 
@@ -247,30 +252,22 @@ the prose sections, which record where each value came from.
 - Fonts: first read the last 10 lines of `~/.first-dollar/history.jsonl`, if
   it exists. No display or text family another page used there may be used
   again. Then take the reference's own face if it is free and outside the top
-  200, or compare three free candidates on `--specimen` shots set in the
-  page's headline (design-extraction.md section 6). Never a face unseen while
+  200, or filter three free candidates with lint `--rank` before taking
+  `--specimen` shots in the page's headline (design-extraction.md section 6).
+  Never a face unseen while
   `--specimen` can run. A founder who wants one face across their ideas says
   so: log it in DESIGN.md Provenance and lint without `--history`.
 - Declare every value the page needs: background, text, muted text, accent,
   button, border, the gap highlight, each font, radius and spacing step.
 
-**Material.** Every region the reference fills with imagery (a hero photo, a
-product shot, a video, a gallery) stays on the page at the reference's size
-and position. What the reference shows there decides the fill, not the
-product type. The founder's real asset always comes first; otherwise:
-
-- People, a place or a scene: a hatched photo slot labeled with a shot
-  direction (subject, setting, light, aspect), on software pages too.
-- The reference's own product: for software, an HTML and CSS mock of the
-  real interface or output, captioned "Concept", where the signature lives;
-  for physical goods, a product photo slot with a shot direction.
-- A portrait: the founder's photo, or a photo slot for it.
-- A drawing: a drawing in the reference's manner, and only then.
-
-A mock goes only where the reference shows its own product. Never flat vector
-clip art standing in for a photo, never a void, and never a stock or
-generated photo posed as real. List each region, what it shows and its fill
-in DESIGN.md Overview; design-rules.md, "Filling image regions", has the craft.
+**Material.** List each reference image region and its fill in DESIGN.md
+Overview. Use a real founder asset when supplied. Otherwise use at most two
+inline photo slots on the page, never in the hero or full bleed. Where the
+reference is photo-led, lead with its own non-photo device: its color field,
+product artifact, type at scale, masthead or cell grid. Keep a slot only where
+it helps a founder commission a real shot. No stock image posed as real, flat
+clip art replacing a photo, or empty void. See design-rules.md, "Filling image
+regions".
 
 **Changing a token later.** Only a failed contrast check, a banned reference
 color, a value a fidelity check (`reference-drift`, stage 6) finds misread, a
@@ -287,11 +284,13 @@ Read `${CLAUDE_SKILL_DIR}/references/slop-rules.md` so you know what the lint
 refuses.
 
 Build the first screen of `<page>/index.html` only: the nav, the headline, one
-or two lines of mechanism, the ask with its price, and the hero's image
-region filled as stage 4 says. The headline runs at most two lines at 1440
-(copy.md). The hero copies the reference's hero layout from
-reference-structure.md: text over a full-bleed image, a centered statement, a
-split, a list, a letter. Headline left and object right only when the
+or two lines of mechanism, the ask with its price, and the hero filled as
+stage 4 says. Aim for at most two headline lines at 1440 (copy.md). If the
+reference uses a longer headline, keep its rhythm and the founder's meaning;
+shorten the copy before shrinking type or changing the layout. A longer
+headline is allowed when the reference needs it. The hero copies the
+reference's layout using a non-photo device when its image is missing.
+Headline left and object right only when the
 reference is split; a centered hero with one ask is fine. Money terms sit in
 the first screen only if the reference sets small print there.
 
@@ -322,25 +321,28 @@ Without stops, still build, check and look at the first screen alone first.
 ## Stage 6: Build and polish
 
 Build the rest of `<page>/index.html` in the order of reference-structure.md.
-Map COPY.md onto that sequence: each reference section takes the content that
+Record `adapts: <reference section>` for each page section in DESIGN.md Layout,
+using the exact named section from reference-structure.md. Map COPY.md onto
+that sequence: each reference section takes the content that
 fits its job, in its layout, unless the lint fails that layout (three cards,
 a stat row, a logo row: then a list, a table or one large item). A section
 the founder has no content for is cut, never padded. Content with no matching
 section goes to the section whose job is closest: terms where the reference
 puts pricing or small print, the founder where it puts about, people or
 credits. If none fits, add one section in the layout of the reference's most
-similar section, after the closest-job section, and log it in DESIGN.md.
+similar section, after the closest-job section, and log its `adapts:` link in
+DESIGN.md. Money terms use the reference's small-print form, never a default
+label/value table.
 Height share is descriptive: a section is as tall as its content. Titles use
 the founder's own subject words; stock titles are banned (tells.md). Repeat
 the ask where the reference repeats its call to action.
 
 Motion (motion.md): one signature motion, plus the supporting moves the
 reference's energy row allows, each with a reduced-motion fallback. For
-software it plays the mechanism inside the mock. A physical product, or a
-page with no mock region, tells the mechanism with `pinned-steps` or
-`sticky-stack` over photo slots and text, or, on a quiet reference, gets the
-headline reveal, played once and slowly. Never animate a drawing that stands
-in for a photo.
+software it plays the mechanism inside the cropped product mock; its output
+stays inside that crop at every width. A physical product or page with no mock
+uses the reference's non-photo device to tell the mechanism. A quiet page can
+use a headline reveal, played once and slowly.
 
 Fill in the privacy.html and terms.html stubs, plain, in the same tokens: keep
 `[NEED: founder review before publishing]` at the top, and `[NEED: ...]` for
@@ -397,7 +399,8 @@ Read `${CLAUDE_SKILL_DIR}/assets/og.template.html`.
    link (listed first), the price, the refund terms, the legal entity, and for
    physical goods the ship date and the delay policy (commitment.md). A kill
    number still `[NEED]` in BRIEF.md goes second.
-4. **Final run.** Run the lint and the check once more.
+4. **Final run.** Run the lint and the check once more. Append history only
+   after the final lint exits 0.
 5. **History.** Last, append one JSON line to `~/.first-dollar/history.jsonl`
    (create the folder if needed), from DESIGN.md and reference-structure.md:
    `{"date":"<YYYY-MM-DD>","idea":"<idea-slug>","page":"<absolute path of the page folder>","reference":"<url or founder>","display":"<family>","text":"<family>","ground":"<hex>","accent":"<hex>","hero":"<hero layout>"}`

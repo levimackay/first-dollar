@@ -132,7 +132,7 @@ Defaults for any page before launch:
 | When do I get it? | The founder's date, or `[NEED: ship date]` | With the money terms |
 | What if it never ships? | The founder's answer, or `[NEED: what happens if it never ships]` | With the money terms |
 | Why pay now? | Only a real reason the founder gave: a founding price, batch one, a pilot slot | Near the button, or nothing |
-| Who is behind this? | Founder name or `[NEED: founder name]`, a photo slot with a shot direction, one line of history from BRIEF.md | Where the reference puts about, people or credits; else the closest-job section (SKILL.md stage 6) |
+| Who is behind this? | Founder name or `[NEED: founder name]`, one line of history from BRIEF.md; a real portrait if supplied | Where the reference puts about, people or credits; else the closest-job section (SKILL.md stage 6) |
 | Is it for someone like me? | Who it is for and who it is not for | The section whose job is closest |
 
 Find extra objections in competitor reviews and community threads. Never write
@@ -158,14 +158,17 @@ News, the founder's interview notes.
 - `[NEED: what fact, from whom]` for a missing fact: price, date, legal name,
   founder bio, proof.
 - `[PLACEHOLDER: what asset, size]` for a missing asset: founder photo, product
-  shot, prototype video.
+  shot, prototype video. Record every missing asset in COPY.md. Use at most
+  two visible photo slots on the page, inline and below the hero; the other
+  missing photo regions use the reference's own non-photo device (SKILL.md
+  stage 4).
 - In visible copy, each `[NEED: ...]` is wrapped
   `<span class="need">[NEED: ...]</span>` and styled as design-rules.md "Gap
   markers" says: the page's own text font, a soft highlight, a real space each
-  side. It reads as an obvious gap, not as broken copy. A `[PLACEHOLDER: ...]`
-  for an image is a hatched photo slot whose label is a shot direction
-  (design-rules.md). Never styled to look finished (`placeholder-styled`),
-  never hidden in comments.
+  side. It reads as an obvious gap, not as broken copy. When a visible image
+  slot fits the photo budget, use a hatch and a shot direction (design-rules.md).
+  Never style a slot to look finished (`placeholder-styled`) or hide a missing
+  asset in comments.
 - Never trade one invention for a vaguer one. "10,000 teams" changed to
   "hundreds of teams" is still invented.
 - List them in COPY.md. At ship, the ones still in the published pages move

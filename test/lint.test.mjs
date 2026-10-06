@@ -197,3 +197,11 @@ test('cli exits 2 with usage on a missing option value or a path that does not e
     assert.match(r.stderr, /usage: first-dollar-lint/);
   }
 });
+
+test('cli --rank works without a built site', async () => {
+  const popular = await runCli('--rank', 'Outfit');
+  assert.equal(popular.code, 0);
+  assert.match(popular.stdout, /#31 of 1950.*top 200.*snapshot/);
+  const missing = await runCli('--rank');
+  assert.equal(missing.code, 2);
+});

@@ -119,9 +119,15 @@ try {
       const list = [C.overflow];
       if (w === 390 || w === 1440) list.push(C.consoleCheck, C.brokenMedia, C.contrast, C.twoLineButton);
       if (w === 390) list.push(C.commitmentAboveFold);
-      list.push(C.hiddenAfterReveal); // scrolls, so it runs last
+      list.push(C.hiddenAfterReveal); // scrolls before the photo-slot checks
       const wanted = w === 390 || w === 1440 ? list : [C.overflow];
       for (const fn of wanted) results.push({ ...(await fn(page, w)), width: w });
+      if (w === 390 || w === 1440) {
+        await page.waitForTimeout(100); // let scroll-triggered reveals respond after returning to the top
+        await C.settle(page);
+        results.push({ ...(await C.photoSlotAboveFold(page)), width: w });
+        results.push({ ...(await C.photoSlotPlacement(page)), width: w });
+      }
     }
     if (w === 390 || w === 1440) {
       await page.screenshot({ path: join(out, `${w}.png`) });
