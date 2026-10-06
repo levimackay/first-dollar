@@ -31,11 +31,11 @@ export function photoSlotRegions($) {
     if (!inert(el) && !$(el).parent().closest(SLOT_SELECTOR).length) add(el);
   });
 
-  // A hatch belongs to its slot or figure; otherwise to the svg that draws it, or, when that
-  // svg is the slot pattern laid over a box (.ph-hatch), to that box.
+  // A hatch belongs to its slot; otherwise to the svg that draws it, or, when that svg is
+  // the slot pattern laid over a box (.ph-hatch), to that box. A label then joins it below.
   $(HATCH_SELECTOR).each((_, el) => {
     if (inert(el)) return;
-    const owner = $(el).closest(SLOT_SELECTOR)[0] || $(el).closest('figure')[0];
+    const owner = $(el).closest(SLOT_SELECTOR)[0];
     if (owner) return add(owner);
     const svg = $(el).parents('svg').last()[0] || el;
     add($(svg).is('.ph-hatch') && svg.parent?.type === 'tag' ? svg.parent : svg);

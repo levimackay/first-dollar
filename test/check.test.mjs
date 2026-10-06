@@ -130,6 +130,14 @@ test('a full-bleed hatched band with no label fails placement', (t) => {
   }
 });
 
+test('a hatched frame inside a padded figure is measured as the frame, not the figure', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-framed-slot'));
+  const mine = json.checks.filter((c) => c.id === 'photo-slot-placement');
+  assert.deepEqual(mine.map((c) => c.width), [390, 1440]);
+  assert.ok(mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
 test('an inline slot a little over one third of the viewport passes placement', (t) => {
   if (!hasBrowser) return t.skip('no browser');
   const { json } = run(fx('below-fold-slot-tolerance'));

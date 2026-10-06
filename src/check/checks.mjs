@@ -67,12 +67,12 @@ function collectPhotoSlots({ slot: SLOT, hatch: HATCH, marker, sectioning: SECTI
   const add = (el) => el && !regions.includes(el) && regions.push(el);
   for (const el of document.body.querySelectorAll(SLOT)) if (!el.parentElement.closest(SLOT)) add(el);
   for (const el of document.body.querySelectorAll(HATCH)) {
-    const owner = el.closest(SLOT) || el.closest('figure');
+    const owner = el.closest(SLOT);
     if (owner) { add(owner); continue; }
     let svg = el.closest('svg') || el;
     while (svg.parentElement?.closest('svg')) svg = svg.parentElement.closest('svg');
-    const laid = ['absolute', 'fixed'].includes(getComputedStyle(svg).position);
-    add(laid && svg.parentElement ? svg.parentElement : svg);
+    const layer = svg.matches('.ph-hatch') || ['absolute', 'fixed'].includes(getComputedStyle(svg).position);
+    add(layer && svg.parentElement ? svg.parentElement : svg);
   }
   const labels = [];
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
