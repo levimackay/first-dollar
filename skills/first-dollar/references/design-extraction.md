@@ -131,8 +131,8 @@ Write each answer into DESIGN.md as you go.
 
 ## 4. URL mode: read the code
 
-Fetch the HTML and its same-origin `<link rel="stylesheet">` files, with
-`curl -sL '<url>'` or your fetch tool. Never fetch scripts, images, fonts, or
+Fetch the HTML and its same-origin `<link rel="stylesheet">` files with your
+fetch tool. Never fetch scripts, images, fonts, or
 other pages.
 
 - Fonts, most reliable first: family names in a Google Fonts `<link>`; names in
@@ -251,7 +251,7 @@ remains there before moving on.
 - Keep the sections in this order: Overview, Colors, Typography, Layout,
   Elevation & Depth, Shapes, Components, Do's and Don'ts, then Provenance, then
   Changes (the log SKILL.md stage 4 requires for every later token change).
-- If the founder allows network installs, `npx @google/design.md lint DESIGN.md`
+- If the founder allows network installs, `npx @google/design.md@0.4.0 lint DESIGN.md`
   checks token references, contrast pairs and section order.
 
 Stage 4 has no stop. At the next stop, give the founder at most 8 lines: the

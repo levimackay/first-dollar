@@ -3,9 +3,8 @@
 Load at stage 3 when the founder has no reference of their own.
 
 Every note is an observation of the live site on a date, not a description of
-the brand. Every URL returned HTTP 200 to
-`curl -s -o /dev/null -w '%{http_code}' -L 'https://example.com'` (with the
-entry's URL) on that date. Sites change. Screenshot before you rely on a note.
+the brand. Every URL returned HTTP 200, after redirects, on that date.
+Sites change. Screenshot before you rely on a note.
 
 These are other people's live sites. Take the structural move named in the
 note. Never their copy, images, illustrations, logos or brand

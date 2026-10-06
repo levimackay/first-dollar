@@ -101,8 +101,8 @@ test('no recipe waits for more than a quarter of a figure to be in view', async 
   // A figure taller than the screen divided by the amount never reaches it, so it would stay armed and hidden.
   for (const name of RECIPES) {
     // The same holds for an IntersectionObserver threshold.
-    for (const [, key, value] of (await read(name)).matchAll(/\b(amount|threshold)\s*:\s*([\d.]+)/g)) {
-      assert.ok(Number(value) <= 0.25, `${name} uses ${key} ${value}; start on a small fraction with a bottom margin`);
+    for (const [, option, value] of (await read(name)).matchAll(/\b(amount|threshold)\s*:\s*([\d.]+)/g)) {
+      assert.ok(Number(value) <= 0.25, `${name} uses ${option} ${value}; start on a small fraction with a bottom margin`);
     }
   }
 });
