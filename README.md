@@ -19,7 +19,7 @@
 <p align="center">
   <a href="https://github.com/levimackay/first-dollar/actions/workflows/ci.yml"><img src="https://github.com/levimackay/first-dollar/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-1f2328" alt="MIT license"></a>
-  <img src="https://img.shields.io/badge/lint_rules-43-1f2328" alt="43 lint rules">
+  <img src="https://img.shields.io/badge/lint_rules-46-1f2328" alt="46 lint rules">
   <img src="https://img.shields.io/badge/works_with-Claude_Code_%C2%B7_Codex_%C2%B7_Cursor-1f2328" alt="Works with Claude Code, Codex and Cursor">
 </p>
 
@@ -32,7 +32,7 @@
 
 ## What it is
 
-first-dollar is an agent skill for founders who want to know whether anyone will pay before they build. You give it an idea. It writes the brief and the copy, takes its look from a site you like, builds the page, and checks it with a 43-rule lint and a real browser.
+first-dollar is an agent skill for founders who want to know whether anyone will pay before they build. You give it an idea. It writes the brief and the copy, takes its look from a site you like, builds the page, and checks it with a 46-rule lint and a real browser.
 
 The page has one button, and that button asks for money: a pre-order, a deposit, a paid pilot or a signed letter of intent. A free waitlist costs the visitor nothing, so even a long one can't tell "nice idea" from "I'll pay". A $40 deposit can.
 
@@ -92,7 +92,7 @@ Before any copy, the brief sets a kill number: the count of paid sign-ups below 
 
 ## What it refuses to ship
 
-Forty-three rules, each one a pattern people now read as "an AI made this", each with a fix. A sample:
+Forty-six rules, each one a pattern people now read as "an AI made this", each with a fix. A sample:
 
 | Where | What fails |
 |---|---|
@@ -101,6 +101,7 @@ Forty-three rules, each one a pattern people now read as "an AI made this", each
 | Layout | The centered eyebrow-headline-two-buttons hero, three cards in a row, cards in cards, colored side stripes, a row of big numbers, borrowed logo rows, one radius on everything |
 | Copy | Buzzwords, the "not X, but Y" frame, em dashes, numbers nothing backs up, invented testimonials, text lifted from the reference |
 | Motion | Bounce easing, pulsing dots, images that zoom on hover, `transition: all` |
+| Placeholders | A photo placeholder in the hero, more than two on a page, captions that describe the page instead of the product, a gap marker in one of the page's own colors |
 | The ask | A button that asks for nothing real, no price on it, no privacy or terms page |
 
 This is the lint's real output on the left page in the picture above, trimmed:
@@ -121,26 +122,28 @@ Six fictional ideas, each built three ways by a fresh agent: a **plain** agent g
 <!-- evals:start -->
 | | plain | prompted | first-dollar |
 |---|---|---|---|
-| Lint failures, all six pages | 8 | 34 | 0 |
-| Main button asks for money | 3 of 6 | 5 of 6 | 5 of 6 |
-| Pages failing a browser check | 1 of 6 | 2 of 6 | 1 of 6 |
+| Lint failures, all six pages | 11 | 34 | 0 |
+| Main button asks for money | 3 of 6 | 5 of 6 | 6 of 6 |
+| Pages failing a browser check | 1 of 6 | 2 of 6 | 0 of 6 |
 | Different headline fonts across the six | 2 | 5 | 6 |
 <!-- evals:end -->
 
-Read this table with two caveats. The lint is first-dollar's own tool and the skill runs it while building, so its zero is by construction; the table shows what a stock agent ships without it. And the losses stay in: first-dollar's piano-lesson page crops its product mock so the phone view hides the plan rows, which the browser check fails, and its knife-sharpening page made its $40 button smaller than its own logo link, so the scorer counted that ask as something else. Per-page rows and the method are in [`evals/results.md`](evals/results.md), and every page is in [`evals/runs`](evals/runs).
+Read this with one caveat: the lint is first-dollar's own tool and the skill runs it while building, so its zero is by construction; that row shows what a stock agent ships without it. The other rows are the honest comparison. Every page is kept as built, the stock agents' losses included: per-page rows and the method are in [`evals/results.md`](evals/results.md), and every page is in [`evals/runs`](evals/runs).
 
 ## Gallery
 
-Pages first-dollar built for the fictional eval ideas. Gaps like `[NEED: product name]` are facts the made-up founder never gave.
+All six pages first-dollar built for the fictional eval ideas, none left out. Gaps like `[NEED: product name]` are facts the made-up founder never gave, and the hatched boxes are where their photos go.
 
 <table>
   <tr>
-    <td width="50%"><img src="media/readme/page-high-ticket-loi.png" alt="Northstand, a bleacher rental page"><br><b>Northstand</b>, a signed $12,000 letter of intent. Built from teenage.engineering.</td>
-    <td width="50%"><img src="media/readme/page-one-liner.png" alt="A piano practice plan page"><br><b>Practice plans</b>, a $35 pre-order, from a one-sentence idea. Built from basecamp.com.</td>
+    <td width="33%"><img src="media/readme/page-b2b-pilot.png" alt="Tidemark, a dental claims page"><br><b>Tidemark</b>, a $1,500 paid pilot. From planetscale.com.</td>
+    <td width="33%"><img src="media/readme/page-consumer-preorder.png" alt="Loam, a countertop composter page"><br><b>Loam</b>, an $89 pre-order. From graza.co.</td>
+    <td width="33%"><img src="media/readme/page-high-ticket-loi.png" alt="Northstand, a bleacher rental page"><br><b>Northstand</b>, a $12,000 letter of intent. From teenage.engineering.</td>
   </tr>
   <tr>
-    <td width="50%"><img src="media/readme/page-b2b-pilot.png" alt="Tidemark, a dental claims page"><br><b>Tidemark</b>, a $1,500 paid pilot. Built from planetscale.com.</td>
-    <td width="50%"><img src="media/readme/page-local-service.png" alt="Ridgeback Sharpening, a mobile sharpening page"><br><b>Ridgeback Sharpening</b>, a $40 deposit. Built from kinfolk.com.</td>
+    <td width="33%"><img src="media/readme/page-low-ticket-app.png" alt="Halves, a shared groceries app page"><br><b>Halves</b>, a $36 pre-order. From thelightphone.com.</td>
+    <td width="33%"><img src="media/readme/page-local-service.png" alt="Ridgeback Sharpening, a mobile sharpening page"><br><b>Ridgeback Sharpening</b>, a $40 first visit. From kinfolk.com.</td>
+    <td width="33%"><img src="media/readme/page-one-liner.png" alt="A piano practice plan page"><br><b>A practice-plan tool</b>, a $35 pre-order, from one sentence. From basecamp.com.</td>
   </tr>
 </table>
 
@@ -169,7 +172,7 @@ Seven recipes are plain JavaScript. Five load [Motion](https://motion.dev) from 
 skills/first-dollar/     the skill: SKILL.md, references, templates, motion recipes,
                          and the two bundled scripts (no npm install needed)
 src/                     the lint rules and browser checks the scripts are built from
-test/                    269 tests, with failing and passing fixtures for the rules
+test/                    343 tests, with failing and passing fixtures for the rules
 evals/                   the six cases, every page built for them, and the scores
 scripts/readme-media.mjs rebuilds every image on this page from evals/
 ```

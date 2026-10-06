@@ -16,12 +16,7 @@ const results = JSON.parse(await readFile(path.join(root, 'evals', 'results.json
 const run = (c, a) => results.runs.find((r) => r.case === c && r.arm === a);
 
 const HERO_CASE = 'high-ticket-loi';
-const GALLERY = [
-  ['high-ticket-loi', 'teenage.engineering'],
-  ['one-liner', 'basecamp.com'],
-  ['b2b-pilot', 'planetscale.com'],
-  ['local-service', 'kinfolk.com'],
-];
+const GALLERY = ['b2b-pilot', 'consumer-preorder', 'high-ticket-loi', 'low-ticket-app', 'local-service', 'one-liner'];
 const MOTION = ['mechanism-sequence', 'split-line-reveal', 'pinned-mask-reveal', 'stroke-draw', 'spring-settle', 'ring-fill'];
 
 const browser = resolveBrowser();
@@ -145,7 +140,7 @@ for (const [name, t] of Object.entries(THEMES)) {
 }
 
 // 3. The gallery: first-dollar pages only (no third-party screenshots in this repo).
-for (const [c] of GALLERY) await shoot(path.join(runs, c, 'first-dollar'), path.join(out, `page-${c}.png`));
+for (const c of GALLERY) await shoot(path.join(runs, c, 'first-dollar'), path.join(out, `page-${c}.png`));
 
 // 4. Motion: the recipe recordings as looping GIFs, cropped to where the motion happens.
 // Frames where most of the picture changes are scrolls and are left out of the box.
