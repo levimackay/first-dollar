@@ -1,0 +1,160 @@
+:root {
+  --primary: #1a1a1a;
+  --neutral: #fafafa;
+  --surface: #eaeaea;
+  --ink: #1a1a1a;
+  --ink-muted: #5c5c5c;
+  --line: #d7d7d7;
+  --accent: #f35815;
+  --accent-hover: #d94a0b;
+  --on-accent: #000000;
+  --focus: #0b6ec5;
+  --font-display: "Overpass Mono", monospace;
+  --font-text: "Radio Canada", sans-serif;
+  --fd-ground: var(--neutral);
+  --fd-ink: var(--ink);
+  --fd-accent: var(--accent);
+  --fd-font-display: var(--font-display);
+  --fd-font-text: var(--font-text);
+  --u: 8px;
+  --radius-button: 2px;
+  --section-tight: 48px;
+  --section-wide: 96px;
+}
+* { box-sizing: border-box; }
+html { background: var(--neutral); }
+body {
+  margin: 0; background: var(--neutral); color: var(--ink);
+  font-family: var(--font-text); font-size: 17px; line-height: 1.6;
+  font-variant-ligatures: none; -webkit-text-size-adjust: 100%;
+  accent-color: var(--accent); caret-color: var(--accent);
+  scrollbar-color: var(--line) var(--neutral);
+}
+::selection { background: var(--ink); color: var(--neutral); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+a { color: var(--ink); text-underline-offset: 0.2em; }
+.wrap { max-width: 1090px; margin: 0 auto; padding: 0 24px; }
+.mono { font-family: var(--font-display); }
+
+.need { font: inherit; color: var(--ink); text-decoration: underline 0.08em; text-underline-offset: 0.18em;
+  padding: 0.1em 0.35em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* nav */
+.nav { padding: 32px 0 0; font-family: var(--font-display); font-size: 15px; font-weight: 400; }
+.nav .wrap { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.nav .mark { font-weight: 700; text-decoration: none; letter-spacing: 0; white-space: nowrap; }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0; flex-wrap: wrap; }
+.nav li + li::before { content: "|"; color: var(--line); padding: 0 12px; }
+.nav li a { text-decoration: none; white-space: nowrap; }
+.nav li a:hover { text-decoration: underline; }
+
+/* hero */
+.hero { padding: 64px 0 0; }
+.hero h1 {
+  position: relative; margin: 0 0 32px; padding-left: 0;
+  font-family: var(--font-display); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -0.02em;
+  max-width: 24em; text-wrap: balance;
+}
+.hero h1::before { content: ""; position: absolute; left: -16px; top: 0.12em; bottom: 0.12em; width: 3px; background: var(--accent); }
+.hero p { margin: 0 0 24px; max-width: 62ch; padding-left: 0; text-wrap: pretty; font-size: 18px; }
+.ask-row { padding-left: 0; margin-top: 32px; }
+.commit {
+  display: inline-block; background: var(--accent); color: var(--on-accent);
+  font-family: var(--font-display); font-weight: 700; font-size: 16px; line-height: 1.2;
+  padding: 14px 20px; min-height: 48px; border-radius: var(--radius-button); text-decoration: none;
+  letter-spacing: 0; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.commit:hover { background: var(--accent-hover); }
+.commit .need { color: var(--on-accent); }
+
+/* sections */
+.sec { padding-top: var(--section-tight); }
+.divider { margin: var(--section-tight) 0 0; font-family: var(--font-display); color: var(--ink); overflow: hidden; white-space: nowrap; line-height: 1; letter-spacing: 0; }
+.divider::before { content: "........................................................................................................................................................................................................"; }
+h2.sh {
+  display: inline-block; margin: 0 0 24px; font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.2;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; text-wrap: balance;
+}
+.sec p { margin: 0 0 20px; max-width: 62ch; text-wrap: pretty; }
+ul.list { list-style: none; margin: 0 0 24px; padding: 0 0 0 8px; max-width: 62ch; }
+ul.list li { position: relative; padding-left: 24px; margin: 0 0 12px; }
+ul.list li::before { content: "*"; position: absolute; left: 0; font-family: var(--font-display); }
+h3.sub { margin: 32px 0 12px; font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.25; }
+
+/* table mock */
+.grid-box { border: 1px solid var(--ink); margin-top: 48px; }
+.mock { margin: 0; overflow-x: clip; }
+.mock table { width: 100%; border-collapse: collapse; font-family: var(--font-display); font-size: 15px; line-height: 1.4; font-variant-numeric: tabular-nums; table-layout: fixed; }
+.mock th, .mock td { text-align: left; padding: 16px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 400; overflow: clip; }
+.mock th:last-child, .mock td:last-child { border-right: 0; }
+.mock thead th { background: var(--surface); font-weight: 700; border-bottom: 1px solid var(--ink); }
+.mock td.n, .mock th.n { text-align: right; }
+.mock tr.total td { font-weight: 700; border-bottom: 0; border-top: 1px solid var(--ink); }
+.mock .cell { display: block; }
+.mock .flag { color: var(--on-accent); font-weight: 700; padding: 2px 8px; display: inline-block; }
+.mock tr.short td { font-weight: 700; }
+
+/* quote */
+.quote { margin: 0; padding: 0 0 0 16px; border-left: 1px solid var(--line); max-width: 62ch; }
+.quote p { margin: 0 0 8px; font-size: 18px; }
+.quote cite { display: block; font-style: normal; font-family: var(--font-display); font-size: 15px; color: var(--ink-muted); }
+.quote-wrap { padding-top: 48px; }
+
+/* diagram */
+.tabbox { border: 1px solid var(--ink); margin-top: 0; }
+.tabbox .tabs { display: flex; border-bottom: 1px solid var(--ink); font-family: var(--font-display); font-size: 15px; }
+.tabbox .tabs span { padding: 12px 20px; }
+.tabbox .tabs .on { background: var(--ink); color: var(--neutral); font-weight: 700; }
+.tabbox .body { padding: 32px 24px; }
+.tabbox .body p { margin: 0 0 24px; }
+.diagram { margin: 32px 0 0; display: grid; grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr) 48px minmax(0, 1fr); align-items: center; font-family: var(--font-text); font-size: 16px; line-height: 1.4; }
+.box { border: 1px solid var(--ink); padding: 16px; min-height: 112px; background: var(--neutral); }
+.box.dbl { border: 3px double var(--ink); }
+.box.fill { background: var(--surface); }
+.box b { display: block; margin-bottom: 8px; font-family: var(--font-display); font-size: 15px; }
+.arrow { text-align: center; font-family: var(--font-display); font-size: 15px; white-space: nowrap; }
+.arrow::before { content: "- - >"; letter-spacing: 0; }
+
+/* footer */
+.footer { margin-top: var(--section-wide); padding: 32px 0 48px; border-top: 1px solid var(--line); font-size: 15px; }
+.footer .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer h4 { margin: 0 0 8px; font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer li { margin-bottom: 4px; }
+.footer p { margin: 0 0 8px; color: var(--ink-muted); max-width: 62ch; }
+.footer .legal { font-family: var(--font-text); font-size: 15px; color: var(--ink-muted); }
+
+/* legal pages */
+.legal-page { padding: 64px 0; }
+.legal-page h1 { font-family: var(--font-display); font-size: 28px; margin: 0 0 24px; }
+
+@media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
+  .nav { padding-top: 24px; }
+  .hero { padding-top: 40px; }
+  .hero h1 { font-size: 30px; }
+  .hero h1::before { left: -10px; }
+  .hero p { font-size: 17px; }
+  .commit { font-size: 15px; padding: 14px 16px; }
+  h2.sh { font-size: 19px; }
+  .mock table { font-size: 13px; }
+  .mock th, .mock td { padding: 12px 8px; }
+  .mock .col-line { display: none; }
+  .diagram { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .arrow { padding: 8px 0; }
+  .arrow::before { content: "|\Av"; white-space: pre; }
+  .tabbox .body { padding: 24px 16px; }
+  .footer .cols { grid-template-columns: minmax(0, 1fr); }
+  .divider { margin-top: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* armed motion (signature, runs once) */
+.flag { position: relative; isolation: isolate; background: transparent; }
+.flag::before { content: ""; position: absolute; inset: 0; background: var(--accent); z-index: -1; }
+.mock[data-armed] .cell { transform: translateY(calc(100% + 12px)); }
+.mock[data-armed] .flag::before { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .mock[data-armed] .cell { transform: none; }
+  .mock[data-armed] .flag::before { opacity: 1; }
+}

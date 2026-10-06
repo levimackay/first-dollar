@@ -1,18 +1,15 @@
-# PLACEHOLDERS
-
-Blocks deploy first.
-
-1. Checkout link. Stripe Payment Link for the $40 deposit. Founder. index.html (three buttons: hero, black bar, closing band) `href="[NEED: checkout link]"`. BLOCKS.
-2. Refund terms. Founder. index.html closing band, og.html, terms.html. BLOCKS.
-3. Legal business name and payment processor. Founder. index.html closing band, terms.html, privacy.html. BLOCKS.
-4. Kill number and date. Founder, in BRIEF.md (a suggestion is written there, unconfirmed). Not on the page.
-5. What happens to deposits if the van never runs. Founder. index.html questions list, terms.html. BLOCKS (money term).
-6. First visit window. Founder. index.html "What the $40 does" band, terms.html. BLOCKS.
-7. Service area, towns. Founder. index.html questions list, terms.html.
-8. Price list per item. Founder. index.html "What goes in the van" head.
-9. Founder name and one line of history. Founder. index.html founder section.
-10. Contact email. Founder. index.html closing band, terms.html, privacy.html.
-11. Site address for og:image. Founder. index.html meta og:image.
-12. Privacy: what is stored, and deletion route. Founder. privacy.html.
-13. "Founder review before publishing" on privacy.html and terms.html.
-14. Photos (founder supplies, all hatched slots in index.html): hero cover, driveway, knives, scissors, mower blade, equipment band, mower statement band, founder portrait, closing knife edge.
+# PLACEHOLDERS (deploy blockers first)
+1. Checkout link (founder, a Stripe Payment Link). BLOCKS. index.html:29, index.html:92 (both asks), index.html:105 (bar).
+2. Refund terms and refund window (founder). BLOCKS. index.html:93, terms.html, .first-dollar/og.html:27.
+3. Legal business name and payment processor (founder). BLOCKS. index.html:93, privacy.html, terms.html.
+4. First visit date, and what happens if the van is not ready (founder). BLOCKS. index.html:93, terms.html.
+5. Prices per knife, per pair of scissors, per mower blade (founder). BLOCKS. index.html:39-41.
+6. Kill number and date (founder, BRIEF.md). Not on the page.
+7. Founder name (founder). index.html:53.
+8. Town or service area (founder). index.html:25, index.html:98.
+9. Contact email (founder). index.html:102, privacy.html, terms.html.
+10. Data collected (founder). privacy.html.
+11. Founder photo: the founder at the grinder, workshop, side light, 3:4. index.html:51.
+12. Equipment photo: the sharpening equipment on the bench, window light, 3:4. index.html:86.
+13. Site address for og:image (founder). index.html:10.
+14. Founder review of privacy.html and terms.html before publishing. privacy.html, terms.html.

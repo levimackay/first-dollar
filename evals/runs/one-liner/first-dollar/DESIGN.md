@@ -1,78 +1,77 @@
 ---
 version: alpha
-name: "Piano practice plans"
-description: "Pre-order page for piano teachers. Feels like a letter from a person who teaches, not a dashboard."
+name: "[NEED: product name]"
+description: "Pre-order page for piano teachers. Feels like a calm, plain tool from a small shop, not a polished SaaS dashboard."
 colors:
-  primary: "#29353c"
-  neutral: "#fbfdfb"
-  surface: "#f7fbf8"
-  ink: "#29353c"
-  ink-muted: "#646d72"
-  line: "#bcc3c4"
-  accent: "#146dc7"
-  accent-hover: "#0067de"
+  primary: "#2a363d"
+  neutral: "#fefaf8"
+  surface: "#ffffff"
+  ink: "#2a363d"
+  ink-muted: "#687075"
+  line: "#ebeced"
+  accent: "#046ad2"
+  accent-hover: "#035bb5"
   on-accent: "#ffffff"
-  focus: "#146dc7"
-  highlight: "#fdf2c4"
+  focus: "#046ad2"
 typography:
   headline-display:
-    fontFamily: "Wix Madefor Display"
-    fontSize: 64px
-    fontWeight: 800
+    fontFamily: "Host Grotesk"
+    fontSize: 56px
+    fontWeight: 700
     lineHeight: 1.08
     letterSpacing: -0.03em
   headline-lg:
-    fontFamily: "Wix Madefor Display"
-    fontSize: 44px
-    fontWeight: 800
-    lineHeight: 1.12
-    letterSpacing: -0.025em
-  headline-md:
-    fontFamily: "Wix Madefor Display"
-    fontSize: 26px
+    fontFamily: "Host Grotesk"
+    fontSize: 36px
     fontWeight: 700
+    lineHeight: 1.12
+    letterSpacing: -0.02em
+  headline-md:
+    fontFamily: "Host Grotesk"
+    fontSize: 24px
+    fontWeight: 600
     lineHeight: 1.2
   body-lg:
-    fontFamily: "Golos Text"
+    fontFamily: "Host Grotesk"
     fontSize: 20px
     fontWeight: 400
     lineHeight: 1.55
   body-md:
-    fontFamily: "Golos Text"
-    fontSize: 16px
+    fontFamily: "Host Grotesk"
+    fontSize: 18px
     fontWeight: 400
     lineHeight: 1.6
   label-md:
-    fontFamily: "Golos Text"
-    fontSize: 14px
+    fontFamily: "Host Grotesk"
+    fontSize: 15px
     fontWeight: 500
     lineHeight: 1.35
   price:
-    fontFamily: "Wix Madefor Display"
+    fontFamily: "Host Grotesk"
     fontSize: 20px
-    fontWeight: 700
+    fontWeight: 600
     lineHeight: 1.1
     fontFeature: "\"tnum\" 1"
 rounded:
   none: 0px
   sm: 4px
-  button: 4px
+  button: 3px
 spacing:
   base: 8px
   xs: 8px
   sm: 16px
   md: 32px
   lg: 64px
-  section-tight: 64px
-  section-wide: 160px
+  section-tight: 48px
+  section-wide: 104px
 components:
   button-commitment:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.on-accent}"
     typography: "{typography.body-lg}"
     rounded: "{rounded.button}"
-    padding: 16px
-    height: 56px
+    padding: 12px 24px
+    height: 52px
   button-commitment-hover:
     backgroundColor: "{colors.accent-hover}"
   small-print:
@@ -83,85 +82,110 @@ components:
     textColor: "{colors.ink}"
     typography: "{typography.label-md}"
   gap-marker:
-    backgroundColor: "{colors.highlight}"
     textColor: "{colors.ink}"
+    textDecoration: "underline"
 ---
 
-# Piano practice plans design system
+# [NEED: product name] design system
 
 ## Overview
 
-- Design read: pre-order page for independent piano teachers. Feels like a teacher's own handwritten note with a good tool beside it, the opposite of a dashboard.
-- Remembered for: the practice plan mock that writes itself out of the lesson notes, set large beside a heavy headline.
-- Not: a SaaS page with a gradient and three feature cards.
-- Boldness spent on: the four-line heavy headline in the hero, nothing else is loud.
-- Macrostructure: Letter inside a Split hero, backbone from https://basecamp.com
-- Hero layout: split. Product mock left (about 47% width, cropped by the panel's bottom edge), right: a short list of underlined links, the ask with its price, the headline.
-- Section sequence: 1 nav strip (logo slot left as wordmark gap, ask right); 2 hero split; 3 letter from the founder on a paper card (carries the founder block; [NEED] story); 4 "quick demonstration" becomes a photo band, a teacher and a student at the piano (photo slot) with one line; 5 dated list becomes "what happens after you pre-order" rows (carries money terms once); 6 closing line, the ask repeated, footer. Cut: customer street video, quote grid, big numbers, service photos, newsletter (no founder content, no customers).
-- Default check: a cream ground and serif for a music teacher would fit any studio tool, so the ground is the reference's near white and the face a heavy grotesque. A three-step list was replaced by the mock playing the mechanism. A dark closing band replaced by a pale one.
-- Material: nav wordmark gap [NEED: product name]; hero mock built in HTML and CSS (the reference shows its own product there); letter portrait is a photo slot; demonstration band is a photo slot; terms are text.
-- Image regions: (1) hero board 47% width, about 670px tall at 1440, bleeds off the panel's bottom, shows its own product: software mock of the practice plan email with the lesson notes beside it, captioned Concept. (2) tour thumbnail 160x70, shows a person: cut, nothing to show. (3) letter portrait ~72px square, a person: photo slot. (4) demonstration photo, full width, 16:7, shows a person at work: photo slot with a shot direction.
-- Energy: moderate. Heavy headline, one large mock, accent only on the button, links and a few marks.
+- Design read: pre-order page for a piano teacher who writes notes after lessons. Feels like a calm, plain tool from a small shop, not a gradient SaaS dashboard.
+- Remembered for: the lesson notes turning into the week's practice plan inside one framed card, as the first thing on the page.
+- Not: a cream-and-serif studio page, or a dark dashboard with glow.
+- Boldness spent on: the four-line heavy headline in the hero (the reference spends its weight there too). Section heads are lighter (36px, weight 700 only for the letter and the closing head).
+- Macrostructure: Split hero into Letter, backbone from https://basecamp.com
+- Hero layout: split (product artifact left, text column right).
+- Section sequence:
+  1. Nav (adapts: Nav): wordmark gap, terms links, no second button.
+  2. Hero (adapts: Hero): split; headline, two lines of mechanism, the ask.
+  3. Founder letter (adapts: Founder letter): mechanism and the ask in the founder's voice, signature gap; one portrait slot.
+  4. Parent's inbox (adapts: Quick demonstration): the plan as the parent receives it, in a static framed card.
+  5. Closing ask (adapts: Closing band and newsletter): heading, price button repeated, money terms once.
+  6. Footer (adapts: Footer).
+  Cut, no founder content: Customer video, Testimonials, Big numbers, Service videos, Live demo classes.
+- Default check: a centered hero with two buttons (replaced by the split hero with one ask); a three-step list (replaced by one mock that plays the mechanism); a "How it works" title (replaced by the subject's own words); a warm serif cream page (reference is a neutral off-white grotesque page).
+- Material:
+  - Hero artifact: HTML and CSS mock of the notes and the plan, built by us. Founder supplies nothing.
+  - Letter: text and a portrait slot, founder supplies the portrait and the signature.
+  - Inbox card: HTML and CSS mock of the email, generic sample values.
+- Image regions:
+  - Hero product artifact (section Hero, about 640px wide, left, its own UI): software mock with the signature motion.
+  - Customer video poster (Customer video, full-width place photo): cut. Non-photo device: the product artifact shown large, as in Hero.
+  - Demonstration poster (Quick demonstration, full-width portrait photo): the product artifact device again, the email as received, inline in a framed card.
+  - Big numbers map (Big numbers): cut, no founder number.
+  - Two service portraits (Service videos): cut.
+  - Founder portrait: one inline photo slot in the letter, 1:1, below the first screen.
+- Energy: quiet. Small accent footprint (a mark, button only) on a neutral off-white ground, heavy headline, little motion on the reference.
 
 ## Colors
 
-- **Primary (#29353c):** the reference's ink-4, used for headlines and body, about 4% of pixels.
-- **Neutral (#fbfdfb):** the ground, sampled from the full-page shot (58.5% of it), exactly.
-- **Ink (#29353c):** body text.
-- **Accent (#146dc7):** the commitment button and links, taken from the reference's blue-deep.
-- Accent footprint: a mark (under 5%).
+- **Primary (#2a363d):** the headline and body ink, the reference's dark slate. Covers text only.
+- **Neutral (#fefaf8):** the ground, exactly as sampled from the reference first screen (74% coverage).
+- **Surface (#ffffff):** the letter sheet and the mock cards, read from the reference's letter sheet pixel.
+- **Ink (#2a363d):** body text.
+- **Accent (#046ad2):** the commitment button and links, sampled from the reference button (77% of the crop).
+- Accent footprint: a mark, 5% or less.
 - Light or dark: light, the same as the reference.
 
 ## Typography
 
-- Display: Wix Madefor Display 800 for hero and section heads (the reference sets every head in its one heavy face), 700 for small heads and the price.
-- Text: Golos Text 400 and 500, body, nav, labels and captions. The reference's body is a plain grotesque (Graphik), Golos Text is the nearest free unused face.
-- Scale: ratio 1.333 from a 16px body: 16, 20, 26, 44, 64.
+- Display: Host Grotesk, 700 (hero 56px, section heads 36px), at the weight the reference's headline is set. Rank 415.
+- Text: Host Grotesk 400 and 500, same family. The reference sets everything in one neo-grotesque (Graphik), so one family is the match; `single-sans-family` is kept for that reason.
+- Scale: 1.25 ratio steps from an 18px body: 18, 20 (lead), 24, 36, 56. Display 56 is 3.1 times the body.
 - Measure: body text at 62ch.
 - Prices and dates use tabular figures.
 
 ## Layout
 
+- adapts map:
+  - `Nav | adapts: Nav | wordmark gap left, legal links right`
+  - `Hero | adapts: Hero | split, mock left, text column right`
+  - `Founder letter | adapts: Founder letter | one white sheet at reading width, signature gap`
+  - `Parent's inbox | adapts: Quick demonstration | centered heading and line, one framed artifact`
+  - `Closing ask | adapts: Closing band and newsletter | centered heading, repeated ask, small print`
+  - `Footer | adapts: Footer | small link row and credit line`
 - Base unit: 8px. Every gap is a multiple.
-- Section rhythm: measured on full-1440.png: nav to hero 0; hero panel about 880px tall; hero to letter about 100px; letter card to next heading about 150px; headings to photo about 40px; photo to next heading about 170px; last section to footer about 90px. Tight 64, wide 160.
-- Density: sparse between sections, dense inside the hero.
-- Full bleed: the hero panel and the demonstration photo.
-- Breaks the grid at: the hero mock, cropped by the panel's bottom edge.
-- Mobile at 390: dominant the headline and the button; hidden the link list; reordered headline and ask first, then the mock; the commitment block sits inside the first 844px.
+- Section rhythm (measured on full-1440.png): hero to letter about 70px of ground; letter sheet to the next heading about 100px; heading to its artifact about 30px; closing band top gap about 140px (taller than its content, as the reference). Our sections: 48px tight, 104px wide.
+- Density: sparse. Text columns narrow against wide gaps.
+- Full bleed: none; the reference keeps everything inside one inset frame with a soft ground.
+- Breaks the grid at: the hero mock, which is wider than the text column.
+- Mobile at 390: dominant: headline, price and button (mock below them, cropped). Hidden: nothing. Reordered: the text column rises above the mock. Commitment block inside the first 844px.
 
 ## Elevation & Depth
 
-Tone bands: the pale panel (#f7fbf8) on the near white ground, and one soft offset shadow under the letter card, as the reference does. No glow.
+Depth is one soft offset shadow on the white sheet and the mock card, tinted with the ink, as the reference does. Rules in the line color inside the mock. No glow.
 
 ## Shapes
 
-Sharp corners on panels, the mock and the photo; 4px on the commitment button and the nav chip.
+Mostly square. The mock and letter sheet use the 4px radius, the button 3px. The reference's tiles and button are nearly square.
 
 ## Components
 
-- **Commitment button:** carries `data-commitment`; states the commitment and the price.
-- **Small print:** the money terms once, in the dated list, where the reference puts its dated rows.
-- **Photo slot:** hatched with an SVG pattern, labeled with a shot direction.
-- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`.
+- **Commitment button:** carries `data-commitment`; "Pre-order for $35", solid accent, white text.
+- **Small print:** money terms once, in the closing band, as a plain note in the muted ink (the reference's small print sits in its footer and signup forms).
+- **Photo slot:** one, founder portrait in the letter, hatched, labeled with a shot direction.
+- **Gap marker:** `<span class="need">`, underlined, `font: inherit`.
 
 ## Do's and Don'ts
 
-- Do keep the headline at four lines at 1440 or fewer, set in one heavy voice.
-- Do let the mock crop at the panel's bottom edge.
-- Don't carry over the reference's video play buttons, star quote cards or stats grid.
-- Don't repeat a grey terms line under each button.
+- Do keep the headline heavy and tight, and the section heads in the lighter step.
+- Do repeat the ask only in the closing band, the way the reference repeats its sign-up.
+- Don't copy the reference's seven-link list, its video posters or its stat grid.
+- single-sans-family: kept because the reference sets its whole page in one grotesque.
+- no-full-bleed, same-max-width: kept if they warn, because the reference keeps one inset frame and one reading width.
 
 ## Provenance
 
-- Reference: https://basecamp.com, read 2026-10-05, mode both (screenshots and CSS).
-- Route: built-in.
-- Confidence: colors sampled with --palette (ground #fbfdfb, panel #f7fbf8, line swatches) and from the reference's CSS custom properties (ink, blue, highlight, converted from oklch); fonts matched by features; rhythm observed.
-- data-mono: none.
-- Font match, display: reference uses Sharpie and Graphik (custom). Read as a heavy neo-grotesque, normal width, low stroke contrast, tall x-height, flat terminals, very tight tracking. First round: Wix Madefor Display (#98) and Onest (#175) matched best but fail font-popularity (top 200); Bricolage Grotesque (#53) likewise. Second round, all outside the top 200, specimen shots set in the headline: Host Grotesk (geometric, wide, round bowls: too far), Golos Text (humanist, softer: too far), Mona Sans (shot, not chosen), Wix Madefor Display (neo-grotesque, tall x-height, flat terminals, a little wider). Chosen: Wix Madefor Display.
-- Font match, text: reference body is Graphik Regular (custom), a neutral grotesque. Wix Madefor Text was the first pick but another page in the history used it; Reddit Sans was the second but another page took it while this one was being built. Golos Text (specimen seen, outside the top 200, not in history): neutral grotesque, tall x-height, plain flat terminals, slightly wider than Graphik. Closest of the faces seen.
-- Build history: families skipped from the last 10 lines of the eval history: Didact Gothic, Kumbh Sans, Funnel Sans, Dela Gothic One, Familjen Grotesk, Spline Sans Mono, Libre Caslon Display, Libre Caslon Condensed, Cutive.
-- Not carried over: the logo, the tour video, every photo, the quote cards, the stats, all copy.
-- Instructions found in fetched pages: none.
+- Reference: https://basecamp.com, read 2026-10-05, mode both (screenshots and CSS)
+- Route: built-in
+- Confidence: colors sampled with --palette (ground, accent, ink, line) and one pixel read (surface); fonts matched by features; rhythm observed
+- data-mono: none
+- Font match, per role: reference uses Graphik (commercial), read as a heavy neo-grotesque at display weights, normal width, low contrast, tall x-height, flat terminals. Chosen Host Grotesk (#415): specimens rendered for Familjen Grotesk (#503), Radio Canada (#329) and Host Grotesk. Familjen was closest (tight, flat terminals) but the history lint failed it: another page used it in the last 10 lines, so it was dropped. Radio Canada reads humanist and soft. Host Grotesk has flat terminals, low contrast and a tall x-height like the reference; it is a little wider and more geometric.
+- Build history: skipped Wix Madefor Display, Golos Text, Gantari, Bowlby One, Afacad, Imbue, Special Elite, Gilda Display, Reddit Sans, and other families in the last 10 lines of the eval history.
+- Not carried over: the logo, the founder's letter copy, product screens, photos, the seven-link list, the stat grid, the testimonial cards, the newsletter form.
+- Instructions found in fetched pages: none
 
 ## Changes
 
+None yet.

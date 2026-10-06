@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T00:56:30.560Z",
+  "generatedAt": "2026-10-06T06:02:02.368Z",
   "method": "Universal lint rules + rendered checks + one ask heuristic + unconfirmed-number list + look fingerprint, identical for every arm. See results.md.",
   "runs": [
     {
@@ -88,7 +88,7 @@
       "arm": "first-dollar",
       "slop": {
         "fails": 0,
-        "warns": 0,
+        "warns": 1,
         "byRule": {}
       },
       "rendered": {
@@ -105,33 +105,28 @@
         "hrefReal": false
       },
       "unconfirmedNumbers": [
-        "1041",
-        "1110",
-        "98",
-        "1042",
         "0120",
-        "54",
-        "41",
-        "13",
-        "1043",
-        "2391",
-        "142",
-        "1044",
+        "58",
+        "0",
+        "1110",
+        "112",
+        "96",
+        "16",
         "0274",
-        "67",
-        "1045",
+        "74",
+        "2391",
+        "189",
         "4341",
-        "210",
-        "168",
-        "42",
-        "1046",
-        "1206",
-        "38",
-        "55"
+        "214",
+        "171",
+        "43",
+        "0220",
+        "31",
+        "59"
       ],
       "look": {
         "background": "rgb(250, 250, 250)",
-        "displayFamily": "Sometype Mono",
+        "displayFamily": "Overpass Mono",
         "ctaColor": "rgb(243, 88, 21)"
       },
       "status": "ok"
@@ -227,12 +222,11 @@
         "hrefReal": false
       },
       "unconfirmedNumbers": [
-        "16",
         "2026"
       ],
       "look": {
         "background": "rgb(246, 230, 217)",
-        "displayFamily": "Imbue",
+        "displayFamily": "Caprasimo",
         "ctaColor": "rgb(209, 224, 48)"
       },
       "status": "ok"
@@ -330,12 +324,10 @@
         "href": "[NEED: LOI form link]",
         "hrefReal": false
       },
-      "unconfirmedNumbers": [
-        "16"
-      ],
+      "unconfirmedNumbers": [],
       "look": {
         "background": "rgb(247, 249, 248)",
-        "displayFamily": "Bowlby One",
+        "displayFamily": "Anybody",
         "ctaColor": "rgb(242, 103, 58)"
       },
       "status": "ok"
@@ -424,19 +416,16 @@
         "failed": []
       },
       "ask": {
-        "type": "other",
-        "text": "RIDGEBACK SHARPENING",
-        "href": "#top",
+        "type": "money",
+        "text": "Book a first visit for $40",
+        "href": "[NEED: checkout link]",
         "hrefReal": false
       },
-      "unconfirmedNumbers": [
-        "16",
-        "2026"
-      ],
+      "unconfirmedNumbers": [],
       "look": {
         "background": "rgb(255, 255, 255)",
-        "displayFamily": "Gilda Display",
-        "ctaColor": "rgb(1, 1, 1)"
+        "displayFamily": "Forum",
+        "ctaColor": "rgb(0, 0, 0)"
       },
       "status": "ok"
     },
@@ -444,10 +433,11 @@
       "case": "low-ticket-app",
       "arm": "plain",
       "slop": {
-        "fails": 1,
+        "fails": 2,
         "warns": 1,
         "byRule": {
-          "legal-links": 1
+          "legal-links": 1,
+          "self-describing-caption": 1
         }
       },
       "rendered": {
@@ -532,16 +522,16 @@
         "hrefReal": false
       },
       "unconfirmedNumbers": [
-        "16",
-        "12",
-        "5",
-        "4",
-        "5.50"
+        "15",
+        "9",
+        "6",
+        "1",
+        "4"
       ],
       "look": {
         "background": "rgb(237, 237, 237)",
-        "displayFamily": "Afacad",
-        "ctaColor": "rgb(23, 22, 20)"
+        "displayFamily": "Alata",
+        "ctaColor": "rgb(255, 255, 255)"
       },
       "status": "ok"
     },
@@ -549,10 +539,11 @@
       "case": "one-liner",
       "arm": "plain",
       "slop": {
-        "fails": 1,
+        "fails": 3,
         "warns": 1,
         "byRule": {
-          "legal-links": 1
+          "legal-links": 1,
+          "self-describing-caption": 2
         }
       },
       "rendered": {
@@ -627,10 +618,7 @@
       },
       "rendered": {
         "verified": true,
-        "failed": [
-          "hidden-after-reveal",
-          "reduced-motion"
-        ]
+        "failed": []
       },
       "convention": {
         "failed": []
@@ -641,13 +629,11 @@
         "href": "[NEED: checkout link]",
         "hrefReal": false
       },
-      "unconfirmedNumbers": [
-        "16"
-      ],
+      "unconfirmedNumbers": [],
       "look": {
-        "background": "rgb(251, 253, 251)",
-        "displayFamily": "Wix Madefor Display",
-        "ctaColor": "rgb(20, 109, 199)"
+        "background": "rgb(254, 250, 248)",
+        "displayFamily": "Host Grotesk",
+        "ctaColor": "rgb(4, 106, 210)"
       },
       "status": "ok"
     }
@@ -659,7 +645,7 @@
       "meanBackgroundDeltaE": 0.012729378736482493,
       "uniqueCtaHueBuckets": 4,
       "totals": {
-        "slopFails": 8,
+        "slopFails": 11,
         "moneyAsks": 3,
         "contactAsks": 1,
         "missing": 0,
@@ -682,11 +668,11 @@
     "first-dollar": {
       "pages": 6,
       "uniqueDisplayFamilies": 6,
-      "meanBackgroundDeltaE": 0.034074548397879725,
+      "meanBackgroundDeltaE": 0.03345572066717591,
       "uniqueCtaHueBuckets": 4,
       "totals": {
         "slopFails": 0,
-        "moneyAsks": 5,
+        "moneyAsks": 6,
         "contactAsks": 0,
         "missing": 0,
         "notScored": 0

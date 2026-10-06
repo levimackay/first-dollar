@@ -1,41 +1,31 @@
 # BRIEF
 
-Source of every fact: the founder's case file (low-ticket-app.md), "case" below.
+Thesis: College students sharing a rental house will pay $36 to settle their shared groceries once a month in a phone app, for a pre-paid first year.
 
-Thesis: College students sharing a rental house will pay $36 up front for a first year of Halves, an app that settles who owes whom for shared groceries once a month. (case: Who buys, Ask and price)
+Ask: Pre-order, a pre-paid first year of Halves for $36. (Price row: under $100, self-serve, so a pre-order of the first period. Source: founder case file, "Ask and price".)
+Button: "Pre-order for $36". Link: [NEED: checkout link].
 
-Workaround today: not stated by the founder. The problem quote implies nobody pays the person who bought; the workaround is `[NEED: how roommates settle groceries today]`.
+Kill number: [NEED: kill number and date]. Suggestion only, not agreed: fewer than 5 of the first 100 students sharing a rental house who visit pre-order by a date the founder sets.
 
-## The ask
-Pre-order of the first year, $36, paid up front. Button: "Pre-order for $36". Under $100 and self-serve, so commitment.md's first row. (case: "a pre-paid first year for $36")
-
-## Kill number
-`[NEED: kill number and date]`. Suggestion only, until the founder agrees: fewer than 5 of the first 100 student renters who visit pre-order within 30 days, stop or change the idea.
+Workaround today: nobody pays back the person who bought the toilet paper (founder's words). Whether a group chat or a spreadsheet is the real workaround: [NEED: current workaround].
 
 ## The four answers
-1. Who buys: college students sharing a rental house. (case)
-2. Problem, their words: "Someone always ends up buying the toilet paper and nobody pays them back." (case)
-3. Ask and price: pre-paid first year, $36. (case)
-4. Real so far: a clickable prototype. Nothing in the app stores. (case) No people, evidence, photos or logo given.
+1. Who buys: college students sharing a rental house. (founder, "Who buys")
+2. Problem, in their words: "Someone always ends up buying the toilet paper and nobody pays them back." (founder, "Problem in their words")
+3. Ask and price: pre-paid first year for $36. (founder, "Ask and price")
+4. Real so far: a clickable prototype. Nothing in the app stores. (founder, "Real so far")
+
+## Product facts from the founder
+- Name: Halves.
+- What it does: roommates log shared groceries; it settles who owes whom once a month. Phone app.
 
 ## Reference
-https://www.thelightphone.com (founder's chosen reference, case: Reference). Shots in .first-dollar/reference/www.thelightphone.com/.
-
-## NEED list
-- checkout link
-- legal business name, contact email, payment processor
-- refund terms, refund window
-- delivery: when the app reaches phones, `[NEED: launch date]`; whether iPhone, Android or both
-- what happens if it never ships
-- where the money is held
-- founder name, photo, history
-- how roommates settle groceries today
-- kill number and date
-- whether Halves handles photos of receipts, item prices, split by item or evenly: only the prototype's real behavior may be described. `[NEED: what the prototype actually does]`
-
-## Flags (commitment.md)
-- "Real so far: nothing in the app stores": the page must say the prototype is clickable and nothing saves yet. Charging a year ahead for software that does not store data is the biggest trust question; refund terms matter most.
+https://www.thelightphone.com (founder, "Reference"). Backbone in .first-dollar/reference/www.thelightphone.com.
 
 ## Decided without the founder
-- Eval run, no stops. Reference was supplied, so no pick needed.
-- Kill number left as NEED with a marked suggestion.
+- Nothing to stop on at stage 3: the founder gave a reference.
+- Flag: a pre-paid year for an app that stores nothing yet. The page must say the prototype does not save anything (a fact the founder gave). Refund terms and ship date are the founder's.
+- The kill number above is a suggestion and stays one.
+
+## [NEED] list
+- checkout link; refund terms; refund window; refund route; ship/launch date; what happens if it never ships; where the money is held; legal business name; payment processor; contact email; founder name and one line of history; kill number and date; proof beyond the prototype; current workaround; site address; platforms (iPhone, Android or both); how many roommates per house the app handles.

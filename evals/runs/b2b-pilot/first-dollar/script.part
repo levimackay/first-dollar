@@ -1,0 +1,50 @@
+<script>
+(function () {
+  var fig = document.querySelector('[data-fd-mock]');
+  if (!fig || !fig.animate || !('IntersectionObserver' in window)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  var HIDE = 'translateY(calc(100% + 12px))';
+  var rows = fig.querySelectorAll('tr[data-line]');
+  var total = fig.querySelector('tr.total');
+  var flags = fig.querySelectorAll('.flag');
+  if (!rows.length) return;
+  var anims = [];
+  var done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    fig.removeAttribute('data-armed');
+    anims.forEach(function (a) { a.cancel(); });
+  }
+  function at(el, frames, delay, duration, extra) {
+    var o = { delay: delay, duration: duration, easing: EASE, fill: 'both' };
+    for (var k in extra) o[k] = extra[k];
+    anims.push(el.animate(frames, o));
+  }
+  function writeIn(row, delay) {
+    Array.prototype.forEach.call(row.querySelectorAll('.cell'), function (c, j) {
+      at(c, { transform: [HIDE, 'none'] }, delay + j * 70, 700);
+    });
+  }
+  function play() {
+    var ok = false;
+    try {
+      var STEP = 560;
+      Array.prototype.forEach.call(rows, function (r, i) { writeIn(r, i * STEP); });
+      var readEnd = rows.length * STEP + 400;
+      Array.prototype.forEach.call(flags, function (f, i) {
+        at(f, { opacity: [0, 1] }, readEnd + i * 450, 500, { pseudoElement: '::before', easing: 'linear' });
+      });
+      if (total) writeIn(total, readEnd + flags.length * 450 + 300);
+      Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+      ok = true;
+    } finally { if (!ok) finish(); }
+  }
+  fig.setAttribute('data-armed', '');
+  new IntersectionObserver(function (e, io) {
+    if (!e[0].isIntersecting) return;
+    io.disconnect(); play();
+  }, { threshold: 0, rootMargin: '0px 0px -25% 0px' }).observe(fig);
+})();
+</script>

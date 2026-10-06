@@ -1,0 +1,13 @@
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div><h4>Tidemark</h4><ul><li><a href="#mechanism">Mechanism</a></li><li><a href="#pilot">The pilot</a></li><li><a href="#fit">Who it is for</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><span class="need">[NEED: contact email]</span></li></ul></div>
+    </div>
+    <p class="legal">Tidemark is not built yet. This page tests whether practices will pay for it.</p>
+  </div>
+</footer>
+</body>
+</html>

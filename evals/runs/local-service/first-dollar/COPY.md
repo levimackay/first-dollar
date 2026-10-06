@@ -1,58 +1,66 @@
 # COPY
-Thesis: Homeowners in a small Idaho town who cook and keep a lawn will pay $40 to book a first visit from a van that sharpens knives, scissors and mower blades in their driveway.
-Workaround today: an hour's drive to the nearest sharpener, or dull blades.
+Thesis: A homeowner in a small Idaho town who cooks and keeps a lawn will pay a $40 deposit to book a first visit from a van that sharpens kitchen knives, scissors and mower blades in their driveway.
+Workaround today: drive an hour to the nearest place that sharpens anything (BRIEF.md, problem quote).
 
 ## Spine
-- Promise: knives, scissors and mower blades sharpened without the hour's drive.
-- Mechanism: a mobile van sharpens in the customer's driveway. A $40 deposit books the first visit and comes off the bill.
-- Proof: the founder owns the sharpening equipment. No van yet, said plainly. Other proof: [NEED: proof, e.g. founder's sharpening history].
-- Action: Book a first visit for $40. Charged today. Deposit applied to the bill. Refunds: [NEED: refund terms].
+- Promise: knives, scissors and mower blades sharpened in your driveway, with no hour's drive.
+- Mechanism: pay a $40 deposit to book a first visit. The van parks at your house. The deposit comes off the bill.
+- Proof: the founder owns the sharpening equipment. No van yet. Nothing else: `[NEED: proof]` for anything more (years sharpening, work shown, a neighbor who agreed to be named).
+- Action: "Book a first visit for $40." Deposit applied to the bill. Charge, refund and first-visit date terms are `[NEED: ...]`.
 
 ## Headlines
-- Outcome: "Sharpened in your driveway." (chosen: cold traffic that has not named the problem yet; deck carries the three things)
-- Pain: "The nearest sharpener is an hour away." (used lower on the page, as the buyer's own words)
-- Mechanism: "A van, a grinder and your driveway."
-Chosen H1: SHARPENED IN YOUR DRIVEWAY / Knives, scissors and mower blades, brought to the house.
+| Angle | Line |
+|---|---|
+| Outcome | RIDGEBACK SHARPENING / Sharpened in your driveway. |
+| Pain | The nearest place that sharpens anything is an hour away. |
+| Mechanism | A van parks at your house and sharpens it all. |
+Chosen: Outcome in the hero, set as a caps name line plus a sentence, the reference's own two-line pattern. Pain is the founder's own sentence, so it runs large lower on the page. Cold traffic has not named the problem yet, so the outcome leads.
 
-## Blocks
-- Hero links: Book a first visit for $40 | What we sharpen
-- Bar: A $40 deposit books your first visit and comes off the bill.
-- What we sharpen: Kitchen knives. Scissors. Mower blades. Price list: [NEED: price per item].
-- Mechanism band: Book with a $40 deposit. The van pulls into your driveway. The $40 comes off your bill. The van is not on the road yet.
-- Problem statement (large): The nearest place that sharpens anything is an hour away. Caption: In a homeowner's words.
-- Founder: [NEED: founder name] owns the sharpening equipment. There is no van yet. [NEED: founder history]
-- Closing: Book a first visit. $40 deposit applied to the bill.
-- Questions list: where we drive [NEED: service area]; when [NEED: first visit window]; who it is for: a homeowner who cooks and keeps a lawn; if the van never runs [NEED: what happens to deposits].
+## Blocks (laid onto the reference's sequence in stage 6)
+- Hero: RIDGEBACK SHARPENING / Sharpened in your driveway. "A van that sharpens kitchen knives, scissors and mower blades at your house." Book a first visit for $40. A link to the visit section.
+- What the van sharpens: "Kitchen knives, scissors and mower blades." Price per item: `[NEED: price per knife]`, `[NEED: price per pair of scissors]`, `[NEED: price per mower blade]`.
+- The equipment: THE EQUIPMENT IS OWNED / "[NEED: founder name] owns the sharpening equipment. The van comes next." Portrait slot.
+- A first visit: "Book with the $40 deposit. The van parks in your driveway and your blades get sharpened. The $40 comes off the bill." Steps: Booked, Sharp, Paid.
+- The hour: "The nearest place that sharpens anything is / AN HOUR AWAY"
+- The deposit: FIRST VISIT, DEPOSIT, Applied to the bill, $40. Small print once: who charges, when, refunds, first visit date.
 
 ## Objections
 | Objection | Answer | Placement |
 |---|---|---|
-| What happens to my money? | Charged today, applied to the bill, [NEED: refund terms], [NEED: legal entity] via [NEED: processor] | Closing band, once |
-| When do I get it? | [NEED: first visit window] | Questions list |
-| What if it never ships? | [NEED: what happens to deposits] | Questions list |
-| Why pay now? | No founder reason given. Nothing shown. | none |
-| Who is behind this? | [NEED: founder name], equipment owned, no van yet | Founder section |
-| Is it for me? | A homeowner who cooks and keeps a lawn | Questions list |
+| What happens to my money? | $40, applied to the bill. Who charges and refund terms: `[NEED: ...]` | Small print under the price, once |
+| When do I get it? | `[NEED: first visit date]` | With the money terms |
+| What if the van never comes? | `[NEED: what happens if the van is not ready]` | With the money terms |
+| Why pay now? | No real reason given, so nothing | none |
+| Who is behind this? | `[NEED: founder name]`, owns the equipment, no van yet | Founder section |
+| Is it for someone like me? | A homeowner in a small Idaho town who cooks and keeps a lawn. Town: `[NEED: town or service area]` | Hero line and footer |
 
 ## Legal pages
-Legal entity, contact, payment processor, refund terms, data collected (name, address, payment): all [NEED].
+privacy.html and terms.html: legal entity `[NEED: legal business name]`, contact `[NEED: contact email]`, payment processor `[NEED: payment processor]`, refund terms `[NEED: refund terms]`, data collected: whatever the checkout collects, `[NEED: data collected]`. Both start with `[NEED: founder review before publishing]`.
 
 ## Customer language
-| Phrase | Source | Date |
+| phrase | source | date |
 |---|---|---|
-| "The nearest place that sharpens anything is an hour away." | founder's case file, "Problem in their words" | 2026-10-05, provisional, one person |
+| "The nearest place that sharpens anything is an hour away." | founder's case notes (not a stranger's quote; shown unattributed) | 2026-10-05 provisional |
+Fewer than 5 phrases: an anecdote, not a pattern.
 
 ## Placeholders
-checkout link (blocks), price (set: $40), refund terms (blocks), legal entity (blocks), service area, first visit window, price list, founder name, photos.
+| marker | who supplies | blocks deploy |
+|---|---|---|
+| checkout link | founder (Stripe Payment Link) | yes |
+| refund terms, legal business name, payment processor | founder | yes |
+| first visit date | founder | yes |
+| prices per item | founder | yes |
+| founder name, town or service area, contact email | founder | no |
+| founder photo, equipment photo | founder | no |
 
 ## Audit
-| Fact | Source line in BRIEF.md |
+| fact | source line in BRIEF.md |
 |---|---|
-| Ridgeback Sharpening | Product name (case file) |
-| Knives, scissors, mower blades, driveway, van | Idea |
-| $40 deposit, applied to the bill, first visit | Ask and price |
-| Idaho, cooks, keeps a lawn | Who buys |
-| An hour away | Problem |
-| Owns equipment, no van yet | Real so far |
+| Name: Ridgeback Sharpening | Product name |
+| $40 deposit, applied to the bill | Ask and price |
+| Kitchen knives, scissors, mower blades | Idea |
+| Driveway visit by van | Idea |
+| Owns the equipment, no van yet | Real so far |
+| Nearest place is an hour away | Problem in their words |
 Does the page state any fact the founder did not give? No.
-Three things that could read as generated: the stacked caps title, the repeated ask, thin sections. Fixed by plain admissions (no van yet) and uneven lengths.
+Three things that could read as generated: the caps-plus-sentence pairing repeated (it is the reference's pattern, kept to the hero and two bands), a three-step list (kept as one pinned list, once), a quiet admission line (kept plain, once).

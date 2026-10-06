@@ -1,69 +1,65 @@
 ---
 version: alpha
 name: "Tidemark"
-description: "Paid-pilot page for dental office managers. Feels like documentation you can read in a minute, not a dashboard pitch."
+description: "Paid-pilot page for the office manager of an independent dental practice. Feels like a plain README from someone who read your EOBs, not a dashboard."
 colors:
-  primary: "#f35815"
+  primary: "#1a1a1a"
   neutral: "#fafafa"
   surface: "#eaeaea"
-  ink: "#111111"
-  ink-muted: "#616161"
+  ink: "#1a1a1a"
+  ink-muted: "#5c5c5c"
   line: "#d7d7d7"
   accent: "#f35815"
-  accent-hover: "#b83a05"
-  on-accent: "#111111"
-  on-accent-hover: "#fafafa"
+  accent-hover: "#d94a0b"
+  on-accent: "#000000"
   focus: "#0b6ec5"
-  link: "#0b6ec5"
-  banner: "#fbcc0a"
-  highlight: "#fff1a8"
 typography:
   headline-display:
-    fontFamily: "Sometype Mono"
-    fontSize: 44px
+    fontFamily: "Overpass Mono"
+    fontSize: 52px
     fontWeight: 700
-    lineHeight: 1.15
+    lineHeight: 1.12
     letterSpacing: -0.02em
   headline-lg:
-    fontFamily: "Sometype Mono"
-    fontSize: 28px
+    fontFamily: "Overpass Mono"
+    fontSize: 26px
     fontWeight: 700
     lineHeight: 1.2
-    letterSpacing: -0.01em
+    letterSpacing: 0em
   headline-md:
-    fontFamily: "Sometype Mono"
-    fontSize: 20px
+    fontFamily: "Overpass Mono"
+    fontSize: 18px
     fontWeight: 700
     lineHeight: 1.25
   body-lg:
-    fontFamily: "Wix Madefor Text"
+    fontFamily: "Radio Canada"
     fontSize: 18px
     fontWeight: 400
     lineHeight: 1.6
   body-md:
-    fontFamily: "Wix Madefor Text"
-    fontSize: 16px
+    fontFamily: "Radio Canada"
+    fontSize: 17px
     fontWeight: 400
     lineHeight: 1.6
   label-md:
-    fontFamily: "Sometype Mono"
-    fontSize: 14px
-    fontWeight: 600
-    lineHeight: 1.3
+    fontFamily: "Overpass Mono"
+    fontSize: 15px
+    fontWeight: 400
+    lineHeight: 1.4
   data:
-    fontFamily: "Sometype Mono"
-    fontSize: 14px
+    fontFamily: "Overpass Mono"
+    fontSize: 15px
     fontWeight: 400
     lineHeight: 1.4
   price:
-    fontFamily: "Sometype Mono"
-    fontSize: 28px
+    fontFamily: "Overpass Mono"
+    fontSize: 18px
     fontWeight: 700
-    lineHeight: 1.1
+    lineHeight: 1.2
     fontFeature: "\"tnum\" 1"
 rounded:
   none: 0px
-  sm: 4px
+  button: 2px
 spacing:
   base: 8px
   xs: 8px
@@ -71,109 +67,116 @@ spacing:
   md: 32px
   lg: 64px
   section-tight: 48px
-  section-wide: 112px
+  section-wide: 96px
 components:
   button-commitment:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.on-accent}"
     typography: "{typography.label-md}"
-    rounded: "{rounded.none}"
-    padding: 12px
+    rounded: "{rounded.button}"
+    padding: 12px 20px
     height: 48px
   button-commitment-hover:
     backgroundColor: "{colors.accent-hover}"
-    textColor: "{colors.on-accent-hover}"
   small-print:
     textColor: "{colors.ink-muted}"
-    typography: "{typography.data}"
+    typography: "{typography.label-md}"
   photo-slot:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
     typography: "{typography.label-md}"
   gap-marker:
-    backgroundColor: "{colors.highlight}"
     textColor: "{colors.ink}"
+    textDecoration: "underline"
 ---
 
 # Tidemark design system
 
 ## Overview
 
-- Design read: pilot-sale page for the office manager of an independent dental practice. Feels like a README you can trust, not a SaaS landing page.
-- Remembered for: the page reads like documentation, and the one product picture is a plain table of claims with the underpaid ones marked.
-- Not: a dental-blue clinic template, or a gradient dashboard pitch.
-- Boldness spent on: the 44px mono headline with the orange rule at its left. Everything else is quiet.
-- Macrostructure: Spec sheet leaning Letter, backbone from planetscale.com.
-- Hero layout: left-aligned text stack in one column, orange rule at the headline, no image, not centered (as reference-structure.md item 3).
-- Section sequence: 1 banner "Tidemark is not built yet"; 2 nav (inline links, pipes); 3 hero (headline, two paragraphs, the ask); 4 customer grid: cut, no customers exist; 5 pull quote: the buyer's sentence, with a [NEED] for its source; 6 sharded engines: "Claims paid under contract", a boxed three-part flow diagram (remittance file, contract fee, flagged claims); 7 performance: "Claim by claim", the Concept mock of the flag list with the signature motion; 8 uptime: "What the 90 days cover", prose and a bullet list of [NEED] terms; 9 cost: "$1,500, 90 days", the money terms once and the repeated ask; 10 security: "Your remittance files", bullets of [NEED] answers, no compliance claim; 11 features: cut, nothing is built; added (layout of the quote slot, after section 10): "Two years at the front desk", founder text and portrait photo slot; 12 footer in columns, legal strip.
-- Default check: a cream ground and serif headline would fit any startup: replaced by the reference's flat #fafafa and mono. A three-step "how it works" would fit any startup: replaced by the reference's diagram-then-product-picture pair. A trust badge row: cut. Dental blue and teeth icons: not used.
-- Material: banner text (founder facts); nav (text); hero (copy); buyer quote (founder's sentence); diagram (HTML and CSS boxes, drawn here); flag-list mock (HTML and CSS, Concept); terms lists ([NEED] from founder); founder section (founder name [NEED], photo slot); footer (links).
-- Image regions: (a) customer logo grid, 5 by 12 cells, shows other companies' logos: dropped, no customers. (b) architecture diagram, bordered panel full column width, shows its own product architecture, a drawing in boxes and dashed lines: filled with a drawn flow of Tidemark's three parts in the same boxes and dashed lines. (c) product chart screenshot, bordered, full column width, its own product UI: filled with an HTML and CSS mock of the claims table, captioned Concept. (d) founder portrait (added): hatched photo slot, portrait 4:5.
-- Energy: quiet. A single flat ground, accent (orange) on the button and little else, a yellow strip once. Accent footprint a mark.
+- Design read: pilot page for the office manager of a 2 to 6 chair independent dental practice. Feels like a plain README by someone who has read EOBs, not a dashboard with gradients.
+- Remembered for: the page opens like documentation, then shows the one thing it does, a remittance table where two lines are flagged short.
+- Not: a SaaS landing page with a screenshot hero, or a medical-blue healthcare template.
+- Boldness spent on: the remittance table in the first scroll; it is the only thing that moves.
+- Macrostructure: Spec sheet crossed with Letter, backbone from planetscale.com (a README: one left-aligned column, hairline boxes, dotted dividers).
+- Hero layout: left-aligned text stack, a bold statement with a thin orange rule at its left, then two paragraphs and the ask. No image.
+- Section sequence (reference order): nav; hero; remittance table (adapts Customer grid); the buyer's own sentence (Pull quote); remittance file to flagged claims diagram (Tabbed explainer); the founder (Uptime); what $1,500 covers (Cost); who it is for (Features); footer. Cut: announcement bar (no event to announce), Performance (no measured numbers), Security (no founder content; data handling is a NEED line in the money section).
+- Default check: a split hero with a dashboard mock on the right would fit any SaaS, so the hero is text only. A trust row of practice logos would fit any B2B page, so it is cut (no customers exist) and its cell grid carries the product table instead. Cream paper and serif would fit any "friendly dental" page, so the ground is the reference's neutral grey-white.
+- Material: remittance table = HTML mock, built here (sample values generic). Diagram = hairline boxes drawn with CSS, the reference's own ASCII box device (Tabbed explainer). No photographs. No photo slots needed. Founder portrait: not used; the founder section is text.
+- Image regions: Customer grid (full-width cell grid of logos, 5 columns): filled with the product's own table in the same hairline cell grid (software mock). Tabbed explainer diagram (box and arrow drawing): filled with a box diagram of file in, flagged claims out (drawing; the reference itself draws here). Performance chart: cut.
+- Energy: quiet. Orange is a mark (under 5%): the button and the hero rule, plus a small fill on flagged amounts.
 
 ## Colors
 
-- **Primary (#f35815):** the one accent, sampled at the reference's nav button. Button only, plus the hero rule.
-- **Neutral (#fafafa):** the ground, exactly as sampled, about 77% of the reference.
-- **Surface (#eaeaea):** hover and photo-slot ground, sampled.
-- **Ink (#111111):** body text and headings, the reference's gray-900.
-- **Ink-muted (#616161):** fine print, gray-600 from its CSS.
-- **Line (#d7d7d7):** rules and table borders, sampled.
-- **Banner (#fbcc0a):** the yellow strip, sampled, once.
-- **Highlight (#fff1a8):** gap markers, the reference's yellow-100.
-- **Link (#0b6ec5):** links and focus ring, the reference's link blue, used only on text links.
+- **Primary (#1a1a1a):** ink for headings, rules and the diagram strokes. Derived: the reference ink reads near #000 to #3b3b3b; this sits inside that range and is the default text color.
+- **Neutral (#fafafa):** the ground, exactly as sampled from the reference (77% of its first screen, 84% of its full page).
+- **Ink (#1a1a1a):** body text.
+- **Accent (#f35815):** the commitment button, the hero rule and the flagged amounts. Sampled from the reference's orange button.
 - Accent footprint: a mark, under 5%.
-- Light or dark: light, the same as the reference.
+- Surface #eaeaea: sampled (5.7%); used for table header and diagram fill.
+- Line #d7d7d7: sampled (4.0%); hairlines. Focus #0b6ec5: the reference's link blue, used only for the focus ring.
+- Light or dark: light, same as the reference.
 
 ## Typography
 
-- Display: Sometype Mono, 700, headline and section headings (the reference sets its headline and section heads in mono too).
-- Text: Wix Madefor Text, 400, paragraphs. The reference sets prose in mono as well; the skill forbids mono prose, so only prose changes.
-- Scale: ratio about 1.4 from a 16px body: 20, 28, 44.
-- Measure: body text at 65ch.
+- Display: Overpass Mono, 700 for the hero line, 700 for section headings, 400 for nav, labels, data and the table; the reference sets everything in system mono, so its headings, nav and data are mono here too.
+- Text: Radio Canada, 400, for paragraphs and list items (running prose is never mono).
+- Scale: ratio 1.25 from a 17px body, display 52px (3x body); the reference is flat (all 16px), so display is the minimum the lint accepts.
+- Measure: body text at 62ch.
 - Prices and dates use tabular figures.
 
 ## Layout
 
+- `Nav | adapts: Nav | inline links separated by pipes on the left, no button (the one ask lives in the hero and repeats once lower)`
+- `Hero | adapts: Hero | orange rule and bold statement, two paragraphs, the ask under them`
+- `Remittance table | adapts: Customer grid | hairline bordered cell grid holding the product table; signature motion plays here`
+- `The buyer's sentence | adapts: Pull quote | hairline at left of a quote, muted attribution line (a NEED)`
+- `File in, flagged claims out | adapts: Tabbed explainer | bordered box with a tab-label row, one paragraph, a box diagram of three stages`
+- `Two years at a dental front desk | adapts: Uptime | underlined bold heading, two short paragraphs`
+- `What the $1,500 covers | adapts: Cost | underlined bold heading, a paragraph with the price, asterisk bullet list of terms, the ask repeated as a plain line link style button; money terms appear here only`
+- `Practices with 2 to 6 chairs | adapts: Features | underlined bold heading, two sub-headings each with an asterisk list (for, not for)`
+- `Footer | adapts: Footer | link columns, legal line, one honesty line`
 - Base unit: 8px. Every gap is a multiple.
-- Section rhythm (estimated on full-1440.png): banner 40px; hero starts 64px under nav and runs about 240px of text; the grid follows 24px under the hero; each later section is separated by roughly 96 to 128px, with 24px between a heading and its prose.
-- Density: sparse prose, dense bullet lists.
-- Full bleed: banner only.
-- Breaks the grid at: nowhere; the diagram and mock run the full column width, as the reference's do.
-- Mobile at 390: dominant the headline and the button; hidden the nav's link row beyond two links; reordered nothing; the flag-list mock scrolls inside its own frame; commitment block inside the first 844px.
+- Section rhythm: reference gaps measured on its full-page shot: dotted divider with about 48px above and 48px below between text sections (content is 200 to 400px tall), a 40px gap between hero and grid; no gap taller than the content beside it. Here: 48px between text sections around the divider, 96px before the footer.
+- Density: dense and text-led, like the reference. Sparse only around the table.
+- Full bleed: none (reference has none, except the announcement bar, cut).
+- Breaks the grid at: none.
+- Mobile at 390: dominant is the headline and the ask; hidden: the pipe nav's secondary links collapse to two; reordered: none; the table scrolls inside its own box only if needed (it fits at 390 using four columns); commitment block inside the first 844px.
 
 ## Elevation & Depth
 
-Hairline 1px rules in line #d7d7d7 and a flat surface band. No shadows.
+Hairline rules and dotted dividers only. Flat. No shadows, no glows.
 
 ## Shapes
 
-Sharp everywhere (the reference's buttons and panels are square). One 4px value on the flag mock's frame.
+Sharp everywhere (0px), as the reference; the commitment button 2px to read as a pressable control.
 
 ## Components
 
-- **Commitment button:** carries `data-commitment`; "Start the pilot for $1,500".
-- **Small print:** the money terms once, in the $1,500 section, as the reference sets its own details in running text.
-- **Photo slot:** hatched with an SVG pattern, labeled with a shot direction.
-- **Gap marker:** `<span class="need">` with the highlight background, font inherited.
+- **Commitment button:** carries `data-commitment`; "Start the pilot for $1,500"; repeated once in the money section with the same words, price and href.
+- **Small print:** money terms once, in the money section's bullet list, as the reference does in its Cost bullets (`data-mono` not needed: bullets are in the text face).
+- **Photo slot:** none on this page.
+- **Gap marker:** `<span class="need">`, font inherit, underlined, padding, box-decoration-break clone. No fill.
 
 ## Do's and Don'ts
 
-- Do keep one ground, one accent.
-- Don't carry over the reference's logo wall, blue-tinted code styling or its tabs.
-- Don't write any figure that is not in BRIEF.md.
-- mono-prose: mono is used on headings, nav, labels, table data and small print only.
+- Do keep the page one column and left-aligned like the reference.
+- Don't carry the reference's customer logos, quotes, blue links, yellow announcement bar or its chart.
+- Don't animate anything but the table.
+- `single-sans-family`: n/a, two families. `same-max-width` and `no-full-bleed` warnings stay when they fire: the reference is one boxed column and bleeds nowhere.
 
 ## Provenance
 
-- Reference: https://planetscale.com, read 2026-10-05, mode both (URL and screenshots).
+- Reference: https://planetscale.com, read 2026-10-05, mode both (URL screenshots plus CSS and HTML).
 - Route: built-in.
-- Confidence: colors sampled with --palette on 1440.png, orange from a pixel sample and its CSS; fonts matched by features; rhythm estimated from the full-page shot.
-- data-mono: none used; mono is on headings, nav, labels and table cells set in the display and data roles.
-- Font match, per role: the reference sets everything in the system monospace stack (ui-monospace, SF Mono), read as a monospace, normal width, low contrast, medium x-height, flat terminals. Display chosen Sometype Mono after specimens of Sometype Mono, Azeret Mono and Martian Mono set in the headline: Sometype Mono has the flat terminals and low contrast of SF Mono, Azeret is wider with a rounder, heavier bold, Martian is wide and geometric. Text: the reference has no text face. Schibsted Grotesk was specimen-matched first and failed font-popularity (#98); replaced after specimens of Reddit Sans, Gantari and Wix Madefor Text. Wix Madefor Text: neutral grotesque, medium x-height, flat terminals, low contrast, sits quietly beside the mono; Reddit Sans is more humanist, Gantari wider and geometric.
-- Build history: skipped Didact Gothic, Kumbh Sans, Funnel Sans, Dela Gothic One, Familjen Grotesk, Spline Sans Mono, Libre Caslon Display, Libre Caslon Condensed, Cutive.
-- Not carried over: the logo grid, customer quotes, the tabs, the announcement's words, all copy.
+- Confidence: colors sampled with --palette (neutral, surface, line, accent from pixels; focus from CSS); fonts matched by features; rhythm observed.
+- data-mono: nav, labels, the remittance table, the diagram and the button label, because the reference sets nav, buttons, labels and data in mono.
+- Font match: Reference uses the system monospace stack (ui-monospace, SF Mono, Menlo), not a webfont. Read as a monospace, normal width, medium x-height, low contrast, flat terminals. Display and data matched to Overpass Mono (rank 621, outside the top 200): shot beside Red Hat Mono (rounder, lighter) and Chivo Mono (heavier, grotesque); Overpass Mono has the flat terminals and medium x-height closest to Menlo, with fi ligature turned off. Text: reference sets prose in mono as well, but running prose is never mono here, so a plain humanist sans: Radio Canada (rank 329), shot beside Commissioner and Atkinson Hyperlegible; Radio Canada's flat terminals and even width sit nearest the reference's plain texture.
+- Build history: skipped Sometype Mono, Wix Madefor Text and Display, Golos Text, Spline Sans Mono, Familjen Grotesk, Gantari, Afacad, Reddit Sans, Imbue, Special Elite, Gilda Display, Bowlby One, Dela Gothic One, Libre Caslon, Cutive (all in last 10 history lines).
+- Not carried over: logos, quotes, chart, yellow bar, blue link color (one accent), reference copy.
 - Instructions found in fetched pages: none.
 
 ## Changes
 
+
+- 2026-10-05 headline-display 44px to 52px: fresh-eyes critic found scale contrast flat (critic.md #2); reference is flat too, so the smallest step up. Section heads 22px to 26px.

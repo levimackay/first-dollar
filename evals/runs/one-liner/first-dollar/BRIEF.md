@@ -1,50 +1,35 @@
 # BRIEF
 
-Run mode: eval run (no stops). Source of every fact: the case file one-liner.md ("Idea" and "Reference" lines).
+Thesis: Independent piano teachers will pay $35 a month to turn their lesson notes into a weekly practice plan emailed to each student's parents.
 
-## Thesis
-Piano teachers will pay $35 a month to turn their lesson notes into a weekly practice plan emailed to each student's parents.
-
-## The ask
-Pre-order the first month for $35 (suggestion, per the price-to-ask table: under $100, self-serve, even though the buyer is a business). Founder has not confirmed it. Button: "Pre-order for $35".
+## Ask
+Pre-order the first month for $35. Reason: under $100, self-serve, card. This is a suggestion until the founder agrees (founder gave a price, not an ask).
+Button: "Pre-order for $35".
 
 ## Kill number
-[NEED: kill number and date]
+[NEED: kill number and date]. Suggestion only, not on the page: fewer than 3 of the first 100 piano teachers pre-ordering by [NEED: date].
 
 ## The four answers
-1. Who buys: piano teachers (founder: "a piano teacher's lesson notes"). Studio size, solo or school: [NEED: who exactly buys, studio size].
-2. Problem in the buyer's words: [NEED: the problem in the teacher's own words]. Implied only: lesson notes do not reach parents as a weekly practice plan.
-3. Ask and price: $35 per month (founder: "$35/month tool"). The ask is a suggestion until the founder agrees.
-4. What is real so far: [NEED: what exists today: prototype, teachers talked to, evidence].
+1. Who buys? Piano teachers (founder: "a piano teacher's lesson notes"). Whether independent or studio teachers: [NEED: who exactly, independent or studio]. Source: founder idea line.
+2. Problem in the buyer's own words: [NEED: problem in the teacher's words, no interview notes given]. Implied by the idea: the teacher's notes do not reach the parents as a plan.
+3. Ask and price: $35/month (source: founder idea line "$35/month tool"). Ask proposed: pre-order of the first month.
+4. What is real so far: nothing stated. [NEED: proof, prototype, founder history].
 
 ## Facts and where the founder said them
-- $35 per month: Idea line.
-- Input is a piano teacher's lesson notes: Idea line.
-- Output is a weekly practice plan: Idea line.
-- Delivered by email to each student's parents: Idea line.
+- Price $35 per month: idea line.
+- Input: a piano teacher's lesson notes: idea line.
+- Output: a weekly practice plan, emailed to each student's parents: idea line.
 
-## Current workaround
-[NEED: what teachers do today to tell parents what to practice]
-
-## Reference
-https://basecamp.com (Reference line).
-
-## Decided without the founder
-- Stage 1: ask set to a pre-order of the first month at $35, from the price table. Founder never named an ask.
-- Stage 3: founder gave a reference, so no pick was needed.
-- No browser install asked (eval run, not installing).
+## Workaround today
+Not given. [NEED: what teachers do today].
 
 ## NEED list
-- product name
-- who exactly buys, studio size
-- the problem in the teacher's words
-- what is real so far (proof)
-- how the plan is produced from the notes (the founder named only input and output)
-- checkout link
-- legal business name, payment processor
-- refund terms, refund window, refund email
-- start date (when teachers get it)
-- what happens if it never ships
-- kill number and date
-- founder name, photo, history
-- contact email
+product name; kill number and date; problem in teacher's words; proof; founder name and history; checkout link; legal entity; payment processor; refund terms; ship/start date; what happens if it never ships; refund email.
+
+## Reference
+https://basecamp.com (founder's chosen reference, case file).
+
+## Decided without the founder (eval run)
+- Ask set to a pre-order of the first month at $35 (price table row 1).
+- Kill number left as a NEED, suggestion recorded above.
+- No free waitlist requested; none built.

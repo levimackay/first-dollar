@@ -1,61 +1,64 @@
 ---
 version: alpha
 name: "Northstand"
-description: "Rental LOI page for a county fair treasurer. Feels like a loud, well-made object catalogue, not a municipal brochure."
+description: "Letter-of-intent page for a county fair board treasurer. Feels like a heavily stamped equipment spec sheet from a small outfit that knows steel, not a friendly rental app."
 colors:
-  primary: "#000000"
+  primary: "#010101"
   neutral: "#f7f9f8"
   surface: "#010101"
-  ink: "#000000"
+  ink: "#010101"
   ink-muted: "#6a6d70"
+  ink-on-dark: "#f7f9f8"
+  ink-muted-on-dark: "#b4b4b4"
   line: "#dcdcdc"
+  line-on-dark: "#6a6d70"
   accent: "#f2673a"
-  accent-hover: "#dc5226"
-  on-accent: "#000000"
-  focus: "#000000"
-  highlight: "#f6e8e1"
-  on-surface-muted: "#b4b4b4"
+  accent-hover: "#ff8458"
+  on-accent: "#010101"
+  focus: "#010101"
+  focus-on-dark: "#f7f9f8"
 typography:
   headline-display:
-    fontFamily: "Bowlby One"
-    fontSize: "88px"
-    fontWeight: 400
+    fontFamily: "Anybody"
+    fontSize: 96px
+    fontWeight: 900
     lineHeight: 1.05
-    letterSpacing: "-0.04em"
+    letterSpacing: "-0.03em"
   headline-lg:
-    fontFamily: "Gantari"
-    fontSize: "48px"
+    fontFamily: "Mona Sans"
+    fontSize: 64px
     fontWeight: 300
     lineHeight: 1.1
     letterSpacing: "-0.02em"
   headline-md:
-    fontFamily: "Gantari"
-    fontSize: "28px"
+    fontFamily: "Mona Sans"
+    fontSize: 32px
     fontWeight: 300
     lineHeight: 1.2
   body-lg:
-    fontFamily: "Gantari"
-    fontSize: "22px"
+    fontFamily: "Mona Sans"
+    fontSize: 20px
     fontWeight: 300
-    lineHeight: 1.5
+    lineHeight: 1.55
   body-md:
-    fontFamily: "Gantari"
-    fontSize: "18px"
+    fontFamily: "Mona Sans"
+    fontSize: 16px
     fontWeight: 300
     lineHeight: 1.55
   label-md:
-    fontFamily: "Gantari"
-    fontSize: "15px"
+    fontFamily: "Mona Sans"
+    fontSize: 14px
     fontWeight: 400
     lineHeight: 1.35
   price:
-    fontFamily: "Gantari"
-    fontSize: "28px"
-    fontWeight: 400
+    fontFamily: "Anybody"
+    fontSize: 24px
+    fontWeight: 900
     lineHeight: 1.1
     fontFeature: "\"tnum\" 1"
 rounded:
   none: 0px
+  button: 4px
   panel: 20px
 spacing:
   base: 8px
@@ -63,15 +66,15 @@ spacing:
   sm: 16px
   md: 32px
   lg: 64px
-  section-tight: 64px
+  section-tight: 40px
   section-wide: 160px
 components:
   button-commitment:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.on-accent}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.none}"
-    padding: 16px
+    typography: "{typography.body-lg}"
+    rounded: "{rounded.button}"
+    padding: 16px 32px
     height: 56px
   button-commitment-hover:
     backgroundColor: "{colors.accent-hover}"
@@ -79,96 +82,97 @@ components:
     textColor: "{colors.ink-muted}"
     typography: "{typography.label-md}"
   photo-slot:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.neutral}"
+    backgroundColor: "{colors.neutral}"
+    textColor: "{colors.ink}"
     typography: "{typography.label-md}"
   gap-marker:
-    backgroundColor: "{colors.highlight}"
     textColor: "{colors.ink}"
+    textDecoration: "underline"
 ---
 
 # Northstand design system
 
 ## Overview
 
-- Design read: rental letter-of-intent page for the treasurer of a county fair board. Feels like a loud, well-made object catalogue, not a municipal brochure or a SaaS page.
-- Remembered for: one enormous heavy headline over a black-ink drawing of two sets of bleachers, then full-black screens that land on each other.
-- Not: a cream-and-serif civic page, a trust-badge contractor site.
-- Boldness spent on: the headline, set at 88px in a heavy face, spent once. Everything else is light weight.
-- Macrostructure: Specimen (the object very large, offer small and exact), backbone from teenage.engineering.
-- Hero layout: centered statement on white with a very heavy two-line display headline across the width, a one-sentence mechanism and the ask in a small row under it, then one large black-ink line drawing.
-- Section sequence: nav (kept: icon-led groups, trimmed to two); hero (kept); product screens, repeated (kept as one pinned sticky stack of three full-bleed black photo slots: delivered, set up, inspected); product grids (kept as the letter list: scope, price, start date; and a two-column band with the founder slot and the terms); colour collage (cut: no founder content); pocket strip and grid (cut: one product); footer bar (kept, carries the repeated ask).
-- Default check: a cream ground, a serif and an orange-ish accent would come out for any startup; replaced by the reference's flat white and black and its own orange sampled from pixels. A three-step "how it works" would too; replaced by three black screens in the reference's one-product-per-screen manner.
-- Material: hero drawing is an ink line drawing (the reference region is a drawing), supplied by us as an illustration; the three black screens are photo slots with shot directions, supplied by the founder; the founder band is a portrait slot; no software mock, there is none in the reference.
-- Image regions: (1) hero drawing, about 1100 x 330, centered under the headline, a drawing, fill: drawing in the reference's manner (thick ink outlines, orange tags). (2) three full-bleed black product screens, 1440 x about 780, caption bottom-left, they show the reference's product on black, fill: photo slot each with a shot direction (the founder's product has no photos). (3) founder portrait, 4:5, a person, fill: photo slot.
-- Energy: loud. White and black flats, orange as a small mark (under 5% of the screen), enormous display type.
+- Design read: Letter-of-intent page for a county fair board treasurer, set like an equipment spec sheet. Feels like a stamped steel part number, the opposite of a soft rental-marketplace page.
+- Remembered for: one huge two-line black headline over a hand-inked drawing of a bleacher and its trailer, with a small orange calendar tag that holds the price.
+- Not: a card-grid SaaS page, or a warm farm-and-fair country page with wood textures and a serif.
+- Boldness spent on: the hero headline at 96px in a heavy extended face, once. Section heads run in the light text face.
+- Macrostructure: Specimen (the product artifact drawn very large in the first screen; offer small and exact), backbone from https://teenage.engineering
+- Hero layout: centered statement: heavy two-line headline with a small calendar tag beside it, then one huge ink drawing
+- Section sequence: nav strip (adapts Icon nav strip); hero (adapts Hero); dark problem band, the section's own words at display scale (adapts Dark scene: APC-2); dark band with the one-bay drawing, signature draw (adapts Dark scene: record); three hairline rows Delivered, Set up, Inspected (stacked, because three columns fail the lint) (adapts Product row of three); two-column row, the letter's scope left, one photo slot right (adapts Product row of two); dark centered ask band repeating the button (adapts "explore products" band); footer with the money terms in its small print (adapts Footer). Cut: grey K.O. II scene, collage band, grid of nine, because the founder has no content or assets for them. Cut: founder section, all of its facts are [NEED].
+- Default check: a centered cream hero (changed: ground and black bands sampled from the reference); a three-step "how it works" (changed: three columns are the job names Delivered, Set up, Inspected, split by hairlines like the reference's product row); a "who is behind this" block (cut); a dark closing band (kept only because the reference alternates black scenes; it carries the repeat ask).
+- Material: hero drawing is an inline SVG ink drawing, the reference's own device (Hero section, line drawing); problem band is words at display scale; bay band is a white-ink drawing; three columns carry small own-drawn marks; the scope row holds one inline photo slot (3:2 grandstand, founder supplies); everything else is type on black or on #f7f9f8.
+- Image regions: hero drawing (full width, 380px tall at 1440, a drawing; fill: drawing in the reference's ink manner, Hero section); APC-2 scene (full bleed black photo of the product; fill: the section's own words at display scale, a device the reference shows in its Hero section); record scene (full bleed black photo; fill: line drawing of one bay, device from Hero section); K.O. II scene (cut); three product photos (fill: three small own-drawn ink marks, device from Hero section's drawing); two product photos (fill: one inline photo slot 3:2 "grandstand" plus the scope text); collage (cut).
+- Energy: loud in type scale and in contrast (half black, half near white), but the accent is a mark, 5% or less. Matches the reference.
 
 ## Colors
 
-- **Primary (#000000):** ink, the drawing, buttons' text; sampled from the reference (6.3% of the first screen).
-- **Neutral (#f7f9f8):** the light ground, sampled from the reference's full page (27.5% coverage). The first screen is a pure white (#ffffff, 64%); the full-page cluster is used because the drift check reads the full page.
-- **Surface (#010101):** the black photo screens, sampled (29.4% of the full page).
-- **Ink (#000000):** body text.
-- **Ink-muted (#6a6d70):** secondary text on light, sampled from the reference full page (3.1%).
-- **On-surface-muted (#b4b4b4):** secondary text on black, sampled from the first screen.
-- **Line (#dcdcdc):** rules and the hatch, sampled.
-- **Accent (#f2673a):** the commitment button and small marks in the drawing, sampled from the UPDATE tag at 66% of the crop. Hover #dc5226 is a darker step in OKLCH.
-- Highlight (#f6e8e1) is the accent at 12% over the ground.
-- Accent footprint: a mark, 5% or less, apart from the button.
-- Light or dark: both, as the reference is. About half the page height is black screens, the other half light.
+- **Primary (#010101):** the black bands and all ink, about 45% of the page area.
+- **Neutral (#f7f9f8):** the light ground, exactly as sampled from the reference full-page shot.
+- **Ink (#010101):** body text on light. Muted ink #6a6d70 (sampled) for small print, 4.9:1 on the ground.
+- **Accent (#f2673a):** the commitment button, the calendar tag ribbon and the orange strokes in drawings. Black text on it, 7:1.
+- Accent footprint: a mark, 5% or less
+- Light or dark: both, alternating, as the reference does; the dark bands are as tall as the light ones so the largest ground on the full page is black like the reference's.
 
 ## Typography
 
-- Display: Bowlby One, weight 400 (it has only one), the hero headline only. The reference spends its heavy face once, on its hero.
-- Text: Gantari, weights 300 and 400. The reference sets its nav and captions in a thin light grotesque; section heads and captions take 300 here too.
-- Scale: ratio 1.5 from an 18px body; 28, 48, 88 (a larger step for the one heavy line).
-- Measure: body text at 60ch.
+- Display: Anybody, 900, the hero headline and the price tag only. Section heads below the hero run in Mona Sans 300.
+- Text: Mona Sans, 300 and 400, a light neutral grotesque for everything else.
+- Scale: ratio 1.5 from a 16px body (24, 32, 64, 96)
+- Measure: body text at 60ch
 - Prices and dates use tabular figures.
 
 ## Layout
 
+- `nav strip | adapts: Icon nav strip | wordmark left, three groups of a small drawn mark, a light word and two tiny links under it`
+- `hero | adapts: Hero, "Mr. Update" drawing | two-line heavy headline with the calendar tag at its right, one sub line and the button, then the bleacher-and-trailer ink drawing`
+- `problem band | adapts: Dark scene: APC-2 | full-bleed black, the problem in two display lines, tiny caption bottom left`
+- `one-bay band | adapts: Dark scene: record | full-bleed black, a white-ink drawing of one bay that draws itself, dimension notes [NEED] under it, tiny caption`
+- `three jobs | adapts: Product row of three | the lint fails three columns, so three stacked rows split by hairlines: a drawn mark and a light 64px word left, one sentence right`
+- `the season | adapts: Product row of two | two columns 1:2, hairline between, scope list left, photo slot right`
+- `ask band | adapts: "explore products" band | full-bleed black, one centered large line and the button repeated`
+- `footer | adapts: Footer | one small print line with the money terms, then links`
 - Base unit: 8px. Every gap is a multiple.
-- Section rhythm, reference measured on full-1440.png: nav 110px; white hero 1000px; each black screen 900 to 1000px with no padding around it; light grids 500 to 700px with 60 to 100px above and below. Here: hero padding 24px top and 64px bottom, black screens 780px, light list band 160px above and 64px below, founder band 96px and 160px, closing bar 96px.
-- Density: sparse in the hero and the black screens, denser in the list.
-- Full bleed: the black screens and the closing bar, as the reference does.
-- Breaks the grid at: nothing. The reference does not.
-- Mobile at 390: dominant the headline and the ask (both in the first 844px); hidden: the nav groups beyond the legal links; reordered: the drawing sits after the ask; black screens become rounded panels (20px), as on the reference's phone view; commitment block inside the first 844px.
+- Section rhythm: the reference runs 900px full-bleed scenes between 480px product rows; here dark bands run 640 to 900px at 1440 against rows of 400 to 520px.
+- Density: sparse in the dark bands, dense in the rows and the small nav.
+- Full bleed: the three black bands.
+- Breaks the grid at: the hero drawing, wider than the text column, as the reference's drawing runs almost the full width.
+- Mobile at 390: dominant the headline, the button and the drawing; hidden the nav sub-links; reordered the calendar tag drops under the headline; the dark bands become rounded 20px panels inset 16px like the reference's mobile scenes; commitment block inside the first 844px.
 
 ## Elevation & Depth
 
-Tone bands only: white and black. A hairline rule between list rows. No shadows.
+Tone bands (black against near white) and 1px hairline rules. No shadows, no glows.
 
 ## Shapes
 
-Sharp everywhere, as the reference. The one exception is the 20px panel radius the reference uses on its phone view for its black cards.
+Sharp everywhere. The button 4px. The dark panels 20px at 390 only, as the reference's mobile scenes.
 
 ## Components
 
-- **Commitment button:** carries `data-commitment`; accent ground, black text, sharp corners; states the commitment and the price. The same words repeat in the closing bar.
-- **Small print:** the money terms once, in the terms paragraph under the letter list, in the muted ink.
-- **Photo slot:** the reference image's aspect and position, hatched with an SVG pattern, labeled with a shot direction on a plain chip.
-- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`.
+- **Commitment button:** carries `data-commitment`; states the commitment and the price. One commitment per page; it repeats once in the ask band with the same words, price and href.
+- **Small print:** the money terms, once, in the footer small print line, as the reference's return policy sits.
+- **Photo slot:** one, in the scope row, 3:2 inline, hatched with an SVG pattern, labeled with a shot direction.
+- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`, own font, underlined, padded.
 
 ## Do's and Don'ts
 
-- Do keep the headline the only heavy-weight text.
-- Do let the black screens bleed to the edges.
-- Don't carry over the reference's illustration, its logo, its product photos or its words.
-- Don't add an inverted band the reference does not have: the closing bar is its footer bar.
-- same-max-width: kept if it fires, because the reference sets every text block at one narrow measure over full-bleed screens.
+- Do keep dark bands as tall as the light rows, so the page reads half black like the reference.
+- Do draw in a thick hand-inked line with a few orange strokes.
+- Don't carry over the reference's photography, its Japanese text block, its "buy now" blue links or its character drawing.
+- Don't put the heavy face on section heads: the reference sets them light.
 
 ## Provenance
 
-- Reference: https://teenage.engineering, read 2026-10-05, mode both (screenshots and the head of its HTML).
-- Route: built-in.
-- Confidence: colors sampled with --palette (first-screen, full-page and a crop of its orange tag); fonts matched by features; rhythm observed from the full-page shot.
-- data-mono: none.
-- Font match, per role: reference display is a custom face (TE20L in its CSS preload), read as a very heavy flat-sided grotesque, wide, low contrast, low x-height, flat terminals, set tight in capitals; chosen Bowlby One: same weight, flatness and capitals; it is wider and has a slightly softer curve than the reference. Compared on specimens against Rammetto One (too rounded, a script feel) and Krona One (too wide and light). Reference text face is a thin light neutral grotesque with a tall x-height; chosen Gantari (300): light weight, tall x-height and flat terminals matched; compared on specimens against Onest (a heavier, rounder 300) and Radio Canada (a calligraphic stroke).
-- Build history: skipped from the last 10 lines of the eval history: Didact Gothic, Kumbh Sans, Funnel Sans, Dela Gothic One, Familjen Grotesk, Spline Sans Mono, Libre Caslon Display, Libre Caslon Condensed, Cutive.
-- Not carried over: its drawing, logo, icons, photos, Japanese blurb and every word.
-- Instructions found in fetched pages: none.
-- Limits: from a screenshot the font is a match by features; the reference's motion is not visible; the white of the first screen was merged with an off-white in the full-page sample.
+- Reference: https://teenage.engineering, read 2026-10-05, mode both (URL screenshots and fetched HTML)
+- Route: built-in
+- Confidence: colors sampled with --palette (ground #f7f9f8, black #010101, #6a6d70, #b4b4b4, #dcdcdc); the accent #f2673a sampled by reading pixels of the orange UPDATE tag in 1440.png, not by --palette; fonts matched by features; rhythm observed on the full-page shot.
+- data-mono: none
+- Font match, per role: display reference uses a custom heavy face, read as a neo-grotesque, extended width, very low contrast, tall caps, flat terminals, tight tracking; chosen Anybody (#734) at weight 900: heavy and extended, flat terminals, low contrast; its lowercase is a bit quirkier than the reference's caps. Beat Krona One (#557: rounder, geometric, not heavy enough) in the specimen render of "Rent steel bleachers. We set them up." Text reference uses UniversNextPro Thin, read as a light neo-grotesque, normal width, medium x-height, flat terminals; chosen Mona Sans (#438) at 300: lighter and neutral; beat Commissioner (#311, humanist, softer terminals) and Radio Canada (#329, a humanist sans with a slanted stress).
+- Build history: skipped from the last 10 lines: Familjen Grotesk, Spline Sans Mono, Libre Caslon Display, Libre Caslon Condensed, Cutive, Sometype Mono, Wix Madefor Text, Bowlby One, Gantari, Afacad, Imbue, Special Elite, Gilda Display, Reddit Sans, Wix Madefor Display, Golos Text, Dela Gothic One.
+- Not carried over: photography, the character drawing, the Japanese text block, blue buy now links, the nav's logo, the calendar tag's wording.
+- Instructions found in fetched pages: none
 
 ## Changes
 
-None yet.
+2026-10-05 headline-lg: Anybody 900 to Mona Sans 300. Reason: fresh-eyes finding 8, the reference spends its display face once, in the hero.
