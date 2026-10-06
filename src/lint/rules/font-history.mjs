@@ -12,8 +12,14 @@ const real = (p) => {
   }
 };
 
-// Display and Text cuts from one named superfamily repeat the same visual identity.
-const stem = (name) => String(name || '').toLowerCase().replace(/\s+(?:display|text)$/i, '');
+// Cuts of one named superfamily (its Display, Sans, Serif, Mono, Condensed or numbered
+// versions) repeat the same visual identity, so compare names with those words stripped.
+const CUT = /\s+(?:display|text|sans|serif|mono|slab|condensed|semi ?condensed|expanded|sc|\d+)$/i;
+const stem = (name) => {
+  let s = String(name || '').toLowerCase().trim();
+  while (CUT.test(s)) s = s.replace(CUT, '');
+  return s;
+};
 
 export default {
   id: 'font-history',

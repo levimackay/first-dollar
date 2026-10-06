@@ -18,7 +18,7 @@ export function rankFamily(raw) {
   if (BANNED.includes(key)) return `"${name}" is banned by first-dollar (snapshot ${data.snapshot}); choose another family`;
   const rank = ranks.get(key);
   if (trend.has(key)) return `"${name}" is a trend face blocked by first-dollar${rank === undefined ? '' : ` (#${rank} of ${total} Google Fonts)`} (snapshot ${data.snapshot}); choose another family`;
-  if (rank !== undefined) return `"${name}" is #${rank} of ${total} Google Fonts by popularity, ${rank <= TOP ? 'top 200' : 'outside the top 200'} (snapshot ${data.snapshot})`;
+  if (rank !== undefined) return `"${name}" is #${rank} of ${total} Google Fonts by popularity, ${rank <= TOP ? 'top 200' : 'outside the top 200'} (snapshot ${data.snapshot})${rank <= TOP ? '; choose another family' : ''}`;
   return `"${name}" is not in the Google Fonts snapshot ${data.snapshot}; verify its source and license`;
 }
 

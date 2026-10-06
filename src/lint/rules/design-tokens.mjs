@@ -1,4 +1,6 @@
-import { eachDecl, resolveVars, firstFamily, parsePx, finding } from '../context.mjs';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { eachDecl, resolveVars, firstFamily, parsePx, finding, htmlFiles } from '../context.mjs';
 import { parseColor, deltaE } from '../color.mjs';
 import { readDesign } from '../design-md.mjs';
 
@@ -65,6 +67,17 @@ export default {
         }
       }
     });
+
+    // Each built section names the reference section it adapts (DESIGN.md Layout).
+    const index = htmlFiles(ctx).find((f) => path.basename(f.path) === 'index.html' && path.dirname(f.path) === ctx.root);
+    if (index) {
+      const sections = index.$('section').toArray().filter((el) => index.$(el).parents('section').length === 0).length;
+      const layout = /^##\s+Layout\b([\s\S]*?)(?=^##\s|(?![\s\S]))/m.exec(await readFile(ctx.designPath, 'utf8'))?.[1] ?? '';
+      const adapts = (layout.match(/\badapts:/gi) || []).length;
+      if (adapts < sections) {
+        out.push(finding('design-tokens', ctx.designPath, 1, `DESIGN.md Layout records ${adapts} adapts: lines for ${sections} sections in index.html; give each built section "adapts: <reference section>" from reference-structure.md`, 'warn'));
+      }
+    }
     return out;
   },
 };

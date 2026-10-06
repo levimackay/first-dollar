@@ -9,6 +9,8 @@ import { inheritedValue } from '../style-lookup.mjs';
 const PROSE_TAGS = new Set(['p', 'small', 'figcaption', 'li', 'dd', 'blockquote']);
 const EITHER_TAGS = new Set(['span', 'div']);
 const EXEMPT = new Set(['code', 'pre', 'kbd', 'samp', 'table']);
+// A table or grid built from divs carries its structure in ARIA roles; its cells are data, not prose.
+const TABULAR_ROLES = new Set(['table', 'grid', 'treegrid', 'rowgroup', 'row', 'cell', 'gridcell', 'rowheader', 'columnheader']);
 const MIN_WORDS = 6;
 const NAME_LOOKS_MONO = /mono|code|courier|consolas|menlo|monaco/i;
 const monoFamilies = new Set(
@@ -22,7 +24,7 @@ function isMonoStack(stack) {
 
 function exempt(el) {
   for (let node = el; node && node.type === 'tag'; node = node.parent) {
-    if (EXEMPT.has(node.tagName) || node.attribs?.['data-mono'] !== undefined) return true;
+    if (EXEMPT.has(node.tagName) || node.attribs?.['data-mono'] !== undefined || TABULAR_ROLES.has(node.attribs?.role)) return true;
   }
   return false;
 }

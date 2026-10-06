@@ -18,6 +18,7 @@ export const USAGE = [
   '  --allow-no-html   for a tree that is not a site',
   '',
   'Exits 0 when clean, 1 on any failure or a directory holding no HTML, 2 on a usage error.',
+  '--rank exits 1 for a banned, top-200 or trend family, else 0.',
 ].join('\n');
 
 function display(file) {
@@ -66,8 +67,9 @@ export async function main(argv) {
       console.error(USAGE);
       return 2;
     }
-    console.log(rankFamily(opts.rank));
-    return 0;
+    const verdict = rankFamily(opts.rank);
+    console.log(verdict);
+    return /choose another family$/.test(verdict) ? 1 : 0;
   }
   const dir = opts.dir || '.';
   for (const [what, p] of [['directory', dir], ['--design file', opts.design], ['--reference-text file', opts.referenceText]]) {
