@@ -1,0 +1,157 @@
+<!--
+  ring-fill: a ring that draws once to a real fraction, beside the terms.
+  Use it only when the founder supplied both numbers (pilot seats taken and
+  seats offered, units reserved and units in the batch). Without both there is
+  no ring: write a [NEED: seats taken and seats offered] marker in its place,
+  never a made-up fraction.
+  What it does: once the ring's top has risen past the lower quarter of the
+  screen it draws from twelve o'clock to the fraction, once, in one second.
+  The number beside it is static from the first frame and never counts up.
+  One SVG, no chart library.
+  How to adapt: --taken and --offered on the figure are the numbers the ring
+  draws with no script; the caption states the same two as text. The script
+  compares them and logs a console error when they differ, so the check fails
+  the page rather than ship a ring that contradicts its number. (A caption
+  written from CSS would keep one copy, but text in a ::before is missing from
+  copy and search and fails WCAG F87.) The demo's 7 of 12 and "Example
+  numbers." never ship: set the founder's numbers in both places and cut that
+  sentence, or remove the ring. Put it beside the terms, never inside the ask
+  or on its button. The script goes in its own <script type="module">. Place
+  it below the first screen: a module loads after first paint, so a ring
+  already on screen when it arrives stays drawn instead of blinking.
+  Reduced motion: nothing is armed. The ring shows the fraction on first
+  paint, the same as without JavaScript or when the library fails to load.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ring fill</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+/* A full screen of intro, so the figure starts below the fold and plays when scrolled to. */
+.fd-demo-intro { min-height: 100svh; padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 4rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 14ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-terms { display: grid; grid-template-columns: minmax(0, 32rem) auto; gap: clamp(1.5rem, 5vw, 4rem); align-items: start; padding: 0 clamp(1rem, 5vw, 4rem); }
+.fd-demo-terms h3 { font-family: var(--fd-font-display); font-weight: 400; font-size: 1.75rem; margin: 0 0 0.75rem; }
+.fd-demo-terms ul { margin: 0; padding-left: 1.1rem; }
+.fd-demo-terms li { margin-bottom: 0.4rem; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 30vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+@media (max-width: 760px) { .fd-demo-terms { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- snippet: ring-fill ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-ring {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
+.fd-ring { display: flex; align-items: center; gap: 1rem; margin: 0; }
+.fd-ring svg { width: 6.5rem; height: 6.5rem; flex: none; display: block; }
+.fd-ring circle { fill: none; stroke-width: 7; }
+.fd-ring-track { stroke: var(--_rule); }
+/* pathLength 1 makes the dash offset the share left empty: 1 minus taken over offered. */
+.fd-ring-fill {
+  stroke: var(--_accent);
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--taken, 0) / var(--offered, 1));
+  transform: rotate(-90deg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.fd-ring figcaption { line-height: 1.3; }
+.fd-ring figcaption b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3vw, 2.25rem); font-variant-numeric: tabular-nums; }
+.fd-ring figcaption span { font-size: 0.875rem; color: var(--_muted); }
+
+/* Armed: the start state, applied by the script only once the library loaded and motion is allowed. */
+.fd-ring[data-armed] .fd-ring-fill { stroke-dashoffset: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-ring[data-armed] .fd-ring-fill { stroke-dashoffset: calc(1 - var(--taken, 0) / var(--offered, 1)); }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>Twelve kitchens in the first pilot.</h2>
+    <p>Demo copy. Scroll: the ring beside the terms below draws once to the share of seats taken.</p>
+  </div>
+
+  <section class="fd-demo-terms">
+    <div>
+      <h3>Pilot terms</h3>
+      <ul>
+        <li>Demo terms. Replace them with the founder's own, from COPY.md.</li>
+        <li>Deposit, what it buys, and when it is refunded.</li>
+        <li>What ships, and the date it ships by.</li>
+      </ul>
+    </div>
+
+    <!-- snippet: ring-fill -->
+    <!-- Both numbers from the founder or no ring: [NEED: seats taken and seats offered]. -->
+    <figure class="fd-ring" data-fd-ring style="--taken: 7; --offered: 12">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="fd-ring-track" cx="60" cy="60" r="52"/>
+        <circle class="fd-ring-fill" cx="60" cy="60" r="52" pathLength="1"/>
+      </svg>
+      <figcaption><b>7 of 12</b><span>pilot seats taken. Example numbers.</span></figcaption>
+    </figure>
+    <!-- end snippet -->
+  </section>
+
+  <p class="fd-demo-after">Demo spacer so the page can scroll.</p>
+</main>
+
+<script type="module">
+/* ---- snippet: ring-fill ---- */
+// Paste this into its own <script type="module">, never a shared or classic one: two snippets in one module redeclare their imports, and a classic script cannot import.
+// A module runs only after its import resolved: if the library fails to load, the ring stays drawn.
+import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
+
+const ring = document.querySelector('[data-fd-ring]');
+const fill = ring && ring.querySelector('.fd-ring-fill');
+// The caption and the ring must state the same two numbers; a mismatch fails the page's console check.
+if (ring) {
+  const said = (ring.querySelector('figcaption b')?.textContent.match(/\d+/g) || []).join(' of ');
+  const drawn = ['--taken', '--offered'].map((v) => getComputedStyle(ring).getPropertyValue(v).trim()).join(' of ');
+  if (said !== drawn) console.error('ring-fill: the caption says "' + said + '" but the ring draws "' + drawn + '"');
+}
+// Already on screen when the module arrived: the reader has seen it, so it stays as it is.
+if (fill && ring.getBoundingClientRect().top >= innerHeight && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const end = parseFloat(getComputedStyle(fill).strokeDashoffset); // the fraction CSS drew, read before arming
+  const show = () => ring.removeAttribute('data-armed');
+  ring.setAttribute('data-armed', '');
+
+  inView(ring, () => {
+    // Reduced motion switched on since arming: CSS already shows the final state, so just disarm.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return show();
+    try {
+      animate(fill, { strokeDashoffset: [1, end] }, { duration: 1, ease: [0.22, 1, 0.36, 1] }).finished.then(show, show);
+    } catch (error) {
+      show();
+      throw error;
+    }
+  }, { amount: 'some', margin: '0px 0px -25% 0px' });
+}
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

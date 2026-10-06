@@ -1,0 +1,143 @@
+<!--
+  center-stagger-grid: the cells of a real grid appear from its center outward.
+  What it does: once the grid's top has risen past the lower quarter of the
+  screen, however tall the grid is, its cells fade in and rise 8px, starting
+  from the middle and spreading out in rings 80ms apart. Once, then still.
+  Nothing scales, blurs or slides sideways. The order is measured from where
+  the cells sit when it plays, so it still opens from the center after the
+  grid reflows to two columns at 390. (Motion's stagger from "center" counts
+  list order, so after the grid reflows it no longer starts at the visual
+  middle.)
+  How to adapt: only for a grid the reference already has: spec cells,
+  material swatches, variants. Every direct child of [data-fd-cgrid] is a
+  cell. Real values only, or keep the "examples" caption. Place it below the
+  first screen: a module loads after first paint, so a grid already on screen
+  when it arrives stays as it is instead of blinking out and back.
+  Reduced motion: nothing is armed. Every cell is visible on first paint, the
+  same as without JavaScript or when the library fails to load.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Center stagger grid</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+/* A full screen of intro, so the figure starts below the fold and plays when scrolled to. */
+.fd-demo-intro { min-height: 100svh; padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 4rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 14ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 30vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+/* ---- snippet: center-stagger-grid ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-cgrid-wrap {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
+.fd-cgrid-wrap { margin: 0; padding: 0 clamp(1rem, 5vw, 4rem); }
+.fd-cgrid-wrap figcaption { font-size: 0.875rem; color: var(--_muted); margin-bottom: 1rem; }
+/* A spec sheet: hairlines between cells, no cards. */
+.fd-cgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 76rem; margin: 0; border-top: 1px solid var(--_ink); }
+.fd-cgrid > * { padding: 1.1rem 1.25rem 1.4rem 0; border-bottom: 1px solid var(--_rule); }
+.fd-cgrid dt { font-size: 0.8125rem; color: var(--_muted); }
+.fd-cgrid dd { margin: 0.25rem 0 0; font-family: var(--_display); font-size: clamp(1.25rem, 2vw, 1.625rem); line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+/* Armed: the start state, applied by the script only once the library loaded and motion is allowed. */
+.fd-cgrid[data-armed] > * { opacity: 0; transform: translateY(8px); }
+
+@media (max-width: 760px) {
+  .fd-cgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-cgrid[data-armed] > * { opacity: 1; transform: none; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>Built to the numbers on the sheet.</h2>
+    <p>Demo copy. Scroll: the spec grid below opens from its center, once.</p>
+  </div>
+
+  <!-- snippet: center-stagger-grid -->
+  <figure class="fd-cgrid-wrap">
+    <figcaption>Illustration. Values are examples.</figcaption>
+    <dl class="fd-cgrid" data-fd-cgrid>
+      <div><dt>Shell</dt><dd>Waxed cotton</dd></div>
+      <div><dt>Lining</dt><dd>Undyed linen</dd></div>
+      <div><dt>Weight</dt><dd>1.2 kg</dd></div>
+      <div><dt>Volume</dt><dd>18 litres</dd></div>
+      <div><dt>Hardware</dt><dd>Solid brass</dd></div>
+      <div><dt>Strap</dt><dd>Leather, 38 mm</dd></div>
+      <div><dt>Seams</dt><dd>Double stitched</dd></div>
+      <div><dt>Base</dt><dd>Doubled canvas</dd></div>
+      <div><dt>Closure</dt><dd>Roll top</dd></div>
+      <div><dt>Pockets</dt><dd>Two inside</dd></div>
+      <div><dt>Height</dt><dd>46 cm</dd></div>
+      <div><dt>Width</dt><dd>31 cm</dd></div>
+    </dl>
+  </figure>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer so the page can scroll.</p>
+</main>
+
+<script type="module">
+/* ---- snippet: center-stagger-grid ---- */
+// Paste this into its own <script type="module">, never a shared or classic one: two snippets in one module redeclare their imports, and a classic script cannot import.
+// A module runs only after its import resolved: if the library fails to load, nothing is armed.
+import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
+
+const grid = document.querySelector('[data-fd-cgrid]');
+// Already on screen when the module arrived: the reader has seen it, so it stays as it is.
+if (grid && grid.children.length && grid.getBoundingClientRect().top >= innerHeight && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const STEP = 0.08; // seconds between rings
+  const show = () => grid.removeAttribute('data-armed');
+  grid.setAttribute('data-armed', '');
+
+  inView(grid, () => {
+    // Reduced motion switched on since arming: CSS already shows the final state, so just disarm.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return show();
+    try {
+      const cells = [...grid.children];
+      const box = grid.getBoundingClientRect();
+      // Each cell's distance from the grid's center, in 8px bands, so cells the same distance out share a ring.
+      const band = cells.map((cell) => {
+        const r = cell.getBoundingClientRect();
+        return Math.round(Math.hypot(r.x + r.width / 2 - box.x - box.width / 2, r.y + r.height / 2 - box.y - box.height / 2) / 8);
+      });
+      const rings = [...new Set(band)].sort((a, b) => a - b);
+      animate(cells, { opacity: [0, 1], transform: ['translateY(8px)', 'translateY(0)'] }, {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+        delay: (i) => rings.indexOf(band[i]) * STEP,
+      }).finished.then(show, show);
+    } catch (error) {
+      show();
+      throw error;
+    }
+  }, { amount: 'some', margin: '0px 0px -25% 0px' });
+}
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

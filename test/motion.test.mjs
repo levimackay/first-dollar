@@ -11,7 +11,15 @@ const RECIPES = [
   'ticker-proof',
   'sticky-stack',
   'pinned-mask-reveal',
+  'parallax-frame',
+  'spring-settle',
+  'center-stagger-grid',
+  'scroll-rule',
+  'ring-fill',
 ];
+// The recipes built on the motion library, and the one URL they may load it from.
+const MOTION = ['parallax-frame', 'spring-settle', 'center-stagger-grid', 'scroll-rule', 'ring-fill'];
+const MOTION_URL = 'https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm';
 const GENERIC = new Set(['serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'inherit', 'initial', 'unset']);
 const read = (name) => readFile(new URL(`assets/motion/${name}.html`, skill), 'utf8');
 
@@ -70,9 +78,36 @@ for (const name of RECIPES) {
   });
 }
 
-test('motion.md stays under 220 lines and covers every recipe', async () => {
+for (const name of MOTION) {
+  test(`${name}: a module script that imports motion from the pinned URL only`, async () => {
+    const src = await read(name);
+    // The tag that holds the script snippet, not a mention of it in a comment.
+    const open = `/* ---- snippet: ${name} ---- */`;
+    const tagAt = src.lastIndexOf('<script', src.indexOf(open, src.indexOf(open) + 1));
+    assert.equal(src.slice(tagAt, src.indexOf('>', tagAt) + 1), '<script type="module">', 'the script is a module');
+    const { js } = snippet(src, name);
+    const from = [...js.matchAll(/\bfrom\s*(["'])([^"']+)\1/g)].map((m) => m[2]);
+    assert.deepEqual(from, [MOTION_URL], 'one import, from the pinned URL');
+    assert.doesNotMatch(js, /import\s*\(/, 'no dynamic import');
+  });
+}
+
+test('no recipe waits for more than a quarter of a figure to be in view', async () => {
+  // A figure taller than the screen divided by the amount never reaches it, so it would stay armed and hidden.
+  for (const name of RECIPES) {
+    for (const [, value] of (await read(name)).matchAll(/\bamount\s*:\s*([\d.]+)/g)) {
+      assert.ok(Number(value) <= 0.25, `${name} uses amount ${value}; use amount 'some' with a bottom margin`);
+    }
+  }
+});
+
+test('no recipe loads a library from @latest', async () => {
+  for (const name of RECIPES) assert.doesNotMatch(await read(name), /@latest\b/, name);
+});
+
+test('motion.md stays under 260 lines and covers every recipe', async () => {
   const doc = await readFile(new URL('references/motion.md', skill), 'utf8');
-  assert.ok(doc.split('\n').length <= 220, 'motion.md is over 220 lines');
+  assert.ok(doc.split('\n').length <= 260, 'motion.md is over 260 lines');
   const missing = RECIPES.filter((name) => !doc.includes(`### ${name}`));
   assert.deepEqual(missing, []);
   assert.doesNotMatch(doc, /count-to-price/, 'count-to-price was removed');

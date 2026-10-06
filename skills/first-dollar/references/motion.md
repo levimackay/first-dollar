@@ -45,7 +45,7 @@ to settle before it judges, so never shorten a sequence to pass it.
 2. **One orchestrated load beats scattered micro-interactions.** The first
    screen gets one timeline with a staggered order and nothing else moves on
    load. No hover animation on every card, no animated arrows, no cursor
-   followers, no parallax layers.
+   followers; the only parallax is `parallax-frame`, an image drifting in a fixed frame.
 3. **Nothing animates away the ask or the price.** The `[data-commitment]`
    button never fades, slides, waits or moves, and no recipe styles it: the
    page styles its own button from DESIGN.md. A price never rolls, counts or
@@ -62,12 +62,12 @@ to settle before it judges, so never shorten a sequence to pass it.
    it lands. No word stays hidden for more than one beat of its sequence, and a
    word never appears before the thing it labels.
 7. **Banned, and the lint fails or warns on them:** bounce, elastic or
-   overshooting easing (`bounce-easing`), `transition: all`
-   (`transition-all`), pulsing, pinging or blinking dots (`pulse-dot`), and
-   images that zoom on hover (`hover-zoom`). Also banned here: numbers that
-   roll or count up (prices, stats, day counts; a playback clock running with
-   its own media is the one exception), scroll hijacking, smooth-scroll
-   libraries, and any motion that delays reading.
+   overshooting easing (`bounce-easing`; the one overshoot allowed is the
+   landing mark in `spring-settle`), `transition: all` (`transition-all`),
+   pulsing, pinging or blinking dots (`pulse-dot`), and images that zoom on
+   hover (`hover-zoom`). Also banned here: numbers that roll or count up
+   (prices, stats, day counts; a playback clock with its own media is the one
+   exception), scroll hijacking, smooth-scroll libraries, and any motion that delays reading.
 8. **Easing and time.** Entrances ease out: `cubic-bezier(0.22, 1, 0.36, 1)`.
    Interface feedback is 150 to 250ms. A set piece beat is 600 to 1000ms.
    Stagger 60 to 120ms. The signature runs three to five seconds, once.
@@ -80,7 +80,7 @@ to settle before it judges, so never shorten a sequence to pass it.
 CSS transitions and keyframes, the Web Animations API (`element.animate`),
 `IntersectionObserver` to start a sequence once, and CSS scroll-driven
 animations (`animation-timeline`) for scrubbed moves, with the small scroll
-handler fallback the recipes carry. None of the seven recipes loads a library.
+handler fallback the recipes carry. The first seven recipes load no library.
 
 GSAP is allowed when a sequence truly needs it (a long scrubbed timeline with
 many labels). Load it from a pinned URL, never `latest`:
@@ -89,12 +89,18 @@ many labels). Load it from a pinned URL, never `latest`:
 license allows it in any website's code; it bars only no-code animation
 builders that compete with Webflow. Prefer native tools when they do the job.
 
+`motion` (MIT) is the second allowed CDN, for the last five recipes only:
+`import { animate, scroll, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm"`,
+pinned exactly, never `@latest`. Its 6 KB entry pulls four requests, about
+52 KB gzipped, once per page. Motion+ effects are paid and never copied.
+
 ## Using a recipe
 
 1. Pick from the budget above and the "never combine" lines below.
 2. Copy the markup between `<!-- snippet: name -->` and `<!-- end snippet -->`
    and the CSS and script between the matching `/* ---- snippet ---- */`
    markers. Those three parts are all a recipe needs; the rest is a demo page.
+   The last five each go in their own `<script type="module">`, not a shared or classic one.
 3. Set `--fd-ground`, `--fd-ink`, `--fd-accent`, `--fd-font-display` and
    `--fd-font-text` on the page's `:root` from DESIGN.md. Each snippet reads
    them once on its own root, with a fallback, and derives its muted tone,
@@ -107,7 +113,7 @@ builders that compete with Webflow. Prefer native tools when they do the job.
    emulated (devtools Rendering panel, or Playwright
    `page.emulateMedia({ reducedMotion: 'reduce' })`): every word visible.
 
-Costs below are each snippet's script, gzipped, measured; none adds a request.
+Costs below are each snippet's script, gzipped, measured; the first seven add no request.
 
 ## The recipes
 
@@ -217,3 +223,35 @@ Costs below are each snippet's script, gzipped, measured; none adds a request.
 - **Reduced motion:** no pin, no shutters; the plate fully open.
 - **Cost:** 0.5 KB, nearly all of it the fallback for browsers without
   scroll-driven animations. Four transformed layers.
+
+### spring-settle (serves the signature)
+- **What:** a software mock's rows rise out of their masks on a spring, 120ms
+  apart, then one row's mark springs in and its note rises. Once, about 3.5s.
+- **Fits:** a list mock below the first screen (in the first screen it stays
+  still: use `mechanism-sequence`). Its mark is the one overshoot allowed.
+- **Never combine with:** `mechanism-sequence` also playing; springs elsewhere.
+- **Reduced motion:** every row, the mark and its note on first paint.
+
+### parallax-frame (supporting)
+- **What:** a photo or its slot drifts 8% of a fixed frame's height, scrubbed.
+- **Fits:** photo-led references: editorial, food, places. One per page.
+- **Never combine with:** text or the ask in the drift; layered parallax.
+- **Reduced motion:** the photo sits centered; nothing is linked.
+
+### center-stagger-grid (supporting)
+- **What:** cells fade in and rise 8px in rings out from the center, 80ms apart.
+- **Fits:** a real grid below the first screen: spec cells, swatches, variants.
+- **Never combine with:** fade-up on any other section; a grid made to have one.
+- **Reduced motion:** every cell visible on first paint.
+
+### scroll-rule (supporting)
+- **What:** a 2px rule beside one long text draws with scroll through it alone.
+- **Fits:** long-form references: a letter of intent, terms, a founder's note.
+- **Never combine with:** a page-wide reading bar; a second rule.
+- **Reduced motion:** the rule fully drawn.
+
+### ring-fill (needs the founder's real numbers)
+- **What:** a ring draws once to a real fraction; its number is static text.
+- **Fits:** beside the terms. No founder numbers: `[NEED: ...]`, never a ring.
+- **Never combine with:** the ask or its button; a countdown.
+- **Reduced motion:** the ring at its fraction on first paint.
