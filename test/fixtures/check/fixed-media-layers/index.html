@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fixed media layers</title>
+<style>
+body{margin:0;font:24px sans-serif;color:#fff}
+.layer{position:fixed;inset:0;opacity:0;transition:none}
+.layer.on{opacity:1}
+.one{background:rgb(200,30,30)}
+.two{background:rgb(30,30,200)}
+section{position:relative;height:100vh;display:grid;place-items:center}
+</style></head><body>
+<div class="layer one on"></div><div class="layer two"></div>
+<section><h1>First screen</h1></section>
+<section><h2>Second screen</h2></section>
+<section><h2>Third screen</h2></section>
+<script>
+const [one, two] = document.querySelectorAll('.layer');
+const pick = () => { const second = scrollY > innerHeight / 2; one.classList.toggle('on', !second); two.classList.toggle('on', second); };
+addEventListener('scroll', pick, { passive: true });
+pick();
+</script>
+</body></html>

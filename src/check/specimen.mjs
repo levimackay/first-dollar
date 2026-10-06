@@ -1,5 +1,5 @@
 // Google Fonts specimen pages render no sample text headless, so build our own page and screenshot it.
-export const SAMPLE = 'Steel bleachers, rented and inspected. 0123456789 $1,500';
+export const SAMPLE = 'Sphinx of black quartz, judge my vow. 0123456789 $1,500';
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 export function specimenHtml(family, text = SAMPLE) {

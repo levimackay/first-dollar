@@ -133,6 +133,7 @@ try {
       await page.screenshot({ path: join(out, `${w}.png`) });
       const height = await page.evaluate(() => document.documentElement.scrollHeight);
       await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true, ...(height > 20000 && { clip: { x: 0, y: 0, width: w, height: 20000 } }) });
+      if (isUrl && w === 1440) await C.scrollStills(page, (n) => join(out, `scroll-${String(n).padStart(2, '0')}.png`));
       const refDir = !shotsOnly && w === 1440 ? referenceDir(target) : null;
       if (refDir) {
         const [r, p] = [await palette(browser, bestShot(refDir), 2), await palette(browser, join(out, 'full-1440.png'), 2)];

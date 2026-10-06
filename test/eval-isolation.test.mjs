@@ -23,7 +23,7 @@ async function files(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) out.push(...(await files(p)));
-    else if (/\.(md|html|css|js)$/.test(e.name)) out.push(p);
+    else if (/\.(md|html|css|js|mjs)$/.test(e.name)) out.push(p);
   }
   return out;
 }

@@ -108,6 +108,45 @@ test('a near-full-width desktop slot fails placement while an inset mobile slot 
   assert.match(desktop.detail, /nearly full width/);
 });
 
+// R83: the check measures the slot box (the hatched region), never its label.
+test('a full-bleed hatched band fails placement by its own box, not its small label', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-hatched-band'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /PLACEHOLDER: the yard at dawn.*full bleed/);
+    assert.match(mine.detail, /520px tall/);
+  }
+});
+
+test('a full-bleed hatched band with no label fails placement', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-unlabeled-hatch'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /unlabeled hatched region.*full bleed/);
+  }
+});
+
+test('an inline slot a little over one third of the viewport passes placement', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-slot-tolerance'));
+  const mine = json.checks.filter((c) => c.id === 'photo-slot-placement');
+  assert.deepEqual(mine.map((c) => c.width), [390, 1440]);
+  assert.ok(mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
+test('a mock cropped sideways so its total column is hidden fails hidden-after-reveal at 390', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('mock-crop-sideways'));
+  const narrow = json.checks.find((c) => c.id === 'hidden-after-reveal' && c.width === 390);
+  assert.equal(narrow?.ok, false, JSON.stringify(json.checks));
+  assert.match(narrow.detail, /\$62\.00.*clipped by an ancestor/);
+  assert.equal(json.checks.find((c) => c.id === 'hidden-after-reveal' && c.width === 1440)?.ok, true);
+});
+
 test('a row clipped sideways, like a ticker, passes hidden-after-reveal', (t) => {
   if (!hasBrowser) return t.skip('no browser');
   const { json } = run(fx('clip-ticker'));
