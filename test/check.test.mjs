@@ -29,6 +29,20 @@ test('good passes all checks and writes screenshots', (t) => {
   for (const f of ['1440.png', '390.png', 'full-1440.png', 'full-390.png']) assert.ok(existsSync(join(out, f)), f);
 });
 
+test('text held below a line mask fails hidden-after-reveal', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('clip-mask'));
+  const mine = json.checks.filter((c) => c.id === 'hidden-after-reveal' && !c.ok);
+  assert.ok(mine.length, JSON.stringify(json.checks));
+  assert.match(mine[0].detail, /This line never rises/);
+});
+
+test('a row clipped sideways, like a ticker, passes hidden-after-reveal', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('clip-ticker'));
+  assert.ok(json.checks.filter((c) => c.id === 'hidden-after-reveal').every((c) => c.ok), JSON.stringify(json.checks));
+});
+
 test('overflow fails overflow at 320', (t) => {
   if (!hasBrowser) return t.skip('no browser');
   const { r, json } = run(fx('overflow'));

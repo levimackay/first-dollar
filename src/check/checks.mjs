@@ -118,7 +118,16 @@ async function revealed(page, id) {
       const cs = getComputedStyle(el);
       let opacity = 1;
       for (let e = el; e; e = e.parentElement) opacity *= +getComputedStyle(e).opacity;
-      if (opacity < 0.1 || cs.visibility === 'hidden') {
+      // A line mask: an ancestor that clips vertically while the text sits wholly above or below it.
+      // Sideways clipping (a ticker strip) is left alone.
+      const r = el.getBoundingClientRect();
+      let masked = false;
+      for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+        if (!['hidden', 'clip'].includes(getComputedStyle(a).overflowY)) continue;
+        const b = a.getBoundingClientRect();
+        if (r.bottom <= b.top + 1 || r.top >= b.bottom - 1) { masked = true; break; }
+      }
+      if (opacity < 0.1 || cs.visibility === 'hidden' || masked) {
         out.push(`${el.tagName.toLowerCase()} "${el.textContent.trim().slice(0, 30)}"`);
       }
     }
