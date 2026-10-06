@@ -5,7 +5,7 @@ import { delimiter, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const NOT_VERIFIED_NO_BROWSER =
-  'not verified: no browser. Install once with: npm i --prefix ~/.cache/first-dollar playwright-core';
+  'not verified: no browser. Install once with: npm i --prefix ~/.cache/first-dollar playwright-core@1.63.0';
 
 const cacheDir = () => process.env.FIRST_DOLLAR_CACHE || join(homedir(), '.cache', 'first-dollar');
 

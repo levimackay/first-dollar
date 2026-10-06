@@ -83,7 +83,7 @@ What they report:
   `reference-drift` (slop-rules.md). Given a URL, it only takes screenshots.
   Run it at every stage, even after an exit 3.
 - With no browser, the check, `--palette` and `--specimen` exit 3 and print
-  `npm i --prefix ~/.cache/first-dollar playwright-core`. Ask the founder
+  `npm i --prefix ~/.cache/first-dollar playwright-core@1.63.0`. Ask the founder
   about it only after such an exit: in that stage, at its stop, or in the
   final report. Until a yes, every rendered check is "not verified"; running
   without stops, do not install. Never write "passed" for a check that did

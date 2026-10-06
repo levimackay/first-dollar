@@ -167,6 +167,13 @@ Every page gets one signature motion that shows how the product works, sized to 
 
 Seven recipes are plain JavaScript. Five load [Motion](https://motion.dev) from a pinned CDN URL. None count numbers up, and none ever move the button that asks for money.
 
+## What it touches
+
+- **The lint** reads the HTML and CSS in the page folder. It makes no network calls.
+- **The browser check** runs your installed Chrome, or Playwright's Chromium, headless. It serves the page folder from a local server on `127.0.0.1` and lets the page load what it links, such as its fonts and any pinned CDN script. Given a reference URL, it visits that one site to screenshot it. `--specimen` loads one font family's CSS from Google Fonts. Screenshots are written into the page folder.
+- **Build history** is one line per page in `~/.first-dollar/history.jsonl`, on your machine.
+- **Nothing is sent anywhere else.** There is no telemetry. The only install it ever suggests is `npm i --prefix ~/.cache/first-dollar playwright-core@1.63.0`, and only after asking you.
+
 ## What's in the repo
 
 ```text
