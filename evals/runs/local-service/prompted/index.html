@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ridgeback Sharpening</title>
+<meta name="description" content="A sharpening van for kitchen knives, scissors and mower blades, parked in your driveway. Book a first visit with a $40 deposit, applied to the bill.">
+<style>
+:root{--paper:#f1ece2;--ink:#2a2723;--mute:#7a736a;--rule:#cfc6b6;--accent:#8a4b2d}
+@media (prefers-color-scheme:dark){:root{--paper:#1f1d1a;--ink:#ece6da;--mute:#9a9286;--rule:#3b3732;--accent:#d49272}}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font:19px/1.7 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--rule);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+header b{color:var(--ink);font-weight:400}
+.hero{padding:clamp(56px,12vw,120px) 0 72px}
+.kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 28px}
+h1{font-weight:400;font-size:clamp(40px,8vw,68px);line-height:1.04;letter-spacing:-.01em;margin:0 0 36px}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{font-size:21px;max-width:30em;margin:0 0 44px}
+.btn{display:inline-block;background:var(--ink);color:var(--paper);text-decoration:none;padding:18px 28px;font:13px/1.4 "Helvetica Neue",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.btn:hover,.btn:focus-visible{background:var(--accent);outline:none}
+.btn small{display:block;letter-spacing:.06em;text-transform:none;font-size:13px;opacity:.8;margin-top:2px}
+section{border-top:1px solid var(--rule);padding:56px 0}
+h2{font-weight:400;font-style:italic;font-size:30px;line-height:1.2;margin:0 0 20px}
+.num{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin:0 0 14px;display:block}
+blockquote{margin:0;font-size:clamp(26px,5vw,36px);line-height:1.3;font-style:italic}
+blockquote+p{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+ul.plain{list-style:none;padding:0;margin:0}
+ul.plain li{padding:14px 0;border-bottom:1px solid var(--rule)}
+ul.plain li:first-child{border-top:1px solid var(--rule)}
+.note{color:var(--mute);font-size:16px}
+footer{border-top:1px solid var(--rule);padding:28px 0 60px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><b>Ridgeback Sharpening</b><span>Idaho</span></header>
+
+<div class="hero">
+<p class="kicker">A sharpening van, coming to your driveway</p>
+<h1>Sharp knives, <em>without the hour-long drive.</em></h1>
+<p class="lede">Ridgeback Sharpening will bring the stone to you: kitchen knives, scissors and mower blades, done at the end of your driveway while you get on with your day.</p>
+<!-- PLACEHOLDER: replace href with the real $40 deposit payment link -->
+<a class="btn" id="book" href="#deposit">Book my first visit: $40 deposit<small>Applied to your bill</small></a>
+</div>
+
+<section>
+<span class="num">The problem</span>
+<blockquote>&ldquo;The nearest place that sharpens anything is an hour away.&rdquo;</blockquote>
+<p>In a small Idaho town, that is the whole story. A dull chef&rsquo;s knife and a mower deck that tears the grass sit in the garage until the trip seems worth it.</p>
+</section>
+
+<section>
+<span class="num">What we sharpen</span>
+<ul class="plain">
+<li>Kitchen knives</li>
+<li>Scissors</li>
+<li>Mower blades</li>
+</ul>
+<p class="note">One visit, one driveway, all three.</p>
+</section>
+
+<section>
+<span class="num">Where we are today</span>
+<h2>Honestly, early.</h2>
+<p>The sharpening equipment is owned and ready. The van is not built yet. Deposits are how we find out where to start, and your first visit is the first one we plan.</p>
+</section>
+
+<section id="deposit">
+<span class="num">Your first visit</span>
+<h2>$40 holds your place in line.</h2>
+<p>The deposit is applied to your bill when we come. That is the whole commitment.</p>
+<!-- PLACEHOLDER: same payment link as above -->
+<a class="btn" href="#book">Book my first visit: $40 deposit<small>Applied to your bill</small></a>
+<p class="note" style="margin-top:28px">Terms still to be written by the founder: scheduling window, service area, refund policy. Not promised here.</p>
+</section>
+
+<footer>Ridgeback Sharpening &middot; Idaho</footer>
+</div>
+</body>
+</html>

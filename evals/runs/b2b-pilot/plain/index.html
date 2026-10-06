@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidemark: find the claims your dental practice was underpaid</title>
+<meta name="description" content="Tidemark reads your insurance remittance files and flags claims paid below your contracted fee. 90-day paid pilot, $1,500.">
+<style>
+:root{
+  --bg:#f7f5f0; --ink:#17232b; --muted:#56646c; --line:#d9d5c9;
+  --accent:#0f5f6b; --accent-ink:#fff; --flag:#b4402a; --card:#fff;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#10181c; --ink:#eaeee9; --muted:#9aa8ae; --line:#2a373d; --accent:#5cc0cd; --accent-ink:#08181b; --flag:#ee8a72; --card:#172227;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 Georgia,"Iowan Old Style",serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+header{padding:20px 0;border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center}
+.logo{font:700 20px/1 system-ui,sans-serif;letter-spacing:.02em}
+h1,h2,h3,.btn,.label,table,.sans{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+h1{font-size:clamp(32px,6vw,52px);line-height:1.1;margin:56px 0 20px;letter-spacing:-.02em}
+h2{font-size:28px;line-height:1.2;margin:0 0 16px;letter-spacing:-.01em}
+h3{font-size:18px;margin:0 0 6px}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.lede{font-size:21px;max-width:660px}
+.quote{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin:32px 0;font-style:italic;font-size:22px;max-width:620px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:600;font-size:17px}
+.btn:hover,.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.note{color:var(--muted);font-size:15px}
+.steps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));padding:0;list-style:none;counter-reset:s}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;counter-increment:s}
+.steps li::before{content:counter(s);font:700 14px system-ui;color:var(--accent);display:block;margin-bottom:8px}
+.steps p{margin:0;font-size:16px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.flag td{color:var(--flag);font-weight:600}
+.label{display:inline-block;font-size:13px;color:var(--muted);margin-bottom:8px}
+.price{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+.price .big{font:700 56px/1 system-ui,sans-serif}
+ul.tight{padding-left:20px;margin:8px 0}
+ul.tight li{margin:6px 0}
+footer{padding:32px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="logo">Tidemark</span><a class="sans" href="#pilot" style="color:var(--accent);font-weight:600">Pilot details</a></div></header>
+
+<main>
+<div class="wrap">
+  <h1>Find the dental claims insurance paid below your contracted fee.</h1>
+  <p class="lede">Tidemark reads your remittance files, compares each paid line to your fee schedule, and hands your office manager a short list of underpayments to dispute. Nobody has to check every line of every EOB by hand.</p>
+  <div class="quote">"I know we get shorted on claims. I do not have the hours to check every line of every EOB."</div>
+  <p><a class="btn" href="mailto:hello@example.com?subject=Tidemark%20pilot">Ask about the 90-day pilot</a></p>
+  <p class="note">For independent practices with 2 to 6 chairs. $1,500 for 90 days.</p>
+</div>
+
+<section><div class="wrap">
+  <h2>Why shortfalls go unnoticed</h2>
+  <p>Each insurance payment arrives with a remittance file or EOB listing every procedure and what the plan paid. If your practice is in-network, the plan agreed to pay a set fee for each code. When a payment lands lower than that agreed fee, nothing alerts you. The only way to catch it is to compare line by line, and that is hours of work in a week that already has none to spare.</p>
+  <p>So most offices spot-check a few, or none, and hope.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>What Tidemark does</h2>
+  <ol class="steps">
+    <li><h3>You send the files</h3><p>The remittance files or EOBs you already receive from your payers, plus your contracted fee schedules.</p></li>
+    <li><h3>We compare every line</h3><p>Each paid amount is checked against the contracted fee for that procedure code and payer.</p></li>
+    <li><h3>You get a short list</h3><p>Only the claims paid below contract, with the amount short, ready to take to the payer.</p></li>
+  </ol>
+  <p class="label" style="margin-top:32px">Illustration only. These are made-up numbers showing the shape of the report, not real results.</p>
+  <table>
+    <thead><tr><th>Payer</th><th>Code</th><th>Date of service</th><th class="n">Contract fee</th><th class="n">Paid</th><th class="n">Short by</th></tr></thead>
+    <tbody>
+      <tr><td>Example Plan A</td><td>D1110</td><td>03/04</td><td class="n">$98.00</td><td class="n">$98.00</td><td class="n">&ndash;</td></tr>
+      <tr class="flag"><td>Example Plan A</td><td>D2391</td><td>03/04</td><td class="n">$142.00</td><td class="n">$121.00</td><td class="n">$21.00</td></tr>
+      <tr><td>Example Plan B</td><td>D0120</td><td>03/06</td><td class="n">$54.00</td><td class="n">$54.00</td><td class="n">&ndash;</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Where this comes from</h2>
+  <p>I worked the front desk at a dental office for two years. I watched how payments come in, and how little time anyone has to question them. Tidemark is built around that one job.</p>
+  <p class="note">Plainly: Tidemark is not built yet. The pilot is how we build it, with your files and your fee schedules, so the first version fits an office like yours.</p>
+</div></section>
+
+<section id="pilot"><div class="wrap">
+  <h2>The pilot</h2>
+  <div class="price">
+    <div><div class="big">$1,500</div><div class="note">one payment, 90 days</div></div>
+    <div style="flex:1;min-width:260px">
+      <ul class="tight">
+        <li>Ninety days of your remittance files checked against your contracted fees.</li>
+        <li>A list of flagged underpayments delivered to your office manager.</li>
+        <li>You decide what to dispute. Tidemark finds the claims; it does not contact payers for you.</li>
+      </ul>
+    </div>
+  </div>
+  <h3 style="margin-top:32px">Before you send anything</h3>
+  <p>Remittance files contain patient information. We will agree in writing how that data is handled, and what is deleted at the end, before you share a single file.</p>
+  <h3>What I need to know first</h3>
+  <p>Whether your payers send electronic remittance files, and whether you have your fee schedules on hand. We will go through that on a short call, and if it will not work for your office, I will say so.</p>
+  <p style="margin-top:28px"><a class="btn" href="mailto:hello@example.com?subject=Tidemark%20pilot">Email to start a pilot</a></p>
+</div></section>
+</main>
+
+<footer><div class="wrap">Tidemark. Contact: hello@example.com (placeholder address).</div></footer>
+</body>
+</html>

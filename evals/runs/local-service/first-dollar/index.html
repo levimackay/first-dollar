@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridgeback Sharpening</title>
+<meta name="description" content="A mobile van that sharpens kitchen knives, scissors and mower blades in your driveway. A $40 deposit books a first visit and comes off the bill.">
+<meta property="og:title" content="Ridgeback Sharpening">
+<meta property="og:description" content="Knives, scissors and mower blades sharpened in your driveway. Book a first visit for $40.">
+<meta property="og:image" content="[NEED: site address]/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:wght@400&family=Gilda+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #010101;
+  --neutral: #ffffff;
+  --surface: #dcded6;
+  --ink: #010101;
+  --ink-muted: #595959;
+  --line: #010101;
+  --hatch: #c2c3c0;
+  --hatch-dark: #3d3d3d;
+  --accent: #010101;
+  --accent-hover: #333333;
+  --on-accent: #ffffff;
+  --focus: #3276a5;
+  --highlight: #e1e1e1;
+  --font-display: "Gilda Display", serif;
+  --font-text: "Reddit Sans", sans-serif;
+  --r-button: 2px;
+  --u: 8px;
+  --gutter: clamp(16px, 2.8vw, 40px);
+  --fd-ground: var(--neutral);
+  --fd-ink: var(--ink);
+  --fd-accent: var(--accent);
+  --fd-font-display: var(--font-display);
+  --fd-font-text: var(--font-text);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body { margin: 0; background: var(--neutral); color: var(--ink); font-family: var(--font-text); font-size: 16px; line-height: 1.55; accent-color: var(--accent); caret-color: var(--ink); scrollbar-color: var(--ink) var(--neutral); }
+::selection { background: var(--ink); color: var(--neutral); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+img, svg { max-width: 100%; }
+h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+.need { font: inherit; color: var(--ink); background: var(--highlight); padding: 0.1em 0.35em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.on-dark .need { color: var(--ink); }
+
+/* hatch slots */
+.ph-defs { position: absolute; }
+.ph-defs .l1 { stroke: var(--hatch); stroke-width: 1; }
+.ph-defs .l2 { stroke: var(--hatch-dark); stroke-width: 1; }
+.ph { position: relative; background: var(--surface); overflow: hidden; }
+.ph.dark { background: var(--primary); }
+.ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph figcaption { position: absolute; left: 12px; bottom: 12px; right: 12px; width: fit-content; max-width: calc(100% - 24px); background: var(--neutral); color: var(--ink); font-size: 14px; line-height: 1.35; padding: 4px 8px; }
+
+/* header */
+.top { display: flex; align-items: center; justify-content: space-between; padding: 24px var(--gutter); position: relative; }
+.mark { font-family: var(--font-display); font-size: clamp(14px, 1.7vw, 26px); letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+.burger summary { list-style: none; cursor: pointer; width: 48px; height: 48px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 9px; }
+.burger summary::-webkit-details-marker { display: none; }
+.burger summary span { display: block; width: 50px; height: 1px; background: var(--ink); }
+.burger nav { position: absolute; right: var(--gutter); top: 76px; background: var(--neutral); border-top: 1px solid var(--line); padding: 16px 0 0 48px; z-index: 20; }
+.burger nav a { display: block; white-space: nowrap; padding: 8px 0; text-decoration: none; }
+
+/* hero */
+.hero { text-align: center; padding: 16px var(--gutter) 0; }
+.fd-hero h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 4.45vw, 64px); line-height: 1.1; letter-spacing: -0.02em; width: min(100%, 1240px); margin: 0 auto; text-wrap: balance; }
+.fd-split-line { display: block; overflow: clip; padding-bottom: 0.09em; margin-bottom: -0.09em; }
+.fd-split-inner { display: inline-block; }
+.fd-split-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.fd-hero[data-armed] .fd-split-inner { transform: translateY(105%); }
+.cover { width: clamp(220px, 21.7vw, 313px); aspect-ratio: 313 / 405; margin: clamp(32px, 3.6vw, 48px) auto 0; }
+.cover.ph figcaption { font-size: 14px; }
+.hero-links { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 32px 0 32px; flex-wrap: wrap; }
+.hero-links .pipe { width: 1px; height: 16px; background: var(--ink); }
+[data-commitment] { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border: 1px solid var(--ink); border-radius: var(--r-button); background: var(--neutral); color: var(--ink); text-decoration: none; white-space: nowrap; font-size: 16px; font-variant-numeric: tabular-nums; }
+[data-commitment]:hover { background: var(--accent); color: var(--on-accent); }
+.plain { display: inline-flex; align-items: center; min-height: 48px; }
+
+/* peek band and black bar */
+.peek { height: clamp(180px, 31vw, 450px); }
+.bar { position: sticky; bottom: 0; z-index: 10; background: var(--primary); color: var(--on-accent); display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap; padding: 12px var(--gutter); }
+.bar p { font-family: var(--font-display); font-size: 16px; }
+.bar [data-commitment] { background: var(--primary); color: var(--on-accent); border-color: var(--on-accent); }
+.bar [data-commitment]:hover { background: var(--on-accent); color: var(--primary); }
+:focus-visible { outline-color: var(--focus); }
+.bar :focus-visible, .band :focus-visible, .close :focus-visible { outline-color: var(--neutral); }
+
+/* section heads */
+.sec { padding: 0 var(--gutter); }
+.rule-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+.rule-head h2 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; }
+.rule-head a, .rule-head span { font-size: 14px; white-space: nowrap; }
+
+/* what goes in the van */
+.items { margin-top: 160px; }
+.row { display: flex; gap: 16px; margin-top: 48px; align-items: flex-start; }
+.row li { flex: 1 1 0; min-width: 0; }
+.row .ph { aspect-ratio: 5 / 6; }
+.row h3 { font-family: var(--font-display); font-weight: 400; font-size: 20px; margin-top: 12px; }
+.row p { font-size: 14px; color: var(--ink-muted); }
+
+/* the three-sentence band */
+.band { margin-top: 192px; position: relative; background: var(--primary); color: var(--on-accent); }
+.band .ph { height: clamp(380px, 33vw, 480px); }
+.band-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 var(--gutter); }
+.band-panel { background: var(--primary); padding: 32px 40px; max-width: 520px; text-align: center; }
+.band-panel h2 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+.band-panel p { font-family: var(--font-display); font-size: 18px; line-height: 1.5; }
+
+/* giant statement */
+.giant { margin-top: 160px; position: relative; background: var(--primary); color: var(--on-accent); min-height: max(640px, 90vh); display: flex; flex-direction: column; justify-content: center; }
+.giant .ph { position: absolute; inset: 0; }
+.giant .cap { position: relative; padding: 0 var(--gutter); font-family: var(--font-display); font-size: 16px; position: absolute; top: 24px; left: 0; }
+.giant h2 { position: relative; padding: 0 var(--gutter); font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 8vw, 120px); line-height: 1.05; letter-spacing: -0.03em; text-transform: uppercase; text-wrap: balance; }
+
+/* founder, split */
+.founder { margin-top: 160px; }
+.founder-inner { border-top: 1px solid var(--line); padding-top: 64px; display: flex; justify-content: space-between; gap: 32px; align-items: flex-start; }
+.founder h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 3.3vw, 48px); line-height: 1.1; max-width: 16em; }
+.founder h2 > span { display: block; }
+.founder .tag { font-size: 14px; margin-top: 32px; }
+.founder .ph { width: min(31%, 444px); aspect-ratio: 3 / 4; flex: none; }
+
+/* questions */
+.questions { margin-top: 192px; }
+.qrows li { border-bottom: 1px solid var(--line); padding: 24px 0 32px; }
+.rule-head + .qrows { margin-top: 32px; border-top: 0; }
+.qrows h3, .qrows p { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3.1vw, 44px); line-height: 1.1; }
+.qrows h3 { text-transform: uppercase; }
+.founder h2 .need, .qrows .need { white-space: nowrap; font-size: 0.8em; }
+
+/* closing band */
+.close { margin-top: 160px; background: var(--primary); color: var(--on-accent); padding: 24px var(--gutter) 0; }
+.close h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 3.1vw, 44px); line-height: 1.1; text-align: center; padding-top: 32px; }
+.close h2 span { display: block; text-transform: none; }
+.close-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 210px) minmax(0, 1fr); gap: 32px; padding: 64px 0; align-items: start; }
+.close-terms p { font-family: var(--font-display); font-size: 16px; line-height: 1.55; max-width: 52ch; }
+.close-terms .price { font-family: var(--font-text); display: flex; gap: 24px; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.close-terms .price + .price { color: var(--hatch); }
+.close-terms [data-commitment] { margin-top: 24px; background: var(--primary); color: var(--on-accent); border-color: var(--on-accent); }
+.close-terms [data-commitment]:hover { background: var(--on-accent); color: var(--primary); }
+.close-photo .ph { aspect-ratio: 3 / 4; }
+.close-right { text-align: right; font-size: 14px; }
+.foot { border-top: 1px solid var(--on-accent); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 24px 0; font-size: 14px; }
+.foot nav { display: flex; gap: 24px; text-transform: uppercase; }
+
+@media (max-width: 760px) {
+  .items { margin-top: 96px; }
+  .row { overflow-x: auto; margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); scroll-snap-type: x proximity; }
+  .row li { flex: 0 0 68vw !important; }
+  .band { margin-top: 96px; }
+  .band .ph { height: 520px; }
+  .band-panel { padding: 24px; }
+  .giant { margin-top: 96px; min-height: 560px; }
+  .founder { margin-top: 96px; }
+  .founder-inner { flex-direction: column-reverse; padding-top: 32px; }
+  .founder .ph { width: 70%; }
+  .questions { margin-top: 96px; }
+  .close { margin-top: 96px; }
+  .close-grid { grid-template-columns: minmax(0, 1fr); padding: 32px 0; }
+  .close-photo { order: 2; max-width: 210px; }
+  .close-right { text-align: left; order: 3; }
+  .bar { position: static; }
+  .founder h2 .need, .qrows .need { white-space: normal; }
+  .bar p { font-size: 14px; }
+  .hero-links { gap: 4px; flex-direction: column; }
+  .hero-links .pipe { display: none; }
+}
+@media (max-width: 400px) {
+  .mark { font-size: 13px; letter-spacing: 0.1em; }
+  .burger summary { width: 36px; }
+  .burger summary span { width: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fd-hero[data-armed] .fd-split-inner { transform: none; }
+}
+</style>
+</head>
+<body>
+<svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs>
+<pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="l1" x1="0" y1="0" x2="0" y2="12" /></pattern>
+<pattern id="hatchd" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="l2" x1="0" y1="0" x2="0" y2="12" /></pattern>
+</defs></svg>
+<header class="top" id="top">
+  <a class="mark" href="#top">Ridgeback Sharpening</a>
+  <details class="burger">
+    <summary aria-label="Menu"><span></span><span></span></summary>
+    <nav aria-label="Page">
+      <a href="#what">What we sharpen</a>
+      <a href="#questions">Who, where and what if</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </details>
+</header>
+<main>
+<section class="hero fd-hero" data-fd-hero>
+  <h1 data-fd-split><span>SHARPENED IN YOUR DRIVEWAY</span> <span>Knives, scissors, mower blades.</span></h1>
+  <figure class="ph cover">
+    <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+    <figcaption>[PLACEHOLDER: a chef's knife held edge-up against window light, the founder's hand, 3:4]</figcaption>
+  </figure>
+  <p class="hero-links">
+    <a data-commitment href="[NEED: checkout link]">Book a first visit for $40</a>
+    <span class="pipe" aria-hidden="true"></span>
+    <a class="plain" href="#what">What we sharpen</a>
+  </p>
+</section>
+<figure class="ph peek">
+  <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+  <figcaption>[PLACEHOLDER: an empty driveway in a small Idaho town, early morning, wide, 16:5]</figcaption>
+</figure>
+<div class="bar">
+  <p>A $40 deposit books your first visit and comes off the bill.</p>
+  <a data-commitment href="[NEED: checkout link]">Book a first visit for $40</a>
+</div>
+<section class="sec items" id="what">
+  <div class="rule-head"><h2>What goes in the van</h2><span class="need">[NEED: price list]</span></div>
+  <ul class="row">
+    <li>
+      <figure class="ph">
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+        <figcaption>[PLACEHOLDER: a set of kitchen knives on a wooden counter, side light, 5:6]</figcaption>
+      </figure>
+      <h3>Kitchen knives</h3>
+    </li>
+    <li>
+      <figure class="ph">
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+        <figcaption>[PLACEHOLDER: scissors open on a workbench, overhead, soft light, 5:6]</figcaption>
+      </figure>
+      <h3>Scissors</h3>
+    </li>
+    <li>
+      <figure class="ph">
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+        <figcaption>[PLACEHOLDER: a mower blade clamped in a vise, garage light, 5:6]</figcaption>
+      </figure>
+      <h3>Mower blades</h3>
+    </li>
+  </ul>
+</section>
+
+<section class="band on-dark" aria-labelledby="visit-h">
+  <figure class="ph dark">
+    <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatchd)" /></svg>
+    <figcaption>[PLACEHOLDER: the founder's sharpening equipment set up on a bench, low light, 16:4]</figcaption>
+  </figure>
+  <div class="band-text">
+    <div class="band-panel">
+      <h2 id="visit-h">What the $40 does</h2>
+      <p>Book with a $40 deposit. The van pulls into your driveway and sharpens what you hand over. The $40 comes off the bill. The van is not on the road yet, so the first visit window is <span class="need">[NEED: first visit window]</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="giant on-dark" aria-labelledby="hour-h">
+  <figure class="ph dark">
+    <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatchd)" /></svg>
+    <figcaption>[PLACEHOLDER: a push mower on a lawn at the edge of a driveway, afternoon, 16:9]</figcaption>
+  </figure>
+  <p class="cap">The problem, as one homeowner put it</p>
+  <h2 id="hour-h">The nearest place that sharpens anything is an hour away.</h2>
+</section>
+
+<section class="sec founder">
+  <div class="founder-inner">
+    <div>
+      <h2><span>WHO OWNS THE EQUIPMENT: <span class="need">[NEED: founder name]</span></span><span>Owns the sharpening equipment. There is no van yet. <span class="need">[NEED: founder history, one line]</span></span></h2>
+      <p class="tag">Founder</p>
+    </div>
+    <figure class="ph">
+      <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+      <figcaption>[PLACEHOLDER: the founder at the equipment, eye level, window light, 3:4]</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec questions" id="questions">
+  <div class="rule-head"><h2>Who, where and what if</h2></div>
+  <ul class="qrows">
+    <li><h3>Who it is for</h3><p>A homeowner who cooks and keeps a lawn.</p></li>
+    <li><h3>Where the van goes</h3><p><span class="need">[NEED: service area, towns]</span></p></li>
+    <li><h3>If the van never runs</h3><p><span class="need">[NEED: what happens to deposits]</span></p></li>
+  </ul>
+</section>
+
+<section class="close on-dark" id="book" aria-labelledby="book-h">
+  <h2 id="book-h">BOOK A FIRST VISIT <span>A $40 deposit, applied to the bill.</span></h2>
+  <div class="close-grid">
+    <div class="close-terms">
+      <p class="price"><span>Deposit</span><span>$40</span></p>
+      <p class="price"><span>Applied to</span><span>your bill</span></p>
+      <p>Charged today. <span class="need">[NEED: legal business name]</span> charges your card through <span class="need">[NEED: payment processor]</span>. Refunds: <span class="need">[NEED: refund terms]</span>.</p>
+      <a data-commitment href="[NEED: checkout link]">Book a first visit for $40</a>
+    </div>
+    <div class="close-photo">
+      <figure class="ph">
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+        <figcaption>[PLACEHOLDER: a sharpened knife edge, macro, 3:4]</figcaption>
+      </figure>
+    </div>
+    <p class="close-right">Questions: <span class="need">[NEED: contact email]</span></p>
+  </div>
+  <footer class="foot">
+    <span>&copy; 2026 Ridgeback Sharpening</span>
+    <nav aria-label="Legal"><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></nav>
+    <span><a href="#top">Top</a></span>
+  </footer>
+</section>
+</main>
+<script>
+(function () {
+  var hero = document.querySelector('[data-fd-hero]');
+  var h = hero && hero.querySelector('[data-fd-split]');
+  if (!h || !h.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var STAGGER_MS = 110;
+  var DURATION_MS = 1000;
+  var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  var blocks = Array.prototype.map.call(h.children, function (c) { return c.textContent.trim().replace(/\s+/g, ' '); });
+  var text = blocks.join(' ');
+  var rule = hero.querySelector('.fd-hero-rule'); // optional
+  var anims = [];
+  var done = false;
+  var played = false;
+
+  // Lay the words of each block out once, read which line each landed on, rebuild as line masks.
+  function split() {
+    h.textContent = '';
+    var sr = document.createElement('span');
+    sr.className = 'fd-split-sr';
+    sr.textContent = text;
+    h.appendChild(sr);
+    blocks.forEach(function (t) {
+      var blk = document.createElement('span');
+      blk.style.display = 'block';
+      h.appendChild(blk);
+      var words = t.split(' ').map(function (w, i) {
+        var s = document.createElement('span');
+        s.textContent = w;
+        if (i) blk.appendChild(document.createTextNode(' '));
+        blk.appendChild(s);
+        return s;
+      });
+      var lines = [];
+      var top = null;
+      words.forEach(function (w) {
+        if (w.offsetTop !== top) { lines.push([]); top = w.offsetTop; }
+        lines[lines.length - 1].push(w.textContent);
+      });
+      blk.textContent = '';
+      lines.forEach(function (line) {
+        var mask = document.createElement('span');
+        var inner = document.createElement('span');
+        mask.className = 'fd-split-line';
+        mask.setAttribute('aria-hidden', 'true');
+        inner.className = 'fd-split-inner';
+        inner.textContent = line.join(' ');
+        mask.appendChild(inner);
+        blk.appendChild(mask);
+      });
+    });
+  }
+
+  // The final state belongs to CSS. Reached at the end, and on any error.
+  function finish() {
+    if (done) return;
+    done = true;
+    hero.removeAttribute('data-armed');
+    anims.forEach(function (a) { a.cancel(); });
+  }
+
+  function play() {
+    played = true;
+    var started = false;
+    try {
+      split();
+      var inners = h.querySelectorAll('.fd-split-inner');
+      Array.prototype.forEach.call(inners, function (el, i) {
+        anims.push(el.animate({ transform: ['translateY(105%)', 'none'] },
+          { duration: DURATION_MS, delay: i * STAGGER_MS, easing: EASE, fill: 'both' }));
+      });
+      if (rule) anims.push(rule.animate({ transform: ['scaleX(0)', 'none'] },
+        { duration: 900, delay: inners.length * STAGGER_MS + 150, easing: EASE, fill: 'both' }));
+      Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+      started = true;
+    } finally {
+      if (!started) finish();
+    }
+  }
+
+  hero.setAttribute('data-armed', '');
+  try { split(); } catch (e) { finish(); throw e; }
+  // Wait for the display face (at most 600ms), re-split on its metrics, then play.
+  var fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+  Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 600); })]).then(function () {
+    requestAnimationFrame(play);
+  });
+
+  // Line breaks change with the width; re-split so the masks match them.
+  var lastWidth = h.offsetWidth;
+  var pending;
+  addEventListener('resize', function () {
+    clearTimeout(pending);
+    pending = setTimeout(function () {
+      if (h.offsetWidth === lastWidth || !played) return;
+      lastWidth = h.offsetWidth;
+      split();
+    }, 150);
+  });
+})();
+</script>
+</body>
+</html>

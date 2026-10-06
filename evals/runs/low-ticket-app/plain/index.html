@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halves: split the groceries, settle once a month</title>
+<meta name="description" content="Roommates log shared groceries on their phones. Halves works out who owes whom once a month. Pre-pay the first year for $36.">
+<style>
+:root{--bg:#fbf8f2;--ink:#1d2320;--mute:#5d665f;--line:#e2dccf;--accent:#1f6b4f;--accent-ink:#fff;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#141815;--ink:#eef0ea;--mute:#a2aaa2;--line:#2c342e;--accent:#6fcf9f;--accent-ink:#0f1a14;--card:#1b211d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:640px;margin:0 auto;padding:0 20px}
+section{padding:44px 0;border-top:1px solid var(--line)}
+section:first-child{border:0;padding-top:56px}
+h1{font-size:clamp(2rem,7vw,3rem);line-height:1.1;margin:0 0 16px;letter-spacing:-.02em}
+h2{font-size:1.4rem;margin:0 0 12px}
+p{margin:0 0 14px}
+.mute{color:var(--mute)}
+.brand{font-weight:800;letter-spacing:-.02em;margin-bottom:28px;font-size:1.1rem}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:14px 22px;border-radius:10px;font-weight:700;text-decoration:none}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.quote{font-size:1.25rem;font-style:italic;border-left:4px solid var(--accent);padding-left:16px;margin:0 0 16px}
+ol{padding-left:22px}li{margin-bottom:10px}
+.ledger{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:16px}
+.ledger div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line)}
+.ledger div:last-child{border:0;font-weight:700;padding-top:12px}
+.note{font-size:14px;color:var(--mute);margin-top:8px}
+footer{padding:30px 0 60px;font-size:14px;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<section>
+  <div class="brand">Halves</div>
+  <h1>Stop being the one who bought the toilet paper.</h1>
+  <p>Halves is a phone app for roommates. Log shared groceries as you buy them. Once a month it tells everyone who owes whom, so the person who keeps buying the basics gets paid back.</p>
+  <p><a class="btn" href="#buy">Pre-pay year one for $36</a></p>
+  <p class="note">Honest status: Halves is a clickable prototype today. The real app is not built yet.</p>
+</section>
+
+<section>
+  <p class="quote">"Someone always ends up buying the toilet paper and nobody pays them back."</p>
+  <p class="mute">If you share a rental house, you know it. One person grabs the essentials, the receipt vanishes, and awkward texts start. Splitting every item the moment you buy it is a chore, so nobody does it.</p>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <ol>
+    <li><b>Buy something shared.</b> Snap or type the amount and who it was for.</li>
+    <li><b>Log it in a few taps.</b> Everyone in the house sees it.</li>
+    <li><b>Settle once a month.</b> Halves nets everything out and shows who pays whom. One payment each, not twenty.</li>
+  </ol>
+  <div class="ledger" aria-label="Example month">
+    <div><span>Sam bought toilet paper, dish soap</span><span>$24</span></div>
+    <div><span>Jo bought eggs, rice, milk</span><span>$36</span></div>
+    <div><span>Priya bought coffee</span><span>$12</span></div>
+    <div><span>Each person's share</span><span>$24</span></div>
+    <div><span>Priya pays Jo</span><span>$12</span></div>
+  </div>
+  <p class="note">Made-up example to show the idea, not real data.</p>
+</section>
+
+<section id="buy">
+  <h2>Help build it: $36 for the first year</h2>
+  <p>Pre-paying gets you a full first year of Halves once it launches. It also tells me real houses want this, which decides whether I finish it.</p>
+  <p>Here is what you are paying for, plainly: a prototype exists you can click through. Nothing in it saves yet, and there is no launch date I can promise.</p>
+  <p><a class="btn" href="#TODO-checkout-link">Pre-pay $36</a></p>
+  <p class="note">Refund terms: to be confirmed before taking payment.</p>
+</section>
+
+<footer>Halves &middot; built for college houses</footer>
+</main>
+</body>
+</html>

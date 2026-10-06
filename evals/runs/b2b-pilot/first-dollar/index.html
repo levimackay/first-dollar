@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidemark: find claims paid below your contracted fee</title>
+<meta name="description" content="A 90-day paid pilot for $1,500. Tidemark reads a dental practice's remittance files and flags claims paid below the contracted fee.">
+<meta property="og:title" content="Tidemark: find claims paid below your contracted fee">
+<meta property="og:description" content="A 90-day paid pilot for $1,500, for independent dental practices with 2 to 6 chairs.">
+<meta property="og:image" content="[NEED: site address]/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:wght@400;600&family=Sometype+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12"/></pattern></defs></svg>
+<div class="banner">Tidemark is not built yet. This page sells a 90-day pilot.</div>
+<header class="wrap nav">
+  <div class="nav-left">
+    <a class="brand" href="#top"><svg viewBox="0 0 32 32" aria-hidden="true"><rect class="mk" x="3" y="3" width="26" height="26"/><rect class="mk-fill" x="3" y="18" width="26" height="11"/></svg>Tidemark</a>
+    <ul class="links">
+      <li><a href="#mechanism">Mechanism</a></li>
+      <li><a href="#pilot">Pilot</a></li>
+      <li><a href="#files">Files</a></li>
+      <li><a href="#founder">Founder</a></li>
+    </ul>
+  </div>
+</header>
+<main id="top">
+<section class="wrap hero">
+  <div class="col">
+    <span class="tick" aria-hidden="true"></span>
+    <h1>Find the claims your payers paid below your contracted fee.</h1>
+    <p>Tidemark reads the remittance files your practice already gets and flags each claim paid below the fee in your contract. You stop reading every line of every EOB yourself.</p>
+    <p>Built for the office manager at an independent practice with 2 to 6 chairs. The pilot runs 90 days.</p>
+    <a class="commit" data-commitment href="[NEED: checkout link]">Start the pilot for $1,500</a>
+  </div>
+</section>
+
+<section class="wrap quote">
+  <blockquote>
+    <p>I know we get shorted on claims. I do not have the hours to check every line of every EOB.</p>
+    <cite>The sentence this is built around. <span class="need">[NEED: where the founder heard this, and permission to quote it]</span></cite>
+  </blockquote>
+</section>
+
+<section class="wrap s-flow" id="mechanism">
+  <h2>Claims paid under contract</h2>
+  <p>A remittance file lists what each payer paid, one line per claim. Your contract lists what each procedure should pay. Tidemark sets the two side by side and keeps the lines where the first is lower.</p>
+  <div class="flow">
+    <div class="box"><h3>Remittance file</h3><p>What the payer paid, line by line. <span class="need">[NEED: file formats Tidemark will read]</span></p></div>
+    <div class="join" aria-hidden="true"></div>
+    <div class="box"><h3>Contracted fee</h3><p>What each procedure should pay. <span class="need">[NEED: how the contracted fees get into Tidemark]</span></p></div>
+    <div class="join" aria-hidden="true"></div>
+    <div class="box"><h3>Flag list</h3><p>Each claim paid below its fee, and by how much.</p></div>
+  </div>
+</section>
+
+<section class="wrap s-mock">
+  <h2>Claim by claim</h2>
+  <p>This is the page the office manager would open: every line checked, the short ones marked.</p>
+  <figure class="mock" data-mech>
+    <div class="frame">
+      <div class="tbl" role="table" aria-label="Example claims table">
+        <div class="tr th" role="row"><span role="columnheader">Claim</span><span role="columnheader">Procedure</span><span role="columnheader">Contracted</span><span role="columnheader">Paid</span><span role="columnheader">Result</span></div>
+        <div class="tr" role="row" data-row><span>Claim 1041</span><span>D1110</span><span>$98.00</span><span>$98.00</span><span class="res">At contract</span></div>
+        <div class="tr" role="row" data-row data-flag><i class="hl" aria-hidden="true"></i><span>Claim 1042</span><span>D0120</span><span>$54.00</span><span>$41.00</span><span class="res">Below by $13.00</span></div>
+        <div class="tr" role="row" data-row><span>Claim 1043</span><span>D2391</span><span>$142.00</span><span>$142.00</span><span class="res">At contract</span></div>
+        <div class="tr" role="row" data-row><span>Claim 1044</span><span>D0274</span><span>$67.00</span><span>$67.00</span><span class="res">At contract</span></div>
+        <div class="tr" role="row" data-row data-flag><i class="hl" aria-hidden="true"></i><span>Claim 1045</span><span>D4341</span><span>$210.00</span><span>$168.00</span><span class="res">Below by $42.00</span></div>
+        <div class="tr" role="row" data-row><span>Claim 1046</span><span>D1206</span><span>$38.00</span><span>$38.00</span><span class="res">At contract</span></div>
+        <div class="tr tot" role="row" data-total><span>2 of 6 below contract</span><span>$55.00 short</span></div>
+      </div>
+    </div>
+    <figcaption>Concept. Numbers are examples.</figcaption>
+  </figure>
+</section>
+
+<section class="wrap s-pilot" id="pilot">
+  <h2>What the 90 days cover</h2>
+  <dl class="spec">
+    <dt>Length</dt><dd>90 days.</dd>
+    <dt>Starts</dt><dd><span class="need">[NEED: pilot start time]</span></dd>
+    <dt>Scope</dt><dd><span class="need">[NEED: pilot scope]</span></dd>
+    <dt>Success measure</dt><dd><span class="need">[NEED: success measure]</span></dd>
+    <dt>If it misses</dt><dd><span class="need">[NEED: refund condition]</span></dd>
+    <dt>After the pilot</dt><dd><span class="need">[NEED: whether the fee counts toward a contract, and how]</span></dd>
+  </dl>
+</section>
+
+<section class="wrap s-money">
+  <h2>$1,500, 90 days</h2>
+  <p>One payment starts the pilot. It is charged at checkout.</p>
+  <dl class="spec">
+    <dt>Who charges</dt><dd><span class="need">[NEED: legal entity]</span> charges your card through <span class="need">[NEED: payment processor]</span>.</dd>
+    <dt>Refunds</dt><dd><span class="need">[NEED: refund terms]</span></dd>
+    <dt>Where the money sits</dt><dd><span class="need">[NEED: where the money is held]</span></dd>
+    <dt>If the pilot cannot start</dt><dd><span class="need">[NEED: what happens if the pilot cannot start]</span></dd>
+  </dl>
+  <a class="commit" data-commitment href="[NEED: checkout link]">Start the pilot for $1,500</a>
+</section>
+
+<section class="wrap s-files" id="files">
+  <h2>Your remittance files</h2>
+  <p>Nothing is built, so this page makes no security or compliance claim. These are the answers you are owed before you hand over a file.</p>
+  <dl class="spec">
+    <dt>Where files are kept</dt><dd><span class="need">[NEED: where files are stored and who can see them]</span></dd>
+    <dt>At the end</dt><dd><span class="need">[NEED: what is deleted at the end of the pilot]</span></dd>
+    <dt>Questions first</dt><dd><span class="need">[NEED: contact email]</span></dd>
+  </dl>
+</section>
+
+<section class="wrap s-founder" id="founder">
+  <h2>Two years at the front desk</h2>
+  <div class="founder">
+    <figure class="ph">
+      <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)"/></svg>
+      <figcaption>[PLACEHOLDER: the founder at a desk, eye level, window light, 4:5]</figcaption>
+    </figure>
+    <div>
+      <p><span class="need">[NEED: founder name]</span> worked the front desk at a dental office for two years.</p>
+      <p>Nothing is built yet. That is why this page sells a pilot and not a product.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="wrap">
+  <div class="foot">
+    <div><h2>Tidemark</h2><p>Flags claims paid below the contracted fee.</p></div>
+    <div><h2>On this page</h2><ul><li><a href="#mechanism">Mechanism</a></li><li><a href="#pilot">Pilot</a></li><li><a href="#files">Files</a></li><li><a href="#founder">Founder</a></li></ul></div>
+    <div><h2>Legal</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+  </div>
+  <p class="foot-end"><span class="need">[NEED: legal entity]</span></p>
+</footer>
+<script>
+(function () {
+  var fig = document.querySelector('[data-mech]');
+  if (!fig || !fig.animate || !('IntersectionObserver' in window)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var rows = fig.querySelectorAll('[data-row]');
+  var total = fig.querySelector('[data-total]');
+  var STEP = 650, EASE = 'cubic-bezier(0.22, 1, 0.36, 1)', anims = [], done = false;
+  function finish() { if (done) return; done = true; fig.removeAttribute('data-armed'); anims.forEach(function (a) { a.cancel(); }); }
+  function at(el, frames, delay, dur) { if (el) anims.push(el.animate(frames, { delay: delay, duration: dur, easing: EASE, fill: 'both' })); }
+  function play() {
+    var ok = false;
+    try {
+      rows.forEach(function (row, i) {
+        var d = i * STEP;
+        at(row.querySelector('.res'), { opacity: [0, 1], transform: ['translateY(6px)', 'none'] }, d, 500);
+        if (row.hasAttribute('data-flag')) at(row.querySelector('.hl'), { opacity: [0, 1] }, d, 600);
+      });
+      at(total, { opacity: [0, 1] }, rows.length * STEP + 200, 700);
+      Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+      ok = true;
+    } finally { if (!ok) finish(); }
+  }
+  fig.setAttribute('data-armed', '');
+  new IntersectionObserver(function (es, io) { if (!es[0].isIntersecting) return; io.disconnect(); play(); }, { rootMargin: '0px 0px -25% 0px' }).observe(fig);
+})();
+</script>
+</body>
+</html>

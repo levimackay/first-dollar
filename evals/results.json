@@ -1,0 +1,696 @@
+{
+  "generatedAt": "2026-10-06T00:56:30.560Z",
+  "method": "Universal lint rules + rendered checks + one ask heuristic + unconfirmed-number list + look fingerprint, identical for every arm. See results.md.",
+  "runs": [
+    {
+      "case": "b2b-pilot",
+      "arm": "plain",
+      "slop": {
+        "fails": 2,
+        "warns": 5,
+        "byRule": {
+          "legal-links": 1,
+          "banned-font-family": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": [
+          "overflow"
+        ]
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "contact",
+        "text": "Ask about the 90-day pilot",
+        "href": "mailto:hello@example.com?subject=Tidemark%20pilot",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "1110",
+        "98",
+        "2391",
+        "142",
+        "121",
+        "21",
+        "0120",
+        "54"
+      ],
+      "look": {
+        "background": "rgb(247, 245, 240)",
+        "displayFamily": "system-ui",
+        "ctaColor": "rgb(15, 95, 107)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "b2b-pilot",
+      "arm": "prompted",
+      "slop": {
+        "fails": 10,
+        "warns": 3,
+        "byRule": {
+          "legal-links": 1,
+          "side-stripe": 1,
+          "mono-eyebrow": 7,
+          "mono-prose": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Commit to a 90-day pilot for $1,500",
+        "href": "#commit",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(246, 244, 239)",
+        "displayFamily": "Inter",
+        "ctaColor": "rgb(22, 24, 26)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "b2b-pilot",
+      "arm": "first-dollar",
+      "slop": {
+        "fails": 0,
+        "warns": 0,
+        "byRule": {}
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": []
+      },
+      "ask": {
+        "type": "money",
+        "text": "Start the pilot for $1,500",
+        "href": "[NEED: checkout link]",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "1041",
+        "1110",
+        "98",
+        "1042",
+        "0120",
+        "54",
+        "41",
+        "13",
+        "1043",
+        "2391",
+        "142",
+        "1044",
+        "0274",
+        "67",
+        "1045",
+        "4341",
+        "210",
+        "168",
+        "42",
+        "1046",
+        "1206",
+        "38",
+        "55"
+      ],
+      "look": {
+        "background": "rgb(250, 250, 250)",
+        "displayFamily": "Sometype Mono",
+        "ctaColor": "rgb(243, 88, 21)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "consumer-preorder",
+      "arm": "plain",
+      "slop": {
+        "fails": 1,
+        "warns": 2,
+        "byRule": {
+          "legal-links": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-order for $89",
+        "href": "#preorder",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(246, 241, 231)",
+        "displayFamily": "Georgia",
+        "ctaColor": "rgb(63, 107, 58)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "consumer-preorder",
+      "arm": "prompted",
+      "slop": {
+        "fails": 5,
+        "warns": 2,
+        "byRule": {
+          "legal-links": 1,
+          "font-popularity": 2,
+          "three-card-row": 1,
+          "invented-metric": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-order Loam for $89",
+        "href": "#preorder",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(247, 240, 220)",
+        "displayFamily": "Bricolage Grotesque",
+        "ctaColor": "rgb(232, 69, 44)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "consumer-preorder",
+      "arm": "first-dollar",
+      "slop": {
+        "fails": 0,
+        "warns": 0,
+        "byRule": {}
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": []
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-order for $89",
+        "href": "[NEED: checkout link]",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "16",
+        "2026"
+      ],
+      "look": {
+        "background": "rgb(246, 230, 217)",
+        "displayFamily": "Imbue",
+        "ctaColor": "rgb(209, 224, 48)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "high-ticket-loi",
+      "arm": "plain",
+      "slop": {
+        "fails": 2,
+        "warns": 1,
+        "byRule": {
+          "legal-links": 1,
+          "flat-type-scale": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "other",
+        "text": "Reserve the 2027 season",
+        "href": "#loi",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(246, 242, 234)",
+        "displayFamily": "system-ui",
+        "ctaColor": "rgb(180, 80, 31)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "high-ticket-loi",
+      "arm": "prompted",
+      "slop": {
+        "fails": 15,
+        "warns": 3,
+        "byRule": {
+          "legal-links": 1,
+          "mono-eyebrow": 7,
+          "mono-prose": 2,
+          "em-dash": 5
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": [
+          "contrast"
+        ]
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "none",
+        "text": null,
+        "href": null,
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(232, 232, 228)",
+        "displayFamily": "Helvetica Neue",
+        "ctaColor": null
+      },
+      "status": "ok"
+    },
+    {
+      "case": "high-ticket-loi",
+      "arm": "first-dollar",
+      "slop": {
+        "fails": 0,
+        "warns": 0,
+        "byRule": {}
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": []
+      },
+      "ask": {
+        "type": "money",
+        "text": "Sign the letter of intent: $12,000",
+        "href": "[NEED: LOI form link]",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "16"
+      ],
+      "look": {
+        "background": "rgb(247, 249, 248)",
+        "displayFamily": "Bowlby One",
+        "ctaColor": "rgb(242, 103, 58)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "local-service",
+      "arm": "plain",
+      "slop": {
+        "fails": 1,
+        "warns": 1,
+        "byRule": {
+          "legal-links": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Book a first visit, $40 deposit",
+        "href": "#book",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(246, 241, 232)",
+        "displayFamily": "Georgia",
+        "ctaColor": "rgb(180, 80, 31)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "local-service",
+      "arm": "prompted",
+      "slop": {
+        "fails": 1,
+        "warns": 2,
+        "byRule": {
+          "legal-links": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": [
+          "contrast"
+        ]
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "BOOK MY FIRST VISIT: $40 DEPOSIT Applied to your bill",
+        "href": "#deposit",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(241, 236, 226)",
+        "displayFamily": "Iowan Old Style",
+        "ctaColor": "rgb(42, 39, 35)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "local-service",
+      "arm": "first-dollar",
+      "slop": {
+        "fails": 0,
+        "warns": 0,
+        "byRule": {}
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": []
+      },
+      "ask": {
+        "type": "other",
+        "text": "RIDGEBACK SHARPENING",
+        "href": "#top",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "16",
+        "2026"
+      ],
+      "look": {
+        "background": "rgb(255, 255, 255)",
+        "displayFamily": "Gilda Display",
+        "ctaColor": "rgb(1, 1, 1)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "low-ticket-app",
+      "arm": "plain",
+      "slop": {
+        "fails": 1,
+        "warns": 1,
+        "byRule": {
+          "legal-links": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-pay year one for $36",
+        "href": "#buy",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "24",
+        "12"
+      ],
+      "look": {
+        "background": "rgb(251, 248, 242)",
+        "displayFamily": "system-ui",
+        "ctaColor": "rgb(31, 107, 79)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "low-ticket-app",
+      "arm": "prompted",
+      "slop": {
+        "fails": 2,
+        "warns": 2,
+        "byRule": {
+          "legal-links": 1,
+          "banned-font-family": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-pay $36 for your first year",
+        "href": "#commit",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [],
+      "look": {
+        "background": "rgb(244, 243, 239)",
+        "displayFamily": "Helvetica Neue",
+        "ctaColor": "rgb(17, 17, 17)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "low-ticket-app",
+      "arm": "first-dollar",
+      "slop": {
+        "fails": 0,
+        "warns": 0,
+        "byRule": {}
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": []
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-order for $36",
+        "href": "[NEED: checkout link]",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "16",
+        "12",
+        "5",
+        "4",
+        "5.50"
+      ],
+      "look": {
+        "background": "rgb(237, 237, 237)",
+        "displayFamily": "Afacad",
+        "ctaColor": "rgb(23, 22, 20)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "one-liner",
+      "arm": "plain",
+      "slop": {
+        "fails": 1,
+        "warns": 1,
+        "byRule": {
+          "legal-links": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "free",
+        "text": "Get early access",
+        "href": "#start",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "16",
+        "15",
+        "20"
+      ],
+      "look": {
+        "background": "rgb(250, 248, 245)",
+        "displayFamily": "Georgia",
+        "ctaColor": "rgb(31, 77, 63)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "one-liner",
+      "arm": "prompted",
+      "slop": {
+        "fails": 1,
+        "warns": 1,
+        "byRule": {
+          "legal-links": 1
+        }
+      },
+      "rendered": {
+        "verified": true,
+        "failed": []
+      },
+      "convention": {
+        "failed": [
+          "commitment-above-fold"
+        ]
+      },
+      "ask": {
+        "type": "money",
+        "text": "Start my plan for $35/month",
+        "href": "https://buy.stripe.com/REPLACE_WITH_PAYMENT_LINK",
+        "hrefReal": true
+      },
+      "unconfirmedNumbers": [
+        "16"
+      ],
+      "look": {
+        "background": "rgb(255, 255, 255)",
+        "displayFamily": "Avenir Next",
+        "ctaColor": "rgb(42, 75, 215)"
+      },
+      "status": "ok"
+    },
+    {
+      "case": "one-liner",
+      "arm": "first-dollar",
+      "slop": {
+        "fails": 0,
+        "warns": 0,
+        "byRule": {}
+      },
+      "rendered": {
+        "verified": true,
+        "failed": [
+          "hidden-after-reveal",
+          "reduced-motion"
+        ]
+      },
+      "convention": {
+        "failed": []
+      },
+      "ask": {
+        "type": "money",
+        "text": "Pre-order for $35",
+        "href": "[NEED: checkout link]",
+        "hrefReal": false
+      },
+      "unconfirmedNumbers": [
+        "16"
+      ],
+      "look": {
+        "background": "rgb(251, 253, 251)",
+        "displayFamily": "Wix Madefor Display",
+        "ctaColor": "rgb(20, 109, 199)"
+      },
+      "status": "ok"
+    }
+  ],
+  "arms": {
+    "plain": {
+      "pages": 6,
+      "uniqueDisplayFamilies": 2,
+      "meanBackgroundDeltaE": 0.012729378736482493,
+      "uniqueCtaHueBuckets": 4,
+      "totals": {
+        "slopFails": 8,
+        "moneyAsks": 3,
+        "contactAsks": 1,
+        "missing": 0,
+        "notScored": 0
+      }
+    },
+    "prompted": {
+      "pages": 6,
+      "uniqueDisplayFamilies": 5,
+      "meanBackgroundDeltaE": 0.032480596210147275,
+      "uniqueCtaHueBuckets": 3,
+      "totals": {
+        "slopFails": 34,
+        "moneyAsks": 5,
+        "contactAsks": 0,
+        "missing": 0,
+        "notScored": 0
+      }
+    },
+    "first-dollar": {
+      "pages": 6,
+      "uniqueDisplayFamilies": 6,
+      "meanBackgroundDeltaE": 0.034074548397879725,
+      "uniqueCtaHueBuckets": 4,
+      "totals": {
+        "slopFails": 0,
+        "moneyAsks": 5,
+        "contactAsks": 0,
+        "missing": 0,
+        "notScored": 0
+      }
+    }
+  }
+}
