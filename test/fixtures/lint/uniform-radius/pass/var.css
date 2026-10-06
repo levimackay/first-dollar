@@ -1,0 +1,7 @@
+:root {
+  --r-tight: 2px;
+  --r-soft: 14px;
+}
+.tile { border-radius: var(--r-tight); }
+.sheet { border-radius: var(--r-soft); }
+.stamp { border-radius: var(--r-none, 0); }

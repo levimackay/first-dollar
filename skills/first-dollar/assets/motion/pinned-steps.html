@@ -1,0 +1,201 @@
+<!--
+  pinned-steps: a short pinned section that steps the mechanism as you scroll.
+  What it does: the section holds still (CSS sticky) for about two screens of
+  scrolling while three steps of the mechanism take turns: the active step
+  comes up to full ink and the photo slot for it wipes in over the last, all
+  three stacked in one frame at one aspect. The sample is a hand-poured
+  candle: wax melts, is poured, cures. Waiting steps are set in the muted
+  tone (over 4.5:1 contrast), never faded, so all three stay readable the
+  whole time. On load it jumps straight to the state that matches the scroll
+  position.
+  How to adapt: keep three steps (two is a toggle, four is a slideshow).
+  Rewrite the <li> copy from COPY.md. Each step carries its own labeled photo
+  slot (the pattern in design-rules.md); replace a slot with the founder's
+  photo when one exists, otherwise keep the labeled slot and write its
+  [PLACEHOLDER: ...] label as a shot direction for this product. Every slot
+  keeps the same aspect. The page's one hatch defs block from design-rules.md supplies #hatch; set its gap there and its ink with --fd-slot-ink. Software has no photo to take: use
+  mechanism-sequence instead. The wipe is clip-path only. No number counts up.
+  Reduced motion: no pin, no wipe. The section is ordinary height, every step
+  is at full ink, and each step sits beside its own slot in normal flow.
+  Without JavaScript the same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinned steps</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 2rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 6rem clamp(1rem, 5vw, 4rem) 40vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+.ph-defs { position: absolute; }
+
+/* ---- snippet: pinned-steps ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-steps {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+  --_ease: var(--fd-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+/* The pin and the dimmed steps exist only once the script arms the section. */
+.fd-steps[data-armed] { height: 300svh; }
+.fd-steps[data-armed] .fd-steps-pin { position: sticky; top: 0; height: 100svh; }
+.fd-steps-pin {
+  box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 4vw, 4rem); align-items: center;
+  padding: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem);
+}
+.fd-steps-list { list-style: none; margin: 0; padding: 0; counter-reset: step; max-width: 30rem; }
+.fd-steps-list li {
+  counter-increment: step; position: relative;
+  padding: 1.1rem 0 1.1rem 3rem; border-top: 1px solid var(--_rule);
+}
+/* Waiting steps drop to the muted tone, not to low opacity: they stay readable. */
+.fd-steps[data-armed] .fd-steps-list li { color: var(--_muted); }
+.fd-steps-list li::before { content: counter(step); position: absolute; left: 0; top: 1.1rem; font-variant-numeric: tabular-nums; color: var(--_accent); font-weight: 600; }
+.fd-steps-list li::after {
+  content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--_ink);
+  transform: scaleX(0); transform-origin: left center; transition: transform 600ms var(--_ease);
+}
+.fd-steps[data-armed] .fd-steps-list li[aria-current="step"],
+.fd-steps[data-armed] .fd-steps-list li[aria-current="step"] p { color: var(--_ink); }
+.fd-steps-list li[aria-current="step"]::after { transform: none; }
+.fd-steps-list b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
+.fd-steps-list p { margin: 0.35rem 0 0; color: var(--_muted); }
+
+/* Photo slots: the labeled-slot pattern from design-rules.md, scoped to this recipe. The page's one hatch defs block sets the gap. */
+.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
+.fd-steps .ph { position: relative; margin: 0.75rem 0 0; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
+.fd-steps .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fd-steps .ph figcaption { position: relative; display: inline-block; margin: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
+
+/* Before the script arms the section the frame is empty and hidden; each slot sits in its own step. */
+.fd-steps-frame { display: none; }
+/* Armed: the three slots stack in one frame and the active one wipes in over the last. */
+.fd-steps[data-armed] .fd-steps-frame { display: block; position: relative; aspect-ratio: 4 / 3; width: min(100%, calc(64svh * 4 / 3)); justify-self: center; }
+.fd-steps[data-armed] .fd-steps-frame .ph { position: absolute; inset: 0; margin: 0; aspect-ratio: auto; clip-path: inset(0); transition: clip-path 700ms var(--_ease); }
+.fd-steps .fd-steps-frame[data-state="-1"] .ph:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="0"] .ph:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="1"] .ph:nth-child(3) { clip-path: inset(100% 0 0 0); }
+/* Set while the script lands on the first state, so nothing animates on load. */
+.fd-steps[data-instant] .ph,
+.fd-steps[data-instant] .fd-steps-list li::after { transition: none !important; }
+
+@media (max-width: 760px) {
+  .fd-steps[data-armed] { height: 240svh; }
+  .fd-steps-pin { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 0.75rem; }
+  .fd-steps[data-armed] .fd-steps-frame { order: -1; width: min(100%, calc(36svh * 4 / 3)); }
+  .fd-steps-list li { padding: 0.7rem 0 0.7rem 2.25rem; }
+  .fd-steps-list li::before { top: 0.75rem; }
+  .fd-steps-list p { font-size: 0.9375rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-steps[data-armed] { height: auto; }
+  .fd-steps[data-armed] .fd-steps-pin { position: static; height: auto; }
+  .fd-steps[data-armed] .fd-steps-list li { color: inherit; }
+  .fd-steps-list li::after { transform: none; }
+  .fd-steps[data-armed] .fd-steps-frame .ph { transition: none; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>From flakes to a finished candle.</h2>
+    <p>Demo copy. Scroll: the section holds while the three steps take turns.</p>
+  </div>
+
+  <!-- Demo scaffolding, not part of the snippet: the page's one hatch defs block. -->
+  <svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" /></pattern></defs></svg>
+  <!-- snippet: pinned-steps -->
+  <section class="fd-steps" data-fd-steps>
+    <div class="fd-steps-pin">
+      <ol class="fd-steps-list">
+        <li><b>Wax is melted</b><p>Demo copy. Flakes go into the pitcher and melt slowly.</p>
+          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: wax flakes melting in a steel pitcher, overhead, daylight, 4:3]</figcaption></figure></li>
+        <li><b>It is poured</b><p>Demo copy. The wax goes into the jar in one pass.</p>
+          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: hands pouring wax into a glass jar, side view, window light, 4:3]</figcaption></figure></li>
+        <li><b>It cures</b><p>Demo copy. The jar rests until the wax sets, then the wick is trimmed.</p>
+          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: finished candle on a bench, wick being trimmed, three-quarter view, daylight, 4:3]</figcaption></figure></li>
+      </ol>
+      <div class="fd-steps-frame" data-state="2" data-fd-frame></div>
+    </div>
+  </section>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer. The page carries on here.</p>
+</main>
+
+<script>
+/* ---- snippet: pinned-steps ---- */
+(function () {
+  var section = document.querySelector('[data-fd-steps]');
+  if (!section || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var frame = section.querySelector('[data-fd-frame]');
+  var steps = section.querySelectorAll('.fd-steps-list li');
+  if (!frame || steps.length < 2) return;
+  // Gather each step's slot into the frame, in step order, so they stack.
+  steps.forEach(function (li) {
+    var slot = li.querySelector('.ph');
+    if (slot) frame.appendChild(slot);
+  });
+  var current = null;
+
+  function setState(i) {
+    if (i === current) return;
+    current = i;
+    frame.setAttribute('data-state', String(i));
+    steps.forEach(function (li, j) {
+      if (j === i) li.setAttribute('aria-current', 'step');
+      else li.removeAttribute('aria-current');
+    });
+  }
+
+  var queued = false;
+  function update() {
+    queued = false;
+    var r = section.getBoundingClientRect();
+    if (r.top > 0) return setState(r.top < innerHeight * 0.5 ? 0 : -1);
+    var p = -r.top / Math.max(1, r.height - innerHeight);
+    setState(Math.min(steps.length - 1, Math.floor(p * steps.length)));
+  }
+  addEventListener('scroll', function () {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  addEventListener('resize', update);
+
+  // Arm and land on the scroll position's state with transitions off, so the
+  // frame never plays backwards from its final state on load.
+  section.setAttribute('data-armed', '');
+  section.setAttribute('data-instant', '');
+  update();
+  void section.offsetHeight;
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { section.removeAttribute('data-instant'); });
+  });
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

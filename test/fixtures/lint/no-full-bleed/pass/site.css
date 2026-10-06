@@ -1,0 +1,2 @@
+.container { max-width: 1080px; margin-inline: auto; }
+.bleed { width: 100vw; margin-inline: calc(50% - 50vw); }

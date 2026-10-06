@@ -1,0 +1,10 @@
+:root { --mono: 'Azeret Mono', ui-monospace, monospace; }
+body { font-family: Newsreader, serif; }
+.band { padding-block: 96px 64px; }
+.rail {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+}
+.lede { font-size: 21px; line-height: 1.5; max-width: 34ch; }

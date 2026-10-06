@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridgeback Sharpening</title>
+<meta name="description" content="A mobile van that sharpens kitchen knives, scissors and mower blades in your driveway. Book a first visit with a $40 deposit, applied to your bill.">
+<style>
+:root{--bg:#f6f1e8;--ink:#1f2a2e;--muted:#5b6669;--accent:#b4501f;--accent-d:#8f3e14;--card:#fffdf8;--line:#ddd3c0}
+@media (prefers-color-scheme:dark){:root{--bg:#161c1e;--ink:#efe9dc;--muted:#a3adb0;--accent:#e07a43;--accent-d:#f09460;--card:#1e2629;--line:#33403f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 Georgia,"Iowan Old Style",serif}
+.w{max-width:680px;margin:0 auto;padding:0 20px}
+header{padding:20px 0;font:700 15px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(2rem,7vw,3.2rem);line-height:1.1;margin:28px 0 16px}
+h2{font-size:1.6rem;margin:0 0 12px}
+p{margin:0 0 14px}
+.lead{font-size:1.2rem;color:var(--muted)}
+section{padding:36px 0;border-top:1px solid var(--line)}
+.btn{display:inline-block;background:var(--accent);color:#fff;font:600 17px/1 system-ui,sans-serif;padding:16px 24px;border:0;border-radius:8px;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--accent-d)}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+ul{padding-left:20px}li{margin-bottom:8px}
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card h3{margin:0 0 6px;font-size:1.1rem}
+.quote{font-size:1.5rem;font-style:italic;border-left:4px solid var(--accent);padding-left:16px;margin:0}
+form{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px}
+label{font:600 15px/1.3 system-ui,sans-serif;display:grid;gap:6px}
+input,textarea{font:inherit;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.small{font:14px/1.5 system-ui,sans-serif;color:var(--muted)}
+footer{padding:30px 0 50px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="w">
+<header>Ridgeback Sharpening</header>
+
+<h1>Sharp knives and a clean-cutting mower, without the hour-long drive.</h1>
+<p class="lead">A mobile van that sharpens your kitchen knives, scissors and mower blades in your own driveway.</p>
+<p><a class="btn" href="#book">Book a first visit, $40 deposit</a></p>
+<p class="small">The deposit goes toward your bill. We are launching soon, and the first visits go to the people who book now.</p>
+
+<section>
+<p class="quote">&ldquo;The nearest place that sharpens anything is an hour away.&rdquo;</p>
+<p style="margin-top:14px">That is the problem. A dull chef&rsquo;s knife slips and tears. A dull mower blade rips grass instead of cutting it. Most of us just live with it, because nobody wants to lose half a day to a round trip.</p>
+</section>
+
+<section>
+<h2>What we sharpen</h2>
+<div class="cards">
+<div class="card"><h3>Kitchen knives</h3><p>Chef&rsquo;s, paring, bread, boning. Back to a clean edge.</p></div>
+<div class="card"><h3>Scissors</h3><p>Sewing, kitchen and household shears.</p></div>
+<div class="card"><h3>Mower blades</h3><p>Sharpened so your lawn gets cut, not shredded.</p></div>
+</div>
+</section>
+
+<section>
+<h2>How it works</h2>
+<ol>
+<li>Reserve a first visit with a $40 deposit.</li>
+<li>We contact you to confirm a day and a time for the van to come by.</li>
+<li>We sharpen in your driveway. You keep doing what you were doing.</li>
+<li>The $40 comes off your final bill.</li>
+</ol>
+</section>
+
+<section>
+<h2>Where things stand</h2>
+<p>Straight answer: the sharpening equipment is owned and ready. The van is not built yet. That is why we are taking a small number of first-visit bookings now, to see how many neighbors want this before the van hits the road.</p>
+<p>We will tell you the date and the price of your job before we do any work. If we can&rsquo;t get to you, the $40 comes back.</p>
+</section>
+
+<section id="book">
+<h2>Reserve your first visit</h2>
+<p>Tell us where you are and what needs sharpening. The $40 deposit is applied to your bill.</p>
+<!-- PLACEHOLDER: set action to the deposit/payment link (e.g. a Stripe Payment Link) or a form endpoint -->
+<form action="PAYMENT_OR_FORM_LINK_HERE" method="post">
+<label>Name<input name="name" required autocomplete="name"></label>
+<label>Phone or email<input name="contact" required></label>
+<label>Town<input name="town" required></label>
+<label>What needs sharpening?<textarea name="items" rows="3" placeholder="e.g. 6 kitchen knives, push mower"></textarea></label>
+<button class="btn" type="submit">Reserve with $40 deposit</button>
+<span class="small">$40 applied to your bill. Refunded if we can&rsquo;t reach you.</span>
+</form>
+</section>
+
+<footer class="small">Ridgeback Sharpening &middot; Idaho &middot; Contact: CONTACT_EMAIL_OR_PHONE_HERE</footer>
+</div>
+</body>
+</html>

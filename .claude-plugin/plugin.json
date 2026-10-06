@@ -1,0 +1,9 @@
+{
+  "name": "first-dollar",
+  "description": "Turn a startup idea into a landing page that asks for a real commitment, built from a reference screenshot and linted against AI-slop patterns.",
+  "author": { "name": "Levi Mackay", "url": "https://github.com/levimackay" },
+  "homepage": "https://github.com/levimackay/first-dollar",
+  "repository": "https://github.com/levimackay/first-dollar",
+  "license": "MIT",
+  "keywords": ["landing-page", "validation", "design", "lint", "pre-order"]
+}

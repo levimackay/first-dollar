@@ -1,0 +1,9 @@
+:root { --mono: 'Azeret Mono', ui-monospace, monospace; }
+body { font-family: Fraunces, serif; }
+.band { padding-block: 96px 64px; }
+.eyebrow {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+}

@@ -1,0 +1,122 @@
+<!doctype html>
+<!--
+  Share card, 1200 x 630. Write it to <page>/.first-dollar/og.html, never beside
+  index.html: the lint skips dot-folders. Local font or image paths start with
+  ../ because the file sits one folder below the page.
+  Fill every {{...}} from DESIGN.md tokens and COPY.md, or delete the element
+  whose slot says so, then delete this comment.
+  grep -n "{{" <page>/.first-dollar/og.html must print nothing before you render.
+  Every word on the card is the founder's: product name, promise, price, terms,
+  domain. A missing one stays <span class="need">[NEED: ...]</span> or its
+  element goes. Never guess.
+  Render: node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <page> --og
+  The headline is the Promise from COPY.md, three lines at most. If it runs
+  longer, use the headline-lg size instead of headline-display. The card does
+  not scroll, so open og.png and check no line is cut off.
+  Background: the color that owns the reference's first screen, --neutral or
+  --primary; set html, body to it and keep the text at 4.5:1.
+  Meta tags for index.html are listed in SKILL.md, stage 7.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1200">
+<meta name="robots" content="noindex">
+<title>{{product}}</title>
+{{font-link: the same font <link> tags index.html uses}}
+<style>
+  :root {
+    --neutral: {{colors.neutral}};
+    --primary: {{colors.primary}};
+    --ink: {{colors.ink}};
+    --ink-muted: {{colors.ink-muted}};
+    --line: {{colors.line}};
+    --accent: {{colors.accent}};
+    --highlight: {{colors.highlight}};
+  }
+  html, body {
+    margin: 0;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: var(--neutral);
+    color: var(--ink);
+  }
+  .card {
+    box-sizing: border-box;
+    width: 1200px;
+    height: 630px;
+    padding: 64px 80px 56px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 32px;
+  }
+  .name {
+    margin: 0;
+    font-family: "{{typography.body-lg.fontFamily}}", sans-serif;
+    font-size: 28px;
+    font-weight: {{typography.headline-md.fontWeight}};
+  }
+  .promise {
+    margin: 0;
+    align-self: center;
+    max-width: 960px;
+    font-family: "{{typography.headline-display.fontFamily}}", serif;
+    font-size: {{typography.headline-display.fontSize}};
+    font-weight: {{typography.headline-display.fontWeight}};
+    line-height: {{typography.headline-display.lineHeight}};
+    letter-spacing: {{typography.headline-display.letterSpacing}};
+    text-wrap: balance;
+  }
+  .foot {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "ask domain" "terms domain";
+    align-items: end;
+    column-gap: 48px;
+    row-gap: 4px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: "{{typography.body-lg.fontFamily}}", sans-serif;
+    font-size: 26px;
+  }
+  .ask {
+    grid-area: ask;
+    margin: 0;
+    color: var(--accent);
+    font-weight: {{typography.headline-md.fontWeight}};
+    font-variant-numeric: tabular-nums;
+  }
+  .terms,
+  .domain {
+    margin: 0;
+    color: var(--ink-muted);
+  }
+  .terms {
+    grid-area: terms;
+  }
+  .domain {
+    grid-area: domain;
+  }
+  .need {
+    font: inherit;
+    color: var(--ink);
+    background: var(--highlight);
+    padding: 0.1em 0.35em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <p class="name">{{product}}</p>
+    <h1 class="promise">{{promise}}</h1>
+    <div class="foot">
+      <p class="ask">{{ask: the button label from index.html, price included}}</p>
+      <p class="terms">{{terms: the founder's refund terms from COPY.md, or <span class="need">[NEED: refund terms]</span>}}</p>
+      <p class="domain">{{domain: the founder's domain; with none yet, delete this p}}</p>
+    </div>
+  </main>
+</body>
+</html>

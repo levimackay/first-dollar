@@ -1,0 +1,7 @@
+/* Two names, one radius: the token hides the uniformity from a textual read. */
+:root {
+  --radius: 12px;
+  --radius-card: var(--radius);
+}
+.tile { border-radius: var(--radius-card); }
+.sheet { border-radius: var(--radius); }

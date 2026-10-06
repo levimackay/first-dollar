@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loam: a countertop compost bin for apartments</title>
+<meta name="description" content="Loam is a countertop bin that turns kitchen scraps into finished compost in about 30 days. Pre-order for $89. First units ship spring 2027.">
+<style>
+:root{--bg:#f6f1e7;--ink:#2a2118;--soft:#6b5d4d;--soil:#4a3426;--leaf:#3f6b3a;--card:#fffaf0;--line:#e0d6c3}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1812;--ink:#f1e9d9;--soft:#b5a78f;--soil:#e7d5bd;--leaf:#8fc084;--card:#262016;--line:#3a3226}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 Georgia,"Iowan Old Style",serif}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px}
+header{padding:20px 0;font-weight:bold;letter-spacing:.04em}
+h1{font-size:clamp(2.1rem,7vw,3.4rem);line-height:1.1;margin:40px 0 16px;color:var(--soil)}
+h2{font-size:1.5rem;color:var(--soil);margin:0 0 12px}
+section{padding:36px 0;border-top:1px solid var(--line)}
+p{margin:0 0 14px}
+.lede{font-size:1.2rem;color:var(--soft)}
+.btn{display:inline-block;background:var(--leaf);color:#fff;border:0;border-radius:8px;padding:14px 24px;font:bold 1rem system-ui,sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.1)}
+.btn:focus-visible,input:focus-visible{outline:3px solid var(--soil);outline-offset:2px}
+.note{font:.9rem system-ui,sans-serif;color:var(--soft)}
+ol{padding-left:1.2em}li{margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+.price{font-size:2.4rem;color:var(--soil);font-weight:bold}
+label{display:block;font:bold .9rem system-ui,sans-serif;margin:14px 0 6px}
+input{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;font:1rem system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.q{font-weight:bold;margin-bottom:4px}
+footer{padding:30px 0 50px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>LOAM</header>
+
+<main>
+<h1>Compost on your countertop. No yard, no pickup, no smell.</h1>
+<p class="lede">Loam is a small bin that turns your kitchen scraps into finished compost in about 30 days, so you can feed your balcony herbs and tomatoes with what you used to throw away.</p>
+<p><a class="btn" href="#preorder">Pre-order for $89</a></p>
+<p class="note">First units ship in spring 2027. Honest status: one working prototype, no customers yet.</p>
+
+<section>
+<h2>You hate the trash can, and your building won't help</h2>
+<p>You cook at home. The peels, coffee grounds and wilted herbs go in the trash because your building has no compost pickup. It feels wasteful, especially when you are paying for potting soil for the tomatoes on your balcony.</p>
+<p>Most home composters need a yard or a hauling plan. Loam is built for a small apartment kitchen.</p>
+</section>
+
+<section>
+<h2>How Loam works</h2>
+<ol>
+<li><strong>Fill it.</strong> Scrape scraps into the bin on your counter as you cook.</li>
+<li><strong>Let it work.</strong> Loam handles the rest of the process inside the sealed bin.</li>
+<li><strong>Use it.</strong> In about 30 days you have finished compost for your pots and planters.</li>
+</ol>
+<p>The goal is no smell. Today that is a result from one prototype in one kitchen, and testing with more people is what the first batch is for.</p>
+</section>
+
+<section>
+<h2>Where things really stand</h2>
+<p>I have one working prototype running in my own kitchen. I have no customers and no production units. The $89 pre-order helps pay for the first production run, and the spring 2027 date is my target, not a guarantee.</p>
+<p>Specs such as size, capacity, power use and materials are not final, so I am not listing them here yet. I will share them when they are measured, not guessed.</p>
+</section>
+
+<section id="preorder">
+<h2>Pre-order Loam</h2>
+<div class="card">
+<div class="price">$89</div>
+<p>One Loam bin. Ships spring 2027.</p>
+<!-- PLACEHOLDER: wire this form to a real checkout or email-capture service before launch -->
+<form action="#" method="post">
+<label for="email">Email</label>
+<input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+<p><button class="btn" type="submit" style="margin-top:16px">Pre-order for $89</button></p>
+</form>
+<p class="note">Refund and delivery-delay terms: [to be written by the founder before launch].</p>
+</div>
+</section>
+
+<section>
+<h2>Questions</h2>
+<p class="q">Will it really not smell?</p>
+<p>That is the design goal and it holds in my prototype so far. I won't promise more than one kitchen can show.</p>
+<p class="q">Can I use the compost on a balcony?</p>
+<p>Yes, that is who I am building it for: herbs, tomatoes and other potted plants.</p>
+<p class="q">What if the ship date slips?</p>
+<p>I will tell you directly and by email. [Refund policy to be confirmed.]</p>
+</section>
+</main>
+
+<footer class="note">Loam. Built by one founder, in one kitchen.</footer>
+</div>
+</body>
+</html>

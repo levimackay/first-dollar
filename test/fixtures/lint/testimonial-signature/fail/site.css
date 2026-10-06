@@ -1,0 +1,2 @@
+.reviews { display: grid; gap: 32px; }
+.star { width: 14px; height: 14px; background: #b8862b; }

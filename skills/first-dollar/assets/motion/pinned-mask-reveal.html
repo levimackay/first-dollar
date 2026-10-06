@@ -1,0 +1,178 @@
+<!--
+  pinned-mask-reveal: one picture, let in through an opening slot.
+  What it does: the frame holds still (CSS sticky) while four page-colored
+  shutters slide away from a narrow slot until the whole plate shows. The
+  plate never moves; only the opening changes. Shutters move by transform
+  only. Runs on CSS scroll-driven animations; browsers without them get the
+  same opening from a small scroll handler.
+  How to adapt: the plate is the one picture worth arriving at: the
+  founder's real product photo, or the labeled mock of the product's output
+  (here, a signed change order). Never a stock or generated photo shown as
+  real. Change the slot shape first (--fd-slot-x and --fd-slot-y set how
+  much the shutters cover at the start), then the runway (the section
+  height). Shutters must match the page ground behind the frame. One per
+  page.
+  Reduced motion: no pin and no shutters. The plate shows fully open at its
+  natural size with everything on it visible. Without JavaScript the same.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinned mask reveal</title>
+<style>
+:root {
+  --fd-ground: #ecedea;
+  --fd-ink: #15171a;
+  --fd-accent: #0f6e55;
+  --fd-font-display: serif;
+  --fd-font-text: sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-family: var(--fd-font-text); font-size: 1rem; line-height: 1.55; }
+::selection { background: var(--fd-accent); color: var(--fd-ground); }
+:focus-visible { outline: 2px solid var(--fd-accent); outline-offset: 3px; }
+
+.fd-demo-intro { padding: clamp(2.5rem, 10vh, 6rem) clamp(1rem, 5vw, 4rem) 3rem; }
+.fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 15ch; }
+.fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
+.fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 30vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+
+/* ---- snippet: pinned-mask-reveal ---- */
+/* Every token this snippet reads, with a fallback, so it works pasted alone. */
+.fd-mask {
+  --_ink: var(--fd-ink, CanvasText);
+  --_ground: var(--fd-ground, Canvas);
+  --_accent: var(--fd-accent, LinkText);
+  --_display: var(--fd-font-display, serif);
+  --_muted: var(--fd-muted, color-mix(in oklab, var(--_ink) 62%, var(--_ground)));
+  --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
+}
+.fd-mask { --fd-slot-x: 16%; --fd-slot-y: 41%; view-timeline: --fd-mask block; }
+.fd-mask-frame { position: relative; overflow: clip; height: 88svh; }
+.fd-mask[data-armed] { height: 230svh; }
+.fd-mask[data-armed] .fd-mask-frame { position: sticky; top: 0; height: 100svh; }
+
+/* The plate: what the opening lets the reader in on. */
+.fd-mask-plate {
+  position: absolute; inset: 0; margin: 0; background: var(--_ink); color: var(--_ground);
+  display: grid; place-items: center; padding: clamp(1rem, 5vw, 4rem);
+}
+.fd-mask-caption { position: absolute; left: clamp(1rem, 5vw, 4rem); bottom: 1.25rem; margin: 0; font-size: 0.875rem; color: color-mix(in srgb, var(--_ground) 76%, var(--_ink)); }
+.fd-sheet {
+  width: min(34rem, 100%); background: color-mix(in srgb, var(--_accent) 16%, var(--_ground)); color: var(--_ink);
+  padding: clamp(1.25rem, 3vw, 2.25rem); transform: rotate(-2.5deg);
+  font-variant-numeric: tabular-nums;
+}
+.fd-sheet-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--_ink); padding-bottom: 0.6rem; }
+.fd-sheet-head b { font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.25rem); line-height: 1.1; }
+.fd-sheet-head span, .fd-sheet-foot span { font-size: 0.875rem; color: var(--_muted); }
+.fd-sheet-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--_rule); }
+.fd-sheet-row:last-of-type { font-weight: 600; border-bottom: 0; }
+.fd-sheet-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 0.75rem; }
+.fd-sheet-foot svg { width: 11rem; height: auto; border-bottom: 1px solid var(--_ink); }
+.fd-sheet-foot path { fill: none; stroke: var(--_ink); stroke-width: 2.2; stroke-linecap: round; }
+
+/* Shutters: page-colored, sliding out from the slot. Hidden until armed. */
+.fd-shutter { display: none; position: absolute; background: var(--_ground); }
+.fd-mask[data-armed] .fd-shutter { display: block; }
+.fd-shutter-t { top: 0; left: 0; right: 0; height: var(--fd-slot-y); transform: translateY(calc(-100% * var(--p, 0))); }
+.fd-shutter-b { bottom: 0; left: 0; right: 0; height: var(--fd-slot-y); transform: translateY(calc(100% * var(--p, 0))); }
+.fd-shutter-l { top: 0; bottom: 0; left: 0; width: var(--fd-slot-x); transform: translateX(calc(-100% * var(--p, 0))); }
+.fd-shutter-r { top: 0; bottom: 0; right: 0; width: var(--fd-slot-x); transform: translateX(calc(100% * var(--p, 0))); }
+
+@supports (animation-timeline: view()) {
+  .fd-mask[data-armed] .fd-shutter {
+    animation: 1ms linear both;
+    animation-timeline: --fd-mask;
+    animation-range: contain 0% contain 78%;
+  }
+  .fd-mask[data-armed] .fd-shutter-t { animation-name: fd-open-t; }
+  .fd-mask[data-armed] .fd-shutter-b { animation-name: fd-open-b; }
+  .fd-mask[data-armed] .fd-shutter-l { animation-name: fd-open-l; }
+  .fd-mask[data-armed] .fd-shutter-r { animation-name: fd-open-r; }
+}
+@keyframes fd-open-t { from { transform: none; } to { transform: translateY(-100%); } }
+@keyframes fd-open-b { from { transform: none; } to { transform: translateY(100%); } }
+@keyframes fd-open-l { from { transform: none; } to { transform: translateX(-100%); } }
+@keyframes fd-open-r { from { transform: none; } to { transform: translateX(100%); } }
+
+@media (max-width: 760px) {
+  .fd-mask { --fd-slot-y: 38%; }
+  .fd-mask[data-armed] { height: 170svh; }
+  .fd-mask[data-armed] .fd-mask-frame { height: 74svh; top: 13svh; }
+  /* A sideways slot on a phone is too narrow to read: open on the vertical axis only. */
+  .fd-mask[data-armed] .fd-shutter-l,
+  .fd-mask[data-armed] .fd-shutter-r { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-mask[data-armed] { height: auto; }
+  .fd-mask[data-armed] .fd-mask-frame { position: relative; height: 88svh; }
+  .fd-mask[data-armed] .fd-shutter { display: none; }
+}
+/* ---- end snippet ---- */
+</style>
+</head>
+<body>
+<main>
+  <div class="fd-demo-intro">
+    <h2>The paper the client signs.</h2>
+    <p>Demo copy. Scroll: the frame holds while the opening widens onto the plate.</p>
+  </div>
+
+  <!-- snippet: pinned-mask-reveal -->
+  <section class="fd-mask" data-fd-mask>
+    <div class="fd-mask-frame">
+      <figure class="fd-mask-plate">
+        <div class="fd-sheet">
+          <div class="fd-sheet-head"><b>Change order</b><span>Example job</span></div>
+          <div class="fd-sheet-row"><span>Move outlet 40 cm left</span><span>$85.00</span></div>
+          <div class="fd-sheet-row"><span>Add a GFCI outlet by the sink</span><span>$140.00</span></div>
+          <div class="fd-sheet-row"><span>Patch and paint the wall</span><span>$120.00</span></div>
+          <div class="fd-sheet-row"><span>Total</span><span>$345.00</span></div>
+          <div class="fd-sheet-foot">
+            <svg viewBox="0 0 240 64" role="img" aria-label="Client signature"><path d="M8 46 C 14 20, 22 6, 27 16 C 32 28, 18 50, 24 52 C 32 54, 40 30, 46 34 C 50 37, 46 48, 52 46 C 60 42, 64 30, 70 32 C 76 34, 70 46, 76 46 C 84 46, 90 22, 98 12 C 103 6, 106 16, 101 30 C 96 44, 96 53, 104 48 C 114 42, 120 33, 128 35 C 134 37, 130 46, 138 44 C 150 40, 160 29, 170 31 C 178 33, 175 44, 184 42 C 196 39, 210 31, 232 25"/></svg>
+            <span>Signed on site</span>
+          </div>
+        </div>
+        <figcaption class="fd-mask-caption">Illustration. Numbers are examples.</figcaption>
+      </figure>
+      <span class="fd-shutter fd-shutter-t" aria-hidden="true"></span>
+      <span class="fd-shutter fd-shutter-b" aria-hidden="true"></span>
+      <span class="fd-shutter fd-shutter-l" aria-hidden="true"></span>
+      <span class="fd-shutter fd-shutter-r" aria-hidden="true"></span>
+    </div>
+  </section>
+  <!-- end snippet -->
+
+  <p class="fd-demo-after">Demo spacer.</p>
+</main>
+
+<script>
+/* ---- snippet: pinned-mask-reveal ---- */
+(function () {
+  var section = document.querySelector('[data-fd-mask]');
+  if (!section || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  section.setAttribute('data-armed', '');
+  if (window.CSS && CSS.supports('animation-timeline: view()')) return; // CSS does the rest
+
+  // Fallback: the same opening, from 0 at the start of the pin to 1 at 78% of it.
+  var queued = false;
+  function update() {
+    queued = false;
+    var r = section.getBoundingClientRect();
+    var p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight) / 0.78));
+    section.style.setProperty('--p', p.toFixed(4)); // linear, like the CSS path
+  }
+  addEventListener('scroll', function () {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  addEventListener('resize', update);
+  update();
+})();
+/* ---- end snippet ---- */
+</script>
+</body>
+</html>

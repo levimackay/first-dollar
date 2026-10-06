@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reduced pass</title>
+<style>
+body{margin:0;font:16px/1.5 sans-serif;color:#111;background:#fff}
+h1{margin:16px}
+.gap{height:1200px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .4s,transform .4s;margin:16px}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+[data-commitment]{display:inline-block;margin:16px;padding:12px;background:#0b5;color:#000}
+</style></head><body>
+<h1>Reveal respects reduced motion</h1><a data-commitment href="#x">Join</a>
+<div class="gap"></div>
+<p class="reveal">This text is visible either way.</p>
+<script>
+const el = document.querySelector('.reveal');
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) el.classList.add('in');
+else new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('in'))).observe(el);
+</script>
+</body></html>

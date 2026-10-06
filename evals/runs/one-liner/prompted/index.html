@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practice Plans for Piano Teachers</title>
+<meta name="description" content="Turn your lesson notes into a weekly practice plan, emailed to each student's parents. $35 a month.">
+<style>
+:root{--ink:#14110f;--bg:#fff;--soft:#f4f1ea;--hi:#ffd83d;--blue:#2a4bd7;--line:#14110f}
+@media (prefers-color-scheme:dark){:root{--ink:#f6f3ec;--bg:#14110f;--soft:#211d1a;--line:#f6f3ec}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:20px/1.5 "Avenir Next",Avenir,system-ui,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+header{padding:22px 0;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+header a{color:var(--ink)}
+h1{font-size:clamp(2.6rem,9vw,5.2rem);line-height:1.02;letter-spacing:-.03em;margin:.5em 0 .3em;font-weight:800}
+h2{font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 .5em;font-weight:800}
+mark{background:var(--hi);color:#14110f;padding:0 .12em;border-radius:.15em}
+p{margin:0 0 1em}
+.lede{font-size:1.35rem;max-width:34em}
+.btn{display:inline-block;background:var(--blue);color:#fff;font-weight:800;font-size:1.25rem;padding:.9em 1.6em;border-radius:999px;text-decoration:none;border:3px solid var(--line);box-shadow:5px 5px 0 var(--line)}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--line)}
+.btn:focus-visible{outline:3px solid var(--hi);outline-offset:4px}
+.small{font-size:.9rem;opacity:.75;margin-top:1.2em}
+section{padding:72px 0}
+.soft{background:var(--soft)}
+.mail{background:var(--bg);border:3px solid var(--line);border-radius:14px;padding:24px 26px;box-shadow:8px 8px 0 var(--line);font-size:1.05rem}
+.mail .meta{font-size:.85rem;opacity:.7;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px}
+.mail ul{margin:0 0 1em;padding-left:1.2em}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;padding:0 0 28px 64px;position:relative}
+.steps li:before{content:counter(s);position:absolute;left:0;top:-4px;width:44px;height:44px;border-radius:50%;background:var(--hi);color:#14110f;font-weight:800;display:grid;place-items:center;border:3px solid var(--line)}
+.steps b{display:block;font-size:1.3rem}
+.price{font-size:clamp(4rem,16vw,8rem);font-weight:800;letter-spacing:-.04em;line-height:1}
+.price span{font-size:.3em;letter-spacing:0}
+footer{padding:40px 0;font-size:.9rem;opacity:.75}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><span>Practice Plans</span><a href="#buy">$35/month</a></header>
+
+<h1>Stop rewriting <mark>practice notes</mark> after every lesson.</h1>
+<p class="lede">Jot down what happened in the lesson, like you already do. We turn it into a clear weekly practice plan and email it to each student's parents.</p>
+<p><a class="btn" href="https://buy.stripe.com/REPLACE_WITH_PAYMENT_LINK">Start my plan for $35/month</a></p>
+<p class="small">You pay $35 a month. Card required.</p>
+</div>
+
+<section class="soft" style="margin-top:56px">
+<div class="wrap">
+<h2>Parents get this. You write nothing extra.</h2>
+<p>An example of the kind of email a parent would receive. The names and pieces below are made up for illustration.</p>
+<div class="mail">
+<div class="meta">To: Parent of Sample Student &middot; Subject: This week's practice plan</div>
+<p>Hi! Here's what to work on before the next lesson.</p>
+<ul>
+<li>Left hand alone, bars 9 to 16 of the current piece, slowly.</li>
+<li>Scales as assigned in the lesson.</li>
+<li>Play the whole piece through once at the end, without stopping.</li>
+</ul>
+<p>Questions? Reply to this email and it goes to the teacher.</p>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<h2>How it works</h2>
+<ol class="steps">
+<li><b>Take your lesson notes.</b>Write them the way you always do. Short, messy, whatever works.</li>
+<li><b>We make the plan.</b>Your notes become a weekly practice plan for that student.</li>
+<li><b>Parents get the email.</b>It lands in their inbox, so practice at home matches what you taught.</li>
+</ol>
+</div>
+</section>
+
+<section class="soft" id="buy">
+<div class="wrap">
+<h2>One price. <mark>No tiers.</mark></h2>
+<div class="price">$35<span>/month</span></div>
+<p style="margin-top:1em">Weekly practice plans, emailed to your students' parents.</p>
+<p><a class="btn" href="https://buy.stripe.com/REPLACE_WITH_PAYMENT_LINK">Start my plan for $35/month</a></p>
+</div>
+</section>
+
+<div class="wrap"><footer>Practice Plans for piano teachers.</footer></div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halves</title>
+<meta name="description" content="Halves: shared groceries, settled once a month. Pre-order the first year for $36.">
+<meta property="og:title" content="Halves">
+<meta property="og:description" content="Shared groceries, settled once a month. Pre-order the first year for $36.">
+<meta property="og:image" content="[NEED: site address]/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Afacad:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #ededed;
+  --ink: #171614;
+  --muted: #555555;
+  --line: #c6c5c2;
+  --accent: #171614;
+  --accent-hover: #3e3e3e;
+  --on-accent: #ededed;
+  --highlight: #d3d3d3;
+  --white: #ffffff;
+  --font: "Afacad", sans-serif;
+  --r-sm: 8px;
+  --u: 8px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --edge: 32px;
+}
+* { box-sizing: border-box; }
+html { scrollbar-color: var(--ink) var(--ground); accent-color: var(--ink); }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--font); font-size: 17px; font-weight: 400; line-height: 1.55; caret-color: var(--ink); overflow-x: clip; }
+::selection { background: var(--ink); color: var(--ground); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+a { color: inherit; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+h1, h2, h3, p, figure { margin: 0; }
+h1, h2 { font-weight: 500; text-wrap: balance; }
+p { text-wrap: pretty; }
+.need { font: inherit; color: var(--ink); background: var(--highlight); padding: 0.1em 0.35em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.ph-defs { position: absolute; }
+.ph-defs line { stroke: var(--line); stroke-width: 1; }
+
+/* nav sits on the hero */
+.nav { position: absolute; z-index: 2; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--edge); }
+.mark { font-size: 32px; font-weight: 500; letter-spacing: -0.02em; text-decoration: none; line-height: 1; }
+.nav-note { font-size: 15px; line-height: 1.35; text-align: center; }
+.nav-q { background: var(--white); text-decoration: none; padding: 12px 24px; font-size: 18px; font-weight: 500; line-height: 1; white-space: nowrap; }
+
+/* hero: text over a full-bleed slot */
+.hero { position: relative; height: min(84vh, 760px); min-height: 640px; margin: 0; background: var(--ground); }
+.ph { position: relative; margin: 0; background: var(--ground); }
+.ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph figcaption { position: relative; display: inline-block; max-width: 100%; background: var(--white); color: var(--ink); font-size: 15px; line-height: 1.35; padding: 8px 16px; }
+.hero .ph-hatch { z-index: 0; }
+.hero .shot { position: absolute; z-index: 1; right: var(--edge); bottom: 56px; width: max-content; max-width: 360px; background: var(--white); font-size: 15px; line-height: 1.35; padding: 8px 16px; text-align: center; }
+.hero-copy { position: absolute; z-index: 1; left: var(--edge); right: var(--edge); bottom: 56px; }
+.hero h1 { font-size: 64px; font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; max-width: 12em; }
+.hero-line { font-size: 20px; line-height: 1.5; max-width: 34em; margin-top: 16px; }
+.commit { display: inline-block; margin-top: 32px; background: var(--accent); color: var(--on-accent); text-decoration: none; font-size: 20px; font-weight: 500; line-height: 1; padding: 18px 28px; min-height: 52px; white-space: nowrap; border-radius: 0; font-variant-numeric: tabular-nums; }
+.commit:hover { background: var(--accent-hover); }
+
+/* statements */
+.say { font-size: 20px; line-height: 1.5; max-width: 22em; padding: 0 var(--edge); }
+.s-problem { margin-top: 160px; }
+.s-mech { margin-top: 320px; }
+.s-proto { margin-top: 256px; }
+
+/* mechanism mock: an outlined list */
+.mech { margin: 56px auto 0; width: min(380px, calc(100% - 32px)); text-align: center; }
+.outline { border: 1px solid var(--ink); border-radius: var(--r-sm); padding: 24px 16px; font-size: 17px; }
+.row { display: block; overflow: clip; padding: 8px 0; }
+.row > span { display: block; }
+.row.end { margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--line); font-weight: 500; font-variant-numeric: tabular-nums; }
+.cap { font-size: 15px; line-height: 1.35; color: var(--muted); margin-top: 16px; }
+.mech[data-armed] .row > span { transform: translateY(120%); }
+.mech[data-armed].is-playing .row > span { transform: none; transition: transform 800ms var(--ease); transition-delay: calc(var(--i) * 1100ms); }
+
+/* prototype with side notes */
+.proto { display: grid; grid-template-columns: minmax(0, 1fr) 304px minmax(0, 1fr); gap: 64px; margin-top: 64px; padding: 0 var(--edge); align-items: start; }
+.device { grid-column: 2; background: var(--ink); color: var(--ground); border-radius: var(--r-sm); height: 440px; padding: 40px 28px; font-size: 17px; }
+.device small { display: block; font-size: 15px; color: var(--line); }
+.device .f { margin-top: 24px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.device .f span { display: block; margin-top: 4px; font-size: 20px; }
+.device .add { margin-top: 32px; border: 1px solid var(--ground); padding: 10px; text-align: center; }
+.notes { grid-column: 3; border-left: 1px solid var(--line); padding-left: 24px; max-width: 340px; align-self: center; }
+.notes p + p { margin-top: 32px; }
+.notes b { display: block; font-weight: 500; font-size: 20px; }
+.proto .cap { grid-column: 2; margin-top: 0; text-align: center; }
+
+/* the plan, repeating the ask */
+.rule { border: 0; border-top: 1px solid var(--line); margin: 0 var(--edge); }
+.plan { margin-top: 224px; }
+.head { font-size: 24px; line-height: 1.2; padding: 24px var(--edge) 0; max-width: 24em; }
+.plan-stack { text-align: center; margin-top: 64px; padding: 0 var(--edge); }
+.plan-stack h3 { font-size: 24px; font-weight: 500; line-height: 1.2; }
+.plan-stack p { margin-top: 8px; }
+.plan-stack .commit { margin-top: 24px; }
+
+/* photo regions */
+.pic { margin: 64px auto 0; width: min(480px, calc(100% - 64px)); }
+.pic .ph { aspect-ratio: 3 / 2; display: flex; align-items: center; justify-content: center; }
+.pic .ph figcaption { margin: 16px; text-align: center; }
+.pic .cap { text-align: center; }
+.sec { margin-top: 96px; }
+.sec + .sec { margin-top: 64px; }
+
+/* link columns */
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin: 0 var(--edge); }
+.cols > div { padding: 8px 0 40px; }
+.cols > div + div { border-left: 1px solid var(--line); padding-left: 24px; }
+.cols p { margin-top: 8px; max-width: 28em; }
+.cols .q { margin-top: 16px; font-weight: 500; }
+.cols .q + p { margin-top: 0; }
+
+/* footer: the one dark band */
+.foot { margin-top: 96px; background: var(--ink); color: var(--ground); padding: 64px var(--edge) 48px; text-align: center; }
+.foot nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 48px; font-size: 20px; font-weight: 500; }
+.foot nav a { text-decoration: none; }
+.foot nav a:first-child { color: var(--line); }
+.terms { max-width: 52em; margin: 48px auto 0; font-size: 15px; line-height: 2; color: var(--line); }
+.terms p { margin: 0; }
+.terms .need { color: var(--ink); }
+.foot .legal { margin-top: 32px; font-size: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 32px; color: var(--line); }
+.foot .legal a { color: var(--ground); }
+
+@media (max-width: 760px) {
+  :root { --edge: 16px; }
+  .nav { padding: 16px var(--edge); }
+  .nav-note { display: none; }
+  .mark { font-size: 28px; }
+  .nav-q { padding: 12px 16px; font-size: 16px; }
+  .hero { height: auto; min-height: 640px; }
+  .hero .shot { right: auto; left: var(--edge); bottom: auto; top: 80px; max-width: calc(100% - 32px); }
+  .hero-copy { bottom: 32px; }
+  .hero h1 { font-size: 40px; line-height: 1.12; }
+  .hero-line { font-size: 17px; }
+  .commit { display: block; text-align: center; margin-top: 24px; }
+  .s-problem { margin-top: 96px; }
+  .s-mech { margin-top: 160px; }
+  .s-proto { margin-top: 160px; }
+  .proto { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .device, .proto .cap, .notes { grid-column: 1; }
+  .device { width: 304px; max-width: 100%; justify-self: center; }
+  .plan { margin-top: 128px; }
+  .cols { grid-template-columns: minmax(0, 1fr); }
+  .cols > div + div { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; }
+  .foot nav { gap: 12px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mech[data-armed] .row > span { transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+<svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="16" /></pattern></defs></svg>
+
+<header class="hero ph" id="top">
+  <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+  <nav class="nav" aria-label="Main">
+    <a class="mark" href="#top">halves</a>
+    <span class="nav-note">A clickable prototype. Nothing in the app stores yet.</span>
+    <a class="nav-q" href="#questions">questions</a>
+  </nav>
+  <p class="shot">[PLACEHOLDER: shared house kitchen counter, a bag of groceries and a pack of toilet paper, morning window light, 16:9]</p>
+  <div class="hero-copy">
+    <h1>Shared groceries, settled once a month.</h1>
+    <p class="hero-line">Log what you buy for the house. Halves shows who owes whom.</p>
+    <a class="commit" data-commitment href="[NEED: checkout link]">Pre-order for $36</a>
+  </div>
+</header>
+
+<main>
+  <p class="say s-problem">Someone always ends up buying the toilet paper and nobody pays them back.</p>
+
+  <p class="say s-mech">You log each grocery run. Once a month Halves shows who owes whom.</p>
+  <figure class="mech" data-mech>
+    <div class="outline" role="img" aria-label="Concept: three logged grocery purchases, then a month-end line saying Roommate B owes Roommate A $5.50">
+      <span class="row" style="--i:0"><span>Toilet paper, Roommate A paid $12</span></span>
+      <span class="row" style="--i:1"><span>Eggs, Roommate B paid $5</span></span>
+      <span class="row" style="--i:2"><span>Dish soap, Roommate A paid $4</span></span>
+      <span class="row end" style="--i:3"><span>Month end: B owes A $5.50</span></span>
+    </div>
+    <figcaption class="cap">Concept. Names and amounts are examples.</figcaption>
+  </figure>
+
+  <p class="say s-proto">Halves is a clickable prototype. Nothing in the app stores yet.</p>
+  <div class="proto">
+    <div class="device" role="img" aria-label="Concept: an add groceries screen with the item toilet paper and the amount $12">
+      <small>Add groceries</small>
+      <div class="f"><small>What you bought</small><span>Toilet paper</span></div>
+      <div class="f"><small>What you paid</small><span>$12</span></div>
+      <div class="add">Add</div>
+    </div>
+    <div class="notes">
+      <p><b>You can click through it.</b>The whole flow is a prototype you can tap today.</p>
+      <p><b>The first year is a pre-order.</b>It costs $36, paid up front.</p>
+      <p><b>Launch date.</b><span class="need">[NEED: launch date]</span></p>
+    </div>
+    <p class="cap">Concept. The screen is an example.</p>
+  </div>
+
+  <section class="plan" id="price">
+    <hr class="rule">
+    <h2 class="head">The first year is $36.</h2>
+    <div class="plan-stack">
+      <h3>Halves, first year</h3>
+      <p>Paid up front. Launch: <span class="need">[NEED: launch date]</span>.</p>
+      <a class="commit" data-commitment href="[NEED: checkout link]">Pre-order for $36</a>
+    </div>
+  </section>
+
+  <section class="sec">
+    <hr class="rule">
+    <h2 class="head">Sharing a rental house?</h2>
+    <figure class="pic">
+      <div class="ph">
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+        <figcaption>[PLACEHOLDER: four students around a kitchen table with a phone and a grocery receipt, evening lamp light, 3:2]</figcaption>
+      </div>
+      <figcaption class="cap">Halves is for college students sharing a rental house.</figcaption>
+    </figure>
+  </section>
+
+  <section class="sec">
+    <hr class="rule">
+    <h2 class="head">Built by <span class="need">[NEED: founder name]</span>. <span class="need">[NEED: founder history, one line]</span></h2>
+    <figure class="pic">
+      <div class="ph">
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+        <figcaption>[PLACEHOLDER: the founder at a kitchen table with the prototype open, eye level, window light, 3:2]</figcaption>
+      </div>
+      <figcaption class="cap"><span class="need">[NEED: founder name]</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="sec" id="questions">
+    <hr class="rule">
+    <h2 class="head">Questions?</h2>
+    <div class="cols">
+      <div>
+        <p class="q">When do I get it?</p>
+        <p><span class="need">[NEED: launch date]</span></p>
+        <p class="q">What if it never ships?</p>
+        <p><span class="need">[NEED: what happens if it never ships]</span></p>
+      </div>
+      <div>
+        <p class="q">What happens to my money?</p>
+        <p>Charged today. The rest is in the note at the <a href="#terms">bottom of the page</a>.</p>
+      </div>
+    </div>
+    <hr class="rule">
+  </section>
+</main>
+
+<footer class="foot" id="terms">
+  <nav aria-label="Footer">
+    <a href="#top">halves</a>
+    <a href="#price">price</a>
+    <a href="#questions">questions</a>
+  </nav>
+  <div class="terms"><p>Charged today by <span class="need">[NEED: legal business name]</span> through <span class="need">[NEED: payment processor]</span>.</p><p>Refunds: <span class="need">[NEED: refund terms]</span></p><p>Money is held: <span class="need">[NEED: where the money is held]</span></p><p><span class="need">[NEED: legal business name and address]</span></p></div>
+  <p class="legal"><a href="terms.html">terms</a><a href="privacy.html">privacy policy</a><a href="terms.html#refunds">refund policy</a></p>
+</footer>
+
+<script>
+(function () {
+  var el = document.querySelector('[data-mech]');
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  el.setAttribute('data-armed', '');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { el.classList.add('is-playing'); io.disconnect(); }
+    });
+  }, { rootMargin: '0px 0px -25% 0px' });
+  io.observe(el);
+})();
+</script>
+</body>
+</html>
