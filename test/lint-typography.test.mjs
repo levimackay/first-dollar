@@ -62,6 +62,6 @@ test('mono prose ignores cells of an ARIA table or grid built from divs', async 
   const { tmpdir } = await import('node:os');
   const dir = await mkdtemp(path.join(tmpdir(), 'fd-mono-'));
   const cell = (t) => `<div role="cell">${t}</div>`;
-  await writeFile(path.join(dir, 'index.html'), `<!doctype html><html><head><style>.tbl { font-family: "IBM Plex Mono"; }</style></head><body><div class="tbl" role="table"><div role="row">${cell('Claims sent back for a missing code are fixed and resubmitted the same day')}${cell('Within two business days')}</div></div><div role="grid"><div role="row"><span role="gridcell">Each line of the batch is matched to its payer record before export</span></div></div></body></html>`);
+  await writeFile(path.join(dir, 'index.html'), `<!doctype html><html><head><style>.tbl { font-family: "Martian Mono"; }</style></head><body><div class="tbl" role="table"><div role="row">${cell('Claims sent back for a missing code are fixed and resubmitted the same day')}${cell('Within two business days')}</div></div><div role="grid"><div role="row"><span role="gridcell">Each line of the batch is matched to its payer record before export</span></div></div></body></html>`);
   assert.deepEqual((await lint(dir)).failures.filter((f) => f.rule === 'mono-prose'), []);
 });

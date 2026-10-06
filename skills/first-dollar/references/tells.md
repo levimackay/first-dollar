@@ -39,10 +39,11 @@ drawing.
 Instead: a caption about what the product shows, in the reference's caption
 face, large enough to read. No caption explaining that it is a concept.
 
-**A page narrating its own making.** "Concept", "Illustration", "Numbers are
-examples", "Not to scale", or a caption that tells the reader which section
-they are seeing. [`self-describing-caption`]
-Instead: delete it. Put at most one necessary honesty line in the footer.
+**A page narrating its own making.** "Concept", "For illustration only",
+"Sample data", "Names are made up", "Not to scale", "In the buyer's words",
+or a caption that tells the reader which section they are seeing, however it
+is worded. [`self-describing-caption`]
+Instead: delete it. Put at most one necessary honesty line in the page footer.
 
 **Gradient text.** [`gradient-text`]
 Instead: solid ink. Emphasis comes from size or weight.
@@ -92,14 +93,13 @@ the reference runs sections without one.
 mock or generic phone floating on the right has become the default
 skeleton, whatever the reference's shape.
 Instead: the reference's hero composition. Where its photo is missing, use
-its color field, product artifact, type at scale, masthead or cell grid. A
+its own non-photo device (design-rules.md, Filling image regions). A
 centered cover stays centered; a one-column letter stays one column.
 
 **A hairline spec table as the hero's second half.** Thin rules, small
 labels, values pushed right, filling the space where a picture belongs.
-Instead: use the reference's own non-photo device when no real asset exists:
-its color field, product artifact, type, masthead or cell grid. A spec table
-belongs where the reference has one.
+Instead: use the reference's own non-photo device when no real asset exists.
+A spec table belongs where the reference has one.
 
 **Everything inside one centered container.** Every section at one max
 width, nothing reaching the edge. [`no-full-bleed`, `same-max-width`]
@@ -139,7 +139,7 @@ the reference has photography: a bin with three "text lines", a sprout in a
 box, a hand tool that reads as something else, a structure drawn as a box
 with braces, a barcode waveform.
 Instead: a real founder asset or the reference's non-photo device. Use at
-most two inline photo slots, never in the hero or full bleed
+most two inline photo slots, below the first screen and never full bleed
 [`photo-slot-budget`, `photo-slot-placement`]. Draw only where the reference itself draws.
 
 **Copying the reference's unloaded grey.** Grey or tinted blocks taken from
@@ -149,8 +149,8 @@ Instead: treat those boxes as image regions and fill them.
 **Hatch as the page's leading visual.** A placeholder fills the hero or a
 full-bleed band, or three or more slots make most of the page a wireframe.
 [`photo-slot-budget`]
-Instead: use the reference's color field, artifact, type, masthead or cell
-grid as the leading visual. Keep at most two inline slots for real shots.
+Instead: the reference's own non-photo device leads. Keep at most two inline
+slots for real shots, below the first screen; hidden ones still count.
 
 ## Copy and gaps
 
@@ -159,8 +159,8 @@ padding, splitting into two half boxes at a line break and butting against
 the next word ("Within[NEED: days]days"). Or raw brackets with no marker at
 all. Both read as a broken render.
 Instead: the gap marker in design-rules.md: the page's own text face, a soft
-highlight whose hue differs from all DESIGN.md accents [`need-marker-hue`],
-or an underline; keep a real space each side.
+underline by default, or a tint no accent and no other page color shares
+[`need-marker-hue`]; keep a real space each side.
 
 **The same grey terms line under every button.** "Charged today. Refunds:
 [NEED]" in 13px grey under each ask, on every page.

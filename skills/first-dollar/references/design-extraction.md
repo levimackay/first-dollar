@@ -48,11 +48,13 @@ From a URL:
 node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs '<url>' --out <page>/.first-dollar/reference/<host>
 ```
 
-This saves `1440.png`, `390.png` and the full-page shots in that folder. It
-scrolls through the page and waits for reveal motion to finish before each
-capture; inspect text that looked hidden or pale in the shot. Read all shots.
-An empty grey box may be an image that did not load: treat it as an image
-region, never as a grey panel to copy. Exit code 3 means no browser: save the
+This saves `1440.png`, `390.png`, the full-page shots and `scroll-NN.png`,
+one 1440 still per screen down the page, in that folder. It scrolls through
+the page and waits for reveal motion to finish before each capture. A page
+that swaps fixed background photos per section paints them only in the
+scroll stills, so when `full-*.png` looks blank, pale or white on white, read
+those. An empty grey box may be an image that did not load: treat it as an
+image region, never as a grey panel to copy. Exit code 3 means no browser: save the
 fetched HTML and CSS from section 4 in the same folder instead, and continue
 in URL mode only, with rhythm marked unknown.
 
@@ -189,7 +191,8 @@ There is no list of good fonts here. Any fixed list becomes the new default.
    this page without `--history`.
 3. Check the reference's own free family with
    `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-lint.mjs --rank "<Family>"`.
-   The output gives its snapshot rank and whether it is banned or top 200.
+   The output gives its snapshot rank and whether it is banned or top 200;
+   it exits 1 for a family to avoid.
    Use it only when it passes that filter and is absent from history.
 4. Otherwise shortlist three free Google Fonts families of the same
    classification that match the five features. Run `--rank` on each before
@@ -202,8 +205,10 @@ There is no list of good fonts here. Any fixed list becomes the new default.
    (exit 3), pick by the five features, mark the font "matched unseen" in
    Provenance, and ask about the install (SKILL.md, Setup).
 5. Never pick a face unseen while the specimen can run, and never from a
-   fixed list. The page lint still confirms the pick against its dated
-   Google Fonts top-200 snapshot and trend list.
+   fixed list or a font named as an example anywhere in these files. The
+   page lint still confirms the pick against its dated Google Fonts top-200
+   snapshot and trend list. When it fails, take the next candidate or
+   shortlist again.
 6. Log the match in DESIGN.md Provenance, with why it beat the other two:
    `Display: reference uses [face] (custom). Read as a high-contrast serif,
    normal width, low x-height, ball terminals. Matched to [family]: same

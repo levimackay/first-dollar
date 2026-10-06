@@ -12,10 +12,11 @@ gets one **signature motion**, placed by its material (SKILL.md stage 4):
   or output: input, process, then output. Keep the output inside a cropped
   mock at every width, including 390.
 - A physical product or page with no mock region: tell the mechanism through
-  the reference's non-photo device, such as type, a cell grid or the product's
-  own artifact. `pinned-steps` and `sticky-stack` may use at most two inline
-  photo slots total, never as the hero or a full-bleed panel. On a quiet
-  reference, use `split-line-reveal` on the headline once and slowly.
+  the reference's non-photo device (design-rules.md, Filling image regions).
+  In `pinned-steps` and `sticky-stack` each panel is that device, never a
+  slot; a slot there counts against the page's two. Never animate a drawing
+  that stands in for a photo. On a quiet reference, use `split-line-reveal`
+  on the headline once and slowly.
 
 If you cannot say the three beats of the mechanism in one sentence, the page
 is not ready for motion. Build it still.
@@ -165,18 +166,17 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 
 ### pinned-steps
 - **What:** the section holds (CSS sticky) for about two screens while three
-  states take turns in one frame, using the reference's non-photo device or
-  real founder assets. Waiting steps
-  drop to the muted tone (4.5:1 or better), never to low opacity. On load it
-  jumps straight to the state that matches the scroll, without animating.
+  plates take turns in one frame: each a color field with the step's own word
+  at display scale and the product's artifact, or a real founder asset.
+  Waiting steps drop to the muted tone (4.5:1 or better), never to low
+  opacity. On load it jumps to the scroll's state without animating.
 - **Fits:** a mechanism with three distinct states a still image cannot show;
   the physical-product signature on moderate and loud references.
 - **Never combine with:** `sticky-stack` or `pinned-mask-reveal` next to it;
   `mechanism-sequence` on the same mechanism; scroll snapping; a counter.
-- **At 390:** the slots sit above the list, the runway drops to 240svh
-  and the steps tighten.
+- **At 390:** plates above the list, a 240svh runway, tighter steps.
 - **Reduced motion:** no pin; ordinary height; every step at full ink, each
-  beside its own slot in normal flow.
+  beside its own plate in normal flow.
 - **Cost:** 0.7 KB. One position read per scroll frame; transform and opacity.
 
 ### ticker-proof
@@ -196,7 +196,9 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 ### sticky-stack
 - **What:** three to five panels sticky at one rail, each a few pixels lower
   (an inline `--i` numbers them), so each lands on the last like a stack. The
-  covered panel eases back (scale and a shade).
+  covered panel eases back (scale and a shade). Each panel is a color field
+  holding the step's word at display scale or the product's artifact; at
+  most one inline slot, counted against the page's two.
 - **Fits:** an ordered set that each fills a panel: what happens after the buyer
   pays, the stages of a service, a product's mechanism through an artifact
   and text. Moderate and loud references.
@@ -231,7 +233,8 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 - **Reduced motion:** every row, the mark and its note on first paint.
 
 ### parallax-frame (supporting)
-- **What:** a photo or its slot drifts 8% of a fixed frame's height, scrubbed.
+- **What:** a photo drifts 8% of a fixed frame's height, scrubbed. Until the
+  photo exists the frame is one of the page's two slots, a third of a screen tall.
 - **Fits:** photo-led references: editorial, food, places. One per page.
 - **Never combine with:** text or the ask in the drift; layered parallax.
 - **Reduced motion:** the photo sits centered; nothing is linked.

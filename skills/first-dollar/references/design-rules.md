@@ -18,8 +18,9 @@ Write these into the Overview section of DESIGN.md:
   startup?". Change every yes and write what changed.
 - Material: for each named section of reference-structure.md, write
   `adapts: <reference section>`, what fills it and who supplies it. Replace
-  missing photo regions by the reference's own non-photo devices (below).
-  Cut a text section the founder has nothing for; never pad it.
+  missing photo regions by the reference's own non-photo device ("Filling
+  image regions"). Cut a text section the founder has nothing for; never pad
+  it with big type, cards, gradients or clip art.
 
 ## Type
 
@@ -83,11 +84,10 @@ Write these into the Overview section of DESIGN.md:
 - Full bleed, varied measures and a grid break come from the reference:
   where it does them, or none [`no-full-bleed`, `same-max-width`; keep a
   warning with a Do's and Don'ts line when the reference has none].
-- The hero copies the reference's composition (reference-structure.md): its
-  color field, masthead, cell grid, product artifact or type at scale can
-  carry a photo-led reference until real photos exist. No photo slot in the
-  hero. Headline left with
-  an object right only when the reference is split. A centered hero with one
+- The hero copies the reference's composition (reference-structure.md); a
+  photo-led one is carried by its non-photo device until real photos exist.
+  No photo slot in the first screen. Headline left with an object right only
+  when the reference is split. A centered hero with one
   ask is fine; the two-button centered template fails [`centred-hero`].
 - Section order, count and layout come from reference-structure.md, never a
   skeleton. No inverted closing band unless the reference has one.
@@ -136,12 +136,14 @@ Never the only structure: hero, three cards, testimonials, CTA
 Measure each region on the reference's `1440.png`, `full-1440.png` and
 `390.png`: size, position, crop and what job its image does. With a real
 founder asset, follow that composition. Without one, use at most two inline
-photo slots on the entire page. A slot is never in the hero or full bleed.
-For every other photo region, choose a non-photo device the same reference
-already uses: a color field, the product's own artifact, type at scale, its
-masthead or cell grid. Keep its job and approximate weight in the page.
-Never substitute a void or flat vector clip art. Record the replacement in
-DESIGN.md Overview and its named `adapts:` section in Layout.
+photo slots on the entire page, below the first screen at 390 and 1440,
+never full bleed. Every other photo region takes a **non-photo device**: one
+the same reference already uses, such as a color field, the product's own
+artifact, the section's own words at display scale, its masthead or its cell
+grid. Name in DESIGN.md the reference-structure.md section where that device
+appears; one the reference never shows is a default. Keep the region's job
+and approximate weight. Never a void, flat clip art, or a drawing animated
+to stand in for a photo.
 
 **An HTML and CSS mock.** Where the reference shows its own product, on a
 software page. The signature motion plays here (motion.md).
@@ -156,14 +158,16 @@ software page. The signature motion plays here (motion.md).
   stays inside the cropped mock at every width, including 390.
 - One surface with rows and rules inside. Cards inside a card fail
   [`nested-cards`]. No fake window chrome or generic phone bezel unless the
-  reference shows one.
+  reference shows one. Put `data-mock` on its root: the caption lint skips
+  its labels and the check fails text a sideways crop hides.
 
 **A labeled photo slot.** Use only for one or two inline shots the founder
-can commission. A slot never fills a hero or bleeds off an edge.
+can commission. The lint counts a slot by its `.ph` class, its hatch or its
+label, hidden or not; the check measures its box, never its label.
 
 - Keep the reference's aspect where practical, but limit the slot to an inline
-  figure no taller than about one third of the viewport. Move overlaid text
-  into the reference's non-photo composition.
+  figure about one third of the viewport tall (the check allows 10% over:
+  309px at 390, 330px at 1440). Move overlaid text into the non-photo device.
 - The label is a shot direction the founder can hand a photographer:
   subject, setting, light, aspect, written for this page. The kind, never to
   copy: a product (the unit in a hand, side light, 4:5), a person (the
@@ -211,10 +215,10 @@ as a gap someone will fill, not as a broken render:
 
 - The surrounding text's own font, size and weight (`font: inherit`), never
   a grey sans inside a mono or serif page.
-- A background in the `highlight` token whose hue differs from every
-  DESIGN.md accent. The `need-marker-hue` lint compares them. If the
-  reference's highlight or an accent tint clashes, use an underline marker
-  with no background. Ink stays 4.5:1 on the marker.
+- An underline in the text color by default, with no fill. A tint only when
+  `need-marker-hue` passes it: no accent shares its hue (a pale accent tint
+  fails) and nothing else on the page paints that color, highlights
+  included. Ink stays 4.5:1 on it.
 - Padding about 0.1em 0.35em and `box-decoration-break: clone`, so a marker
   that wraps keeps its padding on both lines.
 - A normal space each side, never butted against a word:
@@ -223,12 +227,9 @@ as a gap someone will fill, not as a broken render:
   slot it sits where the reference's wordmark sits, at its size.
 
 ```css
-.need { font: inherit; color: var(--ink); background: var(--highlight); padding: 0.1em 0.35em;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.need { font: inherit; color: var(--ink); text-decoration: underline 0.08em; text-underline-offset: 0.18em;
+  padding: 0.1em 0.35em; -webkit-box-decoration-break: clone; box-decoration-break: clone; } /* tint: background: var(--highlight) */
 ```
-
-For the underline fallback, replace the background with `background: none`
-and `text-decoration: underline` in the text color.
 
 ## Counter-moves
 

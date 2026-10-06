@@ -56,8 +56,10 @@ Which to test first:
 Filter: put "Now you can" in front of the headline. If the result is false, or
 nobody would want it, rewrite.
 
-Hero limits: headline at most two lines at 1440, one supporting sentence, then
-the commitment block. Nothing else competes in the first screen.
+Hero limits: headline at most two lines at 1440, or the reference's own line
+count when its headline is longer; shorten the copy before shrinking type.
+One supporting sentence, then the commitment block. Nothing else competes in
+the first screen.
 
 ## The swap test
 
@@ -159,9 +161,9 @@ News, the founder's interview notes.
   founder bio, proof.
 - `[PLACEHOLDER: what asset, size]` for a missing asset: founder photo, product
   shot, prototype video. Record every missing asset in COPY.md. Use at most
-  two visible photo slots on the page, inline and below the hero; the other
-  missing photo regions use the reference's own non-photo device (SKILL.md
-  stage 4).
+  two photo slots on the page (hidden ones count), inline and below the first
+  screen at 390 and 1440; the other missing photo regions use the
+  reference's own non-photo device (SKILL.md stage 4).
 - In visible copy, each `[NEED: ...]` is wrapped
   `<span class="need">[NEED: ...]</span>` and styled as design-rules.md "Gap
   markers" says: the page's own text font, a soft highlight, a real space each

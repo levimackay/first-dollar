@@ -128,8 +128,8 @@ what you would have asked, take the stated default, log it in BRIEF.md under
 - **Money terms appear once,** where the reference puts its small print:
   under its button, in a note, or in another form the reference uses. Never
   default to a label/value table or repeat a grey line under every button.
-- **Honesty appears once at most,** in the footer. No self-describing mock,
-  illustration or section captions (tells.md).
+- **Honesty appears once at most,** in the page footer. No self-describing
+  mock, illustration or section captions, however worded (tells.md).
 - **No link yet.** The ask's `href` is `[NEED: checkout link]`, or
   `[NEED: LOI form link]` or the founder's form URL, listed first in
   PLACEHOLDERS.md. Never `#`, `mailto:` or an email-only form (commitment.md).
@@ -222,8 +222,9 @@ Then write two files in `<page>/.first-dollar/`:
   centered statement, two columns, list, grid, letter, form...), what each
   image region shows, and its rough share of the page height. Name each section
   so the build can record `adapts: <reference section>`. The hero comes
-  first, its layout named exactly. An empty grey box is usually an image that
-  did not load: list it as an image region, never as a grey panel.
+  first, its layout named exactly. An empty grey box or a blank band is an
+  image the full-page shot missed: check the `scroll-NN.png` stills a URL
+  capture also saves, and list it as an image region, never as a grey panel.
 
 If the capture shows only the first screen, never ask for more. If its URL
 is known, shoot that (URL mode scrolls lazy content into the full page). With
@@ -262,12 +263,12 @@ the prose sections, which record where each value came from.
 
 **Material.** List each reference image region and its fill in DESIGN.md
 Overview. Use a real founder asset when supplied. Otherwise use at most two
-inline photo slots on the page, never in the hero or full bleed. Where the
-reference is photo-led, lead with its own non-photo device: its color field,
-product artifact, type at scale, masthead or cell grid. Keep a slot only where
-it helps a founder commission a real shot. No stock image posed as real, flat
-clip art replacing a photo, or empty void. See design-rules.md, "Filling image
-regions".
+inline photo slots on the page, below the first screen at 390 and 1440 and
+never full bleed; hidden slots still count. Every other photo region, and
+the hero of a photo-led reference, takes the reference's own non-photo
+device, named with the reference-structure.md section where it appears
+(design-rules.md, "Filling image regions"). No stock image posed as real,
+flat clip art replacing a photo, or empty void.
 
 **Changing a token later.** Only a failed contrast check, a banned reference
 color, a value a fidelity check (`reference-drift`, stage 6) finds misread, a
@@ -285,10 +286,9 @@ refuses.
 
 Build the first screen of `<page>/index.html` only: the nav, the headline, one
 or two lines of mechanism, the ask with its price, and the hero filled as
-stage 4 says. Aim for at most two headline lines at 1440 (copy.md). If the
-reference uses a longer headline, keep its rhythm and the founder's meaning;
-shorten the copy before shrinking type or changing the layout. A longer
-headline is allowed when the reference needs it. The hero copies the
+stage 4 says. The headline runs at most two lines at 1440, or the
+reference's own line count when its headline is longer (copy.md); shorten
+the copy before shrinking type or changing the layout. The hero copies the
 reference's layout using a non-photo device when its image is missing.
 Headline left and object right only when the
 reference is split; a centered hero with one ask is fine. Money terms sit in
@@ -341,8 +341,9 @@ Motion (motion.md): one signature motion, plus the supporting moves the
 reference's energy row allows, each with a reduced-motion fallback. For
 software it plays the mechanism inside the cropped product mock; its output
 stays inside that crop at every width. A physical product or page with no mock
-uses the reference's non-photo device to tell the mechanism. A quiet page can
-use a headline reveal, played once and slowly.
+uses the reference's non-photo device to tell the mechanism; never animate a
+drawing that stands in for a photo. A quiet page can use a headline reveal,
+played once and slowly.
 
 Fill in the privacy.html and terms.html stubs, plain, in the same tokens: keep
 `[NEED: founder review before publishing]` at the top, and `[NEED: ...]` for
