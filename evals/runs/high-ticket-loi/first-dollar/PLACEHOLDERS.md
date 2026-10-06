@@ -1,24 +1,13 @@
-# PLACEHOLDERS (deploy blockers first)
+# PLACEHOLDERS
+Deploy blockers first.
 
-| Gap | Who supplies | Where | Blocks deploy |
-|---|---|---|---|
-| [NEED: LOI form link] (the button href) | founder | index.html:57, :147 | yes |
-| [NEED: start date] | founder | index.html:129 | yes |
-| [NEED: LOI terms] | founder | index.html:132, terms.html:17 | yes |
-| [NEED: legal entity] | founder | index.html:132, privacy.html:16, terms.html:16 | yes |
-| [NEED: contact email] | founder | privacy.html:16, terms.html:16 | yes |
-| [NEED: what happens if the bleachers are not built], [NEED: refund terms] | founder | index.html:132, terms.html:18 | yes |
-| [NEED: delivery date before the 2027 fair] | founder | index.html:98 | yes |
-| [NEED: founder review before publishing] | founder | privacy.html:15, terms.html:15 | yes |
-| [NEED: data collected and form service] | founder | privacy.html:17 | yes |
-| [NEED: site address] (og:image, share card) | founder | index.html:10, .first-dollar/og.html:24 | yes |
-| [NEED: who signs for the fair board] | founder | index.html:130 | no |
-| [NEED: seats per unit and dimensions] | founder | index.html:105 | no |
-| [NEED: inspector and standard] | founder | index.html:112 | no |
-| [NEED: founder name and one line of history] | founder | index.html:141 | no |
-| [PLACEHOLDER: trailer at fairgrounds photo, 16:9] | founder | index.html:97 | no |
-| [PLACEHOLDER: bolting a bleacher frame, 16:9] | founder | index.html:104 | no |
-| [PLACEHOLDER: inspector at finished bleachers, 16:9] | founder | index.html:111 | no |
-| [PLACEHOLDER: founder portrait, 1:1] | founder | index.html:138 | no |
-
-Also open: kill number and date (BRIEF.md). The 1200x630 og.png is rendered with the site address as a visible gap.
+1. LOI form link. Founder. index.html:203 and :291 (both buttons). BLOCKS DEPLOY.
+2. When the $12,000 is due; what signing commits the board to; refund and withdrawal terms. Founder. index.html:296, terms.html. BLOCKS DEPLOY.
+3. Legal business name, contact email, payment or invoicing method, LOI form service and fields collected. Founder. index.html:296 and :298, privacy.html, terms.html. BLOCKS DEPLOY.
+4. Founder review of privacy.html and terms.html. privacy.html:5, terms.html:5. BLOCKS DEPLOY.
+5. Kill number and date. Founder. BRIEF.md only (not on the page). Open.
+6. Site address for the share image. Founder. index.html:11, .first-dollar/og.html. Blocks the share preview.
+7. Delivery area, delivery date, who sets up and how long, who inspects and to what standard. Founder. index.html:260, :264, :268.
+8. Bay length, bay height, seats per bay, seats in the set, pickup date. Founder. index.html:252, :277, :278.
+9. Photo: county fair grandstand, wide, low evening sun, 8:3. Founder or a photographer. index.html:284.
+10. Not on the page, still missing: proof, founder name and history.

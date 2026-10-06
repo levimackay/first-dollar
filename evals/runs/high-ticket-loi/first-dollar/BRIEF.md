@@ -1,39 +1,41 @@
-# BRIEF: Northstand
+# BRIEF
 
-Source: the founder's case file (high-ticket-loi.md). Every fact below is quoted or paraphrased from it.
+Source: the founder's case file (high-ticket-loi.md). Everything below traces to it.
 
-Thesis: The treasurer of a county fair board will pay $12,000 to rent steel bleachers for the 2027 season, delivered, set up and inspected.
+## Thesis
+County fair board treasurers will pay $12,000 to rent modular steel bleachers, delivered, set up and inspected, for the 2027 season.
 
-Ask: a signed letter of intent to rent for the 2027 season at $12,000. Over $1,000 and a sale that needs board sign-off, so the LOI row of the price table fits. (Founder gave this ask; not a suggestion.)
+## Ask and price
+Signed letter of intent to rent for the 2027 season at $12,000 (founder: "Ask and price"). Over $1,000 and a board spend, so the LOI row of the price table fits. No money moves at signing; the LOI names scope, price and season. Start date within the 2027 season: [NEED: target start date or first event date].
+Button: "Sign the letter of intent: $12,000". Link: [NEED: LOI form link].
 
-Kill number: [NEED: kill number and date]. Suggestion only: fewer than 3 signed LOIs from the first 40 fair boards we reach by [NEED: date] and we stop or change the idea.
+## Kill number
+[NEED: kill number and date]. Suggestion only, not agreed: fewer than 3 signed LOIs from the first 40 fair board treasurers contacted by a date before the 2027 booking window.
 
 ## The four answers
-1. Who buys: the treasurer of a county fair board (case file, "Who buys").
-2. Problem, in their words: "Our wooden bleachers failed inspection and new ones cost more than our whole budget." (case file)
-3. Ask and price: signed LOI to rent for the 2027 season at $12,000 (case file).
-4. Real so far: the founder has priced steel and trailers. No bleachers built (case file). Nothing else is real: no customers, no inspection result, no design partner.
+1. Who buys: the treasurer of a county fair board (founder: "Who buys"). Also rodeos (founder: "Idea").
+2. Problem, in their words: "Our wooden bleachers failed inspection and new ones cost more than our whole budget." (founder: "Problem in their words")
+3. Ask: signed LOI, 2027 season rental, $12,000 (founder: "Ask and price").
+4. Real so far: the founder has priced steel and trailers. No bleachers built (founder: "Real so far"). No customers, no inspector, no photos, no assets.
 
-## Facts from the founder
-- Product name: Northstand
-- Idea: modular steel bleachers rented to small-town rodeos and county fairs, delivered, set up and inspected.
-- Workaround today: wooden bleachers that failed inspection; buying new ones.
-- Reference: https://teenage.engineering (founder's choice)
+## Product facts (founder: "Idea")
+Name: Northstand. Modular steel bleachers, rented to small-town rodeos and county fairs, delivered, set up and inspected.
+
+## Workaround today
+Old wooden bleachers that failed inspection, or buying new ones (founder's quote).
 
 ## Reference
-https://teenage.engineering
+https://teenage.engineering (founder: "Reference")
 
 ## Decided without the founder
-- Stage 1 flags: the $12,000 LOI is a business sale needing board sign-off, so no card checkout. LOI link is [NEED: LOI form link].
-- The LOI must name scope, price and start date (commitment.md): scope = rental for the 2027 season, price = $12,000, start date = [NEED: start date, per fair].
-- Kill number left as a suggestion.
+- Eval run: no stops. Kill number left as a [NEED] with a suggestion above.
 
-## [NEED] list
+## NEED list
 - LOI form link
+- Target start date / first event date
 - Kill number and date
-- Legal business name, contact email, refund/withdrawal terms (an LOI moves no money; what the LOI binds is the founder's)
-- Delivery and inspection details: capacity (seats), inspecting body, what "inspected" means, number of units, rental dates
-- Whether $12,000 covers delivery, setup, inspection and takedown (founder said "delivered, set up and inspected")
-- Founder name and photo, history
-- Proof: none yet
-- Site address (for og:image)
+- Legal business name, contact email, refund/withdrawal terms for LOI, payment/invoice terms ($12,000 payable when and how)
+- Who inspects, and to what standard
+- Seats per set, dimensions, delivery area, setup crew, rental period length
+- Founder name and history
+- Proof (none exists), photos, product shot

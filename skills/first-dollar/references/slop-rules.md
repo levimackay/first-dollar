@@ -12,6 +12,11 @@ and entries whose `page` is the page being linted are skipped, so a rebuild
 passes on its own fonts. Leave it out only when the founder chose one face
 across ideas and DESIGN.md Provenance logs it.
 
+Before specimens, run
+`node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-lint.mjs --rank "<Family>"`.
+It reports the dated rank and banned or top-200 status, and exits 1 for a
+banned, top-200 or trend family. Discard that candidate before rendering it.
+
 Each finding prints as `FAIL file:line [rule-id] message` or
 `WARN file:line [rule-id] message`. Exit code 1 means at least one FAIL.
 
@@ -31,8 +36,8 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 |---|---|---|---|---|
 | `banned-font-family` | fail | The most used Google sans faces (the message names which) and the system stacks: Arial, Helvetica Neue, Segoe UI, system-ui, ui-sans-serif, ui-serif or -apple-system, in a stack or font link | The default face says nobody chose the type | Match the reference by features (design-extraction.md section 6) and update DESIGN.md |
 | `font-popularity` | fail | A leading family that ranks in the top 200 of Google Fonts, or is on the list of faces agent-built pages default to (Georgia, Iowan Old Style, Avenir Next, Satoshi, Gloock and others) | The same few faces appear on every generated page | The reference's own face only if it is outside the top 200; otherwise a close match outside the top 200 (design-extraction.md section 6) |
-| `font-history` | fail | Only with `--history <file>` (JSONL, one build per line with `date`, `display`, `text`, `page`): a family the page uses that appears as display or text in the last 10 entries from other pages | Pages from the same builder end up sharing one look | The next candidate by the reference's features, outside the top 200 and the history (design-extraction.md section 6) |
-| `mono-prose` | fail | A `p`, `small`, `figcaption`, `li`, `dd`, `blockquote`, or a `span` or `div` with more than 6 words, set in a monospace face (outside code, pre, kbd, samp, table) | Fine print and body copy in mono is the "technical" costume | Running prose, sentences in paragraphs, goes in a text face. Nav, labels, data and fine print may be mono only where the reference sets them in mono: `data-mono` exempts that element and everything inside it, logged in DESIGN.md Provenance. Never on paragraphs, never to quiet the rule |
+| `font-history` | fail | Only with `--history <file>` (JSONL, one build per line with `date`, `display`, `text`, `page`): a family or its superfamily stem (the name without Display, Text, Sans, Serif, Mono, Slab, Condensed, Expanded, SC or a number) used in the last 10 entries from other pages | Pages from the same builder end up sharing one look | The next candidate by the reference's features, outside the top 200 and the history (design-extraction.md section 6) |
+| `mono-prose` | fail | A `p`, `small`, `figcaption`, `li`, `dd`, `blockquote`, or a `span` or `div` with more than 6 words, set in a monospace face (outside code, pre, kbd, samp, table, and ARIA table or grid roles) | Fine print and body copy in mono is the "technical" costume | Running prose, sentences in paragraphs, goes in a text face. Nav, labels, data and fine print may be mono only where the reference sets them in mono: `data-mono` exempts that element and everything inside it, logged in DESIGN.md Provenance. Never on paragraphs, never to quiet the rule |
 | `single-sans-family` | warn | One font stack across the whole site | One voice for headlines, body and labels | Add a display or text face that contrasts |
 | `flat-type-scale` | fail | Largest font size under 2.5 times the body size | Timid size steps read as templated | Rebuild the scale from a ratio; display at least 2.5x body |
 | `long-measure` | warn | A `max-width` in `ch` over 75 | Full-width text is the untouched default | 60 to 75ch, usually `65ch` |
@@ -48,7 +53,7 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 | `gradient-budget` | fail | More than two linear or conic gradients, any radial gradient, or a blur over 20px on a positioned or pseudo layer | Washes and glow orbs fill space that has nothing to show | Flat fields, real texture or a real image; two gradients at most |
 | `glow-shadow` | fail | A shadow at 0 0 offset, blur 16px or more, in a saturated color | Neon glow standing in for emphasis | An offset shadow in a tinted neutral, a border, or nothing |
 | `tailwind-defaults` | fail | Tailwind loaded from the CDN with no font config, or indigo to fuchsia color classes, or `bg-clip-text` with `text-transparent` | Framework defaults produce the median page | Set fonts and colors from DESIGN.md in the config, or write CSS |
-| `design-tokens` | fail | A color, first font family or border radius in the CSS that DESIGN.md does not declare. Warns once when DESIGN.md is missing or will not parse | The build drifting back to defaults halfway through | Use the nearest token the message names, or add the value to DESIGN.md first with a reason |
+| `design-tokens` | fail | A color, first font family or border radius in the CSS that DESIGN.md does not declare. Warns once when DESIGN.md is missing or will not parse, and when its Layout holds fewer `adapts:` lines than index.html has top-level sections | The build drifting back to defaults halfway through | Use the nearest token the message names, or add the value to DESIGN.md first with a reason |
 | `browser-surfaces` | warn | No `::selection` rule, or no `:focus-visible` rule | Unthemed browser defaults show the page was assembled | Style both from tokens; the focus ring at 3:1 contrast |
 
 ## Layout
@@ -97,6 +102,9 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 | `ai-attribution` | fail | A "generated by" line, co-author credit or tool name in the page, its comments or meta tags | A credited tool tells the visitor nobody stands behind the page | Delete it; the page ships as the founder's |
 | `user-scalable` | fail | A viewport meta with `user-scalable=no` or `maximum-scale=1` | Zoom lock copied from old templates; it fails people who need zoom | `width=device-width, initial-scale=1` |
 | `empty-shell` | warn | Under 20 words of copy in the HTML plus a script `src` | The lint cannot see a page built by script, so a pass would mean nothing | Ship static HTML, or lint the built output |
+| `photo-slot-budget` | fail | More than two photo slots on a landing page: an element with a slot class (`.ph`), a hatch fill, or a `[PLACEHOLDER:` label, including SVG text. Hidden slots count (`hidden`, `aria-hidden`, a media query); `template` and `script` do not | Hatch takes over the page | Keep at most two inline slots; give the other regions the reference's own non-photo device (design-rules.md, Filling image regions) |
+| `self-describing-caption` | fail | A caption-like line (figcaption, small, cite, or a short or caption-classed p, div, li or span) that names its medium or its making: a "Concept", "Illustration", "Sample", "Mock-up", "Demo" or "Artist's impression" opener, "numbers, figures or names are examples, illustrative or made up", "not to scale", "not a real", "in the buyer's words", "this section is". Skips `[data-mock]`, tabs and buttons. One such line may stay in the page footer | The page narrates its own construction | Delete the caption; keep one necessary honesty line at most in the page footer |
+| `need-marker-hue` | fail | The NEED marker's winning fill (gradient stops included) matches a color the page paints elsewhere (any background or highlight, at any chroma), or shares the hue of a DESIGN.md accent, pale tints included | The gap marker reads as the page's own highlight or accent | Underline the marker with no fill (design-rules.md, Gap markers), or give it a tint nothing else uses |
 
 ## Rendered checks
 
@@ -108,7 +116,9 @@ Exit 0: all pass. Exit 1: a check failed, printed as
 `FAIL <id> @<width> <detail>`. Exit 3: not verified; the first line says why.
 The check waits for running animations to settle before it screenshots and
 before `hidden-after-reveal`, so a long signature motion never fails it;
-never shorten motion to pass.
+never shorten motion to pass. URL reference captures scroll through reveal
+regions and wait for them before recording the full page, then save one
+`scroll-NN.png` still per screen for fixed backgrounds a full-page shot misses.
 Report exit 3 as "not verified", never as passed. Results and screenshots are
 in `<page>/.first-dollar/check/`.
 
@@ -116,8 +126,10 @@ in `<page>/.first-dollar/check/`.
 |---|---|---|
 | `overflow` | The page scrolls sideways at 320, 390, 768, 1440 or 1920 | Find the wide element; `minmax(0, 1fr)`, `max-width: 100%`, `overflow-x: clip` |
 | `console` | A console error or uncaught exception during load | Fix the script, or remove it |
-| `broken-media` | An image fails to load, or an image or font request fails | Fix the path, or use a hatched `[PLACEHOLDER: ...]` box at the same size |
-| `hidden-after-reveal` | Text is still invisible after scrolling to the bottom | Make content visible by default; the animation only adds |
+| `broken-media` | An image fails to load, or an image or font request fails | Fix the path or use a real asset. Otherwise use the reference's non-photo device; an inline slot is allowed only within the two-slot budget |
+| `hidden-after-reveal` | Text is still invisible after scrolling to the bottom, or a crop hides it (a line mask; inside `[data-mock]`, a sideways crop too) | Make content visible by default; the animation only adds |
+| `photo-slot-above-fold` | A photo slot appears in the first viewport at 390 or 1440, including a slot in section 2 under a short hero | Replace it with the reference's non-photo device; keep any slot inline below the first screen |
+| `photo-slot-placement` | A photo slot, measured by its own box (the slot element or the region its hatch fills, never its label), reaches both viewport edges, spans at least 90% of desktop width, or is taller than one third of the viewport plus 10% (309px at 390, 330px at 1440) | Make it an inline shot below the first screen, within the two-slot budget |
 | `commitment-above-fold` | `[data-commitment]` is missing, or starts below 844px at 390 wide | Shorten the hero; move the commitment block up |
 | `contrast` | Headline, paragraph or button text under 4.5:1 (3:1 at 24px and up) | Darken the ink or lighten the ground within DESIGN.md tokens |
 | `two-line-button` | The commitment button or a nav link wraps to two lines | Shorter label, `white-space: nowrap`, or less padding |

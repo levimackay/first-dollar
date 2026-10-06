@@ -2,21 +2,24 @@
   pinned-steps: a short pinned section that steps the mechanism as you scroll.
   What it does: the section holds still (CSS sticky) for about two screens of
   scrolling while three steps of the mechanism take turns: the active step
-  comes up to full ink and the photo slot for it wipes in over the last, all
-  three stacked in one frame at one aspect. The sample is a hand-poured
-  candle: wax melts, is poured, cures. Waiting steps are set in the muted
-  tone (over 4.5:1 contrast), never faded, so all three stay readable the
-  whole time. On load it jumps straight to the state that matches the scroll
-  position.
+  comes up to full ink and its plate wipes in over the last, all three
+  stacked in one frame at one aspect. The sample is a hand-poured candle:
+  wax melts, is poured, cures. Each plate is built from non-photo devices: a
+  color field from DESIGN.md tokens, the step's own word at display scale,
+  and the product's own artifact (here the batch label on the jar, filled in
+  one line per step). Waiting steps are set in the muted tone (over 4.5:1
+  contrast), never faded, so all three stay readable the whole time. On load
+  it jumps straight to the state that matches the scroll position.
   How to adapt: keep three steps (two is a toggle, four is a slideshow).
-  Rewrite the <li> copy from COPY.md. Each step carries its own labeled photo
-  slot (the pattern in design-rules.md); replace a slot with the founder's
-  photo when one exists, otherwise keep the labeled slot and write its
-  [PLACEHOLDER: ...] label as a shot direction for this product. Every slot
-  keeps the same aspect. The page's one hatch defs block from design-rules.md supplies #hatch; set its gap there and its ink with --fd-slot-ink. Software has no photo to take: use
-  mechanism-sequence instead. The wipe is clip-path only. No number counts up.
+  Rewrite the <li> copy from COPY.md, and take each plate's device from the
+  reference: its color field, type at scale, or the artifact the product
+  really produces. A plate may hold the founder's real photo instead. A photo
+  slot here counts against the page's budget of two, so never give each step
+  its own slot. Every plate keeps the same aspect. Software has no photo to
+  take: use mechanism-sequence instead. The wipe is clip-path only. No number
+  counts up.
   Reduced motion: no pin, no wipe. The section is ordinary height, every step
-  is at full ink, and each step sits beside its own slot in normal flow.
+  is at full ink, and each step sits beside its own plate in normal flow.
   Without JavaScript the same.
 -->
 <!doctype html>
@@ -43,8 +46,6 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
 .fd-demo-after { padding: 6rem clamp(1rem, 5vw, 4rem) 40vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
 
-.ph-defs { position: absolute; }
-
 /* ---- snippet: pinned-steps ---- */
 /* Every token this snippet reads, with a fallback, so it works pasted alone. */
 .fd-steps {
@@ -60,7 +61,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-steps[data-armed] { height: 300svh; }
 .fd-steps[data-armed] .fd-steps-pin { position: sticky; top: 0; height: 100svh; }
 .fd-steps-pin {
-  box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   gap: clamp(1.5rem, 4vw, 4rem); align-items: center;
   padding: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem);
 }
@@ -77,36 +78,48 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   transform: scaleX(0); transform-origin: left center; transition: transform 600ms var(--_ease);
 }
 .fd-steps[data-armed] .fd-steps-list li[aria-current="step"],
-.fd-steps[data-armed] .fd-steps-list li[aria-current="step"] p { color: var(--_ink); }
+.fd-steps[data-armed] .fd-steps-list li[aria-current="step"] > p { color: var(--_ink); }
 .fd-steps-list li[aria-current="step"]::after { transform: none; }
-.fd-steps-list b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
-.fd-steps-list p { margin: 0.35rem 0 0; color: var(--_muted); }
+.fd-steps-list > li > b { display: block; font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.1; }
+.fd-steps-list > li > p { margin: 0.35rem 0 0; color: var(--_muted); }
 
-/* Photo slots: the labeled-slot pattern from design-rules.md, scoped to this recipe. The page's one hatch defs block sets the gap. */
-.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
-.fd-steps .ph { position: relative; margin: 0.75rem 0 0; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
-.fd-steps .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
-.fd-steps .ph figcaption { position: relative; display: inline-block; margin: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
+/* A plate: a color field (--bg, --fg from tokens), the step's word at display scale, the product's artifact. */
+.fd-steps-plate {
+  position: relative; overflow: clip; container-type: inline-size;
+  margin: 0.75rem 0 0; aspect-ratio: 4 / 3; background: var(--bg); color: var(--fg);
+}
+.fd-steps-word { display: block; position: absolute; left: 4cqw; bottom: 0; margin: 0; font-family: var(--_display); font-size: 27cqw; line-height: 0.8; letter-spacing: -0.045em; white-space: nowrap; transform: translateY(0.1em); color: var(--word, currentColor); }
+.fd-steps-label {
+  position: absolute; top: 7cqw; right: 6cqw; width: 46cqw; box-sizing: border-box;
+  padding: 4.5cqw 5cqw 3cqw; background: var(--_ground); color: var(--_ink);
+  border: 1px solid color-mix(in srgb, var(--_ink) 18%, transparent); font-size: max(0.75rem, 2.6cqw); font-variant-numeric: tabular-nums;
+}
+.fd-steps-label > b { display: block; font-family: var(--_display); font-weight: 400; font-size: max(1.125rem, 5.4cqw); line-height: 1; padding-bottom: 2.4cqw; border-bottom: 2px solid currentColor; }
+.fd-steps-label dl { margin: 0; display: grid; grid-template-columns: auto auto; }
+.fd-steps-label dt, .fd-steps-label dd { margin: 0; padding: 1.6cqw 0; border-bottom: 1px solid color-mix(in srgb, var(--_ink) 16%, transparent); }
+.fd-steps-label dd { text-align: right; }
+/* A line the next step fills in. */
+.fd-steps-label dd:empty::after { content: ""; display: inline-block; width: 40%; border-bottom: 1px dotted currentColor; }
 
-/* Before the script arms the section the frame is empty and hidden; each slot sits in its own step. */
+/* Before the script arms the section the frame is empty and hidden; each plate sits in its own step. */
 .fd-steps-frame { display: none; }
-/* Armed: the three slots stack in one frame and the active one wipes in over the last. */
-.fd-steps[data-armed] .fd-steps-frame { display: block; position: relative; aspect-ratio: 4 / 3; width: min(100%, calc(64svh * 4 / 3)); justify-self: center; }
-.fd-steps[data-armed] .fd-steps-frame .ph { position: absolute; inset: 0; margin: 0; aspect-ratio: auto; clip-path: inset(0); transition: clip-path 700ms var(--_ease); }
-.fd-steps .fd-steps-frame[data-state="-1"] .ph:nth-child(n+2),
-.fd-steps .fd-steps-frame[data-state="0"] .ph:nth-child(n+2),
-.fd-steps .fd-steps-frame[data-state="1"] .ph:nth-child(3) { clip-path: inset(100% 0 0 0); }
+/* Armed: the three plates stack in one frame and the active one wipes in over the last. */
+.fd-steps[data-armed] .fd-steps-frame { display: block; position: relative; aspect-ratio: 4 / 3; width: min(100%, calc(66svh * 4 / 3)); justify-self: center; }
+.fd-steps[data-armed] .fd-steps-frame .fd-steps-plate { position: absolute; inset: 0; margin: 0; aspect-ratio: auto; clip-path: inset(0); transition: clip-path 700ms var(--_ease); }
+.fd-steps .fd-steps-frame[data-state="-1"] .fd-steps-plate:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="0"] .fd-steps-plate:nth-child(n+2),
+.fd-steps .fd-steps-frame[data-state="1"] .fd-steps-plate:nth-child(3) { clip-path: inset(100% 0 0 0); }
 /* Set while the script lands on the first state, so nothing animates on load. */
-.fd-steps[data-instant] .ph,
+.fd-steps[data-instant] .fd-steps-plate,
 .fd-steps[data-instant] .fd-steps-list li::after { transition: none !important; }
 
 @media (max-width: 760px) {
   .fd-steps[data-armed] { height: 240svh; }
   .fd-steps-pin { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 0.75rem; }
-  .fd-steps[data-armed] .fd-steps-frame { order: -1; width: min(100%, calc(36svh * 4 / 3)); }
+  .fd-steps[data-armed] .fd-steps-frame { order: -1; width: min(100%, calc(38svh * 4 / 3)); }
   .fd-steps-list li { padding: 0.7rem 0 0.7rem 2.25rem; }
   .fd-steps-list li::before { top: 0.75rem; }
-  .fd-steps-list p { font-size: 0.9375rem; }
+  .fd-steps-list > li > p { font-size: 0.9375rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -114,7 +127,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   .fd-steps[data-armed] .fd-steps-pin { position: static; height: auto; }
   .fd-steps[data-armed] .fd-steps-list li { color: inherit; }
   .fd-steps-list li::after { transform: none; }
-  .fd-steps[data-armed] .fd-steps-frame .ph { transition: none; }
+  .fd-steps[data-armed] .fd-steps-frame .fd-steps-plate { transition: none; }
 }
 /* ---- end snippet ---- */
 </style>
@@ -126,18 +139,16 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     <p>Demo copy. Scroll: the section holds while the three steps take turns.</p>
   </div>
 
-  <!-- Demo scaffolding, not part of the snippet: the page's one hatch defs block. -->
-  <svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" /></pattern></defs></svg>
   <!-- snippet: pinned-steps -->
   <section class="fd-steps" data-fd-steps>
     <div class="fd-steps-pin">
       <ol class="fd-steps-list">
         <li><b>Wax is melted</b><p>Demo copy. Flakes go into the pitcher and melt slowly.</p>
-          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: wax flakes melting in a steel pitcher, overhead, daylight, 4:3]</figcaption></figure></li>
+          <div class="fd-steps-plate" style="--bg: color-mix(in srgb, var(--_accent) 18%, var(--_ground)); --fg: var(--_ink); --word: var(--_accent)"><span class="fd-steps-word" aria-hidden="true">Melted.</span><div class="fd-steps-label" data-mock><b>Batch 14</b><dl><dt>Melted</dt><dd>10:40</dd><dt>Poured</dt><dd></dd><dt>Cured</dt><dd></dd></dl></div></div></li>
         <li><b>It is poured</b><p>Demo copy. The wax goes into the jar in one pass.</p>
-          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: hands pouring wax into a glass jar, side view, window light, 4:3]</figcaption></figure></li>
+          <div class="fd-steps-plate" style="--bg: color-mix(in srgb, var(--_ink) 12%, var(--_ground)); --fg: var(--_ink)"><span class="fd-steps-word" aria-hidden="true">Poured.</span><div class="fd-steps-label" data-mock><b>Batch 14</b><dl><dt>Melted</dt><dd>10:40</dd><dt>Poured</dt><dd>11:05</dd><dt>Cured</dt><dd></dd></dl></div></div></li>
         <li><b>It cures</b><p>Demo copy. The jar rests until the wax sets, then the wick is trimmed.</p>
-          <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: finished candle on a bench, wick being trimmed, three-quarter view, daylight, 4:3]</figcaption></figure></li>
+          <div class="fd-steps-plate" style="--bg: var(--_ink); --fg: var(--_ground); --word: color-mix(in srgb, var(--_ground) 48%, var(--_ink))"><span class="fd-steps-word" aria-hidden="true">Cured.</span><div class="fd-steps-label" data-mock><b>Batch 14</b><dl><dt>Melted</dt><dd>10:40</dd><dt>Poured</dt><dd>11:05</dd><dt>Cured</dt><dd>2 days</dd></dl></div></div></li>
       </ol>
       <div class="fd-steps-frame" data-state="2" data-fd-frame></div>
     </div>
@@ -155,10 +166,10 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   var frame = section.querySelector('[data-fd-frame]');
   var steps = section.querySelectorAll('.fd-steps-list li');
   if (!frame || steps.length < 2) return;
-  // Gather each step's slot into the frame, in step order, so they stack.
+  // Gather each step's plate into the frame, in step order, so they stack.
   steps.forEach(function (li) {
-    var slot = li.querySelector('.ph');
-    if (slot) frame.appendChild(slot);
+    var plate = li.querySelector('.fd-steps-plate');
+    if (plate) frame.appendChild(plate);
   });
   var current = null;
 

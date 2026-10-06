@@ -13,7 +13,7 @@ colors:
   accent-hover: "<accent on hover>"
   on-accent: "<text on accent, 4.5:1 or more>"
   focus: "<focus ring hex, 3:1 or more against neutral>"
-  highlight: "<gap marker background: the reference's highlight color, or the accent at about 12% over neutral; ink 4.5:1 on it>"
+  highlight: "<delete: the gap marker is an underline by default; a tint only when need-marker-hue passes it (no accent's hue, no color the page paints elsewhere); ink 4.5:1 on it>"
 typography:
   headline-display:
     fontFamily: "<display family>"
@@ -85,8 +85,8 @@ components:
     textColor: "{colors.ink}"
     typography: "{typography.label-md}"
   gap-marker:
-    backgroundColor: "{colors.highlight}"
     textColor: "{colors.ink}"
+    textDecoration: "underline; backgroundColor {colors.highlight} only when that tint passes need-marker-hue"
 ---
 
 # <product name> design system
@@ -98,16 +98,18 @@ components:
 - Not: <the near miss>
 - Boldness spent on: <one place>
 - Macrostructure: <name from design-rules.md>, backbone from <reference>
-- Hero layout: <as reference-structure.md names it: text over full-bleed image | centered statement | split | list | letter>
+- Hero layout: <as reference-structure.md names it: text over full-bleed image (founder photo only) | centered statement | split | list | letter>
 - Section sequence: <each section of reference-structure.md in order, the
   COPY.md content it carries, or "cut: no founder content"; a section added
   for content with no home, marked "added", its layout and why>
 - Default check: <each choice that would fit any similar startup, and what replaced it>
 - Material: <each section: what it is made of, and who supplies it>
-- Image regions: <each region the reference fills with imagery, its aspect,
-  size and position, what it shows (people, place, scene, its own product,
-  portrait, drawing), and its fill: founder asset | software mock (only where
-  it shows its product) | photo slot and its shot direction | drawing>
+- Image regions: <each region the reference fills with imagery, its size and
+  position, what it shows (people, place, scene, its own product, portrait,
+  drawing), and its fill: the reference's non-photo device (name the
+  reference-structure.md section where it appears) | founder asset | software
+  mock (only where it shows its product) | inline photo slot, two per page at
+  most, with its aspect and shot direction | drawing (only where it draws)>
 - Energy: <the reference's saturation and accent footprint; the page matches it>
 
 ## Colors
@@ -129,6 +131,7 @@ components:
 
 ## Layout
 
+- Section map (repeat for every built section): `<built section> | adapts: <exact name in reference-structure.md> | <its job and layout here>`.
 - Base unit: <4 | 8>px. Every gap is a multiple.
 - Section rhythm: <the reference's measured gaps against the content beside them, top to bottom>
 - Density: <where the reference is sparse and where it is dense>
@@ -154,13 +157,14 @@ Only values listed under rounded.>
   price and href.
 - **Small print:** the money terms, once, where the reference puts its small
   print (under its button, a terms block, a footer note), in its style.
-- **Photo slot:** the reference image's aspect, size and position, hatched
-  with an SVG pattern, labeled with a shot direction. Never styled to look
-  finished.
+- **Photo slot:** two per page at most, each an inline figure about a third
+  of the viewport tall at most, never in the first screen or full bleed; the
+  reference image's aspect where practical, hatched with an SVG pattern,
+  labeled with a shot direction. Never styled to look finished.
 - **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`:
-  the surrounding text's font (`font: inherit`), the highlight background,
-  padding, `box-decoration-break: clone` (design-rules.md, Gap markers).
-  Never a dashed grey box.
+  the surrounding text's font (`font: inherit`), underlined (a highlight tint
+  only when need-marker-hue passes), padding, `box-decoration-break: clone`
+  (design-rules.md, Gap markers). Never a dashed grey box.
 
 ## Do's and Don'ts
 

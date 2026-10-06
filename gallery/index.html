@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>first dollar: the eval pages</title>
+<meta name="description" content="Six fictional startup ideas, each built by the first-dollar skill from a reference site, kept exactly as built.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Besley:wght@700;900&display=swap">
+<style>
+  :root {
+    --ground: #ffffff; --ink: #1f2328; --muted: #59636e; --line: #d1d9e0; --mark: #d1242f;
+    --display: Besley, Georgia, serif; --text: -apple-system, system-ui, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ground: #0d1117; --ink: #f0f6fc; --muted: #9198a1; --line: #3d444d; --mark: #ff7b72; }
+  }
+  * { box-sizing: border-box; }
+  ::selection { background: var(--ink); color: var(--ground); }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 17px/1.55 var(--text); }
+  a { color: inherit; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--mark); outline-offset: 3px; }
+  header { padding: 72px 24px 40px; max-width: 1180px; margin: 0 auto; }
+  .mark { font-family: var(--display); font-weight: 900; font-size: clamp(56px, 11vw, 132px); line-height: 0.95; letter-spacing: -0.03em; margin: 0; }
+  .lede { max-width: 38em; margin: 22px 0 0; font-size: 19px; color: var(--muted); }
+  .lede b { color: var(--ink); font-weight: 600; }
+  main { max-width: 1180px; margin: 0 auto; padding: 0 24px 48px; }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 56px 48px; }
+  @media (min-width: 820px) { ol { grid-template-columns: 1.15fr 0.85fr; } }
+  li { border-top: 3px solid var(--ink); padding-top: 16px; }
+  li img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; margin: 14px 0 16px; }
+  h2 { font: 700 30px/1.15 var(--display); margin: 0; }
+  .what { margin: 4px 0 0; color: var(--muted); }
+  .links { margin: 10px 0 0; display: flex; flex-wrap: wrap; gap: 6px 22px; font-weight: 600; }
+  footer { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+  footer code { font: 500 14px ui-monospace, Menlo, monospace; color: var(--ink); }
+</style>
+</head>
+<body>
+<header>
+  <h1 class="mark">first dollar</h1>
+  <p class="lede">Six fictional ideas, each built by <b>first-dollar</b> from a site the founder picked. Every page is live and kept exactly as built, gaps included. Next to each is the same idea from an agent given the same reference and a careful prompt.</p>
+</header>
+<main>
+  <ol>
+    <li>
+      <h2>Tidemark</h2>
+      <p class="what">Flags dental claims paid below the contracted fee. Asks for a $1,500 paid pilot. Built from planetscale.com.</p>
+      <img src="../media/readme/page-b2b-pilot.png" alt="The Tidemark page" width="1440" height="900" loading="lazy">
+      <p class="links"><a href="../evals/runs/b2b-pilot/first-dollar/">Open the page</a><a href="../evals/runs/b2b-pilot/prompted/">The prompted agent's version</a></p>
+    </li>
+    <li>
+      <h2>Loam</h2>
+      <p class="what">A countertop bin that turns scraps into compost. Asks for an $89 pre-order. Built from graza.co.</p>
+      <img src="../media/readme/page-consumer-preorder.png" alt="The Loam page" width="1440" height="900" loading="lazy">
+      <p class="links"><a href="../evals/runs/consumer-preorder/first-dollar/">Open the page</a><a href="../evals/runs/consumer-preorder/prompted/">The prompted agent's version</a></p>
+    </li>
+    <li>
+      <h2>Northstand</h2>
+      <p class="what">Steel bleachers rented to county fairs. Asks for a signed $12,000 letter of intent. Built from teenage.engineering.</p>
+      <img src="../media/readme/page-high-ticket-loi.png" alt="The Northstand page" width="1440" height="900" loading="lazy">
+      <p class="links"><a href="../evals/runs/high-ticket-loi/first-dollar/">Open the page</a><a href="../evals/runs/high-ticket-loi/prompted/">The prompted agent's version</a></p>
+    </li>
+    <li>
+      <h2>Halves</h2>
+      <p class="what">Roommates log shared groceries and settle up once a month. Asks for a $36 pre-order. Built from thelightphone.com.</p>
+      <img src="../media/readme/page-low-ticket-app.png" alt="The Halves page" width="1440" height="900" loading="lazy">
+      <p class="links"><a href="../evals/runs/low-ticket-app/first-dollar/">Open the page</a><a href="../evals/runs/low-ticket-app/prompted/">The prompted agent's version</a></p>
+    </li>
+    <li>
+      <h2>Ridgeback Sharpening</h2>
+      <p class="what">A van that sharpens knives in your driveway. Asks for a $40 first visit. Built from kinfolk.com.</p>
+      <img src="../media/readme/page-local-service.png" alt="The Ridgeback Sharpening page" width="1440" height="900" loading="lazy">
+      <p class="links"><a href="../evals/runs/local-service/first-dollar/">Open the page</a><a href="../evals/runs/local-service/prompted/">The prompted agent's version</a></p>
+    </li>
+    <li>
+      <h2>A practice-plan tool</h2>
+      <p class="what">From one sentence: a piano teacher's notes become a weekly plan for parents. Asks for a $35 pre-order. Built from basecamp.com.</p>
+      <img src="../media/readme/page-one-liner.png" alt="The practice-plan page" width="1440" height="900" loading="lazy">
+      <p class="links"><a href="../evals/runs/one-liner/first-dollar/">Open the page</a><a href="../evals/runs/one-liner/prompted/">The prompted agent's version</a></p>
+    </li>
+  </ol>
+</main>
+<footer>
+  <p>Install it with <code>npx skills add levimackay/first-dollar</code>. Source, the full eval and every rule: <a href="https://github.com/levimackay/first-dollar">github.com/levimackay/first-dollar</a>. The ideas are made up; no company, person or result on these pages is real.</p>
+</footer>
+</body>
+</html>

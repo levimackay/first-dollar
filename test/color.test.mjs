@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseColor, toOklch, deltaE } from '../src/lint/color.mjs';
+import { parseColor, toOklch, deltaE, hueDeltaE } from '../src/lint/color.mjs';
 
 test('indigo lands in the blue-violet hue range', () => {
   const { h } = toOklch(parseColor('#6366f1'));
@@ -30,4 +30,9 @@ test('deltaE is zero for equal colours and about one for black vs white', () => 
   assert.equal(deltaE(parseColor('#123456'), parseColor('#123456')), 0);
   const d = deltaE(parseColor('black'), parseColor('white'));
   assert.ok(d > 0.99 && d < 1.01, `delta was ${d}`);
+});
+
+test('normalized OKLab distance treats a pale yellow tint as the banner hue, not a neutral', () => {
+  assert.ok(hueDeltaE(parseColor('#fbcc0a'), parseColor('#fff1a8')) < 0.04);
+  assert.equal(hueDeltaE(parseColor('#fafafa'), parseColor('#fbcc0a')), null);
 });

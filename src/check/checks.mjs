@@ -1,5 +1,6 @@
 // Each check: (page, width) -> { id, ok, detail }. Call watch(page) before page.goto.
 import { deltaE, toOklch } from '../lint/color.mjs';
+import { SLOT_ARGS } from '../lint/photo-slot.mjs';
 
 // The page's overall ground against the reference's, both from full-page 1440 screenshots
 // (first screen when a reference has no full capture). Takes top palette entries ({ hex, rgb, coverage }).
@@ -56,6 +57,100 @@ export async function brokenMedia(page) {
   return res('broken-media', [...new Set([...imgs, ...page.__fd.failed])].slice(0, 5));
 }
 
+// The slot is the box, never its label: a slot-class element, the region a hatch fills, or
+// the figure (else the element) holding a [PLACEHOLDER: ...] label. The same steps as
+// photoSlotRegions in src/lint/photo-slot.mjs, run in the page; coordinates are relative to
+// the top-of-page viewport.
+function collectPhotoSlots({ slot: SLOT, hatch: HATCH, marker, sectioning: SECTIONING }) {
+  const MARKER = new RegExp(marker, 'i');
+  const regions = [];
+  const add = (el) => el && !regions.includes(el) && regions.push(el);
+  for (const el of document.body.querySelectorAll(SLOT)) if (!el.parentElement.closest(SLOT)) add(el);
+  for (const el of document.body.querySelectorAll(HATCH)) {
+    const owner = el.closest(SLOT);
+    if (owner) { add(owner); continue; }
+    let svg = el.closest('svg') || el;
+    while (svg.parentElement?.closest('svg')) svg = svg.parentElement.closest('svg');
+    const layer = svg.matches('.ph-hatch') || ['absolute', 'fixed'].includes(getComputedStyle(svg).position);
+    add(layer && svg.parentElement ? svg.parentElement : svg);
+  }
+  const labels = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for (let node; (node = walker.nextNode()); ) {
+    const label = node.parentElement;
+    if (MARKER.test(node.textContent) && !label.closest('script, style, noscript, template') && !labels.includes(label)) labels.push(label);
+  }
+  for (const label of labels) {
+    const owner = label.closest(SLOT);
+    if (owner) { add(owner); continue; }
+    let found = null;
+    for (let a = label; a; a = a.parentElement) {
+      if (regions.includes(a)) { found = a; break; }
+      if (a.matches(SECTIONING)) break;
+      const inside = regions.filter((r) => r !== a && a.contains(r));
+      if (inside.length && labels.filter((l) => a.contains(l)).length === 1) {
+        for (const r of inside) regions.splice(regions.indexOf(r), 1);
+        found = a;
+        break;
+      }
+    }
+    add(found || label.closest('figure') || label);
+  }
+  const slots = [];
+  for (const slot of regions) {
+    const text = [...labels].find((l) => slot.contains(l))?.textContent.match(MARKER)?.[0];
+    const bounds = slot.getBoundingClientRect();
+    const box = { left: bounds.left, right: bounds.right, top: bounds.top, bottom: bounds.bottom };
+    let opacity = 1;
+    let visible = true;
+    for (let a = slot; a; a = a.parentElement) {
+      const style = getComputedStyle(a);
+      opacity *= Number(style.opacity);
+      if (style.display === 'none' || style.visibility !== 'visible') visible = false;
+      if (a === slot) continue;
+      const clip = a.getBoundingClientRect();
+      if (['hidden', 'clip', 'scroll', 'auto'].includes(style.overflowX)) {
+        box.left = Math.max(box.left, clip.left);
+        box.right = Math.min(box.right, clip.right);
+      }
+      if (['hidden', 'clip', 'scroll', 'auto'].includes(style.overflowY)) {
+        box.top = Math.max(box.top, clip.top);
+        box.bottom = Math.min(box.bottom, clip.bottom);
+      }
+    }
+    if (!visible || opacity < 0.1 || box.right - box.left <= 1 || box.bottom - box.top <= 1) continue;
+    slots.push({ label: text ? text.slice(0, 80) : 'unlabeled hatched region', ...box, width: box.right - box.left, height: box.bottom - box.top,
+      viewportWidth: innerWidth, viewportHeight: innerHeight });
+  }
+  return slots;
+}
+
+export async function photoSlotAboveFold(page) {
+  const slots = await page.evaluate(collectPhotoSlots, SLOT_ARGS);
+  const bad = slots
+    .filter((s) => s.bottom > 0 && s.top < s.viewportHeight && s.right > 0 && s.left < s.viewportWidth)
+    .slice(0, 5)
+    .map((s) => `visible photo slot "${s.label}" in first viewport`);
+  return res('photo-slot-above-fold', bad);
+}
+
+// An inline slot is about one third of the viewport tall at most; the check allows 10% over.
+const SLOT_HEIGHT_SHARE = 1 / 3;
+const SLOT_HEIGHT_SLACK = 1.1;
+
+export async function photoSlotPlacement(page) {
+  const slots = await page.evaluate(collectPhotoSlots, SLOT_ARGS);
+  const bad = [];
+  for (const s of slots) {
+    const fullBleed = s.left <= 8 && s.right >= s.viewportWidth - 8;
+    const nearFullWidth = s.viewportWidth >= 1024 && s.width >= s.viewportWidth * 0.9;
+    const limit = Math.floor(s.viewportHeight * SLOT_HEIGHT_SHARE * SLOT_HEIGHT_SLACK);
+    if (fullBleed || nearFullWidth) bad.push(`"${s.label}" is ${fullBleed ? 'full bleed' : 'nearly full width'} (${Math.round(s.width)}px of ${s.viewportWidth}px, ${Math.round(s.height)}px tall)`);
+    if (s.height > limit) bad.push(`"${s.label}" is ${Math.round(s.height)}px tall, over one third of the ${s.viewportHeight}px viewport (limit ${limit}px)`);
+  }
+  return res('photo-slot-placement', bad.slice(0, 5));
+}
+
 export const hiddenAfterReveal = (page) => revealed(page, 'hidden-after-reveal');
 
 // Needs a page opened with reducedMotion: 'reduce' emulated before it loaded.
@@ -78,9 +173,9 @@ export async function settle(page) {
   });
 }
 
-// URL mode: lazy images only load when scrolled into view, so scroll the whole page first
-// (600px every 150ms, at most 20000px or 15s), return to the top, then let the network,
-// the images and the animations settle. Every wait is bounded.
+// URL mode: lazy images and reveals only load when scrolled into view, so scroll the whole
+// page first (600px every 150ms, at most 20000px or 15s). Hold at the bottom for delayed
+// observer callbacks, then return to the top and let images and animations settle.
 export async function primeLazy(page) {
   await page.evaluate(async () => {
     const end = Date.now() + 15000;
@@ -88,6 +183,7 @@ export async function primeLazy(page) {
       scrollTo(0, y);
       await new Promise((r) => setTimeout(r, 150));
     }
+    await new Promise((r) => setTimeout(r, 1500));
     scrollTo(0, 0);
   });
   await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
@@ -96,6 +192,22 @@ export async function primeLazy(page) {
     await Promise.race([all, new Promise((r) => setTimeout(r, 8000))]);
   });
   await settle(page);
+}
+
+// URL mode: a full-page shot never paints position:fixed layers (background photos a page swaps
+// per section), so keep one viewport still per screen height down the page, at most `max`.
+export async function scrollStills(page, pathFor, max = 12) {
+  const height = await page.evaluate(() => document.documentElement.scrollHeight);
+  const step = page.viewportSize().height;
+  let n = 0;
+  for (let y = 0; y < height && n < max; y += step, n++) {
+    await page.evaluate((top) => scrollTo(0, top), y);
+    await page.waitForTimeout(300);
+    await settle(page);
+    await page.screenshot({ path: pathFor(n) });
+  }
+  await page.evaluate(() => scrollTo(0, 0));
+  return n;
 }
 
 async function revealed(page, id) {
@@ -119,16 +231,20 @@ async function revealed(page, id) {
       let opacity = 1;
       for (let e = el; e; e = e.parentElement) opacity *= +getComputedStyle(e).opacity;
       // A line mask: an ancestor that clips vertically while the text sits wholly above or below it.
-      // Sideways clipping (a ticker strip) is left alone.
+      // Sideways clipping (a ticker strip) is left alone, except inside a product mock ([data-mock]),
+      // where a crop must keep the output (a total column) in view at every width.
       const r = el.getBoundingClientRect();
+      const inMock = !!el.closest('[data-mock]');
       let masked = false;
       for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
-        if (!['hidden', 'clip'].includes(getComputedStyle(a).overflowY)) continue;
+        const st = getComputedStyle(a);
         const b = a.getBoundingClientRect();
-        if (r.bottom <= b.top + 1 || r.top >= b.bottom - 1) { masked = true; break; }
+        const clipsY = ['hidden', 'clip'].includes(st.overflowY);
+        const clipsX = inMock && ['hidden', 'clip'].includes(st.overflowX);
+        if ((clipsY && (r.bottom <= b.top + 1 || r.top >= b.bottom - 1)) || (clipsX && (r.right <= b.left + 1 || r.left >= b.right - 1))) { masked = true; break; }
       }
       if (opacity < 0.1 || cs.visibility === 'hidden' || masked) {
-        out.push(`${el.tagName.toLowerCase()} "${el.textContent.trim().slice(0, 30)}"`);
+        out.push(`${el.tagName.toLowerCase()} "${el.textContent.trim().slice(0, 30)}"${masked ? ' clipped by an ancestor' : ''}`);
       }
     }
     return out.slice(0, 5);

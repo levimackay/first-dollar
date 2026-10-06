@@ -12,6 +12,15 @@ const real = (p) => {
   }
 };
 
+// Cuts of one named superfamily (its Display, Sans, Serif, Mono, Condensed or numbered
+// versions) repeat the same visual identity, so compare names with those words stripped.
+const CUT = /\s+(?:display|text|sans|serif|mono|slab|condensed|semi ?condensed|expanded|sc|\d+)$/i;
+const stem = (name) => {
+  let s = String(name || '').toLowerCase().trim();
+  while (CUT.test(s)) s = s.replace(CUT, '');
+  return s;
+};
+
 export default {
   id: 'font-history',
   severity: 'fail',
@@ -27,11 +36,13 @@ export default {
     eachFamily(ctx, (file, line, family) => {
       const key = family.toLowerCase();
       if (!key || seen.has(key)) return;
-      const hit = recent.find((h) => [h.display, h.text].some((f) => typeof f === 'string' && f.toLowerCase() === key));
+      const hit = recent.find((h) => [h.display, h.text].some((f) => typeof f === 'string' && stem(f) === stem(key)));
       if (!hit) return;
       seen.add(key);
+      const matched = [hit.display, hit.text].find((f) => typeof f === 'string' && stem(f) === stem(key));
+      const relation = matched.toLowerCase() === key ? '' : ` (same superfamily as "${matched}")`;
       out.push(
-        finding('font-history', file, line, `"${family}" was used by your build of ${hit.idea ?? hit.name ?? 'an earlier idea'} on ${hit.date ?? 'an earlier date'}; pick a different face so your pages do not share a look`),
+        finding('font-history', file, line, `"${family}"${relation} was used by your build of ${hit.idea ?? hit.name ?? 'an earlier idea'} on ${hit.date ?? 'an earlier date'}; pick a different face so your pages do not share a look`),
       );
     });
     return out;

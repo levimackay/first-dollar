@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidemark</title>
+<meta name="description" content="Tidemark reads your remittance files and flags insurance claims paid below your contracted fee. A 90-day paid pilot for $1,500.">
+<meta property="og:title" content="Tidemark">
+<meta property="og:description" content="Tidemark reads your remittance files and flags insurance claims paid below your contracted fee. A 90-day paid pilot for $1,500.">
+<meta property="og:image" content="[NEED: site address]/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@400;700&family=Radio+Canada:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="mark" href="index.html">Tidemark</a>
+    <nav aria-label="Page">
+      <ul>
+        <li><a href="#mechanism">Mechanism</a></li>
+        <li><a href="#pilot">The pilot</a></li>
+        <li><a href="#fit">Who it is for</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="hero">
+  <div class="wrap">
+    <h1>You know claims get shorted. Tidemark finds which ones.</h1>
+    <p>Tidemark reads the insurance remittance files your practice already receives and flags the claims that were paid below the fee in your contract.</p>
+    <p>It is for the office manager of an independent practice with 2 to 6 chairs, who knows the shortfalls are there and has no hours to check every line of every EOB.</p>
+    <div class="ask-row"><a class="commit" data-commitment href="[NEED: checkout link]">Start the pilot for $1,500</a></div>
+  </div>
+</section>

@@ -1,0 +1,87 @@
+<div class="wrap">
+  <div class="sec" style="padding-top:40px">
+    <p style="margin-bottom:16px">Two of these six lines were paid below the contracted fee.</p>
+    <div class="grid-box" style="margin-top:0">
+      <figure class="mock" data-mock data-fd-mock>
+        <table>
+          <thead><tr><th>Code</th><th class="col-line">Procedure</th><th class="n">Contract fee</th><th class="n">Paid</th><th class="n">Short by</th></tr></thead>
+          <tbody>
+            <tr data-line><td><span class="cell">D0120</span></td><td class="col-line"><span class="cell">Periodic exam</span></td><td class="n"><span class="cell">$58.00</span></td><td class="n"><span class="cell">$58.00</span></td><td class="n"><span class="cell">$0.00</span></td></tr>
+            <tr data-line class="short"><td><span class="cell">D1110</span></td><td class="col-line"><span class="cell">Adult cleaning</span></td><td class="n"><span class="cell">$112.00</span></td><td class="n"><span class="cell">$96.00</span></td><td class="n"><span class="cell"><span class="flag">$16.00</span></span></td></tr>
+            <tr data-line><td><span class="cell">D0274</span></td><td class="col-line"><span class="cell">Bitewings</span></td><td class="n"><span class="cell">$74.00</span></td><td class="n"><span class="cell">$74.00</span></td><td class="n"><span class="cell">$0.00</span></td></tr>
+            <tr data-line><td><span class="cell">D2391</span></td><td class="col-line"><span class="cell">Filling, one surface</span></td><td class="n"><span class="cell">$189.00</span></td><td class="n"><span class="cell">$189.00</span></td><td class="n"><span class="cell">$0.00</span></td></tr>
+            <tr data-line class="short"><td><span class="cell">D4341</span></td><td class="col-line"><span class="cell">Scaling, per quadrant</span></td><td class="n"><span class="cell">$214.00</span></td><td class="n"><span class="cell">$171.00</span></td><td class="n"><span class="cell"><span class="flag">$43.00</span></span></td></tr>
+            <tr data-line><td><span class="cell">D0220</span></td><td class="col-line"><span class="cell">X-ray, single</span></td><td class="n"><span class="cell">$31.00</span></td><td class="n"><span class="cell">$31.00</span></td><td class="n"><span class="cell">$0.00</span></td></tr>
+            <tr class="total"><td colspan="2"><span class="cell">2 claims flagged</span></td><td class="n"></td><td class="n"></td><td class="n"><span class="cell">$59.00</span></td></tr>
+          </tbody>
+        </table>
+      </figure>
+    </div>
+  </div>
+
+  <div class="quote-wrap">
+    <blockquote class="quote">
+      <p>I know we get shorted on claims. I do not have the hours to check every line of every EOB.</p>
+      <cite><span class="need">[NEED: who said this, with permission]</span></cite>
+    </blockquote>
+  </div>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <section class="sec" id="mechanism" style="padding-top:48px">
+    <div class="tabbox">
+      <div class="tabs"><span class="on">Remittance file in, flagged claims out</span></div>
+      <div class="body">
+        <p>Your payers send remittance files. Tidemark reads each paid line and compares it to the fee in your contract. Any line paid below that fee comes out as a flagged claim, with the amount it was short.</p>
+        <p><span class="need">[NEED: how the files and your fee schedule reach Tidemark, and what you get back, in what form, how often]</span></p>
+        <div class="diagram" role="img" aria-label="Remittance file goes into Tidemark, flagged claims come out">
+          <div class="box dbl"><b>Remittance file</b>The paid lines your payers sent.</div>
+          <div class="arrow" aria-hidden="true"></div>
+          <div class="box fill"><b>Tidemark</b>Compares each paid line to your contracted fee.</div>
+          <div class="arrow" aria-hidden="true"></div>
+          <div class="box dbl"><b>Flagged claims</b>The lines paid below the fee, and by how much.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <section class="sec">
+    <h2 class="sh">Two years at a dental front desk</h2>
+    <p><span class="need">[NEED: founder name]</span> worked the front desk at a dental office for two years.</p>
+    <p><span class="need">[NEED: what they saw there and why they are building Tidemark]</span> <span class="need">[NEED: proof]</span></p>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <section class="sec" id="pilot">
+    <h2 class="sh">What the $1,500 covers</h2>
+    <p>The pilot runs 90 days and costs $1,500.</p>
+    <ul class="list">
+      <li>What you get in the 90 days: <span class="need">[NEED: what the pilot delivers and when]</span></li>
+      <li>Your pilot starts within <span class="need">[NEED: days]</span> days of payment.</li>
+      <li>What counts as success: <span class="need">[NEED: success measure]</span></li>
+      <li>Refunds: <span class="need">[NEED: refund terms]</span></li>
+      <li>Whether the fee counts toward a longer contract: <span class="need">[NEED: credit forward]</span></li>
+      <li>What happens to the patient data in your files: <span class="need">[NEED: data handling]</span></li>
+      <li><span class="need">[NEED: legal business name]</span> takes payment through <span class="need">[NEED: payment processor]</span>.</li>
+    </ul>
+    <p><a class="commit" data-commitment href="[NEED: checkout link]">Start the pilot for $1,500</a></p>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <section class="sec" id="fit">
+    <h2 class="sh">Practices with 2 to 6 chairs</h2>
+    <h3 class="sub">Built for</h3>
+    <ul class="list">
+      <li>Independent dental practices with 2 to 6 chairs.</li>
+      <li>The office manager who knows claims get shorted and has no hours to check every EOB line.</li>
+    </ul>
+    <h3 class="sub">Not built for</h3>
+    <ul class="list">
+      <li>Practices with 1 chair, or 7 or more. <span class="need">[NEED: founder to confirm]</span></li>
+    </ul>
+  </section>
+</div>

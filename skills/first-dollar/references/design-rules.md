@@ -16,10 +16,11 @@ Write these into the Overview section of DESIGN.md:
 - Where boldness is spent: one place only.
 - The default check: for each choice, ask "would this come out for any similar
   startup?". Change every yes and write what changed.
-- Material: for each section of reference-structure.md, what fills it and
-  who supplies it, by what the reference shows (SKILL.md stage 4). Fill
-  every image region (below); cut a text section the founder has nothing
-  for, never pad it with big type, cards, gradients or clip art.
+- Material: for each named section of reference-structure.md, write
+  `adapts: <reference section>`, what fills it and who supplies it. Replace
+  missing photo regions by the reference's own non-photo device ("Filling
+  image regions"). Cut a text section the founder has nothing for; never pad
+  it with big type, cards, gradients or clip art.
 
 ## Type
 
@@ -83,9 +84,10 @@ Write these into the Overview section of DESIGN.md:
 - Full bleed, varied measures and a grid break come from the reference:
   where it does them, or none [`no-full-bleed`, `same-max-width`; keep a
   warning with a Do's and Don'ts line when the reference has none].
-- The hero copies the reference's hero layout (reference-structure.md): text
-  over a full-bleed image, a centered statement, a split. Headline left with
-  an object right only when the reference is split. A centered hero with one
+- The hero copies the reference's composition (reference-structure.md); a
+  photo-led one is carried by its non-photo device until real photos exist.
+  No photo slot in the first screen. Headline left with an object right only
+  when the reference is split. A centered hero with one
   ask is fine; the two-button centered template fails [`centred-hero`].
 - Section order, count and layout come from reference-structure.md, never a
   skeleton. No inverted closing band unless the reference has one.
@@ -110,14 +112,14 @@ button never fade or slide away.
 ## Macrostructures
 
 reference-structure.md is the plan; these names only label the reference's
-shape, never a template to fill. Any shape works if the first screen holds the
-offer, the price and the button, the money terms sit where the reference puts
-its small print, and a real person stands behind it.
+shape, never a template to fill. Each built section records its `adapts:`
+source in DESIGN.md Layout. The first screen holds the offer, price and button;
+money terms take the reference's small-print form, not a default table.
 
 | Shape | What it is | Suits |
 |---|---|---|
-| Letter | One column at reading width in the founder's voice; price inline and again in a terms box | Services and pilots sold on trust |
-| Specimen | The product very large in the first screen; the offer small and exact under it | Physical goods with a founder-supplied photo, or a render captioned as a render |
+| Letter | One column at reading width in the founder's voice; price and terms follow the reference's small-print form | Services and pilots sold on trust |
+| Specimen | The product artifact very large in the first screen; the offer small and exact under it | Physical goods with a founder-supplied photo or truthful render |
 | Spec sheet | A dense table of what you get, when, and for how much | Technical buyers who compare |
 | Split | A sticky pane with price, terms and button beside a scrolling pane of mechanism and proof | Keeping the commitment in view on long pages |
 | Stat-led | One real number dominating the first screen: the price, the ship date, the cap | Offers where one fact decides |
@@ -131,17 +133,17 @@ Never the only structure: hero, three cards, testimonials, CTA
 
 ## Filling image regions
 
-What the reference shows in each region decides the fill (SKILL.md stage 4,
-Material), not the product type: people, places and scenes get photo slots
-on software pages too, and a mock goes only where the reference shows its own
-product. Never a void, and never flat vector clip art where a photo belongs.
-
-Measure first. On the reference's `1440.png`, `full-1440.png` and `390.png`,
-note each image region's share of the width, its height, whether it bleeds
-off an edge, and where text sits on or beside it. The fill takes the same
-box: a full-bleed photo hero stays full bleed, with the headline over it
-where the reference sets it. At 390, keep it where the reference's phone
-layout keeps it, with a real height.
+Measure each region on the reference's `1440.png`, `full-1440.png` and
+`390.png`: size, position, crop and what job its image does. With a real
+founder asset, follow that composition. Without one, use at most two inline
+photo slots on the entire page, below the first screen at 390 and 1440,
+never full bleed. Every other photo region takes a **non-photo device**: one
+the same reference already uses, such as a color field, the product's own
+artifact, the section's own words at display scale, its masthead or its cell
+grid. Name in DESIGN.md the reference-structure.md section where that device
+appears; one the reference never shows is a default. Keep the region's job
+and approximate weight. Never a void, flat clip art, or a drawing animated
+to stand in for a photo.
 
 **An HTML and CSS mock.** Where the reference shows its own product, on a
 software page. The signature motion plays here (motion.md).
@@ -149,19 +151,23 @@ software page. The signature motion plays here (motion.md).
 - The product's real interface, or the one screen that shows the outcome
   (the signed change order, the report), at real proportions, in the page's
   fonts and tokens. Sample values are generic, never a real person or
-  company. Caption it: "Concept. Numbers are examples."
+  company. One honesty line at most belongs in the footer, not under the mock.
 - Crop and place it the way the reference treats its photo: if the photo
   bleeds off the edge, the mock does too. One detail set large (a single row
-  of the report) can beat the whole screen set small.
+  of the report) can beat the whole screen set small. The signature's output
+  stays inside the cropped mock at every width, including 390.
 - One surface with rows and rules inside. Cards inside a card fail
   [`nested-cards`]. No fake window chrome or generic phone bezel unless the
-  reference shows one.
+  reference shows one. Put `data-mock` on its root: the caption lint skips
+  its labels and the check fails text a sideways crop hides.
 
-**A labeled photo slot.** Where the reference shows people, a place, a scene
-or a portrait, and for a physical product's own product shot.
+**A labeled photo slot.** Use only for one or two inline shots the founder
+can commission. The lint counts a slot by its `.ph` class, its hatch or its
+label, hidden or not; the check measures its box, never its label.
 
-- The reference image's exact aspect, size and position, full bleed if it
-  was. Text the reference sets on its photo sits on the slot the same way.
+- Keep the reference's aspect where practical, but limit the slot to an inline
+  figure about one third of the viewport tall (the check allows 10% over:
+  309px at 390, 330px at 1440). Move overlaid text into the non-photo device.
 - The label is a shot direction the founder can hand a photographer:
   subject, setting, light, aspect, written for this page. The kind, never to
   copy: a product (the unit in a hand, side light, 4:5), a person (the
@@ -199,8 +205,8 @@ itself a drawing: line drawings, technical drawings, hand-inked marks.
 - Color only from tokens, set by class in the stylesheet, never hex in
   attributes. No gradients, shadows or glows, and never a 24x24 viewBox with
   round caps and a 2px stroke [`icon-libraries`].
-- A visible "Illustration" caption in the text face, `role="img"` and an
-  `aria-label`. Labels on the drawing connect to their part with a leader.
+- Use `role="img"` and an `aria-label`. Visible captions explain the product,
+  never the rendering method. Labels on the drawing connect with a leader.
 
 ## Gap markers
 
@@ -209,9 +215,10 @@ as a gap someone will fill, not as a broken render:
 
 - The surrounding text's own font, size and weight (`font: inherit`), never
   a grey sans inside a mono or serif page.
-- A background in the `highlight` token: the reference's own highlight color
-  if it has one (a marker yellow, a selection tint), otherwise the accent at
-  about 12% over the ground, as hex. Ink stays 4.5:1 on it.
+- An underline in the text color by default, with no fill. A tint only when
+  `need-marker-hue` passes it: no accent shares its hue (a pale accent tint
+  fails) and nothing else on the page paints that color, highlights
+  included. Ink stays 4.5:1 on it.
 - Padding about 0.1em 0.35em and `box-decoration-break: clone`, so a marker
   that wraps keeps its padding on both lines.
 - A normal space each side, never butted against a word:
@@ -220,8 +227,8 @@ as a gap someone will fill, not as a broken render:
   slot it sits where the reference's wordmark sits, at its size.
 
 ```css
-.need { font: inherit; color: var(--ink); background: var(--highlight); padding: 0.1em 0.35em;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.need { font: inherit; color: var(--ink); text-decoration: underline 0.08em; text-underline-offset: 0.18em;
+  padding: 0.1em 0.35em; -webkit-box-decoration-break: clone; box-decoration-break: clone; } /* tint: background: var(--highlight) */
 ```
 
 ## Counter-moves

@@ -3,183 +3,299 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Northstand: steel bleachers for the 2027 season</title>
-<meta name="description" content="Modular steel bleachers rented to county fairs and small-town rodeos. Delivered, set up and inspected. Sign a letter of intent for the 2027 season at $12,000.">
-<meta property="og:title" content="Northstand: steel bleachers for the 2027 season">
-<meta property="og:description" content="Modular steel bleachers rented to county fairs and small-town rodeos. Delivered, set up and inspected.">
-<meta property="og:image" content="[NEED: site address]/og.png">
+<title>Northstand: rent steel bleachers</title>
+<meta name="description" content="Modular steel bleachers rented to county fairs and small-town rodeos, delivered, set up and inspected. Sign the letter of intent for the 2027 season.">
+<meta property="og:title" content="Northstand: rent steel bleachers, we set them up">
+<meta property="og:description" content="Modular steel bleachers for county fairs and small-town rodeos. Sign the letter of intent for the 2027 season.">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="[NEED: site address]/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Gantari:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@900&family=Mona+Sans:wght@300;400&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  --primary: #010101;
+  --neutral: #f7f9f8;
+  --surface: #010101;
+  --ink: #010101;
+  --ink-muted: #6a6d70;
+  --ink-on-dark: #f7f9f8;
+  --ink-muted-on-dark: #b4b4b4;
+  --line: #dcdcdc;
+  --line-on-dark: #6a6d70;
+  --accent: #f2673a;
+  --accent-hover: #ff8458;
+  --on-accent: #010101;
+  --focus: #010101;
+  --focus-on-dark: #f7f9f8;
+  --font-display: "Anybody", sans-serif;
+  --font-text: "Mona Sans", sans-serif;
+  --r-button: 4px;
+  --r-panel: 20px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--neutral); color: var(--ink); font-family: var(--font-text); font-weight: 300; font-size: 16px; line-height: 1.55; overflow-x: clip; accent-color: var(--accent); caret-color: var(--ink); scrollbar-color: var(--ink) var(--neutral); }
+::selection { background: var(--accent); color: var(--on-accent); }
+a { color: inherit; text-underline-offset: 0.2em; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.dark :focus-visible { outline-color: var(--focus-on-dark); }
+h1, h2, h3, p { margin: 0; }
+.ph-defs { position: absolute; }
+.ph-defs line { stroke: var(--line); stroke-width: 1px; }
+.need { font: inherit; color: inherit; text-decoration: underline 0.08em; text-underline-offset: 0.18em; padding: 0.1em 0.35em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 16px 32px; background: var(--accent); color: var(--on-accent); font: 400 20px/1.2 var(--font-text); text-decoration: none; border-radius: var(--r-button); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.btn:hover { background: var(--accent-hover); }
+.dark { background: var(--surface); color: var(--ink-on-dark); }
+
+.nav { display: flex; align-items: flex-start; gap: 32px; padding: 16px 40px 0; }
+.brand { font: 300 24px/1.1 var(--font-text); text-decoration: none; width: 160px; flex: none; padding-top: 4px; }
+.nav-g { display: flex; gap: 12px; align-items: flex-start; }
+.nav-g svg { width: 40px; height: 56px; flex: none; }
+.nav-g svg .i { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linejoin: miter; }
+.nav-g svg .f { fill: var(--ink); }
+.nav-w { font: 300 24px/1.1 var(--font-text); text-decoration: none; display: block; white-space: nowrap; }
+.mark { margin-left: auto; width: 56px; height: 56px; fill: var(--ink); }
+.nav-l { display: flex; flex-direction: column; margin-top: 8px; }
+.nav-l a { font-size: 14px; line-height: 1.35; color: var(--ink-muted); text-decoration: none; white-space: nowrap; }
+.nav-l a:hover { text-decoration: underline; }
+
+.hero { padding: 48px 40px 0; }
+.hero-top { display: flex; align-items: flex-start; justify-content: center; gap: 24px; }
+h1 { font-family: var(--font-display); font-weight: 900; font-size: 96px; line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.tag { flex: none; width: 152px; border: 3px solid var(--ink); padding: 20px 8px 8px; position: relative; margin-top: 8px; overflow: visible; }
+.tag::before, .tag::after { content: ""; position: absolute; top: -12px; width: 8px; height: 24px; background: var(--ink); }
+.tag::before { left: 24px; }
+.tag::after { right: 24px; }
+.tag b { display: block; font: 900 24px/1.05 var(--font-display); letter-spacing: -0.03em; }
+.tag i { display: block; font-style: normal; background: var(--accent); color: var(--on-accent); font-size: 14px; line-height: 1.35; padding: 2px 8px; margin: 8px -8px; }
+.tag .price { font: 900 24px/1.1 var(--font-display); font-feature-settings: "tnum" 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+.hero-ask { display: flex; align-items: center; gap: 48px; justify-content: flex-start; margin-top: 32px; }
+.hero-ask p { font-size: 20px; max-width: 44ch; text-wrap: pretty; }
+.draw { display: block; width: calc(100% + 80px); margin: 48px -40px 0; max-width: none; height: auto; overflow: visible; }
+.draw .ink { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linejoin: miter; stroke-linecap: butt; }
+.draw .thin { fill: none; stroke: var(--ink); stroke-width: 3; }
+.draw .seat { fill: none; stroke: var(--ink); stroke-width: 12; stroke-linecap: butt; }
+.draw .acc { fill: none; stroke: var(--accent); stroke-width: 4; }
+.draw .s { stroke-dasharray: 1; stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .draw .s { stroke-dashoffset: 1; animation: draw var(--t, 1.2s) var(--ease) var(--d, 0s) forwards; }
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.band { padding: 96px 40px 24px; min-height: 680px; display: flex; flex-direction: column; justify-content: space-between; }
+.band h2 { margin: auto 0; }
+.band h2 { font-family: var(--font-text); font-weight: 300; font-size: 64px; line-height: 1.1; letter-spacing: -0.02em; max-width: 18ch; text-wrap: balance; }
+.cap { font-size: 14px; line-height: 1.35; color: var(--ink-muted-on-dark); }
+.bay-band { padding: 96px 40px 24px; min-height: 880px; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+.bay-band h2 { font: 300 32px/1.2 var(--font-text); max-width: 24ch; text-wrap: balance; }
+.bay { display: block; width: 100%; max-width: 960px; margin: 0 auto; height: auto; }
+.bay .w { fill: none; stroke: var(--ink-on-dark); stroke-width: 5; stroke-linejoin: miter; }
+.bay .wt { fill: none; stroke: var(--ink-on-dark); stroke-width: 3; }
+.bay .ws { fill: none; stroke: var(--ink-on-dark); stroke-width: 12; }
+.bay .a { fill: none; stroke: var(--accent); stroke-width: 4; }
+.bay-note { font-size: 20px; max-width: 60ch; margin-top: 24px; }
+
+.jobs { padding: 64px 40px 0; }
+.job { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; padding: 32px 0; border-top: 1px solid var(--line); }
+.job:last-child { border-bottom: 1px solid var(--line); }
+.job h3 { display: flex; align-items: center; gap: 24px; font: 300 64px/1.1 var(--font-text); letter-spacing: -0.02em; }
+.job h3 svg { width: 64px; height: 64px; flex: none; }
+.job h3 svg .i { fill: none; stroke: var(--ink); stroke-width: 5; }
+.job h3 svg .a { fill: none; stroke: var(--accent); stroke-width: 4; }
+.job p { font-size: 20px; max-width: 40ch; padding-top: 12px; text-wrap: pretty; }
+
+.season { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); margin-top: 96px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.season > div { padding: 32px 40px 48px; }
+.season > div + div { border-left: 1px solid var(--line); }
+.season h2 { font: 300 32px/1.2 var(--font-text); }
+.season ul { list-style: none; margin: 24px 0 0; padding: 0; }
+.season li { padding: 8px 0; max-width: 34ch; }
+.season li b { display: block; font-weight: 400; font-size: 14px; line-height: 1.35; color: var(--ink-muted); }
+.season .money { font-family: var(--font-display); font-weight: 900; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+.ph { position: relative; margin: 0; aspect-ratio: 8 / 3; max-height: 320px; width: 100%; background: var(--neutral); overflow: hidden; }
+.ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph figcaption { position: absolute; left: 16px; bottom: 16px; display: inline-block; max-width: calc(100% - 32px); background: var(--neutral); color: var(--ink); font-size: 14px; line-height: 1.35; padding: 4px 8px; }
+
+.ask { padding: 128px 40px 96px; text-align: center; min-height: 480px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 48px; margin-top: 64px; }
+.ask h2 { font: 300 64px/1.1 var(--font-text); letter-spacing: -0.02em; text-wrap: balance; }
+.foot { padding: 0 40px 32px; color: var(--ink-muted-on-dark); font-size: 14px; line-height: 1.55; }
+.foot p { max-width: 75ch; margin-bottom: 8px; }
+.foot nav { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line-on-dark); }
+.foot a { color: var(--ink-on-dark); }
+
+@media (max-width: 1100px) {
+  h1 { font-size: 72px; }
+  .nav-g:nth-of-type(n+3) { display: none; }
+  .mark { display: none; }
+  .band h2 { font-size: 48px; }
+}
+@media (max-width: 760px) {
+  .nav { padding: 16px 16px 0; gap: 16px; }
+  .brand { width: auto; font-size: 20px; }
+  .nav-g { display: none; }
+  .mark { display: block; width: 40px; height: 40px; }
+  .hero { padding: 32px 16px 0; }
+  .hero-top { flex-direction: column; gap: 24px; }
+  h1 { font-size: 44px; }
+  .tag { align-self: flex-start; margin-top: 12px; width: 120px; }
+  .hero-ask { flex-direction: column; align-items: stretch; gap: 24px; margin-top: 24px; }
+  .hero-ask p { font-size: 18px; }
+  .btn { padding: 16px; font-size: 17px; }
+  .draw { width: calc(100% + 32px); margin: 40px -16px 0; }
+  .draw .ink { stroke-width: 8; }
+  .draw .thin { stroke-width: 5; }
+  .draw .seat { stroke-width: 18; }
+  .draw .acc { stroke-width: 6; }
+  .panel { margin: 16px; border-radius: var(--r-panel); }
+  .band, .bay-band { padding: 48px 24px 24px; min-height: 0; gap: 48px; }
+  .band h2 { font-size: 36px; }
+  .bay-band h2 { font-size: 24px; }
+  .bay-note { font-size: 18px; }
+  .jobs { padding: 48px 16px 0; }
+  .job { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 24px 0; }
+  .job h3 { font-size: 36px; gap: 16px; }
+  .job h3 svg { width: 48px; height: 48px; }
+  .job p { font-size: 18px; padding-top: 0; }
+  .season { grid-template-columns: minmax(0, 1fr); margin-top: 64px; }
+  .season > div { padding: 24px 16px 32px; }
+  .season > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .ask { padding: 64px 24px; min-height: 0; gap: 32px; margin-top: 48px; }
+  .ask h2 { font-size: 36px; }
+  .foot { padding: 0 24px 24px; }
+}
+</style>
 </head>
 <body>
 <svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" /></pattern></defs></svg>
 
 <header class="nav">
-  <a class="wordmark" href="index.html">Northstand</a>
-  <div class="group">
-    <svg viewBox="0 0 56 56" aria-hidden="true"><path d="M4 52V38H18V24H32V10H46V52Z"/></svg>
-    <h2>the rental</h2>
-    <ul>
-      <li><a href="#delivered">delivered</a></li>
-      <li><a href="#set-up">set up</a></li>
-      <li><a href="#inspected">inspected</a></li>
-    </ul>
+  <a class="brand" href="#top">Northstand</a>
+  <div class="nav-g">
+    <svg viewBox="0 0 40 56" aria-hidden="true"><path class="i" d="M4 52 V40 H14 V30 H24 V20 H34 V8 M34 52 V8 M4 52 H36"/></svg>
+    <div><a class="nav-w" href="#jobs">the set</a><div class="nav-l"><a href="#jobs">delivered</a><a href="#jobs">set up</a><a href="#jobs">inspected</a></div></div>
   </div>
-  <div class="group">
-    <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="10" y="4" width="36" height="48"/><path d="M18 18H38M18 28H38M18 38H30"/></svg>
-    <h2>the letter</h2>
-    <ul>
-      <li><a href="#letter">what you sign</a></li>
-      <li><a href="#who">who is behind it</a></li>
-      <li><a href="#sign">sign</a></li>
-    </ul>
+  <div class="nav-g">
+    <svg viewBox="0 0 40 56" aria-hidden="true"><path class="i" d="M4 8 H36 V52 H4 Z M4 20 H36"/><path class="f" d="M10 28 h20 v4 h-20 z"/></svg>
+    <div><a class="nav-w" href="#season">2027 season</a><div class="nav-l"><a href="#season">the letter</a><a href="#season">the grandstand</a></div></div>
   </div>
-  <div class="group">
-    <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="6" y="6" width="44" height="44"/><rect class="fill" x="18" y="18" width="20" height="20"/></svg>
-    <h2>paperwork</h2>
-    <ul>
-      <li><a href="privacy.html">privacy</a></li>
-      <li><a href="terms.html">terms</a></li>
-    </ul>
+  <div class="nav-g">
+    <svg viewBox="0 0 40 56" aria-hidden="true"><path class="i" d="M8 4 H26 L34 12 V52 H8 Z M26 4 V12 H34"/></svg>
+    <div><a class="nav-w" href="privacy.html">legal</a><div class="nav-l"><a href="privacy.html">privacy</a><a href="terms.html">terms</a></div></div>
   </div>
+  <svg class="mark" viewBox="0 0 56 56" aria-hidden="true"><path d="M4 52 V40 H16 V28 H28 V16 H40 V4 H52 V52 Z"/></svg>
 </header>
 
-<main>
-<section class="hero">
-  <h1>Bleachers failed. Rent steel for 2027.</h1>
-  <div class="hero-row">
-    <p class="lede">Modular steel bleachers for county fairs and small-town rodeos. We deliver them, set them up and have them inspected.</p>
-    <div class="ask" id="sign">
-      <div class="tag"><span>2027 season rental</span><b>$12,000</b></div>
-      <a class="commit" data-commitment href="[NEED: LOI form link]">Sign the letter of intent: $12,000</a>
+<main id="top">
+<section class="hero" aria-label="Rent steel bleachers">
+  <div class="hero-top">
+    <h1>Rent steel bleachers. We set them up.</h1>
+    <div class="tag" aria-label="2027 season, $12,000">
+      <b>2027 season</b>
+      <i>rental</i>
+      <span class="price">$12,000</span>
     </div>
   </div>
-  <figure class="drawing">
-    <svg viewBox="0 0 1200 380" role="img" aria-label="Illustration: on the left, worn wooden bleachers with a cracked plank and an orange tag reading failed; on the right, stepped steel bleachers with cross braces and an orange tag reading 2027.">
-      <path class="thin" d="M0 346H1200"/>
-      <path class="ink" d="M60 290H210V240H360V190H510"/>
-      <path class="thin" d="M60 304H198M210 254H348M360 204H498"/>
-      <path class="ink" d="M90 304V346M180 304V346M240 254V346M330 254V346M390 204V346M480 204V346"/>
-      <path class="thin" d="M90 346L180 304M240 346L330 254M390 346L480 204"/>
-      <path class="thin" d="M300 240L286 258L296 266L284 280"/>
-      <path class="ink" d="M440 190L508 226"/>
-      <path class="thin" d="M504 192L540 120"/>
-      <g transform="rotate(-6 590 112)">
-        <rect class="tag-shape" x="536" y="92" width="120" height="48"/>
-        <text class="tag-text" x="548" y="126">FAILED</text>
-      </g>
-      <path class="slab" d="M700 270H836V286H700Z"/>
-      <path class="slab" d="M836 215H972V231H836Z"/>
-      <path class="slab" d="M972 160H1108V176H972Z"/>
-      <path class="slab" d="M1108 105H1160V121H1108Z"/>
-      <path class="ink" d="M710 286V346M826 286V346M846 231V346M962 231V346M982 176V346M1098 176V346M1118 121V346M1152 121V346"/>
-      <path class="thin" d="M710 346L826 286M826 346L710 286M846 346L962 231M962 346L846 231M982 346L1098 176M1098 346L982 176"/>
-      <path class="ink" d="M1118 121V56M1152 121V56M1118 56H1152"/>
-            <path class="thin" d="M1118 56L1040 40"/>
-      <g transform="rotate(-4 960 50)">
-        <rect class="tag-shape" x="900" y="26" width="140" height="48"/>
-        <text class="tag-text" x="918" y="60">2027</text>
-      </g>
-      <circle class="thin" cx="760" cy="278" r="3"/>
-      <circle class="thin" cx="900" cy="223" r="3"/>
-      <circle class="thin" cx="1040" cy="168" r="3"/>
+  <div class="hero-ask">
+    <p>Modular steel bleachers for county fairs and small-town rodeos. Delivered, set up and inspected for the 2027 season.</p>
+    <a class="btn" data-commitment href="[NEED: LOI form link]">Sign the letter of intent: $12,000</a>
+  </div>
+  <svg class="draw" viewBox="0 0 1280 420" role="img" aria-label="Ink drawing of a stepped steel bleacher beside a flatbed trailer loaded with folded bleacher units">
+<path class="s ink" pathLength="1" style="--d:0s;--t:1.4s" d="M20 360 H1260"/>
+<path class="s ink" pathLength="1" style="--d:0.3s;--t:1.2s" d="M680 300 H1200 V324 H680 Z"/>
+<path class="s ink" pathLength="1" style="--d:0.5s;--t:0.8s" d="M680 312 L616 346 H588"/>
+<path class="s ink" pathLength="1" style="--d:0.6s;--t:0.6s" d="M744 324 V360 M724 360 H764"/>
+<circle class="s ink" pathLength="1" style="--d:0.7s;--t:0.8s" cx="960" cy="336" r="24"/>
+<circle class="s ink" pathLength="1" style="--d:0.8s;--t:0.8s" cx="1040" cy="336" r="24"/>
+<circle class="s ink" pathLength="1" style="--d:0.9s;--t:0.8s" cx="1120" cy="336" r="24"/>
+<circle class="s ink" pathLength="1" style="--d:0.9s;--t:0.4s" cx="960" cy="336" r="8"/>
+<circle class="s ink" pathLength="1" style="--d:1.0s;--t:0.4s" cx="1040" cy="336" r="8"/>
+<circle class="s ink" pathLength="1" style="--d:1.1s;--t:0.4s" cx="1120" cy="336" r="8"/>
+<path class="s ink" pathLength="1" style="--d:1.1s;--t:1.2s" d="M720 270 H1160 V300 H720 Z"/>
+<path class="s thin" pathLength="1" style="--d:1.3s;--t:0.9s" d="M740 300 L780 270 M840 300 L880 270 M940 300 L980 270 M1040 300 L1080 270"/>
+<path class="s ink" pathLength="1" style="--d:1.4000000000000001s;--t:1.2s" d="M740 240 H1140 V270 H740 Z"/>
+<path class="s thin" pathLength="1" style="--d:1.6s;--t:0.9s" d="M760 270 L800 240 M860 270 L900 240 M960 270 L1000 240 M1060 270 L1100 240"/>
+<path class="s ink" pathLength="1" style="--d:1.7000000000000002s;--t:1.2s" d="M760 210 H1120 V240 H760 Z"/>
+<path class="s thin" pathLength="1" style="--d:1.9s;--t:0.9s" d="M780 240 L820 210 M880 240 L920 210 M980 240 L1020 210 M1080 240 L1120 210"/>
+<path class="s ink" pathLength="1" style="--d:1.9s;--t:1.6s" d="M90 360 V300 H190 V250 H290 V200 H390 V150 H490 V100 H590 V360"/>
+<path class="s seat" pathLength="1" style="--d:2.4s;--t:1.2s" d="M90 300 H190 M190 250 H290 M290 200 H390 M390 150 H490 M490 100 H590"/>
+<path class="s ink" pathLength="1" style="--d:2.5s;--t:1.0s" d="M190 300 V360 M290 250 V360 M390 200 V360 M490 150 V360"/>
+<path class="s ink" pathLength="1" style="--d:2.7s;--t:1.2s" d="M190 360 L290 250 M290 360 L390 200 M390 360 L490 150 M490 360 L590 100"/>
+<path class="s ink" pathLength="1" style="--d:3.0s;--t:0.8s" d="M540 100 V40 M590 100 V40 M528 40 H602"/>
+<path class="s ink" pathLength="1" style="--d:3.2s;--t:0.5s" d="M540 66 H590"/>
+<path class="s acc" pathLength="1" style="--d:3.3s;--t:0.9s" d="M800 205 V324 M1080 205 V324"/>
+<path class="s acc" pathLength="1" style="--d:3.5s;--t:0.9s" d="M90 392 H590 M90 380 V404 M590 380 V404"/>
+<path class="s acc" pathLength="1" style="--d:3.7s;--t:0.9s" d="M650 100 V360 M638 100 H662 M638 360 H662"/>
+<path class="s acc" pathLength="1" style="--d:3.9s;--t:0.6s" d="M700 176 l16 20 l34 -44"/>
+  </svg>
+</section>
+
+<section class="dark panel band" aria-labelledby="h-problem">
+  <h2 id="h-problem">Wooden bleachers fail inspection. New ones cost more than the whole fair budget.</h2>
+  <p class="cap">county fair season 2027</p>
+</section>
+
+<section class="dark panel bay-band" aria-labelledby="h-bay">
+  <h2 id="h-bay">The set is modular steel bays.</h2>
+  <div>
+    <svg class="bay" viewBox="0 0 960 450" role="img" aria-label="Ink drawing of one steel bleacher bay seen from the front, with three seat planks, posts and cross braces">
+      <path class="w" d="M80 400 H880 M120 400 V80 H840 V400"/>
+      <path class="ws" d="M120 160 H840 M120 240 H840 M120 320 H840"/>
+      <path class="w" d="M280 400 V80 M480 400 V80 M680 400 V80"/>
+      <path class="wt" d="M120 400 L280 320 M280 400 L120 320 M280 320 L480 240 M480 320 L280 240 M480 240 L680 160 M680 240 L480 160 M680 160 L840 80 M840 160 L680 80"/>
+      <path class="w" d="M120 80 V30 H840 V80"/>
+      <path class="a" d="M120 430 H840 M120 418 V442 M840 418 V442"/>
+      <path class="a" d="M900 80 V400 M888 80 H912 M888 400 H912"/>
     </svg>
-    <figcaption>Illustration. Not to scale.</figcaption>
-  </figure>
+    <p class="bay-note">One bay is <span class="need">[NEED: bay length]</span> long, <span class="need">[NEED: bay height]</span> high and seats <span class="need">[NEED: seats per bay]</span>.</p>
+  </div>
+  <p class="cap">Northstand modular bay</p>
 </section>
 
-<ol class="fd-stack" data-fd-stack>
-  <li class="fd-stack-card" style="--i: 0" id="delivered">
-    <div class="fd-stack-inner dark">
-      <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)"/></svg><figcaption>[PLACEHOLDER: a loaded trailer pulling into a county fairgrounds at dusk, wide, low sun, 16:9]</figcaption></figure>
-      <div class="screen-text"><h2>Delivered</h2><p>The steel bleachers come to your fairgrounds. Delivery date: <span class="need">[NEED: delivery date before the 2027 fair]</span>.</p></div>
-      <span class="fd-stack-shade" aria-hidden="true"></span>
-    </div>
-  </li>
-  <li class="fd-stack-card" style="--i: 1" id="set-up">
-    <div class="fd-stack-inner dark">
-      <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)"/></svg><figcaption>[PLACEHOLDER: two people bolting a steel bleacher frame together beside an arena, overhead light, 16:9]</figcaption></figure>
-      <div class="screen-text"><h2>Set up</h2><p>We set them up. Seats per unit and layout: <span class="need">[NEED: seats per unit and dimensions]</span>.</p></div>
-      <span class="fd-stack-shade" aria-hidden="true"></span>
-    </div>
-  </li>
-  <li class="fd-stack-card" style="--i: 2" id="inspected">
-    <div class="fd-stack-inner dark">
-      <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)"/></svg><figcaption>[PLACEHOLDER: an inspector with a clipboard at the foot of finished steel bleachers, eye level, evening light, 16:9]</figcaption></figure>
-      <div class="screen-text"><h2>Inspected</h2><p>They are inspected. Who inspects and to what standard: <span class="need">[NEED: inspector and standard]</span>.</p></div>
-      <span class="fd-stack-shade" aria-hidden="true"></span>
-    </div>
-  </li>
-</ol>
-
-<section class="light" id="letter">
-  <div class="letter">
-    <div class="intro">
-      <h2>The letter, in four lines</h2>
-      <p class="quote">&ldquo;Our wooden bleachers failed inspection and new ones cost more than our whole budget.&rdquo;</p>
-      <p>The problem, in the buyer&rsquo;s words. We have priced the steel and the trailers. We have not built a bleacher yet.</p>
-    </div>
-    <div>
-      <ul class="rows">
-        <li><span>Scope</span><span>Rental for the 2027 season</span></li>
-        <li><span>Price</span><span class="price">$12,000</span></li>
-        <li><span>Start date</span><span><span class="need">[NEED: start date]</span></span></li>
-        <li><span>Signed by</span><span><span class="need">[NEED: who signs for the fair board]</span></span></li>
-      </ul>
-      <p class="terms">A letter of intent moves no money. What it commits both sides to, and when money is due: <span class="need">[NEED: LOI terms]</span>. If the bleachers are not built: <span class="need">[NEED: what happens if the bleachers are not built]</span>. Legal entity: <span class="need">[NEED: legal entity]</span>.</p>
-    </div>
+<section class="jobs" id="jobs" aria-label="Delivered, set up, inspected">
+  <div class="job">
+    <h3><svg viewBox="0 0 64 64" aria-hidden="true"><path class="i" d="M4 36 H60 V44 H4 Z M12 36 V20 H40 V36"/><circle class="i" cx="24" cy="52" r="7"/><circle class="i" cx="44" cy="52" r="7"/></svg>Delivered</h3>
+    <p>The bleachers arrive on a trailer. Delivery area: <span class="need">[NEED: delivery area]</span>. Delivery date: <span class="need">[NEED: delivery date for the 2027 season]</span>.</p>
+  </div>
+  <div class="job">
+    <h3><svg viewBox="0 0 64 64" aria-hidden="true"><path class="i" d="M6 58 V44 H22 V32 H38 V20 H54 V58 Z"/><path class="a" d="M6 62 H54"/></svg>Set up</h3>
+    <p><span class="need">[NEED: who sets up the bleachers, and how long it takes]</span>.</p>
+  </div>
+  <div class="job">
+    <h3><svg viewBox="0 0 64 64" aria-hidden="true"><path class="i" d="M12 8 H52 V58 H12 Z"/><path class="a" d="M20 34 L30 44 L46 20"/></svg>Inspected</h3>
+    <p><span class="need">[NEED: who inspects, and to what standard]</span>.</p>
   </div>
 </section>
 
-<section class="who" id="who">
-  <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)"/></svg><figcaption>[PLACEHOLDER: the founder at a fairgrounds, eye level, daylight, 1:1]</figcaption></figure>
-  <div class="text">
-    <h2>Behind the steel</h2>
-    <p><span class="need">[NEED: founder name and one line of history]</span></p>
+<section class="season" id="season" aria-labelledby="h-season">
+  <div>
+    <h2 id="h-season">Your 2027 season</h2>
+    <ul>
+      <li><b>The letter covers</b>Rental of modular steel bleachers for the 2027 season, delivered, set up and inspected.</li>
+      <li><b>Seats in the set</b><span class="need">[NEED: seats in the set]</span></li>
+      <li><b>Pickup date</b><span class="need">[NEED: pickup date]</span></li>
+    </ul>
   </div>
+  <div>
+    <figure class="ph">
+      <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
+      <figcaption>[PLACEHOLDER: the county fair grandstand, wide, low evening sun, 8:3]</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="dark ask" aria-labelledby="h-ask">
+  <h2 id="h-ask">Sign for the 2027 season.</h2>
+  <a class="btn" data-commitment href="[NEED: LOI form link]">Sign the letter of intent: $12,000</a>
 </section>
 </main>
 
-<footer class="close">
-  <a class="commit" data-commitment href="[NEED: LOI form link]">Sign the letter of intent: $12,000</a>
-  <nav class="foot" aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><span>Northstand</span></nav>
+<footer class="dark foot">
+  <p>$12,000 for the 2027 season, due <span class="need">[NEED: when the $12,000 is due]</span>. Signing commits the board to <span class="need">[NEED: what signing commits the board to]</span>. Withdrawal and refunds: <span class="need">[NEED: refund terms]</span>. Northstand is <span class="need">[NEED: legal business name]</span>.</p>
+  <p>Northstand has priced the steel and the trailers. No set has been built yet.</p>
+  <nav aria-label="Footer"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><span class="need">[NEED: contact email]</span></nav>
 </footer>
-
-<script>
-(function () {
-  var stack = document.querySelector('[data-fd-stack]');
-  if (!stack || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  stack.setAttribute('data-armed', '');
-  var cards = Array.prototype.slice.call(stack.children);
-  var SCALE = 0.04;
-  var SHADE = 0.32;
-  var inners = cards.map(function (card) { return card.firstElementChild; });
-  var shades = inners.map(function (inner) { return inner && inner.querySelector('.fd-stack-shade'); });
-  var landAt = [];
-  function measure() {
-    landAt = cards.map(function (card) { return parseFloat(getComputedStyle(card).top) || 0; });
-  }
-  var queued = false;
-  function update() {
-    queued = false;
-    var tops = cards.map(function (card) { return card.getBoundingClientRect().top; });
-    cards.forEach(function (card, i) {
-      if (i === cards.length - 1 || !inners[i]) return;
-      var c = Math.min(1, Math.max(0, (innerHeight - tops[i + 1]) / Math.max(1, innerHeight - landAt[i + 1])));
-      inners[i].style.transform = 'scale(' + (1 - SCALE * c) + ')';
-      if (shades[i]) shades[i].style.opacity = String(SHADE * c);
-    });
-  }
-  addEventListener('scroll', function () {
-    if (!queued) { queued = true; requestAnimationFrame(update); }
-  }, { passive: true });
-  addEventListener('resize', function () { measure(); update(); });
-  measure();
-  update();
-})();
-</script>
 </body>
 </html>

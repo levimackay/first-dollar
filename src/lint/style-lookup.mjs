@@ -68,21 +68,49 @@ function inlineDecls(el) {
   return out;
 }
 
+// [ids, classes, tags] of a selector selectorReaches accepts (tag, class and id compounds only).
+function specificity(selector) {
+  const parts = String(selector).trim().split(/\s*>\s*|\s+/).filter(Boolean);
+  return [
+    (String(selector).match(/#[A-Za-z_][\w-]*/g) || []).length,
+    (String(selector).match(/\.[A-Za-z_][\w-]*/g) || []).length,
+    parts.filter((p) => /^[a-z]/.test(p)).length,
+  ];
+}
+
 /**
  * Every declaration that reaches an element, in source order, inline style last.
- * Values arrive with var() already resolved.
+ * Values arrive with var() already resolved. Each carries its selector's specificity
+ * ([ids, classes, tags]; inline is [Infinity, 0, 0]) and whether it is !important.
  */
 export function declarationsFor(ctx, el) {
   const out = [];
   for (const unit of cssUnits(ctx)) {
     unit.root.walkRules((rule) => {
       const parts = String(rule.selector || '').split(',').map((s) => s.trim()).filter(Boolean);
-      if (!parts.some((sel) => selectorReaches(el, sel))) return;
-      rule.walkDecls((decl) => out.push({ prop: decl.prop.trim().toLowerCase(), value: resolveVars(ctx, decl.value) }));
+      const reaching = parts.filter((sel) => selectorReaches(el, sel));
+      if (!reaching.length) return;
+      const spec = reaching.map(specificity).sort(compareSpec).at(-1);
+      rule.walkDecls((decl) => out.push({ prop: decl.prop.trim().toLowerCase(), value: resolveVars(ctx, decl.value), spec, important: !!decl.important }));
     });
   }
-  for (const d of inlineDecls(el)) out.push({ prop: d.prop, value: resolveVars(ctx, d.value) });
+  for (const d of inlineDecls(el)) {
+    const important = /!important\s*$/i.test(d.value);
+    out.push({ prop: d.prop, value: resolveVars(ctx, d.value.replace(/\s*!important\s*$/i, '')), spec: [Infinity, 0, 0], important });
+  }
   return out;
+}
+
+function compareSpec(a, b) {
+  for (let i = 0; i < 3; i++) if (a[i] !== b[i]) return a[i] - b[i];
+  return 0;
+}
+
+/** The declaration of any of `props` that wins the cascade: !important, then specificity, then order. */
+export function cascadedDecl(ctx, el, props) {
+  const list = declarationsFor(ctx, el).filter((d) => props.includes(d.prop));
+  const ranked = list.map((d, i) => ({ d, i })).sort((x, y) => (x.d.important - y.d.important) || compareSpec(x.d.spec, y.d.spec) || x.i - y.i);
+  return ranked.at(-1)?.d ?? null;
 }
 
 export function declaredValue(ctx, el, props) {

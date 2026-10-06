@@ -1,51 +1,51 @@
 # COPY
-Thesis: Apartment renters who grow herbs and tomatoes on a balcony will pay $89 to turn kitchen scraps into finished compost on their counter in about 30 days without a smell.
-Workaround today: the trash.
+Thesis: An apartment renter who grows herbs and tomatoes on a balcony will pay $89 to turn kitchen scraps into finished compost in about 30 days without a smell.
+Workaround today: the trash. Building has no compost pickup.
 
 ## Spine
-- Promise: Your food scraps become compost for the balcony, not trash.
-- Mechanism: A countertop bin. Scraps go in, finished compost comes out in about 30 days, without a smell.
-- Proof: One working prototype in the founder's kitchen. No customers yet. [NEED: proof, e.g. prototype photo or video]
-- Action: Pre-order for $89. First units ship in spring 2027. Charged today. Refunds: [NEED: refund terms].
+- Promise: Your food scraps become compost for your balcony plants instead of trash.
+- Mechanism: Scraps go in a countertop bin. About 30 days later it is finished compost, with no smell.
+- Proof: One working prototype in the founder's kitchen. No customers yet. [NEED: prototype photo or video]
+- Action: Pre-order for $89. First units ship in spring 2027. Refunds: [NEED: refund terms].
 
 ## Headlines
-- Outcome: "Finished compost in about 30 days, on your counter."
+- Outcome: "Finished compost for your balcony, from scraps you already have." (chosen: cold traffic has not named the problem; it names the outcome and the buyer's balcony)
 - Pain: "Stop throwing food scraps in the trash."
-- Mechanism: "Scraps in. Compost out. About 30 days."
-Chosen: Outcome, test first (cold traffic that has not named the problem). The renter's own complaint goes in the subhead.
+- Mechanism: "Scraps in. Compost out, in about 30 days."
+Chosen: Outcome, shortened to "Your scraps, turned into balcony compost."
+Subline: A countertop bin that turns kitchen scraps into finished compost in about 30 days, without a smell.
 
 ## Blocks
-- Hero: Finished compost in about 30 days, on your counter. / A countertop bin for renters with a balcony and no compost pickup. No smell. / Pre-order for $89
-- Strip: First units ship in spring 2027.
-- Statement: Your scraps go to the tomatoes, not the trash.
-- Mechanism: Scraps go in the bin on your counter. About 30 days later it is finished compost. The bin does not smell. Then it goes in the pots on your balcony.
-- Founder: One working prototype sits in my kitchen. Nobody has bought one yet. [NEED: founder name and a line of history]
-- Money terms: Charged today. Ships spring 2027. Refunds: [NEED: refund terms]. [NEED: legal business name] charges your card through [NEED: payment processor].
+- Pull line (statement): "My building has no compost pickup. So the scraps went in the trash." Written as the founder-side voice? No: not a quote of a person. Use as the buyer's own words, unattributed? Avoid: it is the founder's supplied quote ("I hate throwing food scraps in the trash, and my building has no compost pickup."), shown as the problem statement without a name.
+- Mechanism strip: scraps in the bin (day 1), about 30 days, finished compost for herbs and tomatoes. Drawing, no numbers beyond 30 days.
+- Product block: Loam, pre-order $89, ships spring 2027.
+- About the maker: [NEED: founder name], one working prototype in their kitchen, no customers yet.
+- Money terms (once): Charged today. Ships spring 2027. Refunds: [NEED: refund terms]. If it ships late: [NEED: delay policy].
 
 ## Objections
 | Objection | Answer | Placement |
-|---|---|---|
-| What happens to my money? | Charged today; [NEED: refund terms] | terms block |
-| When do I get it? | Spring 2027 | strip, terms |
-| What if it never ships? | [NEED: what happens if it never ships] | terms |
-| Who is behind this? | [NEED: founder name], prototype in one kitchen | founder section |
-| Is it for me? | Renters with a balcony and no compost pickup | hero subhead |
+| Money | Charged today; refund terms [NEED] | small print under the button |
+| When | Spring 2027 | with money terms |
+| Never ships | [NEED: what happens if it never ships] | money terms |
+| Who is behind | [NEED: founder name]; one prototype, no customers | about section |
+| For me? | Built for a renter with a balcony and herbs or tomatoes, no building pickup. Not for a yard with room for a compost pile (a statement of fit, no claim). | text section |
 
 ## Legal pages
-Legal entity, contact, processor, refund terms, data collected: all [NEED].
+privacy.html and terms.html: legal entity [NEED], contact [NEED], payment processor [NEED], refund terms [NEED], data collected: order name, email, shipping address (needed to ship).
 
 ## Customer language
-"I hate throwing food scraps in the trash, and my building has no compost pickup." (founder case file, 2026-10-05, provisional; one source, an anecdote.)
+| "I hate throwing food scraps in the trash, and my building has no compost pickup." | founder's case file, 2026-10-05 | provisional; one phrase, an anecdote |
 
 ## Placeholders
-checkout link, refund terms, legal entity, processor, founder name/photo, proof, kill number, site address, delay policy.
+checkout link (blocks), price is given, refund terms (blocks), legal entity (blocks), delay policy (blocks), founder name, prototype photo, product photo slot, kill number.
 
 ## Audit
-| Fact | Source |
-|---|---|
-| $89 | Brief: Ask |
-| about 30 days, no smell, countertop bin | Brief: Product facts |
-| spring 2027 | Brief: Answer 3 |
-| one prototype, no customers | Brief: Answer 4 |
-| renters, balcony, no pickup | Brief: Answers 1, 2 |
+| Loam | case Product name |
+| $89 | case Ask and price |
+| spring 2027 | case Ask and price |
+| about 30 days, no smell | case Idea |
+| balcony, herbs, tomatoes, apartment renter | case Who buys |
+| no compost pickup | case Problem |
+| one prototype, no customers | case Real so far |
 Does the page state any fact the founder did not give? No.
+Three generated tells fixed: no three-step list, no stat row, no stock section titles.

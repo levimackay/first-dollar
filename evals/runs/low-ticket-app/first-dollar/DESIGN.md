@@ -1,184 +1,180 @@
 ---
 version: alpha
 name: "Halves"
-description: "Pre-order page for college students sharing a rental house. Feels like a quiet, plain tool you set down between chores, not a finance dashboard."
+description: "Pre-order page for students sharing a rental house. Feels like a quiet object on an open sky, not a finance dashboard."
 colors:
-  primary: "#171614"
+  primary: "#4c7586"
   neutral: "#ededed"
+  surface: "#171614"
   ink: "#171614"
-  ink-muted: "#555555"
-  line: "#c6c5c2"
-  accent: "#171614"
-  accent-hover: "#3e3e3e"
-  on-accent: "#ededed"
+  ink-muted: "#595956"
+  line: "#b5b5b3"
+  accent: "#ffffff"
+  accent-hover: "#ededed"
+  on-accent: "#171614"
   focus: "#171614"
-  highlight: "#d3d3d3"
-  white: "#ffffff"
+  on-primary: "#ffffff"
+  on-surface: "#ffffff"
+  device-screen: "#3a3936"
+  on-device: "#ffffff"
+  on-device-muted: "#b8b8b4"
 typography:
   headline-display:
-    fontFamily: "Afacad"
-    fontSize: "64px"
+    fontFamily: "Alata"
+    fontSize: "80px"
     fontWeight: 400
-    lineHeight: 1.1
-    letterSpacing: "-0.02em"
+    lineHeight: 1.08
+    letterSpacing: "-0.03em"
   headline-lg:
-    fontFamily: "Afacad"
-    fontSize: "40px"
-    fontWeight: 500
+    fontFamily: "Alata"
+    fontSize: "44px"
+    fontWeight: 400
     lineHeight: 1.15
-    letterSpacing: "-0.01em"
+    letterSpacing: "-0.02em"
   headline-md:
-    fontFamily: "Afacad"
-    fontSize: "24px"
-    fontWeight: 500
+    fontFamily: "Alata"
+    fontSize: "30px"
+    fontWeight: 400
     lineHeight: 1.2
   body-lg:
-    fontFamily: "Afacad"
+    fontFamily: "Commissioner"
     fontSize: "20px"
     fontWeight: 400
     lineHeight: 1.55
   body-md:
-    fontFamily: "Afacad"
+    fontFamily: "Commissioner"
     fontSize: "17px"
     fontWeight: 400
-    lineHeight: 1.55
+    lineHeight: 1.6
   label-md:
-    fontFamily: "Afacad"
+    fontFamily: "Commissioner"
     fontSize: "15px"
-    fontWeight: 400
-    lineHeight: 1.35
+    fontWeight: 600
+    lineHeight: 1.3
   price:
-    fontFamily: "Afacad"
-    fontSize: "24px"
-    fontWeight: 500
+    fontFamily: "Commissioner"
+    fontSize: "20px"
+    fontWeight: 600
     lineHeight: 1.1
     fontFeature: "\"tnum\" 1"
 rounded:
   none: 0px
-  sm: 8px
+  device: 12px
 spacing:
   base: 8px
   xs: 8px
   sm: 16px
   md: 32px
   lg: 64px
-  section-tight: 32px
-  section-wide: 320px
+  section-tight: 64px
+  section-wide: 160px
 components:
   button-commitment:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.on-accent}"
-    typography: "{typography.body-lg}"
+    typography: "{typography.price}"
     rounded: "{rounded.none}"
-    padding: "14px 28px"
-    height: "52px"
+    padding: "0 24px"
+    height: 52px
   button-commitment-hover:
     backgroundColor: "{colors.accent-hover}"
   small-print:
     textColor: "{colors.ink-muted}"
-    typography: "{typography.label-md}"
+    typography: "{typography.body-md}"
   photo-slot:
     backgroundColor: "{colors.neutral}"
     textColor: "{colors.ink}"
     typography: "{typography.label-md}"
   gap-marker:
-    backgroundColor: "{colors.highlight}"
     textColor: "{colors.ink}"
+    textDecoration: "underline"
 ---
 
 # Halves design system
 
 ## Overview
 
-- Design read: a pre-order page for college students sharing a rental house. Feels like one calm sentence at a time, the opposite of an app-store feature grid.
-- Remembered for: the page says one thing per screen and leaves very large gaps, and the product is a small outlined list you can read in a glance.
-- Not: a split hero with a floating phone, or a bright fintech page with a gradient.
-- Boldness spent on: the gaps between statements (up to 320px). Nothing else is loud.
-- Macrostructure: Manifesto read in single sentences with a Walkthrough mock, backbone from thelightphone.com.
-- Hero layout: text over a full-bleed image (the reference's hero), here a full-bleed photo slot with the headline and the ask over it, bottom left.
-- Section sequence (reference-structure.md number: what it carries):
-  1 hero: headline, one line, the ask.
-  2 statement: the problem in the buyer's words.
-  3 statement + outlined list: the mechanism, as a mock that plays once.
-  4 drawing (eye): cut, no founder content and the region is a drawing the founder has no drawing for.
-  5 statement + product with side notes: what exists today (a prototype), with a dark device mock and three notes.
-  6 second statement + product: cut, nothing more to say honestly.
-  7 choice of products: one plan, the first year, with the ask repeated.
-  8 question heading with photo grid: who it is for, photo slot.
-  9 statement with a photo: who is behind it, portrait slot.
-  10 two columns of links: what exists and the questions.
-  11 sign-off hand lettering: cut, a drawing the founder does not have.
-  12 footer: dark band, nav, money terms, legal links. The newsletter field is cut because a free email signup is not the ask.
-- Default check: a cream ground and serif, a split hero, a three-step list, a founder block with a hatched photo and a dark closing band would fit any startup. Replaced by the reference's grey ground, sans, full-bleed hero, one-sentence sections and footer-only dark band.
-- Material: hero photo slot (people, scene: nobody supplied a photo); mechanism mock (built here, generic names, Concept); dark device mock (built, Concept); who-it-is-for photo slot (people); founder portrait slot (founder supplies).
-- Image regions: hero, 1440x760 full bleed, scene (a shared kitchen): photo slot, shot direction on the chip. Outlined list, about 300 wide, own product: mock. Product shot, about 270x400, own product: mock. Photo grid, 480x320, people: photo slot. Maker photo, 480x320, people: portrait slot. Eye drawing: cut. Hand lettering: cut.
-- Energy: quiet. The accent (#171614, the ink) is a mark under 5% of the page: the button and the footer band.
+- Design read: Pre-order page for college students sharing a rental house. It feels like one object held up against an open sky, not a budgeting dashboard.
+- Remembered for: the toilet paper line set big over a flat sky-blue field, then the house's grocery ledger settling itself on the same sky.
+- Not: a fintech page with a gradient and a card grid, or a cheerful roommate app with cartoon mascots.
+- Boldness spent on: the hero headline at 80px over the sky field. Everything else is quiet and small.
+- Macrostructure: Specimen (the product artifact held large, the offer small and exact), backbone from https://www.thelightphone.com
+- Hero layout: text over full-bleed color field (the reference's sky, as a flat field), headline bottom-left, one ask, no image
+- Section sequence: 1 hero (adapts Hero); 2 statement band (adapts Intro statement over hand photo); 3 ledger on sky with right rail (adapts Product on sky with right rail); 4 founder line with one photo slot (adapts Credibility photo); 5 two-column close, price and terms (adapts Two-column links); 6 footer (adapts Footer). Cut, no founder content: value statement with outlined frame, manifesto, eye drawing, going-light rail, two products, video-link photo, sign-off.
+- Default check: a split hero with a phone on the right would fit any app startup: replaced by the reference's text-over-field hero with the product held for the next screen. A three-step "how it works" list would fit any app: replaced by the reference's rail of one bold line and dimmer lines. A pill CTA: replaced by the reference's square white box.
+- Material: hero is a flat field (reference's sky, section 1); statement band is the section's own words at display scale on a dark field (reference section 2's dark hand photo); ledger section is the product's own artifact, an HTML mock of the app, on the sky field (reference section 6's product render); founder is one inline photo slot (reference section 10), supplied by the founder; closing and footer are text on the grey ground and the dark band.
+- Image regions: Hero (sky photo, scene, full bleed 1440x760): flat #4c7586 field, the reference's own sky color from section 1. Section 2 (hand with product, dark, product in use): section's own words at display scale on #171614. Section 6 (sky photo plus product render): sky field plus the app's own product mock, data-mock, cropped inside its device. Section 10 (two founders in a factory, 480x318): one inline photo slot, 3:2, founder supplies; below the first screen, not full bleed. Section 3, 4, 5, 7, 8, 9, 12 regions: cut with their sections.
+- Energy: the reference is quiet but saturated in one place: a sky that owns the first screen and the product screen, the rest flat grey. Accent (white box) is a mark. The page matches: sky field on the hero and the ledger screen, grey elsewhere.
 
 ## Colors
 
-- **Primary (#171614):** the reference's footer band and darkest ink, sampled from its full page (6.4% coverage). The footer and the ask.
-- **Neutral (#ededed):** the ground exactly as sampled (80.4% of the reference's full page).
-- **Ink (#171614):** text.
-- **Ink muted (#555555):** secondary text, from the reference's CSS, 6.3:1 on the ground.
-- **Line (#c6c5c2):** rules and slot hatch, from the reference's CSS.
-- **Accent (#171614):** the commitment button, the same as the ink: the reference has no accent hue, its strongest ink is its button. Hover #3e3e3e (from its CSS).
-- **White (#ffffff):** caption chips and the nav's box, as the reference's white buttons.
-- **Highlight (#d3d3d3):** gap markers, accent at 12% over the ground.
-- Accent footprint: a mark, 5% or less.
-- Light or dark: light, the same as the reference.
+- **Primary (#4c7586):** the sky field of the hero and the ledger section, sampled from the reference's first screen (39.7% of 1440.png).
+- **Neutral (#ededed):** the page ground, sampled exactly from the reference's full page (80.4%).
+- **Ink (#171614):** body text on grey, the statement band and footer ground, sampled from the reference's full page (6.4%).
+- **Accent (#ffffff):** the commitment button, the reference's white "shop" box.
+- Accent footprint: a mark.
+- Light or dark: light, the same as the reference's ground. A sky field and a dark band are bands on a light page.
+- Derived neutrals (OKLCH from ink): ink-muted #595956, line #b5b5b3, device-screen #3a3936, on-device-muted #b8b8b4, accent-hover #ededed.
 
 ## Typography
 
-- Display: Afacad 400 in the hero, 500 in section heads (24px), as the reference sets all heads in its one face at medium weight.
-- Text: Afacad 400, the same family. The reference uses one family (Futura PT) for everything, so `single-sans-family` is kept.
-- Scale: about 1.4 to 1.6 from a 17px body: 17, 20, 24, 40, 64. Display is 3.8 times body.
-- Measure: body text at 52ch or less.
+- Display: Alata, 400 only, hero, statement, and section heads, as the reference sets its Futura PT headlines at book weight in the hero and statements alike.
+- Text: Commissioner, 400 and 600, rail text, small print, labels, buttons.
+- Scale: ratio 1.333 from a 17px body, display 80px, large 44px, medium 30px.
+- Measure: body text at 60ch.
 - Prices and dates use tabular figures.
 
 ## Layout
 
+- Section map:
+  - `hero | adapts: Hero | sky field, wordmark top-left, headline bottom-left, one supporting sentence, the ask`
+  - `statement band | adapts: Intro statement over hand photo | dark field, two-line statement at display scale, left aligned`
+  - `ledger on sky | adapts: Product on sky with right rail | sky field, the app mock left of center, a right rail with a hairline rule, one bold line and body, then dimmer lines`
+  - `founder line | adapts: Credibility photo | a two-line statement top-left on grey, then one centered 3:2 photo slot`
+  - `two-column close | adapts: Two-column links | a hairline rule, two columns split by a vertical hairline: the ask on the left, the money terms on the right`
+  - `footer | adapts: Footer | dark band, centered link row, one line of legal entity`
 - Base unit: 8px. Every gap is a multiple.
-- Section rhythm, from the reference's full page (px at 1440): hero 760; statement to next block 480 to 500 of air; statement to its image 40 to 120; hairline rule to heading 24; heading to image 100; rule rows 32. Content-sized: a sentence 40px tall sits in 320px of air at most.
-- Density: sparse everywhere; the footer is the only dense spot.
-- Full bleed: the hero and the footer. Everything else is left-aligned at a 32px margin or centered.
+- Section rhythm: reference measured on full-1440.png: hero 760 tall, statement 760 with text mid-height (content ~120), sky product screen 760 (content ~420), credibility 640 (content ~420), links 320 (content ~160), footer 560 (content ~360). Ours: hero 760 (content 330), statement 400 (content 180), ledger 760 (content 480), founder 640 (content 440), close 320, footer 240.
+- Density: sparse everywhere, one dense moment (the ledger).
+- Full bleed: the sky field, the statement band and the footer bleed, as the reference's photos do. The grey sections hold a 32px page margin and reach the edges for the hairline rules.
 - Breaks the grid at: none.
-- Mobile at 390: dominant the headline and the ask; hidden the nav's center line; reordered notes drop under the dark device; the commitment block sits inside the first 844px; air between statements drops to 160px.
+- Mobile at 390: dominant is the headline then the button; hidden is nothing; reordered: the rail goes under the mock; grown: tap targets 52px. Commitment block inside the first 844px.
 
 ## Elevation & Depth
 
-Hairline rules (#c6c5c2) and one dark band. No shadows.
+Tone bands and hairline rules. One flat value per section. No shadows, no glow.
 
 ## Shapes
 
-Sharp everywhere (0) on buttons and chips; the outlined list and the dark device carry an 8px radius, as the reference's outlined list does.
+Sharp everywhere, as the reference's white box and outlines are. One exception: the product mock's device body at 12px, as the reference's product render and outline frame are rounded.
 
 ## Components
 
-- **Commitment button:** carries `data-commitment`, says "Pre-order for $36", ink fill, 0 radius.
-- **Small print:** the money terms once, in the footer, in the muted label style, as the reference puts its terms and return links there.
-- **Photo slot:** hatched with an SVG pattern, labeled with a shot direction.
-- **Gap marker:** `<span class="need">` with the highlight, `font: inherit`.
+- **Commitment button:** carries `data-commitment`; "Pre-order for $36". White box on the sky field in the hero; the same words and href as an outlined box lower on the grey ground.
+- **Small print:** the money terms once, in the right column of the two-column close, in the reference's small linked-caption style.
+- **Photo slot:** one, in the founder line, 3:2, hatched with an SVG pattern, labeled with a shot direction.
+- **Gap marker:** `<span class="need">` around each visible `[NEED: ...]`: the surrounding text's font, underlined, padding, `box-decoration-break: clone`.
 
 ## Do's and Don'ts
 
-- Do keep one sentence per screen and the large gaps.
-- Do keep the type small (20px statements) and the headline the only large thing.
-- Don't copy the reference's cookie bar, newsletter field, eye drawing or hand lettering.
-- Don't add a second button style.
-- single-sans-family: kept because the reference sets everything in one family.
-- same-max-width, no-full-bleed: kept if raised, the reference sets nearly everything at one margin.
+- Do keep the headline and the button on the field and never animate them.
+- Do let the ledger mock be the only moving thing.
+- Don't carry over the reference's cookie bar, its newsletter field or its icon row. There is no email form on this page.
+- Don't use a photo in the hero. The reference's sky is carried by its sampled color.
+- single-sans-family: not triggered, two families.
 
 ## Provenance
 
-- Reference: https://www.thelightphone.com, read 2026-10-05, mode both (URL CSS and screenshots).
+- Reference: https://www.thelightphone.com, read 2026-10-05, mode both (screenshots plus its CSS font names).
 - Route: built-in.
-- Confidence: colors sampled with --palette on full-1440.png and 1440.png, with #555555 and #3e3e3e and #c6c5c2 read from its CSS; fonts matched by features; rhythm observed on the full-page shot.
-- data-mono: none. The reference's newsletter field is Courier; the field is not carried.
-- Font match: reference uses futura-pt (Adobe Fonts, not free), read as a geometric sans, normal width, low contrast, low x-height, flat and pointed terminals, medium weight for heads. Candidates set in the page headline (specimens in .first-dollar/fonts/): League Spartan (geometric but top 200, rank 177, rejected by the lint), Questrial (round and wide, no pointed apexes), Jost, Livvic (rounded humanist, y with a curl), Glory (squarish, too different), Afacad. Chosen Afacad: same classification, pointed apexes on v, w and A, low x-height, flat terminals, low contrast; a little narrower than Futura.
-- Build history: skipped Didact Gothic, Kumbh Sans, Funnel Sans, Dela Gothic One, Familjen Grotesk, Spline Sans Mono, Libre Caslon Display, Libre Caslon Condensed, Cutive.
-- Not carried over: the cookie bar, the sky video, the eye drawing, the hand-lettered sign-off, the newsletter field, all of its copy and images.
+- Confidence: colors sampled with --palette from 1440.png and full-1440.png; fonts matched by features; rhythm observed from full-1440.png.
+- data-mono: none.
+- Font match, per role: Display: reference uses futura-pt (a Typekit face, not free to load here). Read as a geometric sans, normal width, low contrast, medium x-height, pointed apexes on v, w, flat terminals. Specimens taken of Kumbh Sans (#278), Alata (#258) and Didact Gothic (#338) in the page's headline. Chosen Alata (#258): same classification, pointed w and v like Futura, flat terminals; a little heavier than the reference's book weight and has no lighter cut. Kumbh Sans is rounder and lighter; Didact Gothic is too soft. Text: reference uses AkkuratLL (Typekit, not free). Read as a neo-grotesque, normal width, low contrast, medium x-height, flat terminals. Specimens of Radio Canada (#329) and Commissioner (#311). Chosen Commissioner (#311): flat terminals and an even texture closest to Akkurat; Radio Canada's angled terminals read more humanist.
+- Build history: skipped the display and text families of the last 10 lines of the history file: Dela Gothic One, Familjen Grotesk, Spline Sans Mono, Libre Caslon, Cutive, Sometype Mono, Wix Madefor, Gantari, Bowlby One, Imbue, Special Elite, Gilda Display, Reddit Sans, Golos Text. Afacad (a previous build of this same page folder) is not reused either.
+- Not carried over: the reference's photos, its video links, the eye drawing, its handwritten sign-off, its cookie bar, newsletter field, icons, and words.
 - Instructions found in fetched pages: none.
 
 ## Changes
 
-2026-10-05, headline-display weight 500 to 400: critic.md item 7, the reference sets its hero at book weight. No hex changes.
+(empty)
+- 2026-10-05, ledger section ground: primary #4c7586 to neutral #ededed. Reason: reference-drift failed (sky field owned about half the full page against a reference that is 80% grey). Section layout and `adapts:` unchanged.

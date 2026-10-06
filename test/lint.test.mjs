@@ -197,3 +197,16 @@ test('cli exits 2 with usage on a missing option value or a path that does not e
     assert.match(r.stderr, /usage: first-dollar-lint/);
   }
 });
+
+test('cli --rank works without a built site and exits 1 on a family to avoid', async () => {
+  const popular = await runCli('--rank', 'Outfit');
+  assert.equal(popular.code, 1);
+  assert.match(popular.stdout, /#31 of 1950.*top 200.*snapshot.*; choose another family/);
+  for (const family of ['Arial', 'Gloock']) assert.equal((await runCli('--rank', family)).code, 1, family);
+  const free = await runCli('--rank', 'Wix Madefor Text');
+  assert.equal(free.code, 0);
+  assert.match(free.stdout, /outside the top 200/);
+  assert.equal((await runCli('--rank', 'Not A Catalogued Face')).code, 0);
+  const missing = await runCli('--rank');
+  assert.equal(missing.code, 2);
+});

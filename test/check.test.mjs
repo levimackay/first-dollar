@@ -35,6 +35,124 @@ test('text held below a line mask fails hidden-after-reveal', (t) => {
   const mine = json.checks.filter((c) => c.id === 'hidden-after-reveal' && !c.ok);
   assert.ok(mine.length, JSON.stringify(json.checks));
   assert.match(mine[0].detail, /This line never rises/);
+  assert.match(mine[0].detail, /clipped by an ancestor/);
+  const reduced = json.checks.find((c) => c.id === 'reduced-motion');
+  assert.equal(reduced.ok, false);
+  assert.match(reduced.detail, /clipped by an ancestor/);
+});
+
+test('a visible photo slot in the first viewport fails at both capture widths', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { r, json } = run(fx('hero-photo-slot'));
+  assert.equal(r.status, 1);
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-above-fold' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /PLACEHOLDER: founder portrait/);
+  }
+});
+
+test('a photo slot below the first viewport passes the fold check', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-photo-slot'));
+  const mine = json.checks.filter((c) => c.id === 'photo-slot-above-fold');
+  assert.deepEqual(mine.map((c) => c.width), [390, 1440]);
+  assert.ok(mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
+test('a first-viewport photo slot revealed by scrolling still fails', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('hero-photo-slot-reveal'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-above-fold' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+  }
+});
+
+test('a visible first-viewport photo slot fails with a hidden figcaption', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('hero-photo-slot-hidden-label'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-above-fold' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+  }
+});
+
+test('a full-bleed photo slot below the first viewport fails placement', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-full-bleed-slot'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /full bleed/);
+  }
+});
+
+test('a tall inline photo slot below the first viewport fails placement', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-tall-slot'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /one third/);
+  }
+});
+
+test('a near-full-width desktop slot fails placement while an inset mobile slot passes', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-near-width-slot'));
+  const mobile = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === 390);
+  const desktop = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === 1440);
+  assert.equal(mobile?.ok, true, JSON.stringify(json.checks));
+  assert.equal(desktop?.ok, false, JSON.stringify(json.checks));
+  assert.match(desktop.detail, /nearly full width/);
+});
+
+// R83: the check measures the slot box (the hatched region), never its label.
+test('a full-bleed hatched band fails placement by its own box, not its small label', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-hatched-band'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /PLACEHOLDER: the yard at dawn.*full bleed/);
+    assert.match(mine.detail, /520px tall/);
+  }
+});
+
+test('a full-bleed hatched band with no label fails placement', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-unlabeled-hatch'));
+  for (const width of [390, 1440]) {
+    const mine = json.checks.find((c) => c.id === 'photo-slot-placement' && c.width === width);
+    assert.equal(mine?.ok, false, JSON.stringify(json.checks));
+    assert.match(mine.detail, /unlabeled hatched region.*full bleed/);
+  }
+});
+
+test('a hatched frame inside a padded figure is measured as the frame, not the figure', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-framed-slot'));
+  const mine = json.checks.filter((c) => c.id === 'photo-slot-placement');
+  assert.deepEqual(mine.map((c) => c.width), [390, 1440]);
+  assert.ok(mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
+test('an inline slot a little over one third of the viewport passes placement', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('below-fold-slot-tolerance'));
+  const mine = json.checks.filter((c) => c.id === 'photo-slot-placement');
+  assert.deepEqual(mine.map((c) => c.width), [390, 1440]);
+  assert.ok(mine.every((c) => c.ok), JSON.stringify(mine));
+});
+
+test('a mock cropped sideways so its total column is hidden fails hidden-after-reveal at 390', (t) => {
+  if (!hasBrowser) return t.skip('no browser');
+  const { json } = run(fx('mock-crop-sideways'));
+  const narrow = json.checks.find((c) => c.id === 'hidden-after-reveal' && c.width === 390);
+  assert.equal(narrow?.ok, false, JSON.stringify(json.checks));
+  assert.match(narrow.detail, /\$62\.00.*clipped by an ancestor/);
+  assert.equal(json.checks.find((c) => c.id === 'hidden-after-reveal' && c.width === 1440)?.ok, true);
 });
 
 test('a row clipped sideways, like a ticker, passes hidden-after-reveal', (t) => {

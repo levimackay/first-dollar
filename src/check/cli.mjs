@@ -119,14 +119,21 @@ try {
       const list = [C.overflow];
       if (w === 390 || w === 1440) list.push(C.consoleCheck, C.brokenMedia, C.contrast, C.twoLineButton);
       if (w === 390) list.push(C.commitmentAboveFold);
-      list.push(C.hiddenAfterReveal); // scrolls, so it runs last
+      list.push(C.hiddenAfterReveal); // scrolls before the photo-slot checks
       const wanted = w === 390 || w === 1440 ? list : [C.overflow];
       for (const fn of wanted) results.push({ ...(await fn(page, w)), width: w });
+      if (w === 390 || w === 1440) {
+        await page.waitForTimeout(100); // let scroll-triggered reveals respond after returning to the top
+        await C.settle(page);
+        results.push({ ...(await C.photoSlotAboveFold(page)), width: w });
+        results.push({ ...(await C.photoSlotPlacement(page)), width: w });
+      }
     }
     if (w === 390 || w === 1440) {
       await page.screenshot({ path: join(out, `${w}.png`) });
       const height = await page.evaluate(() => document.documentElement.scrollHeight);
       await page.screenshot({ path: join(out, `full-${w}.png`), fullPage: true, ...(height > 20000 && { clip: { x: 0, y: 0, width: w, height: 20000 } }) });
+      if (isUrl && w === 1440) await C.scrollStills(page, (n) => join(out, `scroll-${String(n).padStart(2, '0')}.png`));
       const refDir = !shotsOnly && w === 1440 ? referenceDir(target) : null;
       if (refDir) {
         const [r, p] = [await palette(browser, bestShot(refDir), 2), await palette(browser, join(out, 'full-1440.png'), 2)];

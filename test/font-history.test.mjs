@@ -66,3 +66,23 @@ test('malformed lines are skipped with one warning', async () => {
   assert.equal(res.warnings.filter((w) => w.rule === 'parse-error' && /history/.test(w.message)).length, 1);
   assert.deepEqual(hits(res), []);
 });
+
+test('Wix Madefor Display and Wix Madefor Text share a history stem', async () => {
+  const { dir, historyPath } = await site(line('Wix Madefor Display') + '\n');
+  await writeFile(path.join(dir, 's.css'), 'h1 { font-family: "Wix Madefor Text", sans-serif; }');
+  const [f] = hits(await lint(dir, { historyPath }));
+  assert.match(f.message, /Wix Madefor Text/);
+  assert.match(f.message, /Wix Madefor Display/);
+});
+
+test('superfamily stems drop width, style and version words', async () => {
+  for (const [before, now] of [['Encode Sans', 'Encode Sans Condensed'], ['Spline Sans', 'Spline Sans Mono'], ['Gelasio', 'Gelasio SC'], ['Literata 2', 'Literata']]) {
+    const { dir, historyPath } = await site(line(before) + '\n');
+    await writeFile(path.join(dir, 's.css'), `h1 { font-family: "${now}", sans-serif; }`);
+    const [f] = hits(await lint(dir, { historyPath }));
+    assert.match(f?.message ?? '', new RegExp(`same superfamily as "${before}"`), `${now} after ${before}`);
+  }
+  const { dir, historyPath } = await site(line('Familjen Grotesk') + '\n');
+  await writeFile(path.join(dir, 's.css'), 'h1 { font-family: "Sono", sans-serif; }');
+  assert.deepEqual(hits(await lint(dir, { historyPath })), []);
+});

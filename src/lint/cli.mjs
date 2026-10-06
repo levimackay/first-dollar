@@ -3,18 +3,22 @@ import path from 'node:path';
 import { realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { lint } from './runner.mjs';
+import { rankFamily } from './rules/font-popularity.mjs';
 
 export const USAGE = [
   'usage: first-dollar-lint <dir> [--design <DESIGN.md>] [--reference-text <file>] [--history <file>] [--json] [--allow-no-html]',
+  '       first-dollar-lint --rank <Family>',
   '',
   '  dir               directory of built HTML and CSS to lint',
   '  --design          design file to check the build against, default <dir>/DESIGN.md when present',
   '  --reference-text  a file of plain lines; copy that matches them is flagged as lifted',
   '  --history         a JSONL file of earlier builds ({date, display, text}); turns on font-history',
+  '  --rank            look up a font family before choosing it',
   '  --json            print the result as JSON instead of one line per finding',
   '  --allow-no-html   for a tree that is not a site',
   '',
   'Exits 0 when clean, 1 on any failure or a directory holding no HTML, 2 on a usage error.',
+  '--rank exits 1 for a banned, top-200 or trend family, else 0.',
 ].join('\n');
 
 function display(file) {
@@ -23,16 +27,17 @@ function display(file) {
 }
 
 function parseArgs(argv) {
-  const opts = { dir: null, history: null, design: null, referenceText: null, json: false, allowNoHtml: false, help: false };
+  const opts = { dir: null, history: null, design: null, referenceText: null, rank: null, json: false, allowNoHtml: false, help: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '-h' || a === '--help') opts.help = true;
     else if (a === '--json') opts.json = true;
     else if (a === '--allow-no-html') opts.allowNoHtml = true;
-    else if (a === '--design' || a === '--reference-text' || a === '--history') {
+    else if (a === '--design' || a === '--reference-text' || a === '--history' || a === '--rank') {
       const v = argv[++i];
       if (v === undefined || v.startsWith('--')) throw new Error(`${a} needs a value`);
-      if (a === '--design') opts.design = v;
+      if (a === '--rank') opts.rank = v;
+      else if (a === '--design') opts.design = v;
       else if (a === '--history') opts.history = v;
       else opts.referenceText = v;
     }
@@ -55,6 +60,16 @@ export async function main(argv) {
   if (opts.help) {
     console.log(USAGE);
     return 0;
+  }
+  if (opts.rank !== null) {
+    if (opts.dir || opts.design || opts.referenceText || opts.history || opts.json || opts.allowNoHtml) {
+      console.error('--rank takes only a family name');
+      console.error(USAGE);
+      return 2;
+    }
+    const verdict = rankFamily(opts.rank);
+    console.log(verdict);
+    return /choose another family$/.test(verdict) ? 1 : 0;
   }
   const dir = opts.dir || '.';
   for (const [what, p] of [['directory', dir], ['--design file', opts.design], ['--reference-text file', opts.referenceText]]) {

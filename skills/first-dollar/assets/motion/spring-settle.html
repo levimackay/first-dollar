@@ -11,8 +11,8 @@
   How to adapt: keep one .fd-row-in per row; the rows are the only required
   part. The row that carries the verdict gets data-flag, holding the
   .fd-flag mark and an optional .fd-flag-note. Swap the sample for the
-  product's own output and keep sample values generic, with the "Illustration"
-  caption. The script goes in its own <script type="module">. Place the figure
+  product's own output and keep sample values generic, with no caption
+  about how it was made (data-mock marks the mock). The script goes in its own <script type="module">. Place the figure
   below the first screen: a module loads after first paint, so a figure
   already on screen when it arrives stays in its final state instead of
   blinking out and back. In the first screen, use mechanism-sequence.
@@ -55,7 +55,6 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
 }
 .fd-settle { margin: 0; padding: 0 clamp(1rem, 5vw, 4rem); }
-.fd-settle figcaption { font-size: 0.8125rem; color: var(--_muted); margin-bottom: 1rem; }
 .fd-settle-doc { max-width: 44rem; border: 1px solid var(--_rule); background: var(--_ground); padding: clamp(1.25rem, 3vw, 2rem); }
 .fd-settle-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--_ink); padding-bottom: 0.75rem; }
 .fd-settle-head b { font-family: var(--_display); font-weight: 400; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.1; }
@@ -98,8 +97,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   </div>
 
   <!-- snippet: spring-settle -->
-  <figure class="fd-settle" data-fd-settle>
-    <figcaption>Illustration. Numbers are examples.</figcaption>
+  <figure class="fd-settle" data-fd-settle data-mock>
     <div class="fd-settle-doc">
       <div class="fd-settle-head"><b>Expense report</b><span>Example week, 6 receipts</span></div>
       <ol>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revealed hero slot</title>
+<style>
+body{margin:0;font:16px sans-serif;color:#111;background:#fff}
+h1{margin:20px;font-size:32px}
+figure{margin:20px;width:min(60vw,480px);height:240px;background:#ddd;opacity:0}
+figure.revealed{opacity:1}
+[data-commitment]{display:inline-block;margin:16px;padding:12px;background:#0b5;color:#000}
+.space{height:1500px}
+</style></head><body>
+<h1>Visit the workshop</h1>
+<figure><figcaption>[PLACEHOLDER: founder portrait, workshop, daylight, 4:3]</figcaption></figure>
+<a data-commitment href="#join">Join</a>
+<div class="space"></div>
+<script>
+addEventListener('scroll', () => {
+  if (scrollY > 50) document.querySelector('figure').classList.add('revealed');
+});
+</script>
+</body></html>

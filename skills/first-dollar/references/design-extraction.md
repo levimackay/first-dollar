@@ -48,10 +48,13 @@ From a URL:
 node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs '<url>' --out <page>/.first-dollar/reference/<host>
 ```
 
-This saves `1440.png`, `390.png` and the full-page shots in that folder. Read
-all of them. An empty grey box in a full-page shot is usually an image that
-did not load (lazy loading): treat it as an image region, never as a grey
-panel to copy. Exit code 3 means no browser is available: say so, save the
+This saves `1440.png`, `390.png`, the full-page shots and `scroll-NN.png`,
+one 1440 still per screen down the page, in that folder. It scrolls through
+the page and waits for reveal motion to finish before each capture. A page
+that swaps fixed background photos per section paints them only in the
+scroll stills, so when `full-*.png` looks blank, pale or white on white, read
+those. An empty grey box may be an image that did not load: treat it as an
+image region, never as a grey panel to copy. Exit code 3 means no browser: save the
 fetched HTML and CSS from section 4 in the same folder instead, and continue
 in URL mode only, with rhythm marked unknown.
 
@@ -165,10 +168,9 @@ Write these in DESIGN.md Provenance, and say them plainly at the next stop:
 - From code alone, rhythm and density are unknown.
 - One page is not a whole design system. Gaps are filled from design-rules.md
   and marked as decisions, not extraction.
-- Imagery is never carried over, but its regions are, filled by what each
-  shows (SKILL.md stage 4): the founder's asset, else a photo slot for people,
-  places and scenes, a software mock only where the reference shows its own
-  product, a drawing only where the region is a drawing.
+- Imagery is never carried over. With no founder asset, at most two regions
+  become inline photo slots; none becomes a hero or full-bleed slot. Others
+  take a non-photo device already present in the reference (SKILL.md stage 4).
 
 ## 6. Fonts: match the reference, never a shortlist
 
@@ -187,10 +189,14 @@ There is no list of good fonts here. Any fixed list becomes the new default.
    The lint fails a reuse when run with `--history`. A founder who wants one
    face across their ideas says so; log the override in Provenance and lint
    this page without `--history`.
-3. If the reference's own family is free to use (SIL Open Font License, or on
-   Google Fonts), outside the top 200 and not in the history, use it.
+3. Check the reference's own free family with
+   `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-lint.mjs --rank "<Family>"`.
+   The output gives its snapshot rank and whether it is banned or top 200;
+   it exits 1 for a family to avoid.
+   Use it only when it passes that filter and is absent from history.
 4. Otherwise shortlist three free Google Fonts families of the same
-   classification that you believe match the five features. Shoot each one
+   classification that match the five features. Run `--rank` on each before
+   rendering anything; replace every banned or top-200 candidate. Shoot each
    set in the page's own headline (Google's specimen pages render no sample
    text headless, so never shoot those):
    `node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs --specimen "<Family>" --text "<the page headline>" --out "<page>/.first-dollar/fonts/<Family>"`
@@ -199,10 +205,10 @@ There is no list of good fonts here. Any fixed list becomes the new default.
    (exit 3), pick by the five features, mark the font "matched unseen" in
    Provenance, and ask about the install (SKILL.md, Setup).
 5. Never pick a face unseen while the specimen can run, and never from a
-   fixed list or a font named as an example anywhere in these files. The `font-popularity`
-   lint then confirms the pick: it fails any family in a dated snapshot of the
-   Google Fonts top 200, plus a trend list, and names the rank. When it
-   fails, take the next candidate or shortlist again.
+   fixed list or a font named as an example anywhere in these files. The
+   page lint still confirms the pick against its dated Google Fonts top-200
+   snapshot and trend list. When it fails, take the next candidate or
+   shortlist again.
 6. Log the match in DESIGN.md Provenance, with why it beat the other two:
    `Display: reference uses [face] (custom). Read as a high-contrast serif,
    normal width, low x-height, ball terminals. Matched to [family]: same
