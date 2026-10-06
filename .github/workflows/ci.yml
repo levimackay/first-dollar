@@ -22,5 +22,7 @@ jobs:
       - run: git diff --exit-code skills/first-dollar/scripts/
       - run: npm run traces
       - name: Lint the gallery
+        # The gallery is not a landing page, so the two rules that only apply to one
+        # (a money ask and legal links) are skipped, the same way the eval scorer skips them.
         run: |
-          if [ -d gallery ]; then node skills/first-dollar/scripts/first-dollar-lint.mjs gallery; fi
+          if [ -d gallery ]; then (node skills/first-dollar/scripts/first-dollar-lint.mjs gallery --json || true) | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const f=JSON.parse(s).failures.filter(x=>!['commitment-cta','legal-links'].includes(x.rule));f.forEach(x=>console.log(x.file+':'+x.line,x.rule,x.message));process.exit(f.length?1:0)})"; fi
