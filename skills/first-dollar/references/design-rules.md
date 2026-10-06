@@ -194,7 +194,7 @@ itself a drawing: line drawings, technical drawings, hand-inked marks.
 
 - Draw in the reference's manner (its line weight, its hand, its drafting
   rules), never flat geometric shapes. The product must read as itself at
-  390: the stepped seats of a bleacher, not a box with braces. Under about 40
+  390: its defining parts drawn, not a box with braces. Under about 40
   shapes, filling 60 to 80% of the region.
 - Color only from tokens, set by class in the stylesheet, never hex in
   attributes. No gradients, shadows or glows, and never a 24x24 viewBox with

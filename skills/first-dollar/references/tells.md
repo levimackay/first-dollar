@@ -133,8 +133,8 @@ the content beside it unless the reference does that.
 
 **Clip art standing in for a photo.** Flat geometric vector drawings where
 the reference has photography: a bin with three "text lines", a sprout in a
-box, a knife over a wheel that reads as a rifle scope, shelving that should
-be bleachers, a barcode waveform.
+box, a hand tool that reads as something else, a structure drawn as a box
+with braces, a barcode waveform.
 Instead: a labeled photo slot at the reference image's aspect, size and
 position, with a shot direction (design-rules.md, "Filling image regions").
 A drawing only where the reference region is a drawing, in its manner.
