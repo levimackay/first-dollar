@@ -5,16 +5,17 @@
   rise out of their masks one by one, 120ms apart, on a spring that settles
   instead of an eased tween. Then the product's verdict lands on one row: a
   mark that springs in with a slight overshoot, then a note under it. The
-  sample is a remittance list where one claim was paid $38 under contract.
-  Plays once, in about three and a half seconds, when half the figure is in
-  view.
+  sample is a team's expense report where one meal is over the policy limit.
+  Plays once, in about three and a half seconds, once the figure's top has
+  risen past the lower quarter of the screen, however long the list is.
   How to adapt: keep one .fd-row-in per row; the rows are the only required
   part. The row that carries the verdict gets data-flag, holding the
   .fd-flag mark and an optional .fd-flag-note. Swap the sample for the
   product's own output and keep sample values generic, with the "Illustration"
-  caption. Place the figure below the first screen: a module loads after first
-  paint, so a figure already on screen when it arrives stays in its final
-  state instead of blinking out and back.
+  caption. The script goes in its own <script type="module">. Place the figure
+  below the first screen: a module loads after first paint, so a figure
+  already on screen when it arrives stays in its final state instead of
+  blinking out and back. In the first screen, use mechanism-sequence.
   Reduced motion: nothing is armed. Every row, the mark and the note show on
   first paint. Without JavaScript, or if the library fails to load, the same.
 -->
@@ -63,9 +64,9 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-settle li { border-bottom: 1px solid var(--_rule); }
 /* Each row is its own mask; its content rises out of it, so nothing below shifts. */
 .fd-row-mask { overflow: clip; }
-.fd-row-in { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) auto; gap: 0.75rem; padding: 0.7rem 0; font-variant-numeric: tabular-nums; }
+.fd-row-in { display: grid; grid-template-columns: 7rem minmax(0, 1fr) auto; gap: 0.75rem; padding: 0.7rem 0; font-variant-numeric: tabular-nums; }
 .fd-row-in > :first-child { color: var(--_muted); }
-.fd-flag-wrap { padding: 0 0 0.8rem 7.25rem; }
+.fd-flag-wrap { padding: 0 0 0.8rem 7.75rem; }
 .fd-flag { display: inline-block; transform-origin: left center; border: 1px solid var(--_accent); color: var(--_accent); font-weight: 600; font-size: 0.875rem; padding: 0.15rem 0.5rem; }
 .fd-flag-note { overflow: clip; margin-top: 0.35rem; }
 .fd-flag-note span { display: block; font-size: 0.8125rem; color: var(--_muted); }
@@ -92,28 +93,28 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 <body>
 <main>
   <div class="fd-demo-intro">
-    <h2>Every short payment, caught on the remittance.</h2>
-    <p>Demo copy. Scroll: the list below settles row by row, then the short-paid claim gets its mark.</p>
+    <h2>Every receipt over policy, caught before it is paid.</h2>
+    <p>Demo copy. Scroll: the report below settles line by line, then the line over policy gets its mark.</p>
   </div>
 
   <!-- snippet: spring-settle -->
   <figure class="fd-settle" data-fd-settle>
     <figcaption>Illustration. Numbers are examples.</figcaption>
     <div class="fd-settle-doc">
-      <div class="fd-settle-head"><b>Remittance</b><span>Example batch, 6 claims</span></div>
+      <div class="fd-settle-head"><b>Expense report</b><span>Example week, 6 receipts</span></div>
       <ol>
-        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2207</span><span>Office visit</span><span>$112.00</span></div></div></li>
-        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2208</span><span>Office visit</span><span>$112.00</span></div></div></li>
-        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2209</span><span>Lab panel</span><span>$46.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Receipt 1041</span><span>Train fare</span><span>$64.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Receipt 1042</span><span>Hotel, one night</span><span>$159.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Receipt 1043</span><span>Taxi to the venue</span><span>$23.50</span></div></div></li>
         <li data-flag>
-          <div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2210</span><span>Office visit</span><span>$74.00</span></div></div>
+          <div class="fd-row-mask"><div class="fd-row-in"><span>Receipt 1044</span><span>Team dinner</span><span>$212.00</span></div></div>
           <div class="fd-flag-wrap">
-            <span class="fd-flag">Paid $38 under contract</span>
-            <div class="fd-flag-note"><span>Contract rate $112.00, paid $74.00.</span></div>
+            <span class="fd-flag">$62 over the meal limit</span>
+            <div class="fd-flag-note"><span>Policy allows $150.00 a meal, claimed $212.00.</span></div>
           </div>
         </li>
-        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2211</span><span>Follow-up visit</span><span>$88.00</span></div></div></li>
-        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Claim 2212</span><span>Lab panel</span><span>$46.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Receipt 1045</span><span>Conference pass</span><span>$95.00</span></div></div></li>
+        <li><div class="fd-row-mask"><div class="fd-row-in"><span>Receipt 1046</span><span>Taxi to the station</span><span>$21.00</span></div></div></li>
       </ol>
     </div>
   </figure>
@@ -124,6 +125,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
 <script type="module">
 /* ---- snippet: spring-settle ---- */
+// Paste this into its own <script type="module">, never a shared or classic one: two snippets in one module redeclare their imports, and a classic script cannot import.
 // A module runs only after its import resolved: if the library fails to load, nothing is armed.
 import { animate, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
 
@@ -138,6 +140,8 @@ if (rows.length && fig.getBoundingClientRect().top >= innerHeight && !matchMedia
   fig.setAttribute('data-armed', '');
 
   inView(fig, () => {
+    // Reduced motion switched on since arming: CSS already shows the final state, so just disarm.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return show();
     try {
       // End keyframes are spelled out: motion reads 'none' as zero, so scale would land at 0.
       // Rows: a spring that settles with almost no overshoot, 120ms apart.
@@ -151,7 +155,7 @@ if (rows.length && fig.getBoundingClientRect().top >= innerHeight && !matchMedia
       show();
       throw error;
     }
-  }, { amount: 0.5 });
+  }, { amount: 'some', margin: '0px 0px -25% 0px' });
 }
 /* ---- end snippet ---- */
 </script>

@@ -81,13 +81,25 @@ for (const name of RECIPES) {
 for (const name of MOTION) {
   test(`${name}: a module script that imports motion from the pinned URL only`, async () => {
     const src = await read(name);
-    assert.match(src, /<script type="module">/, 'the script is a module');
+    // The tag that holds the script snippet, not a mention of it in a comment.
+    const open = `/* ---- snippet: ${name} ---- */`;
+    const tagAt = src.lastIndexOf('<script', src.indexOf(open, src.indexOf(open) + 1));
+    assert.equal(src.slice(tagAt, src.indexOf('>', tagAt) + 1), '<script type="module">', 'the script is a module');
     const { js } = snippet(src, name);
     const from = [...js.matchAll(/\bfrom\s*(["'])([^"']+)\1/g)].map((m) => m[2]);
     assert.deepEqual(from, [MOTION_URL], 'one import, from the pinned URL');
     assert.doesNotMatch(js, /import\s*\(/, 'no dynamic import');
   });
 }
+
+test('no recipe waits for more than a quarter of a figure to be in view', async () => {
+  // A figure taller than the screen divided by the amount never reaches it, so it would stay armed and hidden.
+  for (const name of RECIPES) {
+    for (const [, value] of (await read(name)).matchAll(/\bamount\s*:\s*([\d.]+)/g)) {
+      assert.ok(Number(value) <= 0.25, `${name} uses amount ${value}; use amount 'some' with a bottom margin`);
+    }
+  }
+});
 
 test('no recipe loads a library from @latest', async () => {
   for (const name of RECIPES) assert.doesNotMatch(await read(name), /@latest\b/, name);

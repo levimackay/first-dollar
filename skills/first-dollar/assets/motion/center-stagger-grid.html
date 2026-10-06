@@ -1,12 +1,13 @@
 <!--
   center-stagger-grid: the cells of a real grid appear from its center outward.
-  What it does: when a third of the grid is in view, its cells fade in and
-  rise 8px, starting from the middle and spreading out in rings 80ms apart.
-  Once, then still. Nothing scales, blurs or slides sideways. The order is
-  measured from where the cells sit when it plays, so it still opens from the
-  center after the grid reflows to two columns at 390. (Motion's stagger
-  from "center" counts list order, which matches the middle only for a single
-  row.)
+  What it does: once the grid's top has risen past the lower quarter of the
+  screen, however tall the grid is, its cells fade in and rise 8px, starting
+  from the middle and spreading out in rings 80ms apart. Once, then still.
+  Nothing scales, blurs or slides sideways. The order is measured from where
+  the cells sit when it plays, so it still opens from the center after the
+  grid reflows to two columns at 390. (Motion's stagger from "center" counts
+  list order, so after the grid reflows it no longer starts at the visual
+  middle.)
   How to adapt: only for a grid the reference already has: spec cells,
   material swatches, variants. Every direct child of [data-fd-cgrid] is a
   cell. Real values only, or keep the "examples" caption. Place it below the
@@ -102,6 +103,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
 <script type="module">
 /* ---- snippet: center-stagger-grid ---- */
+// Paste this into its own <script type="module">, never a shared or classic one: two snippets in one module redeclare their imports, and a classic script cannot import.
 // A module runs only after its import resolved: if the library fails to load, nothing is armed.
 import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
 
@@ -113,6 +115,8 @@ if (grid && grid.children.length && grid.getBoundingClientRect().top >= innerHei
   grid.setAttribute('data-armed', '');
 
   inView(grid, () => {
+    // Reduced motion switched on since arming: CSS already shows the final state, so just disarm.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return show();
     try {
       const cells = [...grid.children];
       const box = grid.getBoundingClientRect();
@@ -131,7 +135,7 @@ if (grid && grid.children.length && grid.getBoundingClientRect().top >= innerHei
       show();
       throw error;
     }
-  }, { amount: 0.3 });
+  }, { amount: 'some', margin: '0px 0px -25% 0px' });
 }
 /* ---- end snippet ---- */
 </script>

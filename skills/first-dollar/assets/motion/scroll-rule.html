@@ -89,6 +89,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
 <script type="module">
 /* ---- snippet: scroll-rule ---- */
+// Paste this into its own <script type="module">, never a shared or classic one: two snippets in one module redeclare their imports, and a classic script cannot import.
 // A module runs only after its import resolved: if the library fails to load, the rule stays fully drawn.
 import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
 

@@ -8,8 +8,9 @@
   supports scroll timelines.
   How to adapt: put the founder's photo in .fd-par-plate as an <img> with
   object-fit: cover and delete the hatch svg; until the photo exists the hatch
-  and its [PLACEHOLDER: ...] chip hold its place. If the page already defines a
-  hatch pattern, point the rect at it and drop this one. Keep the plate at
+  and its [PLACEHOLDER: ...] chip hold its place. The page's one hatch defs
+  block from design-rules.md supplies #hatch; set its ink with --fd-slot-ink.
+  The script goes in its own <script type="module">. Keep the plate at
   inset -4% 0 and DRIFT at 3.7: the plate is 108% of the frame, so 3.7% of it
   is 4% of the frame. Set the frame's aspect-ratio from the reference image.
   Never on text, never on the ask, one per page.
@@ -39,6 +40,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-demo-intro h2 { font-family: var(--fd-font-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -0.02em; margin: 0 0 1rem; max-width: 14ch; }
 .fd-demo-intro p { margin: 0; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); max-width: 46ch; }
 .fd-demo-after { padding: 4rem clamp(1rem, 5vw, 4rem) 60vh; color: color-mix(in oklab, var(--fd-ink) 62%, var(--fd-ground)); }
+.ph-defs { position: absolute; }
 
 /* ---- snippet: parallax-frame ---- */
 /* Every token this snippet reads, with a fallback, so it works pasted alone. */
@@ -54,8 +56,9 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-par-plate { position: absolute; inset: -4% 0; }
 .fd-par-plate > img,
 .fd-par-plate > svg { display: block; width: 100%; height: 100%; object-fit: cover; }
-.fd-par-plate pattern line { stroke: var(--_rule); stroke-width: 1.5; }
-.fd-par-chip { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; width: fit-content; margin: 0; padding: 0.35rem 0.6rem; background: var(--_ground); color: var(--_ink); font-size: 0.875rem; }
+/* Photo slot: the labeled-slot pattern from design-rules.md. The page's one hatch defs block sets the gap. */
+.ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
+.fd-par-chip { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; width: fit-content; margin: 0; padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
 .fd-par figcaption { margin-top: 0.75rem; font-size: 0.875rem; color: var(--_muted); }
 
 @media (max-width: 760px) {
@@ -76,16 +79,16 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
     <p>Demo copy. Scroll: the photo below drifts inside its frame while the frame holds still.</p>
   </div>
 
+  <!-- Demo scaffolding, not part of the snippet: the page's one hatch defs block. -->
+  <svg class="ph-defs" width="0" height="0" aria-hidden="true"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" /></pattern></defs></svg>
+
   <!-- snippet: parallax-frame -->
   <figure class="fd-par" data-fd-par>
     <div class="fd-par-frame">
       <div class="fd-par-plate">
-        <svg aria-hidden="true">
-          <defs><pattern id="fd-par-hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="14"/></pattern></defs>
-          <rect width="100%" height="100%" fill="url(#fd-par-hatch)"/>
-        </svg>
+        <svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg>
       </div>
-      <p class="fd-par-chip">[PLACEHOLDER: the dining room at opening time, 1440x810]</p>
+      <p class="fd-par-chip">[PLACEHOLDER: the dining room at opening time, eye level, evening light, 16:9]</p>
     </div>
     <figcaption>Demo caption. Say what the photo shows and where.</figcaption>
   </figure>
@@ -96,6 +99,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
 <script type="module">
 /* ---- snippet: parallax-frame ---- */
+// Paste this into its own <script type="module">, never a shared or classic one: two snippets in one module redeclare their imports, and a classic script cannot import.
 // A module runs only after its import resolved: if the library fails to load, the photo stays centered.
 import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
 
