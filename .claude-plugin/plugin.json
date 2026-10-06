@@ -15,5 +15,8 @@
     "design",
     "lint",
     "pre-order"
-  ]
+  ],
+  "privacyPolicyUrl": "https://github.com/levimackay/first-dollar/blob/main/PRIVACY.md",
+  "supportUrl": "https://github.com/levimackay/first-dollar/issues",
+  "documentationUrl": "https://github.com/levimackay/first-dollar#readme"
 }
