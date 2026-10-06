@@ -8,6 +8,7 @@
 <h3 align="center">Turn a startup idea into a landing page that asks for money<br>and doesn't look like an AI made it.</h3>
 
 <p align="center">
+  <a href="https://levimackay.github.io/first-dollar/gallery/"><b>Live gallery</b></a> ·
   <a href="#install">Install</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#the-ask">The ask</a> ·
@@ -132,7 +133,7 @@ Read this with one caveat: the lint is first-dollar's own tool and the skill run
 
 ## Gallery
 
-All six pages first-dollar built for the fictional eval ideas, none left out. Gaps like `[NEED: product name]` are facts the made-up founder never gave, and the hatched boxes are where their photos go.
+Every page below is live in the [gallery](https://levimackay.github.io/first-dollar/gallery/), next to the prompted agent's version of the same idea. All six pages first-dollar built for the fictional eval ideas, none left out. Gaps like `[NEED: product name]` are facts the made-up founder never gave, and the hatched boxes are where their photos go.
 
 <table>
   <tr>
