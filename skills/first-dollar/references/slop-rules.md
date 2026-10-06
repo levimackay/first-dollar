@@ -3,8 +3,14 @@
 Load whenever the lint or the check script reports something (stages 5 and 6).
 
 ```
-node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-lint.mjs <page> --design <page>/DESIGN.md --reference-text <page>/.first-dollar/reference.txt
+node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-lint.mjs <page> --design <page>/DESIGN.md --reference-text <page>/.first-dollar/reference.txt --history ~/.first-dollar/history.jsonl
 ```
+
+`--history` turns on `font-history` (below) from the file SKILL.md stage 7
+writes. A missing file means no history, so the flag is always safe to pass,
+and entries whose `page` is the page being linted are skipped, so a rebuild
+passes on its own fonts. Leave it out only when the founder chose one face
+across ideas and DESIGN.md Provenance logs it.
 
 Each finding prints as `FAIL file:line [rule-id] message` or
 `WARN file:line [rule-id] message`. Exit code 1 means at least one FAIL.
@@ -23,10 +29,10 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 
 | Rule | Sev | Catches | Why it reads as generated | Fix |
 |---|---|---|---|---|
-| `banned-font-family` | fail | Inter, Geist, Space Grotesk, Roboto, Arial, Helvetica Neue, Segoe UI, system-ui, ui-sans-serif, ui-serif or -apple-system in a stack or font link | The default face says nobody chose the type | Match the reference by features (design-extraction.md section 6) and update DESIGN.md |
+| `banned-font-family` | fail | The most used Google sans faces (the message names which) and the system stacks: Arial, Helvetica Neue, Segoe UI, system-ui, ui-sans-serif, ui-serif or -apple-system, in a stack or font link | The default face says nobody chose the type | Match the reference by features (design-extraction.md section 6) and update DESIGN.md |
 | `font-popularity` | fail | A leading family that ranks in the top 200 of Google Fonts, or is on the list of faces agent-built pages default to (Georgia, Iowan Old Style, Avenir Next, Satoshi, Gloock and others) | The same few faces appear on every generated page | The reference's own face only if it is outside the top 200; otherwise a close match outside the top 200 (design-extraction.md section 6) |
-| `font-history` | fail | Only with `--history <file>` (JSONL, one build per line with `date`, `display`, `text`): a family the page uses that appears as display or text in the last 10 lines | Pages from the same builder end up sharing one look | A different face from the reference's neighbours outside the top 200 |
-| `mono-prose` | fail | A `p`, `small`, `figcaption`, `li`, `dd`, `blockquote`, or a `span` or `div` with more than 6 words, set in a monospace face (outside code, pre, kbd, samp, table) | Fine print and body copy in mono is the "technical" costume | Set prose in a text face; keep mono for code and figures. `data-mono` exempts an element and everything inside it: use it only where the reference sets that text in mono, never for fine print or labels, and log it in DESIGN.md Provenance |
+| `font-history` | fail | Only with `--history <file>` (JSONL, one build per line with `date`, `display`, `text`, `page`): a family the page uses that appears as display or text in the last 10 entries from other pages | Pages from the same builder end up sharing one look | The next candidate by the reference's features, outside the top 200 and the history (design-extraction.md section 6) |
+| `mono-prose` | fail | A `p`, `small`, `figcaption`, `li`, `dd`, `blockquote`, or a `span` or `div` with more than 6 words, set in a monospace face (outside code, pre, kbd, samp, table) | Fine print and body copy in mono is the "technical" costume | Running prose, sentences in paragraphs, goes in a text face. Nav, labels, data and fine print may be mono only where the reference sets them in mono: `data-mono` exempts that element and everything inside it, logged in DESIGN.md Provenance. Never on paragraphs, never to quiet the rule |
 | `single-sans-family` | warn | One font stack across the whole site | One voice for headlines, body and labels | Add a display or text face that contrasts |
 | `flat-type-scale` | fail | Largest font size under 2.5 times the body size | Timid size steps read as templated | Rebuild the scale from a ratio; display at least 2.5x body |
 | `long-measure` | warn | A `max-width` in `ch` over 75 | Full-width text is the untouched default | 60 to 75ch, usually `65ch` |
@@ -49,13 +55,13 @@ Each finding prints as `FAIL file:line [rule-id] message` or
 
 | Rule | Sev | Catches | Why it reads as generated | Fix |
 |---|---|---|---|---|
-| `centred-hero` | fail | The full template only: a centered hero of short eyebrow, headline, one-line subhead and two side-by-side buttons (a hero with one action passes) | The single most recognizable generated hero | Left-align or split it; one button that states the price |
+| `centred-hero` | fail | Only the full template: a centered hero of short eyebrow, headline, short subhead and two side-by-side buttons. A hero with one ask, a long subhead or a text link passes | The single most recognizable generated hero | Build the hero the reference uses (reference-structure.md) with one ask that states the price |
 | `three-card-row` | fail | A grid of exactly three card columns | The default feature section | Write the real number of points as a list, a table, or one large item |
 | `stat-row` | fail | A row of big numbers with short captions | The template's stand-in for proof | One real number in a sentence, with its source |
-| `uniform-section-padding` | fail | Four or more section rules whose vertical padding varies by under 15% | No pacing; every section weighs the same | Vary it on purpose: tight clusters, then a large breath |
+| `uniform-section-padding` | fail | Four or more section rules whose vertical padding varies by under 15% | No pacing; every section weighs the same | Follow the reference's measured gap-to-content rhythm from its full-page shot; no gap taller than the content beside it unless the reference does that |
 | `uniform-radius` | fail | Four or more radius rules where 80% share one value | The component kit's one radius on everything | One or two radii, each with a reason |
-| `same-max-width` | warn | Four or more `max-width` values within 5% of each other | Every block poured into one column | Vary the measure; let one element run full width |
-| `no-full-bleed` | warn | Every section inside the same container class, nothing escaping | The boxed template | One band or image edge to edge |
+| `same-max-width` | warn | Four or more `max-width` values within 5% of each other | Every block poured into one column | Vary the measure where the reference does; if it never does, keep the warning with a Do's and Don'ts line |
+| `no-full-bleed` | warn | Every section inside the same container class, nothing escaping | The boxed template | Bleed where the reference bleeds; if it never does, keep the warning with a Do's and Don'ts line |
 | `nested-cards` | fail | A card inside a card | Boxes as decoration | Flatten; group with space or a rule |
 | `side-stripe` | fail | A colored left or right border of 2px or more on a padded or filled box | The callout stripe of generated UI | A full hairline border, a background tint, or a heading |
 | `grid-background` | warn | Line or dot grids drawn with gradients at a small tile size | Graph paper filling empty space | A flat ground or a real texture |
@@ -100,6 +106,9 @@ node ${CLAUDE_SKILL_DIR}/scripts/first-dollar-check.mjs <page>
 
 Exit 0: all pass. Exit 1: a check failed, printed as
 `FAIL <id> @<width> <detail>`. Exit 3: not verified; the first line says why.
+The check waits for running animations to settle before it screenshots and
+before `hidden-after-reveal`, so a long signature motion never fails it;
+never shorten motion to pass.
 Report exit 3 as "not verified", never as passed. Results and screenshots are
 in `<page>/.first-dollar/check/`.
 

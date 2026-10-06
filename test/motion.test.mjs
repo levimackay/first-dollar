@@ -71,6 +71,8 @@ for (const name of RECIPES) {
     ]);
     const bare = [...all.matchAll(/var\(\s*(--[\w-]+)\s*\)/g)].map((m) => m[1]).filter((v) => !defined.has(v));
     assert.deepEqual([...new Set(bare)], [], 'read these with a fallback or define them inside the snippet');
+    // The page has one hatch defs block (design-rules.md); a recipe only references #hatch.
+    assert.doesNotMatch(markup.join('\n'), /<pattern|id="hatch"/, 'the markup snippet defines the hatch');
     // The page owns its ask: no recipe styles [data-commitment] or an ask class.
     assert.doesNotMatch(css, /data-commitment|-ask\b[^-]/, 'the snippet CSS styles the ask');
   });

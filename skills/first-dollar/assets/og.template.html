@@ -32,6 +32,7 @@
     --ink-muted: {{colors.ink-muted}};
     --line: {{colors.line}};
     --accent: {{colors.accent}};
+    --highlight: {{colors.highlight}};
   }
   html, body {
     margin: 0;
@@ -98,8 +99,12 @@
     grid-area: domain;
   }
   .need {
-    outline: 2px dashed currentColor;
-    outline-offset: 4px;
+    font: inherit;
+    color: var(--ink);
+    background: var(--highlight);
+    padding: 0.1em 0.35em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 </style>
 </head>

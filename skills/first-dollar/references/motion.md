@@ -5,33 +5,36 @@ Read this before adding any movement to the page. The recipes it names live in
 
 ## How a page earns motion
 
-Motion on a landing page has one job: show the product working. So a page that
-moves at all gets one **signature motion**, and it animates the product's
-mechanism inside the page's labeled illustration (the HTML mock of the
-product's key output that SKILL.md already asks for). It plays input, then
-process, then output.
+Motion on a landing page has one job: show the product working. So every page
+gets one **signature motion**, placed by its material (SKILL.md stage 4):
 
-- A voice memo that becomes a change order: the waveform plays, the change
-  order fills in line by line as the playhead crosses each stretch, the client's
-  signature draws.
-- A compost bin: scraps go in, the days pass, soil comes out of the drawer.
+- Software: it plays the mechanism inside the mock of the product's interface
+  or output: input, then process, then output. A voice memo that becomes a
+  change order: the waveform plays, the order fills in line by line as the
+  playhead crosses each stretch, the client's signature draws.
+- A physical product, or any page with no mock region: the mechanism
+  told with `pinned-steps` or `sticky-stack` over photo slots and text, one
+  slot per step: scraps go in, the days pass, soil comes out. On a quiet
+  reference it is `split-line-reveal` on the headline instead, played once
+  and slowly. Never animate clip art standing in for a photo; a drawing moves
+  only where the reference region is a drawing.
 
 If you cannot say the three beats of the mechanism in one sentence, the page
 is not ready for motion. Build it still.
 
-Then, at most **two supporting moves**, chosen to match the energy of the
-founder's reference. Everything else on the page is still. Fade-up on every
-section is not motion design; it is the most common sign a page was generated,
-and a reader who has seen it once reads every later reveal as decoration.
+Then, at most **two supporting moves**, matched to the reference's energy.
+Everything else is still. Fade-up on every section is the most common sign a
+page was generated; after one, every later reveal reads as decoration.
 
 | Reference energy | What it looks like | Motion budget |
 |---|---|---|
-| Quiet | Small type, wide margins, no movement on the reference | `split-line-reveal` on the headline, or nothing. The illustration stays still. |
+| Quiet | Small type, wide margins, no movement on the reference | The signature only, once, at the slow end of rule 8's three to five seconds, with no supporting moves. Quiet is not still. |
 | Moderate | Confident type, one strong image or band, little movement | The signature plus one supporting move. |
 | Loud | Display type at full width, full-bleed bands, movement on the reference | The signature plus two supporting moves. One pinned moment is allowed. |
 
-Read the energy from the reference shots and DESIGN.md, not from taste. If
-DESIGN.md says the reference has no motion, the budget is the quiet row.
+Read the energy from the reference shots and DESIGN.md, not from taste; no
+motion on the reference means the quiet row. The check waits for animations
+to settle before it judges, so never shorten a sequence to pass it.
 
 ## Rules
 
@@ -83,10 +86,8 @@ GSAP is allowed when a sequence truly needs it (a long scrubbed timeline with
 many labels). Load it from a pinned URL, never `latest`:
 `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js` and, for scroll,
 `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js`. Its
-standard license allows it in any website's code, however that code was written;
-what it prohibits is using it inside a no-code visual animation builder that
-competes with Webflow. A landing page is not that. Prefer native tools when
-they do the job: no download, no license question.
+license allows it in any website's code; it bars only no-code animation
+builders that compete with Webflow. Prefer native tools when they do the job.
 
 `motion` (MIT) is the second allowed CDN, for the last five recipes only, in a
 module script and pinned exactly, never `@latest`:
@@ -105,8 +106,8 @@ page. Nothing hides before it loads. Motion+ effects are paid and never copied.
    them once on its own root, with a fallback, and derives its muted tone,
    hairline and easing from them unless the page sets `--fd-muted`,
    `--fd-rule` or `--fd-ease-out`.
-4. Replace the demo copy with COPY.md. Sample values in an illustration stay
-   generic and keep the visible caption ("Illustration. Numbers are
+4. Replace the demo copy with COPY.md. Sample values in a mock stay
+   generic and keep the visible caption ("Concept. Numbers are
    examples."). A real fact the founder has not given stays `[NEED: ...]`.
 5. Run the lint and the check. Then load the page with reduced motion
    emulated (devtools Rendering panel, or Playwright
@@ -117,12 +118,12 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 ## The recipes
 
 ### mechanism-sequence (the signature template)
-- **What:** one timeline in three beats inside the labeled illustration. Input
+- **What:** one timeline in three beats inside the labeled mock. Input
   plays, each part of it becomes a row of output as it finishes, the output
   lands (total, signature). Autoplays once when 35% of the figure is in view.
   Only the rows are required; drop the timer, total or signature freely.
-- **Fits:** moderate and loud pages that have a mock of the product's output.
-  Build this first; every other move defers to it.
+- **Fits:** any page with a mock of the product's output; on a quiet page it
+  plays alone, slowly. Build this first; every other move defers to it.
 - **Never combine with:** a second autoplaying sequence; `pinned-steps` telling
   the same mechanism; a headline reveal playing in the same screen at the same
   moment (let the headline finish, then the figure).
@@ -136,8 +137,8 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 - **What:** the headline is split into its rendered lines and each rises out of
   its own mask in reading order; one rule draws under it. Re-splits on font load
   and width change. The lede and the ask never move.
-- **Fits:** one headline worth slowing down for, four to seven lines at 1440.
-  Any energy; on a quiet page it is the only motion.
+- **Fits:** one headline worth slowing down for, one or two lines at 1440
+  (copy.md caps it). Any energy; the signature on a quiet physical page.
 - **Never combine with:** letter or word splits anywhere; a fade on the
   headline's container; `pinned-mask-reveal` in the first screen (two mask
   tricks); any motion on the ask.
@@ -153,8 +154,9 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
   drafting order: outline, parts, dimensions, callout leaders. Each dimension
   number wipes in as its line ends, each ring draws at the end of its leader,
   and the matching note rises out of its row on the same slice of scroll.
-- **Fits:** physical products, plans, anything with real dimensions. Moderate
-  references. For hardware it can be the signature itself.
+- **Fits:** physical products, plans, anything with real dimensions, only
+  where the reference region is a drawing. Moderate references. There it can
+  be the signature itself.
 - **Never combine with:** a second stroke-drawn device; grid or graph paper
   backgrounds (`grid-background`); a label that shows before its line.
 - **At 390:** the notes move under the drawing and the drawing's labels step up
@@ -165,17 +167,18 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
 
 ### pinned-steps
 - **What:** the section holds (CSS sticky) for about two screens while three
-  steps take turns and the illustration moves to each state. Waiting steps
+  steps take turns over three photo slots stacked in one frame, one per step,
+  the active one wiping in (clip-path). Waiting steps
   drop to the muted tone (4.5:1 or better), never to low opacity. On load it
   jumps straight to the state that matches the scroll, without animating.
-- **Fits:** a mechanism with three distinct states a still image cannot show.
-  Loud references.
+- **Fits:** a mechanism with three distinct states a still image cannot show;
+  the physical-product signature on moderate and loud references.
 - **Never combine with:** `sticky-stack` or `pinned-mask-reveal` next to it;
   `mechanism-sequence` on the same mechanism; scroll snapping; a counter.
-- **At 390:** the illustration sits above the list, the runway drops to 240svh
+- **At 390:** the slots sit above the list, the runway drops to 240svh
   and the steps tighten.
-- **Reduced motion:** no pin; ordinary height; every step at full ink; the
-  illustration in its final state.
+- **Reduced motion:** no pin; ordinary height; every step at full ink, each
+  beside its own slot in normal flow.
 - **Cost:** 0.7 KB. One position read per scroll frame; transform and opacity.
 
 ### ticker-proof
@@ -197,12 +200,13 @@ Costs below are each snippet's script, gzipped, measured; the first seven add no
   (an inline `--i` numbers them), so each lands on the last like a stack. The
   covered panel eases back (scale and a shade).
 - **Fits:** an ordered set that each fills a panel: what happens after the buyer
-  pays, the stages of a service. Loud references.
+  pays, the stages of a service, a physical product's mechanism as photo slot
+  and text panels. Moderate and loud references.
 - **Never combine with:** `pinned-steps` or `pinned-mask-reveal` next to it;
   entrance animations inside the panels; a sticky header that does not clear
   the rail.
-- **At 390:** one column, plate above text, a tighter rail and step, panel
-  height set by content.
+- **At 390:** one column, photo slot above text, a tighter rail and step,
+  panel height set by content.
 - **Reduced motion:** plain blocks in order.
 - **Cost:** 0.9 KB. Sticky needs no script; rails are measured on resize and
   each frame reads every panel once, then writes.
