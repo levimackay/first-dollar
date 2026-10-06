@@ -12,7 +12,9 @@
   only required part; playback splits into one segment per row. The timer,
   segment marks, total and signature are optional: delete any and the rest
   still plays. Set PLAY_MS for the input beat. Wire the --fd-* tokens to
-  DESIGN.md. Keep the "Illustration" caption and generic sample values.
+  DESIGN.md. Keep sample values generic and add no caption about how the
+  figure was made: the page's one honesty line lives in its footer. The
+  data-mock attribute marks the product mock for the lint and the check.
   Reduced motion: nothing is armed or played. The figure renders in its final
   state on first paint: memo played, every line, the total and the signature
   visible. Without JavaScript, or if the script fails mid-run, the same final
@@ -54,7 +56,6 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
 }
 .fd-mech { margin: 0; padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem); }
-.fd-mech figcaption { font-size: 0.8125rem; color: var(--_muted); margin-bottom: 1rem; }
 .fd-mech-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr);
@@ -140,8 +141,7 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   </div>
 
   <!-- snippet: mechanism-sequence -->
-  <figure class="fd-mech" data-fd-mech>
-    <figcaption>Illustration. Numbers are examples.</figcaption>
+  <figure class="fd-mech" data-fd-mech data-mock>
     <div class="fd-mech-grid">
       <div class="fd-memo">
         <div class="fd-memo-head">

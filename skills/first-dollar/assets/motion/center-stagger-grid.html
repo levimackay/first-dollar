@@ -10,9 +10,11 @@
   middle.)
   How to adapt: only for a grid the reference already has: spec cells,
   material swatches, variants. Every direct child of [data-fd-cgrid] is a
-  cell. Real values only, or keep the "examples" caption. Place it below the
-  first screen: a module loads after first paint, so a grid already on screen
-  when it arrives stays as it is instead of blinking out and back.
+  cell. Real values only; one the founder has not given stays [NEED: ...]
+  in its cell, never a caption saying the values are examples. Place it
+  below the first screen: a module loads after first paint, so a grid
+  already on screen when it arrives stays as it is instead of blinking out
+  and back.
   Reduced motion: nothing is armed. Every cell is visible on first paint, the
   same as without JavaScript or when the library fails to load.
 -->
@@ -51,7 +53,6 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   --_rule: var(--fd-rule, color-mix(in oklab, var(--_ink) 16%, var(--_ground)));
 }
 .fd-cgrid-wrap { margin: 0; padding: 0 clamp(1rem, 5vw, 4rem); }
-.fd-cgrid-wrap figcaption { font-size: 0.875rem; color: var(--_muted); margin-bottom: 1rem; }
 /* A spec sheet: hairlines between cells, no cards. */
 .fd-cgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 76rem; margin: 0; border-top: 1px solid var(--_ink); }
 .fd-cgrid > * { padding: 1.1rem 1.25rem 1.4rem 0; border-bottom: 1px solid var(--_rule); }
@@ -80,7 +81,6 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 
   <!-- snippet: center-stagger-grid -->
   <figure class="fd-cgrid-wrap">
-    <figcaption>Illustration. Values are examples.</figcaption>
     <dl class="fd-cgrid" data-fd-cgrid>
       <div><dt>Shell</dt><dd>Waxed cotton</dd></div>
       <div><dt>Lining</dt><dd>Undyed linen</dd></div>

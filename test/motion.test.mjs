@@ -1,6 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import * as cheerio from 'cheerio';
+import { lint } from '../src/lint/runner.mjs';
+import { photoSlotRegions } from '../src/lint/photo-slot.mjs';
 
 const skill = new URL('../skills/first-dollar/', import.meta.url);
 const RECIPES = [
@@ -112,4 +117,27 @@ test('motion.md stays under 260 lines and covers every recipe', async () => {
   const missing = RECIPES.filter((name) => !doc.includes(`### ${name}`));
   assert.deepEqual(missing, []);
   assert.doesNotMatch(doc, /count-to-price/, 'count-to-price was removed');
+});
+
+// R79, R80: agents copy the snippets literally, so each one must pass the page's own
+// photo and caption rules, and carry at most one inline slot of the page's budget of two.
+for (const name of RECIPES) {
+  test(`${name}: the snippet keeps the photo budget and carries no honesty caption`, async () => {
+    const { markup, css } = snippet(await read(name), name);
+    const dir = await mkdtemp(path.join(tmpdir(), 'fd-recipe-'));
+    const html = `<!doctype html><html lang="en"><head><title>${name}</title><style>${css}</style></head><body><main>${markup.join('\n')}</main></body></html>`;
+    await writeFile(path.join(dir, 'index.html'), html);
+    const res = await lint(dir);
+    const found = [...res.failures, ...res.warnings].filter((f) => ['photo-slot-budget', 'self-describing-caption'].includes(f.rule));
+    assert.deepEqual(found.map((f) => f.message), []);
+    assert.ok(photoSlotRegions(cheerio.load(html)).length <= 1, 'at most one photo slot in a recipe');
+  });
+}
+
+test('the recipe headers count their slots against the page budget of two', async () => {
+  for (const name of ['sticky-stack', 'pinned-steps', 'parallax-frame']) {
+    const header = (await read(name)).split('-->')[0];
+    assert.match(header, /budget of two/, name);
+    assert.doesNotMatch(header, /keep the (labeled )?slot/, name);
+  }
 });

@@ -7,14 +7,17 @@
   shade, both transform and opacity) as the next one arrives.
   How to adapt: use it for an ordered set of three to five things that each
   hold a screen: what happens after the buyer pays, the stages of the
-  service. Write the panels from COPY.md and take each panel's ground from
-  DESIGN.md tokens so the panels differ. Each plate holds a labeled photo
-  slot (the pattern in design-rules.md): replace it with the founder's photo
-  when one exists, otherwise keep the slot and write its [PLACEHOLDER: ...]
-  label as a shot direction for this product. The page's one hatch defs block from design-rules.md supplies #hatch; set its gap there and its ink with --fd-slot-ink.
-  Software has no photo to take: use mechanism-sequence instead. Number each
-  card with an inline --i (0, 1, 2...) so it lands a step lower than the last. Change --fd-step before anything else: 14px is a
-  quiet staircase, 40px is a fanned deck.
+  service. Write the panels from COPY.md. Each panel is a color field from
+  DESIGN.md tokens (so the panels differ) carrying one of the reference's
+  non-photo devices: the step's own word at display scale, or the product's
+  own artifact (a packing slip, a tracking strip, the label it ships with).
+  The demo shows one inline photo slot in the last panel; it counts against
+  the page's budget of two, so delete it when the page already has two, and
+  replace it with the founder's photo when one exists. Never one slot per
+  panel. Software has no photo to take: use mechanism-sequence instead.
+  Number each card with an inline --i (0, 1, 2...) so it lands a step lower
+  than the last. Change --fd-step before anything else: 14px is a quiet
+  staircase, 40px is a fanned deck.
   Reduced motion: nothing is sticky and nothing scales. The panels are plain
   blocks in order with all their content visible. Without JavaScript the
   same.
@@ -57,28 +60,50 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
 .fd-stack-card { padding-bottom: 1.25rem; }
 .fd-stack[data-armed] { padding-bottom: 18vh; }
 .fd-stack[data-armed] .fd-stack-card { position: sticky; top: calc(var(--fd-rail) + var(--i, 0) * var(--fd-step)); }
+/* Each panel is a color field: --bg and --fg come from DESIGN.md tokens, a different pair per panel. */
 .fd-stack-inner {
   position: relative; overflow: clip;
-  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: stretch;
-  min-height: 64vh; background: var(--bg); color: var(--fg);
+  display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: stretch;
+  min-height: 66vh; background: var(--bg); color: var(--fg);
   border: 1px solid color-mix(in srgb, var(--_ink) 22%, transparent);
   transform-origin: 50% 0; will-change: transform;
 }
-.fd-stack-text { padding: clamp(1.5rem, 4vw, 3rem); display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; }
-.fd-stack-no { font-family: var(--_display); font-size: clamp(3rem, 7vw, 6rem); line-height: 0.9; }
-.fd-stack-card h3 { font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3.2vw, 2.75rem); line-height: 1.05; margin: 0 0 0.75rem; max-width: 16ch; }
-.fd-stack-card p { margin: 0; max-width: 40ch; }
-/* Photo slot: the labeled-slot pattern from design-rules.md, scoped to this recipe, 4:3 at every width. The page's one hatch defs block sets the gap. */
+.fd-stack-text { position: relative; z-index: 1; padding: clamp(1.5rem, 4vw, 3rem); display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; }
+.fd-stack-no { font-family: var(--_display); font-size: 1.25rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.fd-stack-card h3 { font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 0.75rem; max-width: 14ch; }
+.fd-stack-card p { margin: 0; max-width: 34ch; }
+.fd-stack-device { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; gap: 1.5rem; padding: clamp(1.25rem, 3vw, 2.5rem) 0 0 clamp(1.25rem, 3vw, 2.5rem); }
+/* Device: the step's own words at display scale, cropped by the panel's edge. */
+.fd-stack-word { margin: 0; font-family: var(--_display); font-size: clamp(5rem, 15vw, 15rem); line-height: 0.8; letter-spacing: -0.045em; white-space: nowrap; transform: translate(0.03em, 0.1em); color: var(--word, currentColor); }
+/* Device: the product's own artifact, at a size that holds the panel, run off its bottom edge. */
+.fd-stack-slip { align-self: stretch; margin-right: clamp(1.25rem, 4vw, 3.5rem); transform: translateY(1px); background: var(--_ground); color: var(--_ink); padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem) clamp(2rem, 6vh, 4rem); border: 1px solid color-mix(in srgb, var(--_ink) 18%, transparent); border-bottom: 0; font-size: clamp(0.9375rem, 1.2vw, 1.125rem); font-variant-numeric: tabular-nums; }
+.fd-stack-slip > b { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-family: var(--_display); font-weight: 400; font-size: clamp(1.75rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; padding-bottom: 1rem; border-bottom: 2px solid currentColor; }
+.fd-stack-slip > b span { font-size: 0.4em; letter-spacing: 0; }
+.fd-stack-slip dl { margin: 0; display: grid; grid-template-columns: auto auto; }
+.fd-stack-slip dt, .fd-stack-slip dd { margin: 0; padding: 0.8rem 0; border-bottom: 1px solid color-mix(in srgb, var(--_ink) 16%, transparent); }
+.fd-stack-slip dd { text-align: right; }
+.fd-stack-track { list-style: none; margin: 0 clamp(1.25rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3rem) 0; padding: 0; align-self: stretch; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); font-size: clamp(0.875rem, 1.1vw, 1rem); }
+.fd-stack-track li { position: relative; padding-top: 1.75rem; border-top: 2px solid color-mix(in srgb, currentColor 28%, transparent); }
+.fd-stack-track li::before { content: ""; position: absolute; left: 0; top: -0.6rem; width: 1rem; height: 1rem; border-radius: 50%; background: var(--bg); border: 2px solid currentColor; box-sizing: border-box; }
+.fd-stack-track li[data-done] { border-top-color: currentColor; }
+.fd-stack-track li[data-done]::before { background: currentColor; }
+.fd-stack-track li[aria-current] { font-weight: 600; }
+.fd-stack-track li[aria-current]::before { background: var(--_accent); border-color: var(--_accent); }
+/* One inline photo slot, the labeled pattern from design-rules.md. It counts against the page's two. */
+.fd-stack-shot { position: relative; margin: 0 clamp(1.25rem, 4vw, 3.5rem) 0 0; width: min(100%, 26rem); max-height: 30vh; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
+.fd-stack-shot .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fd-stack-shot figcaption { position: relative; display: inline-block; margin: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.8125rem; line-height: 1.35; }
 .ph-defs line { stroke: var(--fd-slot-ink, color-mix(in oklab, var(--fd-ink, CanvasText) 30%, var(--fd-ground, Canvas))); stroke-width: 1; }
-.fd-stack .ph { position: relative; margin: 0; align-self: center; aspect-ratio: 4 / 3; overflow: clip; background: color-mix(in oklab, var(--_ink) 6%, var(--_ground)); }
-.fd-stack .ph-hatch { position: absolute; inset: 0; width: 100%; height: 100%; }
-.fd-stack .ph figcaption { position: relative; display: inline-block; margin: 0.75rem; max-width: calc(100% - 1.5rem); padding: 0.3rem 0.6rem; background: var(--fd-neutral, var(--_ground)); color: var(--_ink); font-size: 0.875rem; line-height: 1.35; }
-.fd-stack-shade { position: absolute; inset: 0; background: var(--_ink); opacity: 0; pointer-events: none; }
+.fd-stack-shade { position: absolute; inset: 0; z-index: 2; background: var(--_ink); opacity: 0; pointer-events: none; }
 
 @media (max-width: 760px) {
   .fd-stack { --fd-rail: 0.75rem; --fd-step: 9px; }
   .fd-stack-inner { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-  .fd-stack .ph { order: -1; }
+  .fd-stack-device { order: -1; align-items: flex-start; padding: 1.25rem 1.25rem 0; }
+  .fd-stack-text { gap: 1rem; padding-top: 1.25rem; }
+  .fd-stack-word { font-size: clamp(4rem, 24vw, 7rem); transform: translate(-0.04em, 0.1em); }
+  .fd-stack-slip, .fd-stack-track, .fd-stack-shot { margin: 0; }
+  .fd-stack-slip { transform: none; border-bottom: 1px solid color-mix(in srgb, var(--_ink) 18%, transparent); padding-bottom: 1.25rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -102,30 +127,41 @@ body { margin: 0; background: var(--fd-ground); color: var(--fd-ink); font-famil
   <!-- snippet: sticky-stack -->
   <ol class="fd-stack" data-fd-stack>
     <li class="fd-stack-card" style="--i: 0">
-      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 5%, var(--_ground)); --fg: var(--_ink)">
-        <div class="fd-stack-text"><span class="fd-stack-no">1</span><div><h3>Your order is made</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: hands cutting the cloth to size at the bench, overhead, daylight, 4:3]</figcaption></figure>
+      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_accent) 16%, var(--_ground)); --fg: var(--_ink); --word: var(--_accent)">
+        <div class="fd-stack-text"><span class="fd-stack-no">01</span><div><h3>Your order is made</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <div class="fd-stack-device"><p class="fd-stack-word" aria-hidden="true">Made.</p></div>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
     <li class="fd-stack-card" style="--i: 1">
-      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 14%, var(--_ground)); --fg: var(--_ink)">
-        <div class="fd-stack-text"><span class="fd-stack-no">2</span><div><h3>It is packed by hand</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the order wrapped and packed in a box, close, side light, 4:3]</figcaption></figure>
+      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_ink) 12%, var(--_ground)); --fg: var(--_ink)">
+        <div class="fd-stack-text"><span class="fd-stack-no">02</span><div><h3>It is packed by hand</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <div class="fd-stack-device">
+          <div class="fd-stack-slip" data-mock>
+            <b>Packing slip <span>No. 1042</span></b>
+            <dl><dt>Items</dt><dd>1</dd><dt>Wrapped</dt><dd>By hand</dd><dt>Checked</dt><dd>Twice</dd><dt>Ships</dt><dd>Next working day</dd></dl>
+          </div>
+        </div>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
     <li class="fd-stack-card" style="--i: 2">
-      <div class="fd-stack-inner" style="--bg: var(--_ink); --fg: var(--_ground)">
-        <div class="fd-stack-text"><span class="fd-stack-no">3</span><div><h3>It ships with tracking</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the parcel handed over at the door, eye level, daylight, 4:3]</figcaption></figure>
+      <div class="fd-stack-inner" style="--bg: var(--_ink); --fg: var(--_ground); --word: color-mix(in srgb, var(--_ground) 48%, var(--_ink))">
+        <div class="fd-stack-text"><span class="fd-stack-no">03</span><div><h3>It ships with tracking</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <div class="fd-stack-device">
+          <ol class="fd-stack-track" data-mock><li data-done>Packed</li><li data-done>Collected</li><li aria-current="step">On its way</li><li>Delivered</li></ol>
+          <p class="fd-stack-word" aria-hidden="true">On its way.</p>
+        </div>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
     <li class="fd-stack-card" style="--i: 3">
-      <div class="fd-stack-inner" style="--bg: color-mix(in srgb, var(--_accent) 24%, var(--_ground)); --fg: var(--_ink)">
-        <div class="fd-stack-text"><span class="fd-stack-no">4</span><div><h3>[NEED: the last step, in the founder's words]</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
-        <figure class="ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the order opened on the buyer's table, overhead, daylight, 4:3]</figcaption></figure>
+      <div class="fd-stack-inner" style="--bg: var(--_ground); --fg: var(--_ink)">
+        <div class="fd-stack-text"><span class="fd-stack-no">04</span><div><h3>It reaches your door</h3><p>Demo copy. One sentence on this step, from COPY.md.</p></div></div>
+        <div class="fd-stack-device" style="--word: var(--_accent)">
+          <figure class="fd-stack-shot ph"><svg class="ph-hatch" aria-hidden="true"><rect width="100%" height="100%" fill="url(#hatch)" /></svg><figcaption>[PLACEHOLDER: the order opened on the buyer's table, overhead, daylight, 4:3]</figcaption></figure>
+          <p class="fd-stack-word" aria-hidden="true">Yours.</p>
+        </div>
         <span class="fd-stack-shade" aria-hidden="true"></span>
       </div>
     </li>
